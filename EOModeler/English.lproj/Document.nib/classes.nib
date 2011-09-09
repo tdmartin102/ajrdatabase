@@ -1,0 +1,20 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {selectModel = id; }; 
+            CLASS = Document; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {editorView = EditorView; modelOutline = NSOutlineView; window = NSWindow; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = EditorView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {document = Document; }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = PBPopUpButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }
+    ); 
+    IBVersion = 1; 
+}

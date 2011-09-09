@@ -1,0 +1,36 @@
+{
+    IBClasses = (
+        {
+            CLASS = DBConnectionPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {smallView = id; view = id; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                setDatabaseName = id; 
+                setHostName = id; 
+                setPassword = id; 
+                setPort = id; 
+                setUserName = id; 
+            }; 
+            CLASS = PostgreSQLConnectionPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                databaseNameField = NSTextField; 
+                hostNameField = NSTextField; 
+                passwordField = NSTextField; 
+                portField = NSTextField; 
+                smallDatabaseNameField = NSTextField; 
+                smallHostNameField = NSTextField; 
+                smallPasswordField = NSTextField; 
+                smallPortField = NSTextField; 
+                smallUserNameField = NSTextField; 
+                userNameField = NSTextField; 
+            }; 
+            SUPERCLASS = DBConnectionPane; 
+        }
+    ); 
+    IBVersion = 1; 
+}

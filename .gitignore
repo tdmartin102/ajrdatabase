@@ -1,0 +1,8 @@
+build
+build/revision
+*.xcodeproj/*.pbxuser
+*.xcodeproj/*.perspectivev3
+*.xcodeproj/*.mode1v3
+*.xcodeproj/*.mode1
+*.xcodeproj/*.tm_build_errors
+*.tmproj

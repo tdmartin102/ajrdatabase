@@ -1,0 +1,19 @@
+{
+    IBClasses = (
+        {
+            CLASS = DBInternalTypePane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {view = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {setExternalWidth = id; }; 
+            CLASS = DBStringPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {externalWidthField = NSTextField; }; 
+            SUPERCLASS = DBInternalTypePane; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

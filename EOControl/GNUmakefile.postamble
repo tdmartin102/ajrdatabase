@@ -1,0 +1,10 @@
+# postprocessing
+
+#AJR_HEADER_DIR = derived_src/EOControl
+
+#ADDITIONAL_INCLUDE_DIRS += -I$(AJR_HEADER_DIR)
+
+#copy-ajr-headers-to-tmpdir : $(MKDIRS) $(AJR_HEADER_DIR) 
+#	find . -name "*.h" | grep -v Versions | sed 's/\ /\\\ /' | xargs -J #input cp input $(AJR_HEADER_DIR)/
+
+#before-all :: copy-ajr-headers-to-tmpdir

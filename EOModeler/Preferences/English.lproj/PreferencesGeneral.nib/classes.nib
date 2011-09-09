@@ -1,0 +1,24 @@
+{
+    IBClasses = (
+        {
+            CLASS = AJRPreferencesModule; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {view = NSView; }; 
+            SUPERCLASS = NSResponder; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = PreferencesChecks; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = AJRPreferencesModule; 
+        }, 
+        {
+            ACTIONS = {setFetchLimit = id; }; 
+            CLASS = PreferencesGeneral; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {fetchLimitText = NSTextField; }; 
+            SUPERCLASS = AJRPreferencesModule; 
+        }
+    ); 
+    IBVersion = 1; 
+}

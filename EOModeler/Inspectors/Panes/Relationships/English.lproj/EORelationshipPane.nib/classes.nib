@@ -1,0 +1,45 @@
+{
+    IBClasses = (
+        {
+            CLASS = DBInspectorPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {view = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = DBRelationshipAdvancedPane; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = DBInspectorPane; 
+        }, 
+        {
+            ACTIONS = {
+                selectDestinationAttribute = id; 
+                selectDestinationEntity = id; 
+                selectJoinType = id; 
+                selectModel = id; 
+                selectSourceAttribute = id; 
+                selectToOne = id; 
+                setName = id; 
+                toggleJoin = id; 
+            }; 
+            CLASS = DBRelationshipPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                connectButton = NSButton; 
+                definitionField = NSTextField; 
+                destinationTable = NSTableView; 
+                entitiesTable = NSTableView; 
+                entityField = NSTextField; 
+                joinTypePopUp = NSPopUpButton; 
+                modelsPopUp = NSPopUpButton; 
+                nameField = NSTextField; 
+                sourceTable = NSTableView; 
+                tabView = NSTabView; 
+                toOneMatrix = NSMatrix; 
+            }; 
+            SUPERCLASS = DBInspectorPane; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

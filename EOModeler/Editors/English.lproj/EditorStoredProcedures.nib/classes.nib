@@ -1,0 +1,19 @@
+{
+    IBClasses = (
+        {
+            CLASS = Editor; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {view = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {selectStoredProcedure = id; }; 
+            CLASS = EditorStoredProcedures; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {proceduresTable = NSTableView; }; 
+            SUPERCLASS = Editor; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

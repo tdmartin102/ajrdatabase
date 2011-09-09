@@ -1,0 +1,29 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                toggleCustomObjects = id; 
+                togglePrimaryKeys = id; 
+                toggleRelationships = id; 
+                toggleStoredProcedures = id; 
+            }; 
+            CLASS = DBWizardFeaturePane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                customObjectsCheck = NSButton; 
+                primaryKeysCheck = NSButton; 
+                relationshipsCheck = NSButton; 
+                storedProceduresCheck = NSButton; 
+            }; 
+            SUPERCLASS = DBWizardPane; 
+        }, 
+        {
+            CLASS = DBWizardPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {view = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,19 @@
+#!/bin/csh -F
+
+set framework = `basename $cwd`
+set header = ${framework}.h
+
+echo -n "Building $header..."
+
+echo "/*%*%*%*%*" >! $header
+cat copyright >> $header
+echo "*%*%*%*%*/" >> $header
+echo "" >> $header
+echo "#ifndef __${framework}__" >> $header
+echo "#define __${framework}__" >> $header
+echo "" >> $header
+find . -name "*.h" -print | grep -v "P.h" | grep -v Private | grep -v _ | awk -F / '{printf("#import <EOAccess/%s>\n", $NF)}' | sort >> $header
+echo "" >> $header
+echo "#endif __${framework}__" >> $header
+
+echo "done."

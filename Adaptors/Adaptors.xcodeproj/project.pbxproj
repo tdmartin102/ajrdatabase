@@ -1,0 +1,1549 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		FA63DF5F0742785800AB5036 /* All */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 70B72DF70956026E005162B9 /* Build configuration list for PBXAggregateTarget "All" */;
+			buildPhases = (
+			);
+			dependencies = (
+				FA63DF610742786B00AB5036 /* PBXTargetDependency */,
+				FA63DF630742786B00AB5036 /* PBXTargetDependency */,
+				FA63DF650742786B00AB5036 /* PBXTargetDependency */,
+			);
+			name = All;
+			productName = All;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		1E0EACAA13B3B54C00EDEC95 /* OracleBindInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E0EACA913B3B54C00EDEC95 /* OracleBindInfo.m */; };
+		1E22343B141117CD00F1C663 /* OracleConnectionPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E22343A141117CD00F1C663 /* OracleConnectionPane.nib */; };
+		1E45D52113FD8AAC0043B572 /* OracleSchemaGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E45D52013FD8AAC0043B572 /* OracleSchemaGeneration.m */; };
+		1E86A7F51312D63C00FA5FDA /* OracleDefineInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E86A7F41312D63C00FA5FDA /* OracleDefineInfo.m */; };
+		1E91D55C13EB0AC600C0B4F1 /* OracleLogo.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1E91D55B13EB0AC600C0B4F1 /* OracleLogo.tiff */; };
+		1E91D56313EB0BAC00C0B4F1 /* OracleConnectionPane.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E91D56213EB0BAC00C0B4F1 /* OracleConnectionPane.m */; };
+		1E9889131296F41B00F17A39 /* OracleAdaptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E98890D1296F41B00F17A39 /* OracleAdaptor.m */; };
+		1E9889141296F41B00F17A39 /* OracleChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E98890F1296F41B00F17A39 /* OracleChannel.m */; };
+		1E9889151296F41B00F17A39 /* OracleContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E9889111296F41B00F17A39 /* OracleContext.m */; };
+		1E9889161296F4F400F17A39 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DABC0742713500AB5036 /* EOAccess.framework */; };
+		1E9889171296F4F400F17A39 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DABD0742713500AB5036 /* EOControl.framework */; };
+		1E98891D1296F56400F17A39 /* libocci.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E98891C1296F56400F17A39 /* libocci.dylib */; };
+		1E98891F1296F57C00F17A39 /* libclntsh.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E98891E1296F57C00F17A39 /* libclntsh.dylib */; };
+		1E9889A51296F74600F17A39 /* OracleAdaptor.h in Resources */ = {isa = PBXBuildFile; fileRef = 1E98890C1296F41B00F17A39 /* OracleAdaptor.h */; };
+		1E9889A61296F74B00F17A39 /* OracleChannel.h in Resources */ = {isa = PBXBuildFile; fileRef = 1E98890E1296F41B00F17A39 /* OracleChannel.h */; };
+		1E9889A71296F75100F17A39 /* OracleContext.h in Resources */ = {isa = PBXBuildFile; fileRef = 1E9889101296F41B00F17A39 /* OracleContext.h */; };
+		1E9889A81296F77300F17A39 /* copyright in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF4F0742783D00AB5036 /* copyright */; };
+		1E9889A91296F77900F17A39 /* license in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF510742783D00AB5036 /* license */; };
+		1EF391FA12A9307300FDC676 /* OracleDataTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1EF391F912A9307300FDC676 /* OracleDataTypes.plist */; };
+		1EF3923812A9567100FDC676 /* OracleSQLExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EF3923712A9567100FDC676 /* OracleSQLExpression.m */; };
+		707F2B91075E977900AEB39E /* PostgreSQLSchemaGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DCB40742730700AB5036 /* PostgreSQLSchemaGeneration.m */; };
+		FA0DC5A3082FAE1900C22582 /* NSString-SQLite.h in Resources */ = {isa = PBXBuildFile; fileRef = FA0DC5A1082FAE1900C22582 /* NSString-SQLite.h */; };
+		FA0DC5A4082FAE1900C22582 /* NSString-SQLite.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0DC5A2082FAE1900C22582 /* NSString-SQLite.m */; };
+		FA0DC5B2082FAF7C00C22582 /* NSMutableString-SQLite.h in Resources */ = {isa = PBXBuildFile; fileRef = FA0DC5B0082FAF7C00C22582 /* NSMutableString-SQLite.h */; };
+		FA0DC5B3082FAF7C00C22582 /* NSMutableString-SQLite.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0DC5B1082FAF7C00C22582 /* NSMutableString-SQLite.m */; };
+		FA63DAB2074270D600AB5036 /* OpenBaseAdaptor.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DAAC074270D600AB5036 /* OpenBaseAdaptor.h */; };
+		FA63DAB3074270D600AB5036 /* OpenBaseAdaptor.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DAAD074270D600AB5036 /* OpenBaseAdaptor.m */; };
+		FA63DAB4074270D600AB5036 /* OpenBaseChannel.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DAAE074270D600AB5036 /* OpenBaseChannel.h */; };
+		FA63DAB5074270D600AB5036 /* OpenBaseChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DAAF074270D600AB5036 /* OpenBaseChannel.m */; };
+		FA63DAB6074270D600AB5036 /* OpenBaseContext.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DAB0074270D600AB5036 /* OpenBaseContext.h */; };
+		FA63DAB7074270D600AB5036 /* OpenBaseContext.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DAB1074270D600AB5036 /* OpenBaseContext.m */; };
+		FA63DABF0742713500AB5036 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DABC0742713500AB5036 /* EOAccess.framework */; };
+		FA63DAC00742713500AB5036 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DABD0742713500AB5036 /* EOControl.framework */; };
+		FA63DAC40742715100AB5036 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DAC20742715100AB5036 /* Foundation.framework */; };
+		FA63DC7A0742726500AB5036 /* OpenBaseAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DC780742726500AB5036 /* OpenBaseAPI.framework */; };
+		FA63DC7B0742726500AB5036 /* OpenBaseNet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DC790742726500AB5036 /* OpenBaseNet.framework */; };
+		FA63DCD10742734300AB5036 /* PSQLDataTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA63DCB70742730700AB5036 /* PSQLDataTypes.plist */; };
+		FA63DCD30742734400AB5036 /* PostgreSQLSchemaGeneration.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DCB30742730700AB5036 /* PostgreSQLSchemaGeneration.h */; };
+		FA63DCD40742734500AB5036 /* PostgreSQLExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DCB20742730700AB5036 /* PostgreSQLExpression.m */; };
+		FA63DCD50742734500AB5036 /* PostgreSQLExpression.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DCB10742730700AB5036 /* PostgreSQLExpression.h */; };
+		FA63DCD60742734600AB5036 /* PostgreSQLContext.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DCB00742730700AB5036 /* PostgreSQLContext.m */; };
+		FA63DCD70742734700AB5036 /* PostgreSQLContext.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DCAF0742730700AB5036 /* PostgreSQLContext.h */; };
+		FA63DCDB0742734A00AB5036 /* PostgreSQLChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DCAC0742730700AB5036 /* PostgreSQLChannel.m */; };
+		FA63DCDC0742734A00AB5036 /* PostgreSQLChannel.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DCAB0742730700AB5036 /* PostgreSQLChannel.h */; };
+		FA63DCDD0742734B00AB5036 /* PostgreSQLAdaptor.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DCAA0742730700AB5036 /* PostgreSQLAdaptor.m */; };
+		FA63DCDE0742734C00AB5036 /* PostgreSQLAdaptor.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DCA90742730700AB5036 /* PostgreSQLAdaptor.h */; };
+		FA63DCDF0742734C00AB5036 /* PostgresStringFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DCB60742730700AB5036 /* PostgresStringFormatter.m */; };
+		FA63DCE00742734D00AB5036 /* PostgresStringFormatter.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DCB50742730700AB5036 /* PostgresStringFormatter.h */; };
+		FA63DCE10742734E00AB5036 /* PostgresNumberFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DCA80742730700AB5036 /* PostgresNumberFormatter.m */; };
+		FA63DCE20742734F00AB5036 /* PostgresNumberFormatter.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DCA70742730700AB5036 /* PostgresNumberFormatter.h */; };
+		FA63DCE30742734F00AB5036 /* PostgresDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DCA60742730700AB5036 /* PostgresDateFormatter.m */; };
+		FA63DCE40742735000AB5036 /* PostgresDateFormatter.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DCA50742730700AB5036 /* PostgresDateFormatter.h */; };
+		FA63DCE60742736000AB5036 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DAC20742715100AB5036 /* Foundation.framework */; };
+		FA63DD540742736100AB5036 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DABD0742713500AB5036 /* EOControl.framework */; };
+		FA63DD550742736100AB5036 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DABC0742713500AB5036 /* EOAccess.framework */; };
+		FA63DDA8074273E700AB5036 /* libpq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DDA7074273E700AB5036 /* libpq.a */; };
+		FA63DDD00742754500AB5036 /* PostgreSQLConnectionPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FA63DCCB0742731600AB5036 /* PostgreSQLConnectionPane.nib */; };
+		FA63DDD10742754600AB5036 /* PostgreSQLConnectionPane.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DCAE0742730700AB5036 /* PostgreSQLConnectionPane.m */; };
+		FA63DDD20742754600AB5036 /* PostgreSQLConnectionPane.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DCAD0742730700AB5036 /* PostgreSQLConnectionPane.h */; };
+		FA63DDD6074275BB00AB5036 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DABD0742713500AB5036 /* EOControl.framework */; };
+		FA63DDD7074275BB00AB5036 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DABC0742713500AB5036 /* EOAccess.framework */; };
+		FA63DDDA074275E300AB5036 /* PostgreSQLInterface.interface in Resources */ = {isa = PBXBuildFile; fileRef = FA63DDCE074274FA00AB5036 /* PostgreSQLInterface.interface */; };
+		FA63DE1B0742768500AB5036 /* SQLiteAdaptor.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DE110742768500AB5036 /* SQLiteAdaptor.h */; };
+		FA63DE1C0742768500AB5036 /* SQLiteAdaptor.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DE120742768500AB5036 /* SQLiteAdaptor.m */; };
+		FA63DE1D0742768500AB5036 /* SQLiteChannel.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DE130742768500AB5036 /* SQLiteChannel.h */; };
+		FA63DE1E0742768500AB5036 /* SQLiteChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DE140742768500AB5036 /* SQLiteChannel.m */; };
+		FA63DE210742768500AB5036 /* SQLiteContext.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DE170742768500AB5036 /* SQLiteContext.h */; };
+		FA63DE220742768500AB5036 /* SQLiteContext.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DE180742768500AB5036 /* SQLiteContext.m */; };
+		FA63DE230742768500AB5036 /* SQLiteExpression.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DE190742768500AB5036 /* SQLiteExpression.h */; };
+		FA63DE240742768500AB5036 /* SQLiteExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DE1A0742768500AB5036 /* SQLiteExpression.m */; };
+		FA63DE28074276A100AB5036 /* SQLiteConnectionPane.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DE150742768500AB5036 /* SQLiteConnectionPane.h */; };
+		FA63DE29074276A200AB5036 /* SQLiteConnectionPane.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DE160742768500AB5036 /* SQLiteConnectionPane.m */; };
+		FA63DE2A074276A200AB5036 /* SQLiteConnectionPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FA63DE250742769600AB5036 /* SQLiteConnectionPane.nib */; };
+		FA63DEF5074276AB00AB5036 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DABD0742713500AB5036 /* EOControl.framework */; };
+		FA63DEF6074276AC00AB5036 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DABC0742713500AB5036 /* EOAccess.framework */; };
+		FA63DEF9074276B100AB5036 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DABC0742713500AB5036 /* EOAccess.framework */; };
+		FA63DEFA074276B100AB5036 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DABD0742713500AB5036 /* EOControl.framework */; };
+		FA63DEFC074276D300AB5036 /* libsqlite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DEFB074276D300AB5036 /* libsqlite.a */; };
+		FA63DF2A074277A600AB5036 /* SQLiteInterface.interface in Resources */ = {isa = PBXBuildFile; fileRef = FA63DE0F0742766600AB5036 /* SQLiteInterface.interface */; };
+		FA63DF530742783D00AB5036 /* copyright in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF4F0742783D00AB5036 /* copyright */; };
+		FA63DF540742783D00AB5036 /* license in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF510742783D00AB5036 /* license */; };
+		FA63DF550742783D00AB5036 /* copyright in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF4F0742783D00AB5036 /* copyright */; };
+		FA63DF560742783D00AB5036 /* license in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF510742783D00AB5036 /* license */; };
+		FA63DF570742783D00AB5036 /* copyright in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF4F0742783D00AB5036 /* copyright */; };
+		FA63DF580742783D00AB5036 /* license in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF510742783D00AB5036 /* license */; };
+		FA63DF590742783D00AB5036 /* copyright in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF4F0742783D00AB5036 /* copyright */; };
+		FA63DF5A0742783D00AB5036 /* license in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF510742783D00AB5036 /* license */; };
+		FA63DF5B0742783D00AB5036 /* copyright in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF4F0742783D00AB5036 /* copyright */; };
+		FA63DF5C0742783D00AB5036 /* license in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF510742783D00AB5036 /* license */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FA63DDD8074275D100AB5036 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA63DA930742707200AB5036 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FA63DDCD074274FA00AB5036;
+			remoteInfo = PostgreSQLInterface;
+		};
+		FA63DF280742779800AB5036 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA63DA930742707200AB5036 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FA63DE0E0742766600AB5036;
+			remoteInfo = SQLiteInterface;
+		};
+		FA63DF600742786B00AB5036 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA63DA930742707200AB5036 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FA63DA9C0742709200AB5036;
+			remoteInfo = OpenBase;
+		};
+		FA63DF620742786B00AB5036 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA63DA930742707200AB5036 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FA63DCA2074272BE00AB5036;
+			remoteInfo = PostgreSQL;
+		};
+		FA63DF640742786B00AB5036 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA63DA930742707200AB5036 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FA63DE060742765300AB5036;
+			remoteInfo = SQLite;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1E0EACA813B3B54C00EDEC95 /* OracleBindInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleBindInfo.h; sourceTree = "<group>"; };
+		1E0EACA913B3B54C00EDEC95 /* OracleBindInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleBindInfo.m; sourceTree = "<group>"; };
+		1E34465012E4D06B007574F2 /* oracle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = oracle; path = /usr/local/include/oracle; sourceTree = "<absolute>"; };
+		1E45D51F13FD8AAC0043B572 /* OracleSchemaGeneration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleSchemaGeneration.h; sourceTree = "<group>"; };
+		1E45D52013FD8AAC0043B572 /* OracleSchemaGeneration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleSchemaGeneration.m; sourceTree = "<group>"; };
+		1E86A7F31312D63C00FA5FDA /* OracleDefineInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleDefineInfo.h; sourceTree = "<group>"; };
+		1E86A7F41312D63C00FA5FDA /* OracleDefineInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleDefineInfo.m; sourceTree = "<group>"; };
+		1E91D55713EB0A9B00C0B4F1 /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = English.lproj/OracleConnectionPane.nib; sourceTree = "<group>"; };
+		1E91D55B13EB0AC600C0B4F1 /* OracleLogo.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = OracleLogo.tiff; sourceTree = "<group>"; };
+		1E91D56113EB0BAC00C0B4F1 /* OracleConnectionPane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleConnectionPane.h; sourceTree = "<group>"; };
+		1E91D56213EB0BAC00C0B4F1 /* OracleConnectionPane.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleConnectionPane.m; sourceTree = "<group>"; };
+		1E9889011296F31D00F17A39 /* Oracle.eoadaptor */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Oracle.eoadaptor; sourceTree = BUILT_PRODUCTS_DIR; };
+		1E9889021296F31D00F17A39 /* Oracle-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Oracle-Info.plist"; sourceTree = "<group>"; };
+		1E98890C1296F41B00F17A39 /* OracleAdaptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleAdaptor.h; sourceTree = "<group>"; };
+		1E98890D1296F41B00F17A39 /* OracleAdaptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleAdaptor.m; sourceTree = "<group>"; };
+		1E98890E1296F41B00F17A39 /* OracleChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleChannel.h; sourceTree = "<group>"; };
+		1E98890F1296F41B00F17A39 /* OracleChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleChannel.m; sourceTree = "<group>"; };
+		1E9889101296F41B00F17A39 /* OracleContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleContext.h; sourceTree = "<group>"; };
+		1E9889111296F41B00F17A39 /* OracleContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleContext.m; sourceTree = "<group>"; };
+		1E98891C1296F56400F17A39 /* libocci.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libocci.dylib; path = /usr/local/lib/libocci.dylib; sourceTree = "<absolute>"; };
+		1E98891E1296F57C00F17A39 /* libclntsh.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libclntsh.dylib; path = /usr/local/lib/libclntsh.dylib; sourceTree = "<absolute>"; };
+		1EF391F912A9307300FDC676 /* OracleDataTypes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = OracleDataTypes.plist; sourceTree = "<group>"; };
+		1EF3923612A9567100FDC676 /* OracleSQLExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleSQLExpression.h; sourceTree = "<group>"; };
+		1EF3923712A9567100FDC676 /* OracleSQLExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleSQLExpression.m; sourceTree = "<group>"; };
+		FA0DC5A1082FAE1900C22582 /* NSString-SQLite.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; path = "NSString-SQLite.h"; sourceTree = "<group>"; };
+		FA0DC5A2082FAE1900C22582 /* NSString-SQLite.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; path = "NSString-SQLite.m"; sourceTree = "<group>"; };
+		FA0DC5B0082FAF7C00C22582 /* NSMutableString-SQLite.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; path = "NSMutableString-SQLite.h"; sourceTree = "<group>"; };
+		FA0DC5B1082FAF7C00C22582 /* NSMutableString-SQLite.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; path = "NSMutableString-SQLite.m"; sourceTree = "<group>"; };
+		FA63DA9D0742709200AB5036 /* OpenBase.eoadaptor */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenBase.eoadaptor; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA63DA9F0742709200AB5036 /* OpenBase-Info.plist */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text.plist.xml; path = "OpenBase-Info.plist"; sourceTree = SOURCE_ROOT; };
+		FA63DAAC074270D600AB5036 /* OpenBaseAdaptor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = OpenBaseAdaptor.h; sourceTree = "<group>"; };
+		FA63DAAD074270D600AB5036 /* OpenBaseAdaptor.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = OpenBaseAdaptor.m; sourceTree = "<group>"; };
+		FA63DAAE074270D600AB5036 /* OpenBaseChannel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = OpenBaseChannel.h; sourceTree = "<group>"; };
+		FA63DAAF074270D600AB5036 /* OpenBaseChannel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = OpenBaseChannel.m; sourceTree = "<group>"; };
+		FA63DAB0074270D600AB5036 /* OpenBaseContext.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = OpenBaseContext.h; sourceTree = "<group>"; };
+		FA63DAB1074270D600AB5036 /* OpenBaseContext.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = OpenBaseContext.m; sourceTree = "<group>"; };
+		FA63DABC0742713500AB5036 /* EOAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOAccess.framework; path = /Library/Frameworks/EOAccess.framework; sourceTree = "<absolute>"; };
+		FA63DABD0742713500AB5036 /* EOControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOControl.framework; path = /Library/Frameworks/EOControl.framework; sourceTree = "<absolute>"; };
+		FA63DAC10742715100AB5036 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		FA63DAC20742715100AB5036 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		FA63DC780742726500AB5036 /* OpenBaseAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenBaseAPI.framework; path = /Library/Frameworks/OpenBaseAPI.framework; sourceTree = "<absolute>"; };
+		FA63DC790742726500AB5036 /* OpenBaseNet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenBaseNet.framework; path = /Library/Frameworks/OpenBaseNet.framework; sourceTree = "<absolute>"; };
+		FA63DCA3074272BE00AB5036 /* PostgreSQL.eoadaptor */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PostgreSQL.eoadaptor; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA63DCA4074272BE00AB5036 /* PostgreSQL-Info.plist */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text.plist.xml; path = "PostgreSQL-Info.plist"; sourceTree = SOURCE_ROOT; };
+		FA63DCA50742730700AB5036 /* PostgresDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PostgresDateFormatter.h; sourceTree = "<group>"; };
+		FA63DCA60742730700AB5036 /* PostgresDateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PostgresDateFormatter.m; sourceTree = "<group>"; };
+		FA63DCA70742730700AB5036 /* PostgresNumberFormatter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PostgresNumberFormatter.h; sourceTree = "<group>"; };
+		FA63DCA80742730700AB5036 /* PostgresNumberFormatter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PostgresNumberFormatter.m; sourceTree = "<group>"; };
+		FA63DCA90742730700AB5036 /* PostgreSQLAdaptor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PostgreSQLAdaptor.h; sourceTree = "<group>"; };
+		FA63DCAA0742730700AB5036 /* PostgreSQLAdaptor.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PostgreSQLAdaptor.m; sourceTree = "<group>"; };
+		FA63DCAB0742730700AB5036 /* PostgreSQLChannel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PostgreSQLChannel.h; sourceTree = "<group>"; };
+		FA63DCAC0742730700AB5036 /* PostgreSQLChannel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PostgreSQLChannel.m; sourceTree = "<group>"; };
+		FA63DCAD0742730700AB5036 /* PostgreSQLConnectionPane.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PostgreSQLConnectionPane.h; sourceTree = "<group>"; };
+		FA63DCAE0742730700AB5036 /* PostgreSQLConnectionPane.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PostgreSQLConnectionPane.m; sourceTree = "<group>"; };
+		FA63DCAF0742730700AB5036 /* PostgreSQLContext.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PostgreSQLContext.h; sourceTree = "<group>"; };
+		FA63DCB00742730700AB5036 /* PostgreSQLContext.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PostgreSQLContext.m; sourceTree = "<group>"; };
+		FA63DCB10742730700AB5036 /* PostgreSQLExpression.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PostgreSQLExpression.h; sourceTree = "<group>"; };
+		FA63DCB20742730700AB5036 /* PostgreSQLExpression.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PostgreSQLExpression.m; sourceTree = "<group>"; };
+		FA63DCB30742730700AB5036 /* PostgreSQLSchemaGeneration.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PostgreSQLSchemaGeneration.h; sourceTree = "<group>"; };
+		FA63DCB40742730700AB5036 /* PostgreSQLSchemaGeneration.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PostgreSQLSchemaGeneration.m; sourceTree = "<group>"; };
+		FA63DCB50742730700AB5036 /* PostgresStringFormatter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PostgresStringFormatter.h; sourceTree = "<group>"; };
+		FA63DCB60742730700AB5036 /* PostgresStringFormatter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PostgresStringFormatter.m; sourceTree = "<group>"; };
+		FA63DCB70742730700AB5036 /* PSQLDataTypes.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist; path = PSQLDataTypes.plist; sourceTree = "<group>"; };
+		FA63DCCC0742731600AB5036 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PostgreSQLConnectionPane.nib; sourceTree = "<group>"; };
+		FA63DDA7074273E700AB5036 /* libpq.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpq.a; path = /usr/local/pgsql/lib/libpq.a; sourceTree = "<absolute>"; };
+		FA63DDCE074274FA00AB5036 /* PostgreSQLInterface.interface */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PostgreSQLInterface.interface; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA63DDCF074274FA00AB5036 /* PostgreSQLInterface-Info.plist */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text.plist.xml; path = "PostgreSQLInterface-Info.plist"; sourceTree = SOURCE_ROOT; };
+		FA63DE070742765300AB5036 /* SQLite.eoadaptor */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SQLite.eoadaptor; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA63DE080742765300AB5036 /* SQLite-Info.plist */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text.plist.xml; path = "SQLite-Info.plist"; sourceTree = SOURCE_ROOT; };
+		FA63DE0F0742766600AB5036 /* SQLiteInterface.interface */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SQLiteInterface.interface; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA63DE100742766600AB5036 /* SQLiteInterface-Info.plist */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text.plist.xml; path = "SQLiteInterface-Info.plist"; sourceTree = SOURCE_ROOT; };
+		FA63DE110742768500AB5036 /* SQLiteAdaptor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SQLiteAdaptor.h; sourceTree = "<group>"; };
+		FA63DE120742768500AB5036 /* SQLiteAdaptor.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SQLiteAdaptor.m; sourceTree = "<group>"; };
+		FA63DE130742768500AB5036 /* SQLiteChannel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SQLiteChannel.h; sourceTree = "<group>"; };
+		FA63DE140742768500AB5036 /* SQLiteChannel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SQLiteChannel.m; sourceTree = "<group>"; };
+		FA63DE150742768500AB5036 /* SQLiteConnectionPane.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SQLiteConnectionPane.h; sourceTree = "<group>"; };
+		FA63DE160742768500AB5036 /* SQLiteConnectionPane.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SQLiteConnectionPane.m; sourceTree = "<group>"; };
+		FA63DE170742768500AB5036 /* SQLiteContext.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SQLiteContext.h; sourceTree = "<group>"; };
+		FA63DE180742768500AB5036 /* SQLiteContext.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SQLiteContext.m; sourceTree = "<group>"; };
+		FA63DE190742768500AB5036 /* SQLiteExpression.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SQLiteExpression.h; sourceTree = "<group>"; };
+		FA63DE1A0742768500AB5036 /* SQLiteExpression.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SQLiteExpression.m; sourceTree = "<group>"; };
+		FA63DE260742769600AB5036 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SQLiteConnectionPane.nib; sourceTree = "<group>"; };
+		FA63DEFB074276D300AB5036 /* libsqlite.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlite.a; path = /Volumes/Local/local/lib/libsqlite.a; sourceTree = "<absolute>"; };
+		FA63DF500742783D00AB5036 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = English; path = English.lproj/copyright; sourceTree = "<group>"; };
+		FA63DF520742783D00AB5036 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = English; path = English.lproj/license; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1E9888FF1296F31D00F17A39 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E9889161296F4F400F17A39 /* EOAccess.framework in Frameworks */,
+				1E9889171296F4F400F17A39 /* EOControl.framework in Frameworks */,
+				1E98891D1296F56400F17A39 /* libocci.dylib in Frameworks */,
+				1E98891F1296F57C00F17A39 /* libclntsh.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA63DA9B0742709200AB5036 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA63DABF0742713500AB5036 /* EOAccess.framework in Frameworks */,
+				FA63DAC00742713500AB5036 /* EOControl.framework in Frameworks */,
+				FA63DAC40742715100AB5036 /* Foundation.framework in Frameworks */,
+				FA63DC7A0742726500AB5036 /* OpenBaseAPI.framework in Frameworks */,
+				FA63DC7B0742726500AB5036 /* OpenBaseNet.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA63DCA1074272BE00AB5036 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA63DCE60742736000AB5036 /* Foundation.framework in Frameworks */,
+				FA63DD540742736100AB5036 /* EOControl.framework in Frameworks */,
+				FA63DD550742736100AB5036 /* EOAccess.framework in Frameworks */,
+				FA63DDA8074273E700AB5036 /* libpq.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA63DDCC074274FA00AB5036 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA63DDD6074275BB00AB5036 /* EOControl.framework in Frameworks */,
+				FA63DDD7074275BB00AB5036 /* EOAccess.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA63DE050742765300AB5036 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA63DEF5074276AB00AB5036 /* EOControl.framework in Frameworks */,
+				FA63DEF6074276AC00AB5036 /* EOAccess.framework in Frameworks */,
+				FA63DEFC074276D300AB5036 /* libsqlite.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA63DE0D0742766600AB5036 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA63DEF9074276B100AB5036 /* EOAccess.framework in Frameworks */,
+				FA63DEFA074276B100AB5036 /* EOControl.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1E91D55413EB0A6900C0B4F1 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1E91D55B13EB0AC600C0B4F1 /* OracleLogo.tiff */,
+				1E22343A141117CD00F1C663 /* OracleConnectionPane.nib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		1E9888D91296F19F00F17A39 /* Oracle */ = {
+			isa = PBXGroup;
+			children = (
+				1E91D55413EB0A6900C0B4F1 /* Resources */,
+				1E0EACA813B3B54C00EDEC95 /* OracleBindInfo.h */,
+				1E0EACA913B3B54C00EDEC95 /* OracleBindInfo.m */,
+				1E86A7F31312D63C00FA5FDA /* OracleDefineInfo.h */,
+				1E86A7F41312D63C00FA5FDA /* OracleDefineInfo.m */,
+				1E98890C1296F41B00F17A39 /* OracleAdaptor.h */,
+				1E98890D1296F41B00F17A39 /* OracleAdaptor.m */,
+				1E98890E1296F41B00F17A39 /* OracleChannel.h */,
+				1E98890F1296F41B00F17A39 /* OracleChannel.m */,
+				1E9889101296F41B00F17A39 /* OracleContext.h */,
+				1E9889111296F41B00F17A39 /* OracleContext.m */,
+				1EF391F912A9307300FDC676 /* OracleDataTypes.plist */,
+				1EF3923612A9567100FDC676 /* OracleSQLExpression.h */,
+				1EF3923712A9567100FDC676 /* OracleSQLExpression.m */,
+				1E91D56113EB0BAC00C0B4F1 /* OracleConnectionPane.h */,
+				1E91D56213EB0BAC00C0B4F1 /* OracleConnectionPane.m */,
+				1E45D51F13FD8AAC0043B572 /* OracleSchemaGeneration.h */,
+				1E45D52013FD8AAC0043B572 /* OracleSchemaGeneration.m */,
+				1E34465012E4D06B007574F2 /* oracle */,
+			);
+			path = Oracle;
+			sourceTree = "<group>";
+		};
+		FA63DA8F0742707200AB5036 = {
+			isa = PBXGroup;
+			children = (
+				1E9888D91296F19F00F17A39 /* Oracle */,
+				FA63DAAB074270C100AB5036 /* OpenBase */,
+				FA63DC980742728700AB5036 /* PostgreSQL */,
+				FA63DDFB0742760800AB5036 /* SQLite */,
+				FA63DABA074270E200AB5036 /* Frameworks */,
+				FA63DF43074277EC00AB5036 /* Info */,
+				FA63DF460742780D00AB5036 /* Shared Resources */,
+				FA63DA9E0742709200AB5036 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FA63DA9E0742709200AB5036 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FA63DA9D0742709200AB5036 /* OpenBase.eoadaptor */,
+				FA63DCA3074272BE00AB5036 /* PostgreSQL.eoadaptor */,
+				FA63DDCE074274FA00AB5036 /* PostgreSQLInterface.interface */,
+				FA63DE070742765300AB5036 /* SQLite.eoadaptor */,
+				FA63DE0F0742766600AB5036 /* SQLiteInterface.interface */,
+				1E9889011296F31D00F17A39 /* Oracle.eoadaptor */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FA63DAAB074270C100AB5036 /* OpenBase */ = {
+			isa = PBXGroup;
+			children = (
+				FA63DAAC074270D600AB5036 /* OpenBaseAdaptor.h */,
+				FA63DAAD074270D600AB5036 /* OpenBaseAdaptor.m */,
+				FA63DAAE074270D600AB5036 /* OpenBaseChannel.h */,
+				FA63DAAF074270D600AB5036 /* OpenBaseChannel.m */,
+				FA63DAB0074270D600AB5036 /* OpenBaseContext.h */,
+				FA63DAB1074270D600AB5036 /* OpenBaseContext.m */,
+			);
+			path = OpenBase;
+			sourceTree = "<group>";
+		};
+		FA63DABA074270E200AB5036 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FA63DAC10742715100AB5036 /* AppKit.framework */,
+				FA63DABC0742713500AB5036 /* EOAccess.framework */,
+				FA63DABD0742713500AB5036 /* EOControl.framework */,
+				FA63DAC20742715100AB5036 /* Foundation.framework */,
+				FA63DC780742726500AB5036 /* OpenBaseAPI.framework */,
+				FA63DC790742726500AB5036 /* OpenBaseNet.framework */,
+				FA63DDA7074273E700AB5036 /* libpq.a */,
+				FA63DEFB074276D300AB5036 /* libsqlite.a */,
+				1E98891C1296F56400F17A39 /* libocci.dylib */,
+				1E98891E1296F57C00F17A39 /* libclntsh.dylib */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FA63DC980742728700AB5036 /* PostgreSQL */ = {
+			isa = PBXGroup;
+			children = (
+				FA63DCD00742732500AB5036 /* Formatters */,
+				FA63DCA90742730700AB5036 /* PostgreSQLAdaptor.h */,
+				FA63DCAA0742730700AB5036 /* PostgreSQLAdaptor.m */,
+				FA63DCAB0742730700AB5036 /* PostgreSQLChannel.h */,
+				FA63DCAC0742730700AB5036 /* PostgreSQLChannel.m */,
+				FA63DCAD0742730700AB5036 /* PostgreSQLConnectionPane.h */,
+				FA63DCAE0742730700AB5036 /* PostgreSQLConnectionPane.m */,
+				FA63DCCB0742731600AB5036 /* PostgreSQLConnectionPane.nib */,
+				FA63DCAF0742730700AB5036 /* PostgreSQLContext.h */,
+				FA63DCB00742730700AB5036 /* PostgreSQLContext.m */,
+				FA63DCB10742730700AB5036 /* PostgreSQLExpression.h */,
+				FA63DCB20742730700AB5036 /* PostgreSQLExpression.m */,
+				FA63DCB30742730700AB5036 /* PostgreSQLSchemaGeneration.h */,
+				FA63DCB40742730700AB5036 /* PostgreSQLSchemaGeneration.m */,
+				FA63DCB70742730700AB5036 /* PSQLDataTypes.plist */,
+			);
+			path = PostgreSQL;
+			sourceTree = "<group>";
+		};
+		FA63DCD00742732500AB5036 /* Formatters */ = {
+			isa = PBXGroup;
+			children = (
+				FA63DCA50742730700AB5036 /* PostgresDateFormatter.h */,
+				FA63DCA60742730700AB5036 /* PostgresDateFormatter.m */,
+				FA63DCA70742730700AB5036 /* PostgresNumberFormatter.h */,
+				FA63DCA80742730700AB5036 /* PostgresNumberFormatter.m */,
+				FA63DCB50742730700AB5036 /* PostgresStringFormatter.h */,
+				FA63DCB60742730700AB5036 /* PostgresStringFormatter.m */,
+			);
+			name = Formatters;
+			sourceTree = "<group>";
+		};
+		FA63DDFB0742760800AB5036 /* SQLite */ = {
+			isa = PBXGroup;
+			children = (
+				FA0DC5B0082FAF7C00C22582 /* NSMutableString-SQLite.h */,
+				FA0DC5B1082FAF7C00C22582 /* NSMutableString-SQLite.m */,
+				FA0DC5A1082FAE1900C22582 /* NSString-SQLite.h */,
+				FA0DC5A2082FAE1900C22582 /* NSString-SQLite.m */,
+				FA63DE110742768500AB5036 /* SQLiteAdaptor.h */,
+				FA63DE120742768500AB5036 /* SQLiteAdaptor.m */,
+				FA63DE130742768500AB5036 /* SQLiteChannel.h */,
+				FA63DE140742768500AB5036 /* SQLiteChannel.m */,
+				FA63DE150742768500AB5036 /* SQLiteConnectionPane.h */,
+				FA63DE160742768500AB5036 /* SQLiteConnectionPane.m */,
+				FA63DE250742769600AB5036 /* SQLiteConnectionPane.nib */,
+				FA63DE170742768500AB5036 /* SQLiteContext.h */,
+				FA63DE180742768500AB5036 /* SQLiteContext.m */,
+				FA63DE190742768500AB5036 /* SQLiteExpression.h */,
+				FA63DE1A0742768500AB5036 /* SQLiteExpression.m */,
+			);
+			path = SQLite;
+			sourceTree = "<group>";
+		};
+		FA63DF43074277EC00AB5036 /* Info */ = {
+			isa = PBXGroup;
+			children = (
+				FA63DA9F0742709200AB5036 /* OpenBase-Info.plist */,
+				FA63DCA4074272BE00AB5036 /* PostgreSQL-Info.plist */,
+				FA63DDCF074274FA00AB5036 /* PostgreSQLInterface-Info.plist */,
+				FA63DE080742765300AB5036 /* SQLite-Info.plist */,
+				FA63DE100742766600AB5036 /* SQLiteInterface-Info.plist */,
+				1E9889021296F31D00F17A39 /* Oracle-Info.plist */,
+			);
+			name = Info;
+			sourceTree = "<group>";
+		};
+		FA63DF460742780D00AB5036 /* Shared Resources */ = {
+			isa = PBXGroup;
+			children = (
+				FA63DF4F0742783D00AB5036 /* copyright */,
+				FA63DF510742783D00AB5036 /* license */,
+			);
+			name = "Shared Resources";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1E9889001296F31D00F17A39 /* Oracle */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1E9889061296F31E00F17A39 /* Build configuration list for PBXNativeTarget "Oracle" */;
+			buildPhases = (
+				1E9888FD1296F31D00F17A39 /* Resources */,
+				1E9888FE1296F31D00F17A39 /* Sources */,
+				1E9888FF1296F31D00F17A39 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Oracle;
+			productName = Oracle;
+			productReference = 1E9889011296F31D00F17A39 /* Oracle.eoadaptor */;
+			productType = "com.apple.product-type.bundle";
+		};
+		FA63DA9C0742709200AB5036 /* OpenBase */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 70B72DE30956026E005162B9 /* Build configuration list for PBXNativeTarget "OpenBase" */;
+			buildPhases = (
+				FA63DA990742709200AB5036 /* Resources */,
+				FA63DA9A0742709200AB5036 /* Sources */,
+				FA63DA9B0742709200AB5036 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OpenBase;
+			productName = OpenBase;
+			productReference = FA63DA9D0742709200AB5036 /* OpenBase.eoadaptor */;
+			productType = "com.apple.product-type.bundle";
+		};
+		FA63DCA2074272BE00AB5036 /* PostgreSQL */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 70B72DEB0956026E005162B9 /* Build configuration list for PBXNativeTarget "PostgreSQL" */;
+			buildPhases = (
+				FA63DC9F074272BE00AB5036 /* Resources */,
+				FA63DCA0074272BE00AB5036 /* Sources */,
+				FA63DCA1074272BE00AB5036 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FA63DDD9074275D100AB5036 /* PBXTargetDependency */,
+			);
+			name = PostgreSQL;
+			productName = PostgreSQL;
+			productReference = FA63DCA3074272BE00AB5036 /* PostgreSQL.eoadaptor */;
+			productType = "com.apple.product-type.bundle";
+		};
+		FA63DDCD074274FA00AB5036 /* PostgreSQLInterface */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 70B72DE70956026E005162B9 /* Build configuration list for PBXNativeTarget "PostgreSQLInterface" */;
+			buildPhases = (
+				FA63DDCA074274FA00AB5036 /* Resources */,
+				FA63DDCB074274FA00AB5036 /* Sources */,
+				FA63DDCC074274FA00AB5036 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PostgreSQLInterface;
+			productName = PostgreSQLInterface;
+			productReference = FA63DDCE074274FA00AB5036 /* PostgreSQLInterface.interface */;
+			productType = "com.apple.product-type.bundle";
+		};
+		FA63DE060742765300AB5036 /* SQLite */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 70B72DF30956026E005162B9 /* Build configuration list for PBXNativeTarget "SQLite" */;
+			buildPhases = (
+				FA63DE030742765300AB5036 /* Resources */,
+				FA63DE040742765300AB5036 /* Sources */,
+				FA63DE050742765300AB5036 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FA63DF290742779800AB5036 /* PBXTargetDependency */,
+			);
+			name = SQLite;
+			productName = SQLite;
+			productReference = FA63DE070742765300AB5036 /* SQLite.eoadaptor */;
+			productType = "com.apple.product-type.bundle";
+		};
+		FA63DE0E0742766600AB5036 /* SQLiteInterface */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 70B72DEF0956026E005162B9 /* Build configuration list for PBXNativeTarget "SQLiteInterface" */;
+			buildPhases = (
+				FA63DE0B0742766600AB5036 /* Resources */,
+				FA63DE0C0742766600AB5036 /* Sources */,
+				FA63DE0D0742766600AB5036 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SQLiteInterface;
+			productName = SQLiteInterface;
+			productReference = FA63DE0F0742766600AB5036 /* SQLiteInterface.interface */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FA63DA930742707200AB5036 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 70B72DFB0956026E005162B9 /* Build configuration list for PBXProject "Adaptors" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 1;
+			mainGroup = FA63DA8F0742707200AB5036;
+			productRefGroup = FA63DA9E0742709200AB5036 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FA63DF5F0742785800AB5036 /* All */,
+				FA63DA9C0742709200AB5036 /* OpenBase */,
+				FA63DCA2074272BE00AB5036 /* PostgreSQL */,
+				FA63DDCD074274FA00AB5036 /* PostgreSQLInterface */,
+				FA63DE060742765300AB5036 /* SQLite */,
+				FA63DE0E0742766600AB5036 /* SQLiteInterface */,
+				1E9889001296F31D00F17A39 /* Oracle */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1E9888FD1296F31D00F17A39 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E9889A51296F74600F17A39 /* OracleAdaptor.h in Resources */,
+				1E9889A61296F74B00F17A39 /* OracleChannel.h in Resources */,
+				1E9889A71296F75100F17A39 /* OracleContext.h in Resources */,
+				1E9889A81296F77300F17A39 /* copyright in Resources */,
+				1E9889A91296F77900F17A39 /* license in Resources */,
+				1EF391FA12A9307300FDC676 /* OracleDataTypes.plist in Resources */,
+				1E22343B141117CD00F1C663 /* OracleConnectionPane.nib in Resources */,
+				1E91D55C13EB0AC600C0B4F1 /* OracleLogo.tiff in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA63DA990742709200AB5036 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA63DAB2074270D600AB5036 /* OpenBaseAdaptor.h in Resources */,
+				FA63DAB4074270D600AB5036 /* OpenBaseChannel.h in Resources */,
+				FA63DAB6074270D600AB5036 /* OpenBaseContext.h in Resources */,
+				FA63DF5B0742783D00AB5036 /* copyright in Resources */,
+				FA63DF5C0742783D00AB5036 /* license in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA63DC9F074272BE00AB5036 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA63DCD10742734300AB5036 /* PSQLDataTypes.plist in Resources */,
+				FA63DCD30742734400AB5036 /* PostgreSQLSchemaGeneration.h in Resources */,
+				FA63DCD50742734500AB5036 /* PostgreSQLExpression.h in Resources */,
+				FA63DCD70742734700AB5036 /* PostgreSQLContext.h in Resources */,
+				FA63DCDC0742734A00AB5036 /* PostgreSQLChannel.h in Resources */,
+				FA63DCDE0742734C00AB5036 /* PostgreSQLAdaptor.h in Resources */,
+				FA63DCE00742734D00AB5036 /* PostgresStringFormatter.h in Resources */,
+				FA63DCE20742734F00AB5036 /* PostgresNumberFormatter.h in Resources */,
+				FA63DCE40742735000AB5036 /* PostgresDateFormatter.h in Resources */,
+				FA63DDDA074275E300AB5036 /* PostgreSQLInterface.interface in Resources */,
+				FA63DF590742783D00AB5036 /* copyright in Resources */,
+				FA63DF5A0742783D00AB5036 /* license in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA63DDCA074274FA00AB5036 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA63DDD00742754500AB5036 /* PostgreSQLConnectionPane.nib in Resources */,
+				FA63DDD20742754600AB5036 /* PostgreSQLConnectionPane.h in Resources */,
+				FA63DF570742783D00AB5036 /* copyright in Resources */,
+				FA63DF580742783D00AB5036 /* license in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA63DE030742765300AB5036 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA0DC5A3082FAE1900C22582 /* NSString-SQLite.h in Resources */,
+				FA63DE1B0742768500AB5036 /* SQLiteAdaptor.h in Resources */,
+				FA63DE1D0742768500AB5036 /* SQLiteChannel.h in Resources */,
+				FA63DE210742768500AB5036 /* SQLiteContext.h in Resources */,
+				FA63DE230742768500AB5036 /* SQLiteExpression.h in Resources */,
+				FA0DC5B2082FAF7C00C22582 /* NSMutableString-SQLite.h in Resources */,
+				FA63DF2A074277A600AB5036 /* SQLiteInterface.interface in Resources */,
+				FA63DF530742783D00AB5036 /* copyright in Resources */,
+				FA63DF540742783D00AB5036 /* license in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA63DE0B0742766600AB5036 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA63DE28074276A100AB5036 /* SQLiteConnectionPane.h in Resources */,
+				FA63DE2A074276A200AB5036 /* SQLiteConnectionPane.nib in Resources */,
+				FA63DF550742783D00AB5036 /* copyright in Resources */,
+				FA63DF560742783D00AB5036 /* license in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1E9888FE1296F31D00F17A39 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E9889131296F41B00F17A39 /* OracleAdaptor.m in Sources */,
+				1E9889141296F41B00F17A39 /* OracleChannel.m in Sources */,
+				1E9889151296F41B00F17A39 /* OracleContext.m in Sources */,
+				1EF3923812A9567100FDC676 /* OracleSQLExpression.m in Sources */,
+				1E86A7F51312D63C00FA5FDA /* OracleDefineInfo.m in Sources */,
+				1E0EACAA13B3B54C00EDEC95 /* OracleBindInfo.m in Sources */,
+				1E91D56313EB0BAC00C0B4F1 /* OracleConnectionPane.m in Sources */,
+				1E45D52113FD8AAC0043B572 /* OracleSchemaGeneration.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA63DA9A0742709200AB5036 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA63DAB3074270D600AB5036 /* OpenBaseAdaptor.m in Sources */,
+				FA63DAB5074270D600AB5036 /* OpenBaseChannel.m in Sources */,
+				FA63DAB7074270D600AB5036 /* OpenBaseContext.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA63DCA0074272BE00AB5036 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				707F2B91075E977900AEB39E /* PostgreSQLSchemaGeneration.m in Sources */,
+				FA63DCD40742734500AB5036 /* PostgreSQLExpression.m in Sources */,
+				FA63DCD60742734600AB5036 /* PostgreSQLContext.m in Sources */,
+				FA63DCDB0742734A00AB5036 /* PostgreSQLChannel.m in Sources */,
+				FA63DCDD0742734B00AB5036 /* PostgreSQLAdaptor.m in Sources */,
+				FA63DCDF0742734C00AB5036 /* PostgresStringFormatter.m in Sources */,
+				FA63DCE10742734E00AB5036 /* PostgresNumberFormatter.m in Sources */,
+				FA63DCE30742734F00AB5036 /* PostgresDateFormatter.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA63DDCB074274FA00AB5036 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA63DDD10742754600AB5036 /* PostgreSQLConnectionPane.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA63DE040742765300AB5036 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA63DE1C0742768500AB5036 /* SQLiteAdaptor.m in Sources */,
+				FA63DE1E0742768500AB5036 /* SQLiteChannel.m in Sources */,
+				FA63DE220742768500AB5036 /* SQLiteContext.m in Sources */,
+				FA63DE240742768500AB5036 /* SQLiteExpression.m in Sources */,
+				FA0DC5A4082FAE1900C22582 /* NSString-SQLite.m in Sources */,
+				FA0DC5B3082FAF7C00C22582 /* NSMutableString-SQLite.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA63DE0C0742766600AB5036 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA63DE29074276A200AB5036 /* SQLiteConnectionPane.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FA63DDD9074275D100AB5036 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FA63DDCD074274FA00AB5036 /* PostgreSQLInterface */;
+			targetProxy = FA63DDD8074275D100AB5036 /* PBXContainerItemProxy */;
+		};
+		FA63DF290742779800AB5036 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FA63DE0E0742766600AB5036 /* SQLiteInterface */;
+			targetProxy = FA63DF280742779800AB5036 /* PBXContainerItemProxy */;
+		};
+		FA63DF610742786B00AB5036 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FA63DA9C0742709200AB5036 /* OpenBase */;
+			targetProxy = FA63DF600742786B00AB5036 /* PBXContainerItemProxy */;
+		};
+		FA63DF630742786B00AB5036 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FA63DCA2074272BE00AB5036 /* PostgreSQL */;
+			targetProxy = FA63DF620742786B00AB5036 /* PBXContainerItemProxy */;
+		};
+		FA63DF650742786B00AB5036 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FA63DE060742765300AB5036 /* SQLite */;
+			targetProxy = FA63DF640742786B00AB5036 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		1E22343A141117CD00F1C663 /* OracleConnectionPane.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E91D55713EB0A9B00C0B4F1 /* English */,
+			);
+			name = OracleConnectionPane.nib;
+			sourceTree = "<group>";
+		};
+		FA63DCCB0742731600AB5036 /* PostgreSQLConnectionPane.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA63DCCC0742731600AB5036 /* English */,
+			);
+			name = PostgreSQLConnectionPane.nib;
+			sourceTree = "<group>";
+		};
+		FA63DE250742769600AB5036 /* SQLiteConnectionPane.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA63DE260742769600AB5036 /* English */,
+			);
+			name = SQLiteConnectionPane.nib;
+			sourceTree = "<group>";
+		};
+		FA63DF4F0742783D00AB5036 /* copyright */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA63DF500742783D00AB5036 /* English */,
+			);
+			name = copyright;
+			sourceTree = "<group>";
+		};
+		FA63DF510742783D00AB5036 /* license */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA63DF520742783D00AB5036 /* English */,
+			);
+			name = license;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1E9889031296F31E00F17A39 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				HEADER_SEARCH_PATHS = "/usr/local/include/**";
+				INFOPLIST_FILE = "Oracle-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Oracle;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = eoadaptor;
+			};
+			name = Development;
+		};
+		1E9889041296F31E00F17A39 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				HEADER_SEARCH_PATHS = "/usr/local/include/**";
+				INFOPLIST_FILE = "Oracle-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Oracle;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = eoadaptor;
+			};
+			name = Deployment;
+		};
+		1E9889051296F31E00F17A39 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				HEADER_SEARCH_PATHS = "/usr/local/include/**";
+				INFOPLIST_FILE = "Oracle-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Oracle;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = eoadaptor;
+			};
+			name = Default;
+		};
+		70B72DE40956026E005162B9 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_EXTENSION = "";
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/BuildOutput";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "OpenBase-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = OpenBase;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = eoadaptor;
+			};
+			name = Development;
+		};
+		70B72DE50956026E005162B9 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				EXECUTABLE_EXTENSION = "";
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/BuildOutput";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "OpenBase-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = OpenBase;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = eoadaptor;
+			};
+			name = Deployment;
+		};
+		70B72DE60956026E005162B9 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_EXTENSION = "";
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/BuildOutput";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "OpenBase-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = OpenBase;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = eoadaptor;
+			};
+			name = Default;
+		};
+		70B72DE80956026E005162B9 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "\"$(HOME)/Library/Frameworks\"";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "PostgreSQLInterface-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = PostgreSQLInterface;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = interface;
+			};
+			name = Development;
+		};
+		70B72DE90956026E005162B9 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(HOME)/Library/Frameworks\"";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "PostgreSQLInterface-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = PostgreSQLInterface;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = interface;
+			};
+			name = Deployment;
+		};
+		70B72DEA0956026E005162B9 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "\"$(HOME)/Library/Frameworks\"";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "PostgreSQLInterface-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = PostgreSQLInterface;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = interface;
+			};
+			name = Default;
+		};
+		70B72DEC0956026E005162B9 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/Frameworks";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				HEADER_SEARCH_PATHS = /usr/local/pgsql/include;
+				INFOPLIST_FILE = "PostgreSQL-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_SEARCH_PATHS = /usr/local/pgsql/lib;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = PostgreSQL;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = eoadaptor;
+			};
+			name = Development;
+		};
+		70B72DED0956026E005162B9 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/Frameworks";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				HEADER_SEARCH_PATHS = /usr/local/pgsql/include;
+				INFOPLIST_FILE = "PostgreSQL-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_SEARCH_PATHS = /usr/local/pgsql/lib;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = PostgreSQL;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = eoadaptor;
+			};
+			name = Deployment;
+		};
+		70B72DEE0956026E005162B9 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/Frameworks";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				HEADER_SEARCH_PATHS = /usr/local/pgsql/include;
+				INFOPLIST_FILE = "PostgreSQL-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_SEARCH_PATHS = /usr/local/pgsql/lib;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = PostgreSQL;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = eoadaptor;
+			};
+			name = Default;
+		};
+		70B72DF00956026E005162B9 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/BuildOutput";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "SQLiteInterface-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = SQLiteInterface;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = interface;
+			};
+			name = Development;
+		};
+		70B72DF10956026E005162B9 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/BuildOutput";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "SQLiteInterface-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = SQLiteInterface;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = interface;
+			};
+			name = Deployment;
+		};
+		70B72DF20956026E005162B9 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/BuildOutput";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "SQLiteInterface-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = SQLiteInterface;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = interface;
+			};
+			name = Default;
+		};
+		70B72DF40956026E005162B9 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/BuildOutput";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "SQLite-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_SEARCH_PATHS = /Volumes/Local/local/lib;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = SQLite;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = eoadaptor;
+			};
+			name = Development;
+		};
+		70B72DF50956026E005162B9 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/BuildOutput";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "SQLite-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_SEARCH_PATHS = /Volumes/Local/local/lib;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = SQLite;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = eoadaptor;
+			};
+			name = Deployment;
+		};
+		70B72DF60956026E005162B9 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/BuildOutput";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "SQLite-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_SEARCH_PATHS = /Volumes/Local/local/lib;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = SQLite;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = eoadaptor;
+			};
+			name = Default;
+		};
+		70B72DF80956026E005162B9 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = All;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Development;
+		};
+		70B72DF90956026E005162B9 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = All;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Deployment;
+		};
+		70B72DFA0956026E005162B9 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = All;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Default;
+		};
+		70B72DFC0956026E005162B9 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 0.85;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Development;
+		};
+		70B72DFD0956026E005162B9 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 0.85;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Deployment;
+		};
+		70B72DFE0956026E005162B9 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 0.85;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1E9889061296F31E00F17A39 /* Build configuration list for PBXNativeTarget "Oracle" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1E9889031296F31E00F17A39 /* Development */,
+				1E9889041296F31E00F17A39 /* Deployment */,
+				1E9889051296F31E00F17A39 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		70B72DE30956026E005162B9 /* Build configuration list for PBXNativeTarget "OpenBase" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70B72DE40956026E005162B9 /* Development */,
+				70B72DE50956026E005162B9 /* Deployment */,
+				70B72DE60956026E005162B9 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		70B72DE70956026E005162B9 /* Build configuration list for PBXNativeTarget "PostgreSQLInterface" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70B72DE80956026E005162B9 /* Development */,
+				70B72DE90956026E005162B9 /* Deployment */,
+				70B72DEA0956026E005162B9 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		70B72DEB0956026E005162B9 /* Build configuration list for PBXNativeTarget "PostgreSQL" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70B72DEC0956026E005162B9 /* Development */,
+				70B72DED0956026E005162B9 /* Deployment */,
+				70B72DEE0956026E005162B9 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		70B72DEF0956026E005162B9 /* Build configuration list for PBXNativeTarget "SQLiteInterface" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70B72DF00956026E005162B9 /* Development */,
+				70B72DF10956026E005162B9 /* Deployment */,
+				70B72DF20956026E005162B9 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		70B72DF30956026E005162B9 /* Build configuration list for PBXNativeTarget "SQLite" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70B72DF40956026E005162B9 /* Development */,
+				70B72DF50956026E005162B9 /* Deployment */,
+				70B72DF60956026E005162B9 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		70B72DF70956026E005162B9 /* Build configuration list for PBXAggregateTarget "All" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70B72DF80956026E005162B9 /* Development */,
+				70B72DF90956026E005162B9 /* Deployment */,
+				70B72DFA0956026E005162B9 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		70B72DFB0956026E005162B9 /* Build configuration list for PBXProject "Adaptors" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70B72DFC0956026E005162B9 /* Development */,
+				70B72DFD0956026E005162B9 /* Deployment */,
+				70B72DFE0956026E005162B9 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FA63DA930742707200AB5036 /* Project object */;
+}

@@ -1,0 +1,39 @@
+{
+    IBClasses = (
+        {CLASS = AJRNewsArticle; LANGUAGE = ObjC; SUPERCLASS = DBGenericRecord; }, 
+        {CLASS = DBGenericRecord; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                executeQuery = id; 
+                exportQuery = id; 
+                nextQuery = id; 
+                previousQuery = id; 
+                removeQuery = id; 
+                saveQuery = id; 
+                selectEntity = id; 
+                selectQuery = id; 
+                setMaxRowsToFetch = id; 
+            }; 
+            CLASS = DataBrowser; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                dataTable = NSTableView; 
+                entityTable = NSTableView; 
+                executeQueryButton = NSButton; 
+                exportQueryButton = NSButton; 
+                maxFetchField = NSTextField; 
+                nextQueryButton = NSButton; 
+                previousQueryButton = NSButton; 
+                queryTable = NSTableView; 
+                queryText = NSTextView; 
+                removeQueryButton = NSButton; 
+                saveQueryButton = NSButton; 
+                statusField = NSTextField; 
+                window = NSWindow; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

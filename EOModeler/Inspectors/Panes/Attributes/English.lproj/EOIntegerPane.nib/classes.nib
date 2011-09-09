@@ -1,0 +1,19 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {selectType = id; }; 
+            CLASS = DBIntegerPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {typePopUp = NSPopUpButton; }; 
+            SUPERCLASS = DBInternalTypePane; 
+        }, 
+        {
+            CLASS = DBInternalTypePane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {view = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

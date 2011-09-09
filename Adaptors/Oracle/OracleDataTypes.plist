@@ -1,0 +1,142 @@
+{
+	1 = {
+		externalType = VARCHAR2;
+		valueClassName = NSString;
+		hasWidth = 1;
+	};
+	2 = {
+		externalType = NUMBER;
+		valueClassName = NSDecimalNumber;
+		valueType = i;
+		isNumber = 1;
+	};
+	8 = {
+		externalType = LONG;
+		valueClassName = NSString;
+	};
+	12 = {
+		externalType = DATE;
+		valueClassName = NSCalendarDate;
+	};
+	23 = {
+		externalType = RAW;
+		valueClassName = NSData;
+		hasWidth = 1;
+	};
+	24 = {
+		valueClassName = NSData;
+		externalType = "LONG RAW";
+	};
+	69 = {
+		valueClassName = NSString;
+		externalType = ROWID;
+	};
+	96 = {
+		valueClassName = NSString;
+		externalType = CHAR;
+		hasWidth = 1;
+	};
+	100 = {
+		valueClassName = NSNumber;
+		externalType = "BINARY_FLOAT";
+		isNumber = 1;
+		valueType = f;
+	};
+	101 = {
+		valueClassName = NSNumber;
+		externalType = "BINARY_DOUBLE";
+		isNumber = 1;
+		valueType = d;
+	};
+	112 = {
+		valueClassName = NSString;
+		externalType = CLOB;
+	};
+	113 = {
+		valueClassName = NSData;
+		externalType = BLOB;
+	};
+	187 = {
+		valueClassName = NSString;
+		externalType = TIMESTAMP;
+	};
+	188 = {
+		valueClassName = NSString;
+		externalType = "TIMESTAMP WITH TIME ZONE";
+	};
+	208 = {
+		valueClassName = NSString;
+		externalType = UROWID;
+	};
+	232 = {
+		valueClassName = NSString;
+		externalType = "TIMESTAMP WITH LOCAL TIME ZONE";
+	};
+	VARCHAR2 = {
+		ociDataType = 9;
+		useWidth = 1;
+	};
+	NVARCHAR2 = {
+		ociDataType = 9;
+		useWidth = 1;
+		nationalCharSet = 1;
+	};
+	NUMBER = {
+		ociDataType = 97;
+	};
+	LONG = {
+		ociDataType = 1;
+	};
+	DATE = {
+		ociDataType = 12;
+	};
+	RAW = {
+		ociDataType = 15;
+	};
+	"LONG RAW" = {
+		ociDataType = 24;
+	};
+	ROWID = {
+		ociDataType = 1;
+	};
+	CHAR = {
+		ociDataType = 9;
+		useWidth = 1;
+	};
+	NCHAR = {
+		ociDataType = 9;
+		useWidth = 1; 
+		nationalCharSet = 1;
+	};
+	FLOAT = {
+		ociDataType = 21;
+	};
+	"BINARY_FLOAT" = {
+		ociDataType = 21;
+	};
+	"BINARY_DOUBLE" = {
+		ociDataType = 22;
+	};
+	CLOB = {
+		ociDataType = 1;
+	};
+	NCLOB = {
+		ociDataType = 1;
+		nationalCharSet = 1;
+	};
+	BLOB = {
+		ociDataType = 24;
+	};
+	TIMESTAMP = {
+		ociDataType = 9;
+	};
+	"TIMESTAMP WITH TIME ZONE" = {
+		ociDataType = 9;
+	};
+	UROWID = {
+		ociDataType = 1;
+	};
+	"TIMESTAMP WITH LOCAL TIME ZONE" = {
+		ociDataType = 9;
+	};
+}

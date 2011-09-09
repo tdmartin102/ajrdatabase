@@ -1,0 +1,19 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {selectAdaptor = id; }; 
+            CLASS = DBWizardAdaptorPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {adaptorTable = NSTableView; connectionBox = NSBox; noneView = NSView; }; 
+            SUPERCLASS = DBWizardPane; 
+        }, 
+        {
+            CLASS = DBWizardPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {view = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,24 @@
+{
+    IBClasses = (
+        {
+            CLASS = Editor; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {view = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {selectAttribute = id; selectRelationship = id; }; 
+            CLASS = EditorEntity; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                entityAttributesTable = NSTableView; 
+                entityAttributesText = NSTextField; 
+                entityRelationshipsTable = NSTableView; 
+                entityRelationshipsText = NSTextField; 
+            }; 
+            SUPERCLASS = Editor; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

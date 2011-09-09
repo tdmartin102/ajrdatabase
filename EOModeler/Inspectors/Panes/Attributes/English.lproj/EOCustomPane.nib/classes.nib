@@ -1,0 +1,31 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                selectedInitArgument = id; 
+                setClass = id; 
+                setConversionMethod = id; 
+                setExternalWidth = id; 
+                setFactoryMethod = id; 
+            }; 
+            CLASS = DBCustomPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                classField = NSTextField; 
+                conversionMethodField = NSTextField; 
+                externalWidthField = NSTextField; 
+                factoryMethodField = NSTextField; 
+                initArgumentPopUp = NSPopUpButton; 
+            }; 
+            SUPERCLASS = DBInternalTypePane; 
+        }, 
+        {
+            CLASS = DBInternalTypePane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {view = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

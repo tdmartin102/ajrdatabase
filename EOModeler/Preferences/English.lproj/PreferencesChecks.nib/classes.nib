@@ -1,0 +1,17 @@
+{
+    IBClasses = (
+        {
+            CLASS = AJRPreferencesModule; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {view = NSView; }; 
+            SUPERCLASS = NSResponder; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = PreferencesChecks; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = AJRPreferencesModule; 
+        }
+    ); 
+    IBVersion = 1; 
+}

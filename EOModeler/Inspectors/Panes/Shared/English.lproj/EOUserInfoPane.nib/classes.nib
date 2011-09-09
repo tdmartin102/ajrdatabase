@@ -1,0 +1,24 @@
+{
+    IBClasses = (
+        {
+            CLASS = DBInspectorPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {view = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {add = id; remove = id; selectRow = id; }; 
+            CLASS = DBUserInfoPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                addButton = NSButton; 
+                keyValueTable = NSTableView; 
+                removeButton = NSButton; 
+                valueText = NSTextView; 
+            }; 
+            SUPERCLASS = DBInspectorPane; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

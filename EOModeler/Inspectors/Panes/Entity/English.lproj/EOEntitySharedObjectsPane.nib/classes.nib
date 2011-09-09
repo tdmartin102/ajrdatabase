@@ -1,0 +1,28 @@
+{
+    IBClasses = (
+        {CLASS = DBEntityAdvancedPane; LANGUAGE = ObjC; SUPERCLASS = DBInspectorPane; }, 
+        {CLASS = DBEntityPane; LANGUAGE = ObjC; SUPERCLASS = DBInspectorPane; }, 
+        {
+            ACTIONS = {selectFetchSpecification = id; selectSharedMethod = id; }; 
+            CLASS = DBEntitySharedObjectsPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {fetchTableView = NSTableView; shareMatrix = NSMatrix; }; 
+            SUPERCLASS = DBInspectorPane; 
+        }, 
+        {
+            ACTIONS = {selectFetchSpecification = id; selectSharedMethod = id; }; 
+            CLASS = DBEntityStoredProceduresPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {fetchTableView = NSTableView; shareMatrix = NSMatrix; }; 
+            SUPERCLASS = DBInspectorPane; 
+        }, 
+        {
+            CLASS = DBInspectorPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {view = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

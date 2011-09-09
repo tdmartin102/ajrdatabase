@@ -1,0 +1,33 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {newDocument = id; openDocument = id; }; 
+            CLASS = Controller; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                createSubclass = id; 
+                deleteSelection = id; 
+                flattenRelationship = id; 
+                generateObjCFiles = id; 
+                generateSQL = id; 
+                joinManyToMany = id; 
+                newAttribute = id; 
+                newEntity = id; 
+                newFetchSpecification = id; 
+                newRelationship = id; 
+                newStoredProcedure = id; 
+                redoEdit = id; 
+                runPreferencesPanel = id; 
+                showInspector = id; 
+                undoEdit = id; 
+            }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

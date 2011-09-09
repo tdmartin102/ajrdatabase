@@ -1,0 +1,50 @@
+{
+    IBClasses = (
+        {
+            CLASS = EOAttributeAdvancedPane; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = EOInspectorPane; 
+        }, 
+        {
+            ACTIONS = {
+                selectColumn = id; 
+                setColumn = id; 
+                setExternalType = id; 
+                setName = id; 
+                setReadFormat = id; 
+                setWriteFormat = id; 
+                toggleAllowsNull = id; 
+                toggleReadOnly = id; 
+            }; 
+            CLASS = EOAttributePane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                allowsNullCheck = NSButton; 
+                columnField = NSTextField; 
+                columnPopUp = NSPopUpButton; 
+                externalTypeField = NSComboBox; 
+                internalTypeInspector = EOInternalTypeInspector; 
+                nameField = NSTextField; 
+                readFormatField = NSTextField; 
+                readOnlyCheck = NSButton; 
+                writeFormatField = NSTextField; 
+            }; 
+            SUPERCLASS = EOInspectorPane; 
+        }, 
+        {
+            CLASS = EOInspectorPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {view = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {takeInspectorFrom = id; }; 
+            CLASS = EOInternalTypeInspector; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {attributePane = EOAttributePane; classPopUp = NSPopUpButton; }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

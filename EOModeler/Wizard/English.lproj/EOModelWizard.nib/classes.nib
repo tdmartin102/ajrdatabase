@@ -1,0 +1,22 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {cancel = id; finish = id; next = id; previous = id; }; 
+            CLASS = DBModelWizard; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                cancelButton = NSButton; 
+                finishButton = NSButton; 
+                nextButton = NSButton; 
+                previousButton = NSButton; 
+                stepMatrix = NSMatrix; 
+                view = NSView; 
+                window = NSWindow; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NoEventMatrix; LANGUAGE = ObjC; SUPERCLASS = NSMatrix; }
+    ); 
+    IBVersion = 1; 
+}

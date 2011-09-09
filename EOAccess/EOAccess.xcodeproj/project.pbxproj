@@ -1,0 +1,840 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		705F58B40777F71F009FE382 /* EODatabaseContextP.h in Headers */ = {isa = PBXBuildFile; fileRef = 705F58B20777F71F009FE382 /* EODatabaseContextP.h */; };
+		70AE10D607639E7B00CE4588 /* EOFault-EOAccess.h in Headers */ = {isa = PBXBuildFile; fileRef = 70AE10D407639E7B00CE4588 /* EOFault-EOAccess.h */; };
+		70AE10D707639E7B00CE4588 /* EOFault-EOAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AE10D507639E7B00CE4588 /* EOFault-EOAccess.m */; };
+		70C1B352089407880025CD9A /* EODatabaseP.h in Headers */ = {isa = PBXBuildFile; fileRef = 70C1B350089407880025CD9A /* EODatabaseP.h */; };
+		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
+		FA0DC14C082FA95800C22582 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA0DC14B082FA95800C22582 /* Foundation.framework */; };
+		FA2B2BD70A517AB50025E016 /* EODatabaseDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = FA2B2BD50A517AB50025E016 /* EODatabaseDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FA2B2BD80A517AB50025E016 /* EODatabaseDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2B2BD60A517AB50025E016 /* EODatabaseDataSource.m */; };
+		FA63DF7B07427CDD00AB5036 /* EOEditingContext-EOAccess.h in Headers */ = {isa = PBXBuildFile; fileRef = FA63DF7907427CDD00AB5036 /* EOEditingContext-EOAccess.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FA63DF7C07427CDD00AB5036 /* EOEditingContext-EOAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DF7A07427CDD00AB5036 /* EOEditingContext-EOAccess.m */; };
+		FAC110290740041900744E1E /* EOAttribute.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC1100B0740041900744E1E /* EOAttribute.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC1102A0740041900744E1E /* EOAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC1100C0740041900744E1E /* EOAttribute.m */; };
+		FAC1102B0740041900744E1E /* EOAttributeP.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC1100D0740041900744E1E /* EOAttributeP.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC1102C0740041900744E1E /* EOEntity-ObjCCode.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC1100E0740041900744E1E /* EOEntity-ObjCCode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC1102D0740041900744E1E /* EOEntity-ObjCCode.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC1100F0740041900744E1E /* EOEntity-ObjCCode.m */; };
+		FAC1102E0740041900744E1E /* EOEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC110100740041900744E1E /* EOEntity.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC1102F0740041900744E1E /* EOEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC110110740041900744E1E /* EOEntity.m */; };
+		FAC110300740041900744E1E /* EOEntityP.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC110120740041900744E1E /* EOEntityP.h */; };
+		FAC110310740041900744E1E /* EOFetchSpecification-Model.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC110130740041900744E1E /* EOFetchSpecification-Model.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC110320740041900744E1E /* EOFetchSpecification-Model.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC110140740041900744E1E /* EOFetchSpecification-Model.m */; };
+		FAC110330740041900744E1E /* EOFetchSpecification-ModelPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC110150740041900744E1E /* EOFetchSpecification-ModelPrivate.h */; };
+		FAC110340740041900744E1E /* EOJoin.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC110160740041900744E1E /* EOJoin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC110350740041900744E1E /* EOJoin.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC110170740041900744E1E /* EOJoin.m */; };
+		FAC110360740041900744E1E /* EOJoinP.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC110180740041900744E1E /* EOJoinP.h */; settings = {ATTRIBUTES = (); }; };
+		FAC110370740041900744E1E /* EOModel.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC110190740041900744E1E /* EOModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC110380740041900744E1E /* EOModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC1101A0740041900744E1E /* EOModel.m */; };
+		FAC110390740041900744E1E /* EOModelGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC1101B0740041900744E1E /* EOModelGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC1103A0740041900744E1E /* EOModelGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC1101C0740041900744E1E /* EOModelGroup.m */; };
+		FAC1103B0740041900744E1E /* EOModelGroupP.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC1101D0740041900744E1E /* EOModelGroupP.h */; };
+		FAC1103C0740041900744E1E /* EOModelP.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC1101E0740041900744E1E /* EOModelP.h */; };
+		FAC1103D0740041900744E1E /* EOPropertyListEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC1101F0740041900744E1E /* EOPropertyListEncoding.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC1103E0740041900744E1E /* EOQualifier-Model.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC110200740041900744E1E /* EOQualifier-Model.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC1103F0740041900744E1E /* EOQualifier-Model.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC110210740041900744E1E /* EOQualifier-Model.m */; };
+		FAC110400740041900744E1E /* EORelationship.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC110220740041900744E1E /* EORelationship.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC110410740041900744E1E /* EORelationship.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC110230740041900744E1E /* EORelationship.m */; };
+		FAC110420740041900744E1E /* EORelationshipP.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC110240740041900744E1E /* EORelationshipP.h */; };
+		FAC110430740041900744E1E /* EOSortOrdering-Model.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC110250740041900744E1E /* EOSortOrdering-Model.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC110440740041900744E1E /* EOSortOrdering-Model.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC110260740041900744E1E /* EOSortOrdering-Model.m */; };
+		FAC110450740041900744E1E /* EOStoredProcedure.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC110270740041900744E1E /* EOStoredProcedure.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC110460740041900744E1E /* EOStoredProcedure.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC110280740041900744E1E /* EOStoredProcedure.m */; };
+		FAC1105C074004CC00744E1E /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAC1105A074004CC00744E1E /* EOControl.framework */; };
+		FAC110740740052E00744E1E /* EODatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC1106B0740052E00744E1E /* EODatabase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC110750740052E00744E1E /* EODatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC1106C0740052E00744E1E /* EODatabase.m */; };
+		FAC110760740052E00744E1E /* EODatabaseChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC1106D0740052E00744E1E /* EODatabaseChannel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC110770740052E00744E1E /* EODatabaseChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC1106E0740052E00744E1E /* EODatabaseChannel.m */; };
+		FAC110780740052E00744E1E /* EODatabaseChannelP.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC1106F0740052E00744E1E /* EODatabaseChannelP.h */; settings = {ATTRIBUTES = (); }; };
+		FAC110790740052E00744E1E /* EODatabaseContext.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC110700740052E00744E1E /* EODatabaseContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC1107A0740052E00744E1E /* EODatabaseContext.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC110710740052E00744E1E /* EODatabaseContext.m */; };
+		FAC1107B0740052E00744E1E /* EODatabaseOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC110720740052E00744E1E /* EODatabaseOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC1107C0740052E00744E1E /* EODatabaseOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC110730740052E00744E1E /* EODatabaseOperation.m */; };
+		FAC110B2074005B500744E1E /* EOSQLExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC110A0074005B500744E1E /* EOSQLExpression.m */; };
+		FAC110B3074005B500744E1E /* EOSQLQualifier.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC110A1074005B500744E1E /* EOSQLQualifier.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC110B4074005B500744E1E /* EOSQLQualifier.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC110A2074005B500744E1E /* EOSQLQualifier.m */; };
+		FAC110DF0740065200744E1E /* EOAndQualifier-EOAccess.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC110D30740065200744E1E /* EOAndQualifier-EOAccess.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC110E00740065200744E1E /* EOAndQualifier-EOAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC110D40740065200744E1E /* EOAndQualifier-EOAccess.m */; };
+		FAC110E10740065200744E1E /* EOJoinQualifier.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC110D50740065200744E1E /* EOJoinQualifier.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC110E20740065200744E1E /* EOJoinQualifier.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC110D60740065200744E1E /* EOJoinQualifier.m */; };
+		FAC110E30740065200744E1E /* EOKeyValueQualifier-EOAccess.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC110D70740065200744E1E /* EOKeyValueQualifier-EOAccess.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC110E40740065200744E1E /* EOKeyValueQualifier-EOAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC110D80740065200744E1E /* EOKeyValueQualifier-EOAccess.m */; };
+		FAC110E50740065200744E1E /* EONotQualifier-EOAccess.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC110D90740065200744E1E /* EONotQualifier-EOAccess.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC110E60740065200744E1E /* EONotQualifier-EOAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC110DA0740065200744E1E /* EONotQualifier-EOAccess.m */; };
+		FAC110E70740065200744E1E /* EOOrQualifier-EOAccess.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC110DB0740065200744E1E /* EOOrQualifier-EOAccess.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC110E80740065200744E1E /* EOOrQualifier-EOAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC110DC0740065200744E1E /* EOOrQualifier-EOAccess.m */; };
+		FAC110E90740065200744E1E /* EOQualifier-EOAccess.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC110DD0740065200744E1E /* EOQualifier-EOAccess.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC110EA0740065200744E1E /* EOQualifier-EOAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC110DE0740065200744E1E /* EOQualifier-EOAccess.m */; };
+		FAC111210740079D00744E1E /* EOSQLArrayFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC111130740079D00744E1E /* EOSQLArrayFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC111220740079D00744E1E /* EOSQLArrayFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC111140740079D00744E1E /* EOSQLArrayFormatter.m */; };
+		FAC111230740079D00744E1E /* EOSQLDateFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC111150740079D00744E1E /* EOSQLDateFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC111240740079D00744E1E /* EOSQLDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC111160740079D00744E1E /* EOSQLDateFormatter.m */; };
+		FAC111250740079D00744E1E /* EOSQLFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC111170740079D00744E1E /* EOSQLFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC111260740079D00744E1E /* EOSQLFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC111180740079D00744E1E /* EOSQLFormatter.m */; };
+		FAC111270740079D00744E1E /* EOSQLNullFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC111190740079D00744E1E /* EOSQLNullFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC111280740079D00744E1E /* EOSQLNullFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC1111A0740079D00744E1E /* EOSQLNullFormatter.m */; };
+		FAC111290740079D00744E1E /* EOSQLNumberFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC1111B0740079D00744E1E /* EOSQLNumberFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC1112A0740079D00744E1E /* EOSQLNumberFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC1111C0740079D00744E1E /* EOSQLNumberFormatter.m */; };
+		FAC1112B0740079D00744E1E /* EOSQLObjectFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC1111D0740079D00744E1E /* EOSQLObjectFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC1112C0740079D00744E1E /* EOSQLObjectFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC1111E0740079D00744E1E /* EOSQLObjectFormatter.m */; };
+		FAC1112D0740079D00744E1E /* EOSQLStringFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC1111F0740079D00744E1E /* EOSQLStringFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC1112E0740079D00744E1E /* EOSQLStringFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC111200740079D00744E1E /* EOSQLStringFormatter.m */; };
+		FAC111A7074008D400744E1E /* NSString-EOAccess.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC111A5074008D400744E1E /* NSString-EOAccess.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC111A8074008D400744E1E /* NSString-EOAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC111A6074008D400744E1E /* NSString-EOAccess.m */; };
+		FAC111B80740090C00744E1E /* EODebug.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC111B60740090C00744E1E /* EODebug.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC111B90740090C00744E1E /* EODebug.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC111B70740090C00744E1E /* EODebug.m */; };
+		FAC111EB07400A2000744E1E /* EOEntityClassDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC111E907400A2000744E1E /* EOEntityClassDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC111EC07400A2000744E1E /* EOEntityClassDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC111EA07400A2000744E1E /* EOEntityClassDescription.m */; };
+		FAC1129F0740107600744E1E /* _EOSnapshotMutableDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC1129D0740107600744E1E /* _EOSnapshotMutableDictionary.h */; };
+		FAC112A00740107600744E1E /* _EOSnapshotMutableDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC1129E0740107600744E1E /* _EOSnapshotMutableDictionary.m */; };
+		FAC11355074015B500744E1E /* EOMutableArray.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC11353074015B500744E1E /* EOMutableArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC11356074015B500744E1E /* EOMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC11354074015B500744E1E /* EOMutableArray.m */; };
+		FAC113710740161300744E1E /* EOArrayFaultHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC1136D0740161300744E1E /* EOArrayFaultHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC113720740161300744E1E /* EOArrayFaultHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC1136E0740161300744E1E /* EOArrayFaultHandler.m */; };
+		FAC113730740161300744E1E /* EOObjectFaultHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC1136F0740161300744E1E /* EOObjectFaultHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC113740740161300744E1E /* EOObjectFaultHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC113700740161300744E1E /* EOObjectFaultHandler.m */; };
+		FAC113E70740199E00744E1E /* EOAdaptor.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC113DD0740199E00744E1E /* EOAdaptor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC113E80740199E00744E1E /* EOAdaptor.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC113DE0740199E00744E1E /* EOAdaptor.m */; };
+		FAC113E90740199E00744E1E /* EOAdaptorChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC113DF0740199E00744E1E /* EOAdaptorChannel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC113EA0740199E00744E1E /* EOAdaptorChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC113E00740199E00744E1E /* EOAdaptorChannel.m */; };
+		FAC113EB0740199E00744E1E /* EOAdaptorContext.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC113E10740199E00744E1E /* EOAdaptorContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC113EC0740199E00744E1E /* EOAdaptorContext.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC113E20740199E00744E1E /* EOAdaptorContext.m */; };
+		FAC113ED0740199E00744E1E /* EOAdaptorContextP.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC113E30740199E00744E1E /* EOAdaptorContextP.h */; };
+		FAC113EE0740199E00744E1E /* EOAdaptorOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC113E40740199E00744E1E /* EOAdaptorOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC113EF0740199E00744E1E /* EOAdaptorOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC113E50740199E00744E1E /* EOAdaptorOperation.m */; };
+		FAC113F00740199E00744E1E /* EOAdaptorOperationP.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC113E60740199E00744E1E /* EOAdaptorOperationP.h */; };
+		FAC113F6074019C500744E1E /* EOSQLExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC113F5074019C500744E1E /* EOSQLExpression.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC1143207401B4F00744E1E /* NSObject-EOAccess.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC1143007401B4F00744E1E /* NSObject-EOAccess.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC1143307401B4F00744E1E /* NSObject-EOAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC1143107401B4F00744E1E /* NSObject-EOAccess.m */; };
+		FAC114A207401E3E00744E1E /* EOLoginPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC114A007401E3E00744E1E /* EOLoginPanel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC114A307401E3E00744E1E /* EOLoginPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC114A107401E3E00744E1E /* EOLoginPanel.m */; };
+		FAC114BF07401E8800744E1E /* EOSchemaGeneration.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC114BD07401E8800744E1E /* EOSchemaGeneration.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC114C007401E8800744E1E /* EOSchemaGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC114BE07401E8800744E1E /* EOSchemaGeneration.m */; };
+		FAC1179B07402C2B00744E1E /* EOAccess.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC1179A07402C2B00744E1E /* EOAccess.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC1FF730740366C008F0F44 /* EOConnectionPane.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC1FF710740366C008F0F44 /* EOConnectionPane.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAC1FF740740366C008F0F44 /* EOConnectionPane.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC1FF720740366C008F0F44 /* EOConnectionPane.m */; };
+		FAFAEA9B07480E0200245D92 /* EOGenericRecord-EOAccess.h in Headers */ = {isa = PBXBuildFile; fileRef = FAFAEA9907480E0200245D92 /* EOGenericRecord-EOAccess.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAFAEA9C07480E0200245D92 /* EOGenericRecord-EOAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = FAFAEA9A07480E0200245D92 /* EOGenericRecord-EOAccess.m */; };
+		FAFAEB74074815A700245D92 /* EOObjectStoreCoordinator-EOAccess.h in Headers */ = {isa = PBXBuildFile; fileRef = FAFAEB72074815A700245D92 /* EOObjectStoreCoordinator-EOAccess.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAFAEB75074815A700245D92 /* EOObjectStoreCoordinator-EOAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = FAFAEB73074815A700245D92 /* EOObjectStoreCoordinator-EOAccess.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		1E173DB00FB491570086100E /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.gcc;
+			fileType = sourcecode.c;
+			isEditable = 1;
+			outputFiles = (
+			);
+		};
+/* End PBXBuildRule section */
+
+/* Begin PBXFileReference section */
+		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		32DBCF5E0370ADEE00C91783 /* EOAccess_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EOAccess_Prefix.pch; sourceTree = "<group>"; };
+		705F58B20777F71F009FE382 /* EODatabaseContextP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EODatabaseContextP.h; sourceTree = "<group>"; };
+		70AE10D407639E7B00CE4588 /* EOFault-EOAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EOFault-EOAccess.h"; sourceTree = "<group>"; };
+		70AE10D507639E7B00CE4588 /* EOFault-EOAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EOFault-EOAccess.m"; sourceTree = "<group>"; };
+		70C1B350089407880025CD9A /* EODatabaseP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EODatabaseP.h; sourceTree = "<group>"; };
+		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8DC2EF5B0486A6940098B216 /* EOAccess.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EOAccess.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA0DC14B082FA95800C22582 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		FA2B2BD50A517AB50025E016 /* EODatabaseDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EODatabaseDataSource.h; sourceTree = "<group>"; };
+		FA2B2BD60A517AB50025E016 /* EODatabaseDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EODatabaseDataSource.m; sourceTree = "<group>"; };
+		FA63DF7907427CDD00AB5036 /* EOEditingContext-EOAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EOEditingContext-EOAccess.h"; sourceTree = "<group>"; };
+		FA63DF7A07427CDD00AB5036 /* EOEditingContext-EOAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EOEditingContext-EOAccess.m"; sourceTree = "<group>"; };
+		FAC1100B0740041900744E1E /* EOAttribute.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOAttribute.h; sourceTree = "<group>"; };
+		FAC1100C0740041900744E1E /* EOAttribute.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = EOAttribute.m; path = /Volumes/walnut/Local/tmp/EOAttribute.m; sourceTree = "<absolute>"; };
+		FAC1100D0740041900744E1E /* EOAttributeP.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOAttributeP.h; sourceTree = "<group>"; };
+		FAC1100E0740041900744E1E /* EOEntity-ObjCCode.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "EOEntity-ObjCCode.h"; sourceTree = "<group>"; };
+		FAC1100F0740041900744E1E /* EOEntity-ObjCCode.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "EOEntity-ObjCCode.m"; sourceTree = "<group>"; };
+		FAC110100740041900744E1E /* EOEntity.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOEntity.h; sourceTree = "<group>"; };
+		FAC110110740041900744E1E /* EOEntity.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOEntity.m; sourceTree = "<group>"; };
+		FAC110120740041900744E1E /* EOEntityP.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOEntityP.h; sourceTree = "<group>"; };
+		FAC110130740041900744E1E /* EOFetchSpecification-Model.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "EOFetchSpecification-Model.h"; sourceTree = "<group>"; };
+		FAC110140740041900744E1E /* EOFetchSpecification-Model.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "EOFetchSpecification-Model.m"; sourceTree = "<group>"; };
+		FAC110150740041900744E1E /* EOFetchSpecification-ModelPrivate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "EOFetchSpecification-ModelPrivate.h"; sourceTree = "<group>"; };
+		FAC110160740041900744E1E /* EOJoin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOJoin.h; sourceTree = "<group>"; };
+		FAC110170740041900744E1E /* EOJoin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOJoin.m; sourceTree = "<group>"; };
+		FAC110180740041900744E1E /* EOJoinP.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOJoinP.h; sourceTree = "<group>"; };
+		FAC110190740041900744E1E /* EOModel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOModel.h; sourceTree = "<group>"; };
+		FAC1101A0740041900744E1E /* EOModel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOModel.m; sourceTree = "<group>"; };
+		FAC1101B0740041900744E1E /* EOModelGroup.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOModelGroup.h; sourceTree = "<group>"; };
+		FAC1101C0740041900744E1E /* EOModelGroup.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOModelGroup.m; sourceTree = "<group>"; };
+		FAC1101D0740041900744E1E /* EOModelGroupP.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOModelGroupP.h; sourceTree = "<group>"; };
+		FAC1101E0740041900744E1E /* EOModelP.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOModelP.h; sourceTree = "<group>"; };
+		FAC1101F0740041900744E1E /* EOPropertyListEncoding.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOPropertyListEncoding.h; sourceTree = "<group>"; };
+		FAC110200740041900744E1E /* EOQualifier-Model.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "EOQualifier-Model.h"; sourceTree = "<group>"; };
+		FAC110210740041900744E1E /* EOQualifier-Model.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "EOQualifier-Model.m"; sourceTree = "<group>"; };
+		FAC110220740041900744E1E /* EORelationship.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EORelationship.h; sourceTree = "<group>"; };
+		FAC110230740041900744E1E /* EORelationship.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EORelationship.m; sourceTree = "<group>"; };
+		FAC110240740041900744E1E /* EORelationshipP.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EORelationshipP.h; sourceTree = "<group>"; };
+		FAC110250740041900744E1E /* EOSortOrdering-Model.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "EOSortOrdering-Model.h"; sourceTree = "<group>"; };
+		FAC110260740041900744E1E /* EOSortOrdering-Model.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "EOSortOrdering-Model.m"; sourceTree = "<group>"; };
+		FAC110270740041900744E1E /* EOStoredProcedure.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOStoredProcedure.h; sourceTree = "<group>"; };
+		FAC110280740041900744E1E /* EOStoredProcedure.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOStoredProcedure.m; sourceTree = "<group>"; };
+		FAC1105A074004CC00744E1E /* EOControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOControl.framework; path = /Library/Frameworks/EOControl.framework; sourceTree = "<absolute>"; };
+		FAC1106B0740052E00744E1E /* EODatabase.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EODatabase.h; sourceTree = "<group>"; };
+		FAC1106C0740052E00744E1E /* EODatabase.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EODatabase.m; sourceTree = "<group>"; };
+		FAC1106D0740052E00744E1E /* EODatabaseChannel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EODatabaseChannel.h; sourceTree = "<group>"; };
+		FAC1106E0740052E00744E1E /* EODatabaseChannel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EODatabaseChannel.m; sourceTree = "<group>"; };
+		FAC1106F0740052E00744E1E /* EODatabaseChannelP.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EODatabaseChannelP.h; sourceTree = "<group>"; };
+		FAC110700740052E00744E1E /* EODatabaseContext.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EODatabaseContext.h; sourceTree = "<group>"; };
+		FAC110710740052E00744E1E /* EODatabaseContext.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EODatabaseContext.m; sourceTree = "<group>"; };
+		FAC110720740052E00744E1E /* EODatabaseOperation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EODatabaseOperation.h; sourceTree = "<group>"; };
+		FAC110730740052E00744E1E /* EODatabaseOperation.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EODatabaseOperation.m; sourceTree = "<group>"; };
+		FAC110A0074005B500744E1E /* EOSQLExpression.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOSQLExpression.m; sourceTree = "<group>"; };
+		FAC110A1074005B500744E1E /* EOSQLQualifier.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOSQLQualifier.h; sourceTree = "<group>"; };
+		FAC110A2074005B500744E1E /* EOSQLQualifier.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOSQLQualifier.m; sourceTree = "<group>"; };
+		FAC110D30740065200744E1E /* EOAndQualifier-EOAccess.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "EOAndQualifier-EOAccess.h"; sourceTree = "<group>"; };
+		FAC110D40740065200744E1E /* EOAndQualifier-EOAccess.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "EOAndQualifier-EOAccess.m"; sourceTree = "<group>"; };
+		FAC110D50740065200744E1E /* EOJoinQualifier.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOJoinQualifier.h; sourceTree = "<group>"; };
+		FAC110D60740065200744E1E /* EOJoinQualifier.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOJoinQualifier.m; sourceTree = "<group>"; };
+		FAC110D70740065200744E1E /* EOKeyValueQualifier-EOAccess.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "EOKeyValueQualifier-EOAccess.h"; sourceTree = "<group>"; };
+		FAC110D80740065200744E1E /* EOKeyValueQualifier-EOAccess.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "EOKeyValueQualifier-EOAccess.m"; sourceTree = "<group>"; };
+		FAC110D90740065200744E1E /* EONotQualifier-EOAccess.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "EONotQualifier-EOAccess.h"; sourceTree = "<group>"; };
+		FAC110DA0740065200744E1E /* EONotQualifier-EOAccess.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "EONotQualifier-EOAccess.m"; sourceTree = "<group>"; };
+		FAC110DB0740065200744E1E /* EOOrQualifier-EOAccess.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "EOOrQualifier-EOAccess.h"; sourceTree = "<group>"; };
+		FAC110DC0740065200744E1E /* EOOrQualifier-EOAccess.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "EOOrQualifier-EOAccess.m"; sourceTree = "<group>"; };
+		FAC110DD0740065200744E1E /* EOQualifier-EOAccess.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "EOQualifier-EOAccess.h"; sourceTree = "<group>"; };
+		FAC110DE0740065200744E1E /* EOQualifier-EOAccess.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "EOQualifier-EOAccess.m"; sourceTree = "<group>"; };
+		FAC111130740079D00744E1E /* EOSQLArrayFormatter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOSQLArrayFormatter.h; sourceTree = "<group>"; };
+		FAC111140740079D00744E1E /* EOSQLArrayFormatter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOSQLArrayFormatter.m; sourceTree = "<group>"; };
+		FAC111150740079D00744E1E /* EOSQLDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOSQLDateFormatter.h; sourceTree = "<group>"; };
+		FAC111160740079D00744E1E /* EOSQLDateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOSQLDateFormatter.m; sourceTree = "<group>"; };
+		FAC111170740079D00744E1E /* EOSQLFormatter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOSQLFormatter.h; sourceTree = "<group>"; };
+		FAC111180740079D00744E1E /* EOSQLFormatter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOSQLFormatter.m; sourceTree = "<group>"; };
+		FAC111190740079D00744E1E /* EOSQLNullFormatter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOSQLNullFormatter.h; sourceTree = "<group>"; };
+		FAC1111A0740079D00744E1E /* EOSQLNullFormatter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOSQLNullFormatter.m; sourceTree = "<group>"; };
+		FAC1111B0740079D00744E1E /* EOSQLNumberFormatter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOSQLNumberFormatter.h; sourceTree = "<group>"; };
+		FAC1111C0740079D00744E1E /* EOSQLNumberFormatter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOSQLNumberFormatter.m; sourceTree = "<group>"; };
+		FAC1111D0740079D00744E1E /* EOSQLObjectFormatter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOSQLObjectFormatter.h; sourceTree = "<group>"; };
+		FAC1111E0740079D00744E1E /* EOSQLObjectFormatter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOSQLObjectFormatter.m; sourceTree = "<group>"; };
+		FAC1111F0740079D00744E1E /* EOSQLStringFormatter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOSQLStringFormatter.h; sourceTree = "<group>"; };
+		FAC111200740079D00744E1E /* EOSQLStringFormatter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOSQLStringFormatter.m; sourceTree = "<group>"; };
+		FAC111A5074008D400744E1E /* NSString-EOAccess.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NSString-EOAccess.h"; sourceTree = "<group>"; };
+		FAC111A6074008D400744E1E /* NSString-EOAccess.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "NSString-EOAccess.m"; sourceTree = "<group>"; };
+		FAC111B60740090C00744E1E /* EODebug.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EODebug.h; sourceTree = "<group>"; };
+		FAC111B70740090C00744E1E /* EODebug.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EODebug.m; sourceTree = "<group>"; };
+		FAC111E907400A2000744E1E /* EOEntityClassDescription.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOEntityClassDescription.h; sourceTree = "<group>"; };
+		FAC111EA07400A2000744E1E /* EOEntityClassDescription.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOEntityClassDescription.m; sourceTree = "<group>"; };
+		FAC1129D0740107600744E1E /* _EOSnapshotMutableDictionary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = _EOSnapshotMutableDictionary.h; sourceTree = "<group>"; };
+		FAC1129E0740107600744E1E /* _EOSnapshotMutableDictionary.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = _EOSnapshotMutableDictionary.m; sourceTree = "<group>"; };
+		FAC11353074015B500744E1E /* EOMutableArray.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOMutableArray.h; sourceTree = "<group>"; };
+		FAC11354074015B500744E1E /* EOMutableArray.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOMutableArray.m; sourceTree = "<group>"; };
+		FAC1136D0740161300744E1E /* EOArrayFaultHandler.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOArrayFaultHandler.h; sourceTree = "<group>"; };
+		FAC1136E0740161300744E1E /* EOArrayFaultHandler.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOArrayFaultHandler.m; sourceTree = "<group>"; };
+		FAC1136F0740161300744E1E /* EOObjectFaultHandler.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOObjectFaultHandler.h; sourceTree = "<group>"; };
+		FAC113700740161300744E1E /* EOObjectFaultHandler.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOObjectFaultHandler.m; sourceTree = "<group>"; };
+		FAC113DD0740199E00744E1E /* EOAdaptor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOAdaptor.h; sourceTree = "<group>"; };
+		FAC113DE0740199E00744E1E /* EOAdaptor.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOAdaptor.m; sourceTree = "<group>"; };
+		FAC113DF0740199E00744E1E /* EOAdaptorChannel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOAdaptorChannel.h; sourceTree = "<group>"; };
+		FAC113E00740199E00744E1E /* EOAdaptorChannel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOAdaptorChannel.m; sourceTree = "<group>"; };
+		FAC113E10740199E00744E1E /* EOAdaptorContext.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOAdaptorContext.h; sourceTree = "<group>"; };
+		FAC113E20740199E00744E1E /* EOAdaptorContext.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOAdaptorContext.m; sourceTree = "<group>"; };
+		FAC113E30740199E00744E1E /* EOAdaptorContextP.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOAdaptorContextP.h; sourceTree = "<group>"; };
+		FAC113E40740199E00744E1E /* EOAdaptorOperation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOAdaptorOperation.h; sourceTree = "<group>"; };
+		FAC113E50740199E00744E1E /* EOAdaptorOperation.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOAdaptorOperation.m; sourceTree = "<group>"; };
+		FAC113E60740199E00744E1E /* EOAdaptorOperationP.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOAdaptorOperationP.h; sourceTree = "<group>"; };
+		FAC113F5074019C500744E1E /* EOSQLExpression.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOSQLExpression.h; sourceTree = "<group>"; };
+		FAC1143007401B4F00744E1E /* NSObject-EOAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject-EOAccess.h"; sourceTree = "<group>"; };
+		FAC1143107401B4F00744E1E /* NSObject-EOAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject-EOAccess.m"; sourceTree = "<group>"; };
+		FAC114A007401E3E00744E1E /* EOLoginPanel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOLoginPanel.h; sourceTree = "<group>"; };
+		FAC114A107401E3E00744E1E /* EOLoginPanel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOLoginPanel.m; sourceTree = "<group>"; };
+		FAC114BD07401E8800744E1E /* EOSchemaGeneration.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOSchemaGeneration.h; sourceTree = "<group>"; };
+		FAC114BE07401E8800744E1E /* EOSchemaGeneration.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOSchemaGeneration.m; sourceTree = "<group>"; };
+		FAC1179A07402C2B00744E1E /* EOAccess.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOAccess.h; sourceTree = "<group>"; };
+		FAC1FF710740366C008F0F44 /* EOConnectionPane.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOConnectionPane.h; sourceTree = "<group>"; };
+		FAC1FF720740366C008F0F44 /* EOConnectionPane.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOConnectionPane.m; sourceTree = "<group>"; };
+		FAFAEA9907480E0200245D92 /* EOGenericRecord-EOAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EOGenericRecord-EOAccess.h"; sourceTree = "<group>"; };
+		FAFAEA9A07480E0200245D92 /* EOGenericRecord-EOAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EOGenericRecord-EOAccess.m"; sourceTree = "<group>"; };
+		FAFAEB72074815A700245D92 /* EOObjectStoreCoordinator-EOAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EOObjectStoreCoordinator-EOAccess.h"; sourceTree = "<group>"; };
+		FAFAEB73074815A700245D92 /* EOObjectStoreCoordinator-EOAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EOObjectStoreCoordinator-EOAccess.m"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DC2EF560486A6940098B216 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAC1105C074004CC00744E1E /* EOControl.framework in Frameworks */,
+				FA0DC14C082FA95800C22582 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		034768DFFF38A50411DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8DC2EF5B0486A6940098B216 /* EOAccess.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* EOAccess */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AEFE84172EC02AAC07 /* Classes */,
+				32C88DFF0371C24200C91783 /* Other Sources */,
+				089C1665FE841158C02AAC07 /* Resources */,
+				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				034768DFFF38A50411DB9C8B /* Products */,
+			);
+			name = EOAccess;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				FAC1105A074004CC00744E1E /* EOControl.framework */,
+				FA0DC14B082FA95800C22582 /* Foundation.framework */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C1665FE841158C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8DC2EF5A0486A6940098B216 /* Info.plist */,
+				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AEFE84172EC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				FAC1179A07402C2B00744E1E /* EOAccess.h */,
+				FA63DF6F07427CA400AB5036 /* Additions */,
+				FAC10FE00740038700744E1E /* Adaptor */,
+				FAC11060074004F800744E1E /* Database */,
+				FAC1FF5D074035F7008F0F44 /* Interface */,
+				FAC1135B074015D200744E1E /* Faults */,
+				FAC1108A0740055300744E1E /* Formatters */,
+				FAC10FFD074003EC00744E1E /* Model */,
+				FAC110870740054F00744E1E /* Qualifiers */,
+				FAC1119E074008A200744E1E /* Support */,
+				FAC111B60740090C00744E1E /* EODebug.h */,
+				FAC111B70740090C00744E1E /* EODebug.m */,
+				FAC113F5074019C500744E1E /* EOSQLExpression.h */,
+				FAC110A0074005B500744E1E /* EOSQLExpression.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		32C88DFF0371C24200C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF5E0370ADEE00C91783 /* EOAccess_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		FA63DF6F07427CA400AB5036 /* Additions */ = {
+			isa = PBXGroup;
+			children = (
+				FAFAEA9907480E0200245D92 /* EOGenericRecord-EOAccess.h */,
+				FAFAEA9A07480E0200245D92 /* EOGenericRecord-EOAccess.m */,
+				FA63DF7907427CDD00AB5036 /* EOEditingContext-EOAccess.h */,
+				FA63DF7A07427CDD00AB5036 /* EOEditingContext-EOAccess.m */,
+				FAFAEB72074815A700245D92 /* EOObjectStoreCoordinator-EOAccess.h */,
+				FAFAEB73074815A700245D92 /* EOObjectStoreCoordinator-EOAccess.m */,
+				FAC1143007401B4F00744E1E /* NSObject-EOAccess.h */,
+				FAC1143107401B4F00744E1E /* NSObject-EOAccess.m */,
+				FAC111A5074008D400744E1E /* NSString-EOAccess.h */,
+				FAC111A6074008D400744E1E /* NSString-EOAccess.m */,
+			);
+			path = Additions;
+			sourceTree = "<group>";
+		};
+		FAC10FE00740038700744E1E /* Adaptor */ = {
+			isa = PBXGroup;
+			children = (
+				FAC113DD0740199E00744E1E /* EOAdaptor.h */,
+				FAC113DE0740199E00744E1E /* EOAdaptor.m */,
+				FAC113DF0740199E00744E1E /* EOAdaptorChannel.h */,
+				FAC113E00740199E00744E1E /* EOAdaptorChannel.m */,
+				FAC113E10740199E00744E1E /* EOAdaptorContext.h */,
+				FAC113E20740199E00744E1E /* EOAdaptorContext.m */,
+				FAC113E30740199E00744E1E /* EOAdaptorContextP.h */,
+				FAC113E40740199E00744E1E /* EOAdaptorOperation.h */,
+				FAC113E50740199E00744E1E /* EOAdaptorOperation.m */,
+				FAC113E60740199E00744E1E /* EOAdaptorOperationP.h */,
+				FAC114BD07401E8800744E1E /* EOSchemaGeneration.h */,
+				FAC114BE07401E8800744E1E /* EOSchemaGeneration.m */,
+			);
+			path = Adaptor;
+			sourceTree = "<group>";
+		};
+		FAC10FFD074003EC00744E1E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				FAC1100B0740041900744E1E /* EOAttribute.h */,
+				FAC1100C0740041900744E1E /* EOAttribute.m */,
+				FAC1100D0740041900744E1E /* EOAttributeP.h */,
+				FAC1100E0740041900744E1E /* EOEntity-ObjCCode.h */,
+				FAC1100F0740041900744E1E /* EOEntity-ObjCCode.m */,
+				FAC110100740041900744E1E /* EOEntity.h */,
+				FAC110110740041900744E1E /* EOEntity.m */,
+				FAC110120740041900744E1E /* EOEntityP.h */,
+				FAC111E907400A2000744E1E /* EOEntityClassDescription.h */,
+				FAC111EA07400A2000744E1E /* EOEntityClassDescription.m */,
+				FAC110130740041900744E1E /* EOFetchSpecification-Model.h */,
+				FAC110140740041900744E1E /* EOFetchSpecification-Model.m */,
+				FAC110150740041900744E1E /* EOFetchSpecification-ModelPrivate.h */,
+				FAC110160740041900744E1E /* EOJoin.h */,
+				FAC110170740041900744E1E /* EOJoin.m */,
+				FAC110180740041900744E1E /* EOJoinP.h */,
+				FAC110190740041900744E1E /* EOModel.h */,
+				FAC1101A0740041900744E1E /* EOModel.m */,
+				FAC1101B0740041900744E1E /* EOModelGroup.h */,
+				FAC1101C0740041900744E1E /* EOModelGroup.m */,
+				FAC1101D0740041900744E1E /* EOModelGroupP.h */,
+				FAC1101E0740041900744E1E /* EOModelP.h */,
+				FAC1101F0740041900744E1E /* EOPropertyListEncoding.h */,
+				FAC110200740041900744E1E /* EOQualifier-Model.h */,
+				FAC110210740041900744E1E /* EOQualifier-Model.m */,
+				FAC110220740041900744E1E /* EORelationship.h */,
+				FAC110230740041900744E1E /* EORelationship.m */,
+				FAC110240740041900744E1E /* EORelationshipP.h */,
+				FAC110250740041900744E1E /* EOSortOrdering-Model.h */,
+				FAC110260740041900744E1E /* EOSortOrdering-Model.m */,
+				FAC110270740041900744E1E /* EOStoredProcedure.h */,
+				FAC110280740041900744E1E /* EOStoredProcedure.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		FAC11060074004F800744E1E /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				FAC1106B0740052E00744E1E /* EODatabase.h */,
+				70C1B350089407880025CD9A /* EODatabaseP.h */,
+				FAC1106C0740052E00744E1E /* EODatabase.m */,
+				FAC1106D0740052E00744E1E /* EODatabaseChannel.h */,
+				FAC1106E0740052E00744E1E /* EODatabaseChannel.m */,
+				FAC1106F0740052E00744E1E /* EODatabaseChannelP.h */,
+				FAC110700740052E00744E1E /* EODatabaseContext.h */,
+				705F58B20777F71F009FE382 /* EODatabaseContextP.h */,
+				FAC110710740052E00744E1E /* EODatabaseContext.m */,
+				FA2B2BD50A517AB50025E016 /* EODatabaseDataSource.h */,
+				FA2B2BD60A517AB50025E016 /* EODatabaseDataSource.m */,
+				FAC110720740052E00744E1E /* EODatabaseOperation.h */,
+				FAC110730740052E00744E1E /* EODatabaseOperation.m */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		FAC110870740054F00744E1E /* Qualifiers */ = {
+			isa = PBXGroup;
+			children = (
+				FAC110D30740065200744E1E /* EOAndQualifier-EOAccess.h */,
+				FAC110D40740065200744E1E /* EOAndQualifier-EOAccess.m */,
+				FAC110D50740065200744E1E /* EOJoinQualifier.h */,
+				FAC110D60740065200744E1E /* EOJoinQualifier.m */,
+				FAC110D70740065200744E1E /* EOKeyValueQualifier-EOAccess.h */,
+				FAC110D80740065200744E1E /* EOKeyValueQualifier-EOAccess.m */,
+				FAC110D90740065200744E1E /* EONotQualifier-EOAccess.h */,
+				FAC110DA0740065200744E1E /* EONotQualifier-EOAccess.m */,
+				FAC110DB0740065200744E1E /* EOOrQualifier-EOAccess.h */,
+				FAC110DC0740065200744E1E /* EOOrQualifier-EOAccess.m */,
+				FAC110DD0740065200744E1E /* EOQualifier-EOAccess.h */,
+				FAC110DE0740065200744E1E /* EOQualifier-EOAccess.m */,
+				FAC110A1074005B500744E1E /* EOSQLQualifier.h */,
+				FAC110A2074005B500744E1E /* EOSQLQualifier.m */,
+			);
+			path = Qualifiers;
+			sourceTree = "<group>";
+		};
+		FAC1108A0740055300744E1E /* Formatters */ = {
+			isa = PBXGroup;
+			children = (
+				FAC111130740079D00744E1E /* EOSQLArrayFormatter.h */,
+				FAC111140740079D00744E1E /* EOSQLArrayFormatter.m */,
+				FAC111150740079D00744E1E /* EOSQLDateFormatter.h */,
+				FAC111160740079D00744E1E /* EOSQLDateFormatter.m */,
+				FAC111170740079D00744E1E /* EOSQLFormatter.h */,
+				FAC111180740079D00744E1E /* EOSQLFormatter.m */,
+				FAC111190740079D00744E1E /* EOSQLNullFormatter.h */,
+				FAC1111A0740079D00744E1E /* EOSQLNullFormatter.m */,
+				FAC1111B0740079D00744E1E /* EOSQLNumberFormatter.h */,
+				FAC1111C0740079D00744E1E /* EOSQLNumberFormatter.m */,
+				FAC1111D0740079D00744E1E /* EOSQLObjectFormatter.h */,
+				FAC1111E0740079D00744E1E /* EOSQLObjectFormatter.m */,
+				FAC1111F0740079D00744E1E /* EOSQLStringFormatter.h */,
+				FAC111200740079D00744E1E /* EOSQLStringFormatter.m */,
+			);
+			path = Formatters;
+			sourceTree = "<group>";
+		};
+		FAC1119E074008A200744E1E /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				FAC1129D0740107600744E1E /* _EOSnapshotMutableDictionary.h */,
+				FAC1129E0740107600744E1E /* _EOSnapshotMutableDictionary.m */,
+				FAC11353074015B500744E1E /* EOMutableArray.h */,
+				FAC11354074015B500744E1E /* EOMutableArray.m */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		FAC1135B074015D200744E1E /* Faults */ = {
+			isa = PBXGroup;
+			children = (
+				70AE10D407639E7B00CE4588 /* EOFault-EOAccess.h */,
+				70AE10D507639E7B00CE4588 /* EOFault-EOAccess.m */,
+				FAC1136D0740161300744E1E /* EOArrayFaultHandler.h */,
+				FAC1136E0740161300744E1E /* EOArrayFaultHandler.m */,
+				FAC1136F0740161300744E1E /* EOObjectFaultHandler.h */,
+				FAC113700740161300744E1E /* EOObjectFaultHandler.m */,
+			);
+			path = Faults;
+			sourceTree = "<group>";
+		};
+		FAC1FF5D074035F7008F0F44 /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				FAC1FF710740366C008F0F44 /* EOConnectionPane.h */,
+				FAC1FF720740366C008F0F44 /* EOConnectionPane.m */,
+				FAC114A007401E3E00744E1E /* EOLoginPanel.h */,
+				FAC114A107401E3E00744E1E /* EOLoginPanel.m */,
+			);
+			path = Interface;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8DC2EF500486A6940098B216 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAC110290740041900744E1E /* EOAttribute.h in Headers */,
+				FAC1102B0740041900744E1E /* EOAttributeP.h in Headers */,
+				FAC1102C0740041900744E1E /* EOEntity-ObjCCode.h in Headers */,
+				FAC1102E0740041900744E1E /* EOEntity.h in Headers */,
+				FAC110300740041900744E1E /* EOEntityP.h in Headers */,
+				FAC110310740041900744E1E /* EOFetchSpecification-Model.h in Headers */,
+				FAC110330740041900744E1E /* EOFetchSpecification-ModelPrivate.h in Headers */,
+				FAC110340740041900744E1E /* EOJoin.h in Headers */,
+				FAC110360740041900744E1E /* EOJoinP.h in Headers */,
+				FAC110370740041900744E1E /* EOModel.h in Headers */,
+				FAC110390740041900744E1E /* EOModelGroup.h in Headers */,
+				FAC1103B0740041900744E1E /* EOModelGroupP.h in Headers */,
+				FAC1103C0740041900744E1E /* EOModelP.h in Headers */,
+				FAC1103D0740041900744E1E /* EOPropertyListEncoding.h in Headers */,
+				FAC1103E0740041900744E1E /* EOQualifier-Model.h in Headers */,
+				FAC110400740041900744E1E /* EORelationship.h in Headers */,
+				FAC110420740041900744E1E /* EORelationshipP.h in Headers */,
+				FAC110430740041900744E1E /* EOSortOrdering-Model.h in Headers */,
+				FAC110450740041900744E1E /* EOStoredProcedure.h in Headers */,
+				FAC110740740052E00744E1E /* EODatabase.h in Headers */,
+				FAC110760740052E00744E1E /* EODatabaseChannel.h in Headers */,
+				FAC110780740052E00744E1E /* EODatabaseChannelP.h in Headers */,
+				FAC110790740052E00744E1E /* EODatabaseContext.h in Headers */,
+				FAC1107B0740052E00744E1E /* EODatabaseOperation.h in Headers */,
+				FAC110B3074005B500744E1E /* EOSQLQualifier.h in Headers */,
+				FAC110DF0740065200744E1E /* EOAndQualifier-EOAccess.h in Headers */,
+				FAC110E10740065200744E1E /* EOJoinQualifier.h in Headers */,
+				FAC110E30740065200744E1E /* EOKeyValueQualifier-EOAccess.h in Headers */,
+				FAC110E50740065200744E1E /* EONotQualifier-EOAccess.h in Headers */,
+				FAC110E70740065200744E1E /* EOOrQualifier-EOAccess.h in Headers */,
+				FAC110E90740065200744E1E /* EOQualifier-EOAccess.h in Headers */,
+				FAC111210740079D00744E1E /* EOSQLArrayFormatter.h in Headers */,
+				FAC111230740079D00744E1E /* EOSQLDateFormatter.h in Headers */,
+				FAC111250740079D00744E1E /* EOSQLFormatter.h in Headers */,
+				FAC111270740079D00744E1E /* EOSQLNullFormatter.h in Headers */,
+				FAC111290740079D00744E1E /* EOSQLNumberFormatter.h in Headers */,
+				FAC1112B0740079D00744E1E /* EOSQLObjectFormatter.h in Headers */,
+				FAC1112D0740079D00744E1E /* EOSQLStringFormatter.h in Headers */,
+				FAC111A7074008D400744E1E /* NSString-EOAccess.h in Headers */,
+				FAC111B80740090C00744E1E /* EODebug.h in Headers */,
+				FAC111EB07400A2000744E1E /* EOEntityClassDescription.h in Headers */,
+				FAC1129F0740107600744E1E /* _EOSnapshotMutableDictionary.h in Headers */,
+				FAC11355074015B500744E1E /* EOMutableArray.h in Headers */,
+				FAC113710740161300744E1E /* EOArrayFaultHandler.h in Headers */,
+				FAC113730740161300744E1E /* EOObjectFaultHandler.h in Headers */,
+				FAC113E70740199E00744E1E /* EOAdaptor.h in Headers */,
+				FAC113E90740199E00744E1E /* EOAdaptorChannel.h in Headers */,
+				FAC113EB0740199E00744E1E /* EOAdaptorContext.h in Headers */,
+				FAC113ED0740199E00744E1E /* EOAdaptorContextP.h in Headers */,
+				FAC113EE0740199E00744E1E /* EOAdaptorOperation.h in Headers */,
+				FAC113F00740199E00744E1E /* EOAdaptorOperationP.h in Headers */,
+				FAC113F6074019C500744E1E /* EOSQLExpression.h in Headers */,
+				FAC1143207401B4F00744E1E /* NSObject-EOAccess.h in Headers */,
+				FAC114A207401E3E00744E1E /* EOLoginPanel.h in Headers */,
+				FAC114BF07401E8800744E1E /* EOSchemaGeneration.h in Headers */,
+				FAC1179B07402C2B00744E1E /* EOAccess.h in Headers */,
+				FAC1FF730740366C008F0F44 /* EOConnectionPane.h in Headers */,
+				FA63DF7B07427CDD00AB5036 /* EOEditingContext-EOAccess.h in Headers */,
+				FAFAEA9B07480E0200245D92 /* EOGenericRecord-EOAccess.h in Headers */,
+				FAFAEB74074815A700245D92 /* EOObjectStoreCoordinator-EOAccess.h in Headers */,
+				70AE10D607639E7B00CE4588 /* EOFault-EOAccess.h in Headers */,
+				705F58B40777F71F009FE382 /* EODatabaseContextP.h in Headers */,
+				70C1B352089407880025CD9A /* EODatabaseP.h in Headers */,
+				FA2B2BD70A517AB50025E016 /* EODatabaseDataSource.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8DC2EF4F0486A6940098B216 /* EOAccess */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 70B72DC109560103005162B9 /* Build configuration list for PBXNativeTarget "EOAccess" */;
+			buildPhases = (
+				8DC2EF500486A6940098B216 /* Headers */,
+				8DC2EF520486A6940098B216 /* Resources */,
+				8DC2EF540486A6940098B216 /* Sources */,
+				8DC2EF560486A6940098B216 /* Frameworks */,
+			);
+			buildRules = (
+				1E173DB00FB491570086100E /* PBXBuildRule */,
+			);
+			dependencies = (
+			);
+			name = EOAccess;
+			productInstallPath = "$(HOME)/Library/Frameworks";
+			productName = EOAccess;
+			productReference = 8DC2EF5B0486A6940098B216 /* EOAccess.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 70B72DC509560103005162B9 /* Build configuration list for PBXProject "EOAccess" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 1;
+			mainGroup = 0867D691FE84028FC02AAC07 /* EOAccess */;
+			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8DC2EF4F0486A6940098B216 /* EOAccess */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8DC2EF520486A6940098B216 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DC2EF540486A6940098B216 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAC1102A0740041900744E1E /* EOAttribute.m in Sources */,
+				FAC1102D0740041900744E1E /* EOEntity-ObjCCode.m in Sources */,
+				FAC1102F0740041900744E1E /* EOEntity.m in Sources */,
+				FAC110320740041900744E1E /* EOFetchSpecification-Model.m in Sources */,
+				FAC110350740041900744E1E /* EOJoin.m in Sources */,
+				FAC110380740041900744E1E /* EOModel.m in Sources */,
+				FAC1103A0740041900744E1E /* EOModelGroup.m in Sources */,
+				FAC1103F0740041900744E1E /* EOQualifier-Model.m in Sources */,
+				FAC110410740041900744E1E /* EORelationship.m in Sources */,
+				FAC110440740041900744E1E /* EOSortOrdering-Model.m in Sources */,
+				FAC110460740041900744E1E /* EOStoredProcedure.m in Sources */,
+				FAC110750740052E00744E1E /* EODatabase.m in Sources */,
+				FAC110770740052E00744E1E /* EODatabaseChannel.m in Sources */,
+				FAC1107A0740052E00744E1E /* EODatabaseContext.m in Sources */,
+				FAC1107C0740052E00744E1E /* EODatabaseOperation.m in Sources */,
+				FAC110B2074005B500744E1E /* EOSQLExpression.m in Sources */,
+				FAC110B4074005B500744E1E /* EOSQLQualifier.m in Sources */,
+				FAC110E00740065200744E1E /* EOAndQualifier-EOAccess.m in Sources */,
+				FAC110E20740065200744E1E /* EOJoinQualifier.m in Sources */,
+				FAC110E40740065200744E1E /* EOKeyValueQualifier-EOAccess.m in Sources */,
+				FAC110E60740065200744E1E /* EONotQualifier-EOAccess.m in Sources */,
+				FAC110E80740065200744E1E /* EOOrQualifier-EOAccess.m in Sources */,
+				FAC110EA0740065200744E1E /* EOQualifier-EOAccess.m in Sources */,
+				FAC111220740079D00744E1E /* EOSQLArrayFormatter.m in Sources */,
+				FAC111240740079D00744E1E /* EOSQLDateFormatter.m in Sources */,
+				FAC111260740079D00744E1E /* EOSQLFormatter.m in Sources */,
+				FAC111280740079D00744E1E /* EOSQLNullFormatter.m in Sources */,
+				FAC1112A0740079D00744E1E /* EOSQLNumberFormatter.m in Sources */,
+				FAC1112C0740079D00744E1E /* EOSQLObjectFormatter.m in Sources */,
+				FAC1112E0740079D00744E1E /* EOSQLStringFormatter.m in Sources */,
+				FAC111A8074008D400744E1E /* NSString-EOAccess.m in Sources */,
+				FAC111B90740090C00744E1E /* EODebug.m in Sources */,
+				FAC111EC07400A2000744E1E /* EOEntityClassDescription.m in Sources */,
+				FAC112A00740107600744E1E /* _EOSnapshotMutableDictionary.m in Sources */,
+				FAC11356074015B500744E1E /* EOMutableArray.m in Sources */,
+				FAC113720740161300744E1E /* EOArrayFaultHandler.m in Sources */,
+				FAC113740740161300744E1E /* EOObjectFaultHandler.m in Sources */,
+				FAC113E80740199E00744E1E /* EOAdaptor.m in Sources */,
+				FAC113EA0740199E00744E1E /* EOAdaptorChannel.m in Sources */,
+				FAC113EC0740199E00744E1E /* EOAdaptorContext.m in Sources */,
+				FAC113EF0740199E00744E1E /* EOAdaptorOperation.m in Sources */,
+				FAC1143307401B4F00744E1E /* NSObject-EOAccess.m in Sources */,
+				FAC114A307401E3E00744E1E /* EOLoginPanel.m in Sources */,
+				FAC114C007401E8800744E1E /* EOSchemaGeneration.m in Sources */,
+				FAC1FF740740366C008F0F44 /* EOConnectionPane.m in Sources */,
+				FA63DF7C07427CDD00AB5036 /* EOEditingContext-EOAccess.m in Sources */,
+				FAFAEA9C07480E0200245D92 /* EOGenericRecord-EOAccess.m in Sources */,
+				FAFAEB75074815A700245D92 /* EOObjectStoreCoordinator-EOAccess.m in Sources */,
+				70AE10D707639E7B00CE4588 /* EOFault-EOAccess.m in Sources */,
+				FA2B2BD80A517AB50025E016 /* EODatabaseDataSource.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C1666FE841158C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C1667FE841158C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		70B72DC209560103005162B9 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = i386;
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = "\"$(HOME)/Library/Frameworks\"";
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = EOAccess_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
+				PREBINDING = NO;
+				PRODUCT_NAME = EOAccess;
+				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		70B72DC309560103005162B9 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = i386;
+				COPY_PHASE_STRIP = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = "\"$(HOME)/Library/Frameworks\"";
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = EOAccess_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
+				PREBINDING = NO;
+				PRODUCT_NAME = EOAccess;
+				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		70B72DC409560103005162B9 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = i386;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = "\"$(HOME)/Library/Frameworks\"";
+				FRAMEWORK_VERSION = A;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = EOAccess_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
+				PREBINDING = NO;
+				PRODUCT_NAME = EOAccess;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Default;
+		};
+		70B72DC609560103005162B9 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = ppc;
+				CURRENT_PROJECT_VERSION = 0.85;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Development;
+		};
+		70B72DC709560103005162B9 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = ppc;
+				CURRENT_PROJECT_VERSION = 0.85;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Deployment;
+		};
+		70B72DC809560103005162B9 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = ppc;
+				CURRENT_PROJECT_VERSION = 0.85;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		70B72DC109560103005162B9 /* Build configuration list for PBXNativeTarget "EOAccess" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70B72DC209560103005162B9 /* Development */,
+				70B72DC309560103005162B9 /* Deployment */,
+				70B72DC409560103005162B9 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		70B72DC509560103005162B9 /* Build configuration list for PBXProject "EOAccess" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70B72DC609560103005162B9 /* Development */,
+				70B72DC709560103005162B9 /* Deployment */,
+				70B72DC809560103005162B9 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}

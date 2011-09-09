@@ -1,0 +1,25 @@
+{
+    IBClasses = (
+        {
+            CLASS = DBInspectorPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {view = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {selectAdaptor = id; syncAdaptor = id; testSettings = id; }; 
+            CLASS = DBModelAdaptorPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                adaptorTable = NSTableView; 
+                connectionBox = NSBox; 
+                noneView = NSView; 
+                syncButton = NSButton; 
+                testButton = NSButton; 
+            }; 
+            SUPERCLASS = DBInspectorPane; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}
