@@ -1,0 +1,353 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
+		FA65F3CE0832832000BC6F83 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA65F3CC0832832000BC6F83 /* EOAccess.framework */; };
+		FA65F3CF0832832000BC6F83 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA65F3CD0832832000BC6F83 /* EOControl.framework */; };
+		FA65F3D20832838000BC6F83 /* EODisplayGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = FA65F3D00832838000BC6F83 /* EODisplayGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FA65F3D30832838000BC6F83 /* EODisplayGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = FA65F3D10832838000BC6F83 /* EODisplayGroup.m */; };
+		FA65F3D5083283A000BC6F83 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA65F3D4083283A000BC6F83 /* AppKit.framework */; };
+		FA65F3DA083283E800BC6F83 /* EOInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = FA65F3D9083283E800BC6F83 /* EOInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FA65F5730833E4D000BC6F83 /* EOQualifier-EOInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = FA65F5710833E4D000BC6F83 /* EOQualifier-EOInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FA65F5740833E4D000BC6F83 /* EOQualifier-EOInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = FA65F5720833E4D000BC6F83 /* EOQualifier-EOInterface.m */; };
+		FA65F5790833E4E000BC6F83 /* NSPredicate-EOInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = FA65F5770833E4E000BC6F83 /* NSPredicate-EOInterface.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FA65F57A0833E4E000BC6F83 /* NSPredicate-EOInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = FA65F5780833E4E000BC6F83 /* NSPredicate-EOInterface.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		1E173E3D0FB4C1240086100E /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.gcc;
+			fileType = sourcecode.c;
+			isEditable = 1;
+			outputFiles = (
+			);
+		};
+/* End PBXBuildRule section */
+
+/* Begin PBXFileReference section */
+		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		32DBCF5E0370ADEE00C91783 /* EOInterface_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EOInterface_Prefix.pch; sourceTree = "<group>"; };
+		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8DC2EF5B0486A6940098B216 /* EOInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EOInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA65F3CC0832832000BC6F83 /* EOAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOAccess.framework; path = ../../../Library/BuildOutput/EOAccess.framework; sourceTree = SOURCE_ROOT; };
+		FA65F3CD0832832000BC6F83 /* EOControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOControl.framework; path = ../../../Library/BuildOutput/EOControl.framework; sourceTree = SOURCE_ROOT; };
+		FA65F3D00832838000BC6F83 /* EODisplayGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EODisplayGroup.h; sourceTree = "<group>"; };
+		FA65F3D10832838000BC6F83 /* EODisplayGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EODisplayGroup.m; sourceTree = "<group>"; };
+		FA65F3D4083283A000BC6F83 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		FA65F3D9083283E800BC6F83 /* EOInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EOInterface.h; sourceTree = "<group>"; };
+		FA65F5710833E4D000BC6F83 /* EOQualifier-EOInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EOQualifier-EOInterface.h"; sourceTree = "<group>"; };
+		FA65F5720833E4D000BC6F83 /* EOQualifier-EOInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EOQualifier-EOInterface.m"; sourceTree = "<group>"; };
+		FA65F5770833E4E000BC6F83 /* NSPredicate-EOInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSPredicate-EOInterface.h"; sourceTree = "<group>"; };
+		FA65F5780833E4E000BC6F83 /* NSPredicate-EOInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSPredicate-EOInterface.m"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DC2EF560486A6940098B216 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA65F3CE0832832000BC6F83 /* EOAccess.framework in Frameworks */,
+				FA65F3CF0832832000BC6F83 /* EOControl.framework in Frameworks */,
+				FA65F3D5083283A000BC6F83 /* AppKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		034768DFFF38A50411DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8DC2EF5B0486A6940098B216 /* EOInterface.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* EOInterface */ = {
+			isa = PBXGroup;
+			children = (
+				FA65F3D9083283E800BC6F83 /* EOInterface.h */,
+				08FB77AEFE84172EC02AAC07 /* Classes */,
+				32C88DFF0371C24200C91783 /* Other Sources */,
+				089C1665FE841158C02AAC07 /* Resources */,
+				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				034768DFFF38A50411DB9C8B /* Products */,
+			);
+			name = EOInterface;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				FA65F3D4083283A000BC6F83 /* AppKit.framework */,
+				FA65F3CC0832832000BC6F83 /* EOAccess.framework */,
+				FA65F3CD0832832000BC6F83 /* EOControl.framework */,
+				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C1665FE841158C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8DC2EF5A0486A6940098B216 /* Info.plist */,
+				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AEFE84172EC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				FA65F56E0833E4BB00BC6F83 /* Glue */,
+				FA65F3D00832838000BC6F83 /* EODisplayGroup.h */,
+				FA65F3D10832838000BC6F83 /* EODisplayGroup.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		32C88DFF0371C24200C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF5E0370ADEE00C91783 /* EOInterface_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		FA65F56E0833E4BB00BC6F83 /* Glue */ = {
+			isa = PBXGroup;
+			children = (
+				FA65F5710833E4D000BC6F83 /* EOQualifier-EOInterface.h */,
+				FA65F5720833E4D000BC6F83 /* EOQualifier-EOInterface.m */,
+				FA65F5770833E4E000BC6F83 /* NSPredicate-EOInterface.h */,
+				FA65F5780833E4E000BC6F83 /* NSPredicate-EOInterface.m */,
+			);
+			name = Glue;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8DC2EF500486A6940098B216 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA65F3D20832838000BC6F83 /* EODisplayGroup.h in Headers */,
+				FA65F3DA083283E800BC6F83 /* EOInterface.h in Headers */,
+				FA65F5730833E4D000BC6F83 /* EOQualifier-EOInterface.h in Headers */,
+				FA65F5790833E4E000BC6F83 /* NSPredicate-EOInterface.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8DC2EF4F0486A6940098B216 /* EOInterface */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FA2B2AD90A5160670025E016 /* Build configuration list for PBXNativeTarget "EOInterface" */;
+			buildPhases = (
+				8DC2EF500486A6940098B216 /* Headers */,
+				8DC2EF520486A6940098B216 /* Resources */,
+				8DC2EF540486A6940098B216 /* Sources */,
+				8DC2EF560486A6940098B216 /* Frameworks */,
+			);
+			buildRules = (
+				1E173E3D0FB4C1240086100E /* PBXBuildRule */,
+			);
+			dependencies = (
+			);
+			name = EOInterface;
+			productInstallPath = "$(HOME)/Library/Frameworks";
+			productName = EOInterface;
+			productReference = 8DC2EF5B0486A6940098B216 /* EOInterface.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = FA2B2ADD0A5160670025E016 /* Build configuration list for PBXProject "EOInterface" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 1;
+			mainGroup = 0867D691FE84028FC02AAC07 /* EOInterface */;
+			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
+			projectDirPath = "";
+			targets = (
+				8DC2EF4F0486A6940098B216 /* EOInterface */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8DC2EF520486A6940098B216 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DC2EF540486A6940098B216 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA65F3D30832838000BC6F83 /* EODisplayGroup.m in Sources */,
+				FA65F5740833E4D000BC6F83 /* EOQualifier-EOInterface.m in Sources */,
+				FA65F57A0833E4E000BC6F83 /* NSPredicate-EOInterface.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C1666FE841158C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C1667FE841158C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FA2B2ADA0A5160670025E016 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/Frameworks";
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = EOInterface_Prefix.pch;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
+				PREBINDING = NO;
+				PRODUCT_NAME = EOInterface;
+				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		FA2B2ADB0A5160670025E016 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/Frameworks";
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = EOInterface_Prefix.pch;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
+				PREBINDING = NO;
+				PRODUCT_NAME = EOInterface;
+				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		FA2B2ADC0A5160670025E016 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/Frameworks";
+				FRAMEWORK_VERSION = A;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = EOInterface_Prefix.pch;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_STYLE = DYNAMIC;
+				MACH_O_TYPE = mh_dylib;
+				PREBINDING = NO;
+				PRODUCT_NAME = EOInterface;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Default;
+		};
+		FA2B2ADE0A5160670025E016 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = ppc;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Development;
+		};
+		FA2B2ADF0A5160670025E016 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = ppc;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Deployment;
+		};
+		FA2B2AE00A5160670025E016 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = ppc;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FA2B2AD90A5160670025E016 /* Build configuration list for PBXNativeTarget "EOInterface" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA2B2ADA0A5160670025E016 /* Development */,
+				FA2B2ADB0A5160670025E016 /* Deployment */,
+				FA2B2ADC0A5160670025E016 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		FA2B2ADD0A5160670025E016 /* Build configuration list for PBXProject "EOInterface" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA2B2ADE0A5160670025E016 /* Development */,
+				FA2B2ADF0A5160670025E016 /* Deployment */,
+				FA2B2AE00A5160670025E016 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}

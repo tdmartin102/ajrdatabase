@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'EOInterface' target in the 'EOInterface' project.
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
