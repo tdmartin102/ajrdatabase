@@ -44,7 +44,7 @@ static NSComparisonResult _eoSorter(id one, id two, void *context)
 		else if (value1 == nil) return NSOrderedAscending;
 		else if (value2 == nil) return NSOrderedDescending;
 		
-		result = (int)[value1 performSelector:selector withObject: value2];
+		result = (NSInteger)[value1 performSelector:selector withObject: value2];
 		if (result != NSOrderedSame) {
 			return result;
 		}

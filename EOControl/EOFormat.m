@@ -110,12 +110,12 @@ NSString *EOFormatv(NSString *format, va_list ap)
    NSZone				*zone = [format zone];
    NSRange				range;
    EOFormatStage		stage = EOFormatStageAPriori;
-   unsigned				flags = 0;
-   unsigned				width = NSNotFound, precision = NSNotFound;
+   NSUInteger			flags = 0;
+   NSUInteger			width = NSNotFound, precision = NSNotFound;
    NSCharacterSet		*digits = [NSCharacterSet decimalDigitCharacterSet];
    char					*stringValue = NULL;
    unichar				*unicharStringValue = NULL;
-   id				 		objectValue = nil;
+   id				 	objectValue = nil;
    int					numericBase = 0;
    char					*prefix = NULL;
    BOOL					isSigned = NO;

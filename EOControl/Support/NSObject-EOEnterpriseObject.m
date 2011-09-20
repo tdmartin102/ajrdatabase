@@ -52,7 +52,7 @@ static NSString *_eofDescribe(NSHashTable *table, const EOHashObject *e1)
 }
 
 static NSHashTableCallBacks _eofHashCallbacks = {
-	(unsigned (*)(NSHashTable *, const void *))_eofHash,
+	(NSUInteger (*)(NSHashTable *, const void *))_eofHash,
 	(BOOL (*)(NSHashTable *, const void *, const void *))_eofIsEqual,
 	(void (*)(NSHashTable *, const void *))_eofRetain,
 	(void (*)(NSHashTable *, void *))_eofRelease,
@@ -81,11 +81,11 @@ static EOHashObject	*_eofKey = NULL;
 		eofInstanceObjects = NSCreateHashTable(_eofHashCallbacks, 101);
 	}
 	
-	_eofKey->key = (unsigned)self;
+	_eofKey->key = (NSUInteger)self;
 	element = NSHashGet(eofInstanceObjects, _eofKey);
 	if (!element) {
 		element = (EOHashObject *)NSZoneMalloc([self zone], sizeof(EOHashObject));
-		element->key = (unsigned)self;
+		element->key = (NSUInteger)self;
 		element->objects = [[NSMutableDictionary alloc] init];
 		NSHashInsert(eofInstanceObjects, element);
 		[element->objects release];
@@ -103,7 +103,7 @@ static EOHashObject	*_eofKey = NULL;
 	if (eofInstanceObjects) {
 		EOHashObject	*element;
 		
-		_eofKey->key = (unsigned)self;
+		_eofKey->key = (NSUInteger)self;
 		element = NSHashGet(eofInstanceObjects, _eofKey);
 		if (element) {
 			return [element->objects objectForKey:aKey];
@@ -120,7 +120,7 @@ static EOHashObject	*_eofKey = NULL;
     if (eofInstanceObjects) {
 		EOHashObject	*element;
 		
-		_eofKey->key = (unsigned)self;
+		_eofKey->key = (NSUInteger)self;
 		element = NSHashGet(eofInstanceObjects, _eofKey);
 		if (element) {
 			NSHashRemove(eofInstanceObjects, _eofKey);
@@ -251,14 +251,22 @@ static EOHashObject	*_eofKey = NULL;
 	numObjects = [array count];
 	
 	for (x = 0; x < numObjects; x++) {
-		[self takeStoredValue:nil forKey:[array objectAtIndex:x]];
+		// tom.martin @ riemer.com - 2011-09-16
+		// replace depreciated method.  This should be tested, behaviour is different.
+		// It may be acceptable, and then again maybe not. 
+		//[self takeStoredValue:nil forKey:[array objectAtIndex:x]];
+		[self setValue:nil forKey:[array objectAtIndex:x]];
 	}
 	
 	array = [self toManyRelationshipKeys];
 	numObjects = [array count];
 	
 	for (x = 0; x < numObjects; x++) {
-		[self takeStoredValue:nil forKey:[array objectAtIndex:x]];
+		// tom.martin @ riemer.com - 2011-09-16
+		// replace depreciated method.  This should be tested, behaviour is different.
+		// It may be acceptable, and then again maybe not. 
+		//[self takeStoredValue:nil forKey:[array objectAtIndex:x]];
+		[self setValue:nil forKey:[array objectAtIndex:x]];
 	}
 }
 
@@ -278,14 +286,22 @@ static EOHashObject	*_eofKey = NULL;
 			if (values != nil) {
 				NSMutableArray	*copy = [[NSMutableArray allocWithZone:[self zone]] init];
 				[copy addObjectsFromArray:values];
-				[self takeStoredValue:copy forKey:key];
+				// tom.martin @ riemer.com - 2011-09-16
+				// replace depreciated method.  This should be tested, behaviour is different.
+				// It may be acceptable, and then again maybe not. 
+				//[self takeStoredValue:copy forKey:key];
+				[self setValue:copy forKey:key];
 				[copy release];
 			} 
 		} else {
 			// mont_rothstein @ yahoo.com 2005-07-11
 			// If there are values in the snapshot that are not stored in the object, then just ignore the exceptions.  This isn't elegant, but to do more we would need knowledge about the EOEntity which is in EOAccess.
 			NS_DURING
-				[self takeStoredValue:[snapshot valueForKey:key] forKey:key];
+				// tom.martin @ riemer.com - 2011-09-16
+				// replace depreciated method.  This should be tested, behaviour is different.
+				// It may be acceptable, and then again maybe not. 
+				//[self takeStoredValue:[snapshot valueForKey:key] forKey:key];
+				[self setValue:[snapshot valueForKey:key] forKey:key];
 			NS_HANDLER
 				NS_ENDHANDLER
 		}
@@ -435,7 +451,10 @@ static EOHashObject	*_eofKey = NULL;
 		} else {
 			// This is sufficient, because we only care about pointer equality.
 			if (object1 != object2) {
-				[self takeValue:object1 forKey:key];
+				// tom.martin @ riemer.com - 2011-09-16
+				// replace depreciated method.  This should be tested, behavior is different.
+				// It may be acceptable, and then again maybe not. 
+				[self setValue:object1 forKey:key];
 			}
 		}
 	}

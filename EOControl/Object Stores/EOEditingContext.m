@@ -1246,9 +1246,9 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 			int max;
 			
 			// It's not a fault, so should copy the result.
-			copy = [[NSMutableArray allocWithZone:[object zone]] initWithCapacity:[destination count]];
+			copy = [[NSMutableArray allocWithZone:[object zone]] initWithCapacity:[(NSArray *)destination count]];
 			
-			max = [destination count];
+			max = [(NSArray *)destination count];
 			for (x = 0; x < max; x++) {
 				id		destinationObject = [destination objectAtIndex:x];
 				id		copiedObject;
@@ -1494,7 +1494,10 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 	max = [array count];
 	for (x = 0; x < max; x++) {
 		NSString		*key = [array objectAtIndex:x];
-		[object takeValue:[localObject valueForKey:key] forKey:key];
+		// tom.martin @ riemer.com - 2011-09-16
+		// replace depreciated method.  
+		//[object takeValue:[localObject valueForKey:key] forKey:key];
+		[object setValue:[localObject valueForKey:key] forKey:key];
 	}
 	
 	// Copy the to-one relationships
@@ -1506,9 +1509,15 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 		id				destination = [localObject valueForKey:key];
 		
 		if (destination == nil) {
-			[object takeValue:nil forKey:key];
+			// tom.martin @ riemer.com - 2011-09-16
+			// replace depreciated method.  
+			//[object takeValue:nil forKey:key];
+			[object setValue:nil forKey:key];
 		} else {
-			[object takeValue:[anEditingContext faultForGlobalID:[self globalIDForObject:destination] editingContext:anEditingContext] forKey:key];
+			// tom.martin @ riemer.com - 2011-09-16
+			// replace depreciated method.  
+			//[object takeValue:[anEditingContext faultForGlobalID:[self globalIDForObject:destination] editingContext:anEditingContext] forKey:key];
+			[object setValue:[anEditingContext faultForGlobalID:[self globalIDForObject:destination] editingContext:anEditingContext] forKey:key];
 		}
 	}
 	
@@ -1519,7 +1528,10 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 	for (x = 0; x < max; x++) {
 		NSString		*key = [array objectAtIndex:x];
 		// Just copy as an array fault. This may create a little more work later on, but hey, isn't deferment always good?
-		[object takeValue:[anEditingContext arrayFaultWithSourceGlobalID:globalID relationshipName:key editingContext:anEditingContext] forKey:key];
+		// tom.martin @ riemer.com - 2011-09-16
+		// replace depreciated method.  
+		//[object takeValue:[anEditingContext arrayFaultWithSourceGlobalID:globalID relationshipName:key editingContext:anEditingContext] forKey:key];
+		[object setValue:[anEditingContext arrayFaultWithSourceGlobalID:globalID relationshipName:key editingContext:anEditingContext] forKey:key];
 	}
 }
 

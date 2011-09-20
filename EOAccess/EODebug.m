@@ -50,7 +50,7 @@ BOOL	EORegistrationDebugEnabled = NO;
 
 static void setBoolean(BOOL *boolean, NSString *key,NSDictionary *environment, NSArray *arguments, NSUserDefaults *defaults)
 {
-	int				index = [arguments indexOfObject:EOFormat(@"-%@", key)];
+	NSInteger			index = [arguments indexOfObject:EOFormat(@"-%@", key)];
 	NSString		*value = nil;
    
 	if (index != NSNotFound)

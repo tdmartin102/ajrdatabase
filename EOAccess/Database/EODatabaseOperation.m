@@ -193,9 +193,15 @@
       if (!(((sourceValue == nil) || (sourceValue == [NSNull null])) && destinationValue == nil) &&
 		  (![sourceValue isEqual:destinationValue])) {
          if (destinationValue == nil) {
-            [updated takeValue:[NSNull null] forKey:[sourceAttribute name]];
+			// tom.martin @ riemer.com - 2011-09-16
+			// replace depreciated method.  
+            //[updated takeValue:[NSNull null] forKey:[sourceAttribute name]];
+			[updated setValue:[NSNull null] forKey:[sourceAttribute name]];
          } else {
-            [updated takeValue:destinationValue forKey:[sourceAttribute name]];
+			// tom.martin @ riemer.com - 2011-09-16
+			// replace depreciated method.  
+            //[updated takeValue:destinationValue forKey:[sourceAttribute name]];
+			[updated setValue:destinationValue forKey:[sourceAttribute name]];
          }
       }
       //[EOLog logDebugWithFormat:@"\t%@ / %@\n", sourceValue, destinationValue];
@@ -252,16 +258,23 @@
          if ((value1 != nil && value2 == nil) ||
              (value1 == nil && value2 != nil) ||
              (![value1 isEqual:value2])) {
-			 // aclark @ ghoti.org 2005-08-11
-			 // This was setting the value to nil fixed it to use NSNull.
-            [updated takeValue:value2 == nil ? [NSNull null] : value2 forKey:key];
+			// aclark @ ghoti.org 2005-08-11
+			// This was setting the value to nil fixed it to use NSNull.
+			// tom.martin @ riemer.com - 2011-09-16
+			// replace depreciated method.  
+            //[updated takeValue:value2 == nil ? [NSNull null] : value2 forKey:key];
+			[updated setValue:value2 == nil ? [NSNull null] : value2 forKey:key];
          }
       } else {
          EORelationship  	*relationship = (EORelationship *)attribute;
          id						value;
-			
-         value = [object storedValueForKey:key];
-         
+		
+		// tom.martin @ riemer.com - 2011-09-16
+		// replace depreciated method.  This should be tested, behavior is different.
+		// It may be acceptable, and then again maybe not. 
+		//value = [object storedValueForKey:key];
+		value = [object valueForKey:key];
+
 			//[EOLog logDebugWithFormat:@"%@ %@ is a fault\n", key, ([EOFault isFault:value] ? @"is" : @"isn't")];
 			
          if (![EOFault isFault:value]) {

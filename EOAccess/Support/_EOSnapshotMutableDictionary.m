@@ -131,7 +131,7 @@
 	[super dealloc];
 }
 
-- (unsigned int)count
+- (NSUInteger)count
 {
    return [dictionary count];
 }

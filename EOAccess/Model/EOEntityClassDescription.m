@@ -166,7 +166,11 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 	   EORelationship		*relationship = [entity relationshipNamed:[relationships objectAtIndex:x]];
 		
       if ([relationship isToMany]) {
-         [object takeStoredValue:[anEditingContext arrayFaultWithSourceGlobalID:globalID relationshipName:[relationship name] editingContext:anEditingContext] forKey:[relationship name]];
+		// tom.martin @ riemer.com - 2011-09-16
+		// replace depreciated method.  This should be tested, behavior is different.
+		// It may be acceptable, and then again maybe not. 
+		//[object takeStoredValue:[anEditingContext arrayFaultWithSourceGlobalID:globalID relationshipName:[relationship name] editingContext:anEditingContext] forKey:[relationship name]];
+		[object setValue:[anEditingContext arrayFaultWithSourceGlobalID:globalID relationshipName:[relationship name] editingContext:anEditingContext] forKey:[relationship name]];
       } else if ([relationship definition] != nil) {
          /*! @todo Create many to many relationship. This may actually be nothing, since it may be handled by the above block. */
       } else {
@@ -202,45 +206,57 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 			}
 
 			dstGlobalID = [[relationship destinationEntity] globalIDForRow: row];
-         [object takeStoredValue:[anEditingContext faultForGlobalID:dstGlobalID editingContext:anEditingContext] forKey:[relationship name]];
+			// tom.martin @ riemer.com - 2011-09-16
+			// replace depreciated method.  This should be tested, behavior is different.
+			// It may be acceptable, and then again maybe not. 
+			//[object takeStoredValue:[anEditingContext faultForGlobalID:dstGlobalID editingContext:anEditingContext] forKey:[relationship name]];
+			[object setValue:[anEditingContext faultForGlobalID:dstGlobalID editingContext:anEditingContext] forKey:[relationship name]];
       }
    }
 }
 
 - (void)awakeObjectFromInsert:(id)object inEditingContext:(EOEditingContext *)anEditingContext
 {
-   NSArray			*relationships;
-   int				x, max;
+	NSArray			*relationships;
+	int				x, max;
 	
-   [object _setEditingContext:anEditingContext];
+	[object _setEditingContext:anEditingContext];
 	
-   // mont_rothstein @ yahoo.com 10/27/04
-   // We only want to set class relationships.  The full relationships array includes non-class relationships (such as for many-to-many relationships) that don't have class attributes.
+	// mont_rothstein @ yahoo.com 10/27/04
+	// We only want to set class relationships.  The full relationships array includes non-class relationships (such as for many-to-many relationships) that don't have class attributes.
 	//relationships = [entity relationships];
-   relationships = [entity _classRelationships];
-   for (x = 0, max = [relationships count]; x < max; x++) {
+	relationships = [entity _classRelationships];
+	for (x = 0, max = [relationships count]; x < max; x++) {
 		//EORelationship  *relationship = [relationships objectAtIndex:x];
-	   EORelationship		*relationship = [entity relationshipNamed:[relationships objectAtIndex:x]];
-      EOMutableArray		*array;
+		EORelationship		*relationship = [entity relationshipNamed:[relationships objectAtIndex:x]];
+		EOMutableArray		*array;
 		
-	  // mont_rothstein @ yahoo.com 2004-12-06
-	  // Two changes were made here.  First, there was an if and else below that did the
-	  // exact same thing if they evaluated to true, they were combined.
-	  // Second, this used to always set the array value, it now only does so if there
-	  // is not already a value.  This is either a bug in the docs or design for WO 4.5.
-	  // WO 4.5 assumes that all newly inserted objects don't already have relationship
-	  // values, which may not be true.  Hence the user of STRICT_EOF
-      if ((([relationship isToMany]) || ([relationship definition] != nil)) 
-		#if !defined(STRICT_EOF) 
-		  && (![object storedValueForKey: [relationship name]]) 
-		#endif
+		// mont_rothstein @ yahoo.com 2004-12-06
+		// Two changes were made here.  First, there was an if and else below that did the
+		// exact same thing if they evaluated to true, they were combined.
+		// Second, this used to always set the array value, it now only does so if there
+		// is not already a value.  This is either a bug in the docs or design for WO 4.5.
+		// WO 4.5 assumes that all newly inserted objects don't already have relationship
+		// values, which may not be true.  Hence the user of STRICT_EOF
+		if ((([relationship isToMany]) || ([relationship definition] != nil)) 
+			#if !defined(STRICT_EOF)
+			// tom.martin @ riemer.com - 2011-09-16
+			// replace depreciated method.  This should be tested, behavior is different.
+			// It may be acceptable, and then again maybe not. 
+			// && (![object storedValueForKey: [relationship name]]) 
+			&& (![object valueForKey: [relationship name]]) 
+			#endif
 		  ) 
-	  {
-         array = [[EOMutableArray allocWithZone:[self zone]] init];
-         [object takeStoredValue:array forKey:[relationship name]];
-         [array release];
-      }
-   }
+		{
+			array = [[EOMutableArray allocWithZone:[self zone]] init];
+			// tom.martin @ riemer.com - 2011-09-16
+			// replace depreciated method.  This should be tested, behavior is different.
+			// It may be acceptable, and then again maybe not. 
+			//[object takeStoredValue:array forKey:[relationship name]];
+			[object setValue:array forKey:[relationship name]];
+			[array release];
+		}
+	}
 }
 
 - (id)createInstanceWithEditingContext:(EOEditingContext *)anEditingContext globalID:(EOGlobalID *)globalID zone:(NSZone *)zone
@@ -317,7 +333,11 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 		
 		if ([attribute _isClassProperty]) {
 			NSString			*key = [attribute name];
-			id					value = [object storedValueForKey:key];
+			// tom.martin @ riemer.com - 2011-09-16
+			// replace depreciated method.  This should be tested, behavior is different.
+			// It may be acceptable, and then again maybe not. 
+			//id					value = [object storedValueForKey:key];
+			id					value = [object valueForKey:key];
 			exception = [self _mergeException:[self validateValue:&value forKey:key] with:exception];
 		}
 	}
@@ -343,8 +363,11 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 	numKeys = [array count];
 	for (x = 0; x < numKeys; x++) {
 		NSString			*key = [array objectAtIndex:x];
-		id					value = [object storedValueForKey:key];
-		
+		// tom.martin @ riemer.com - 2011-09-16
+		// replace depreciated method.  This should be tested, behavior is different.
+		// It may be acceptable, and then again maybe not. 
+		//id					value = [object storedValueForKey:key];
+		id					value = [object valueForKey:key];
 		exception = [self _mergeException:[self validateValue:&value forKey:key] with:exception];
 	}
 	
@@ -353,8 +376,11 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 	numKeys = [array count];
 	for (x = 0; x < numKeys; x++) {
 		NSString			*key = [array objectAtIndex:x];
-		id					value = [object storedValueForKey:key];
-		
+		// tom.martin @ riemer.com - 2011-09-16
+		// replace depreciated method.  This should be tested, behavior is different.
+		// It may be acceptable, and then again maybe not. 
+		//id					value = [object storedValueForKey:key];
+		id					value = [object valueForKey:key];
 		exception = [self _mergeException:[self validateValue:&value forKey:key] with:exception];
 	}
 	
@@ -446,7 +472,11 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 		attribute = [attributes objectAtIndex:x];
 		name = [attribute name];
 		if ([attribute _isClassProperty]) {
-			value = [object storedValueForKey:name];
+			// tom.martin @ riemer.com - 2011-09-16
+			// replace depreciated method.  This should be tested, behavior is different.
+			// It may be acceptable, and then again maybe not. 
+			//value = [object storedValueForKey:name];
+			value = [object valueForKey:name];
 			[snapshot setObject:value == nil ? [NSNull null] : value forKey:name];
 		}
 	}
@@ -464,8 +494,12 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 			// been able to give us our globalID.  This happens for many-to-many join objects
 			// created during insert.  In those cases we need to grab the global ID from
 			// the EOGenericRecord it self, where it will have been stored.
-			if (!globalID) globalID = [object storedValueForKey: @"globalID"];
-			
+			// tom.martin @ riemer.com - 2011-09-16
+			// replace depreciated method.  This should be tested, behavior is different.
+			// It may be acceptable, and then again maybe not. 
+			//if (!globalID) globalID = [object storedValueForKey: @"globalID"];
+			if (!globalID) globalID = [object valueForKey: @"globalID"];
+
 			value = [globalID valueForKey:name];
 			[snapshot setObject:value == nil ? [NSNull null] : value forKey:name];
 		}
@@ -488,7 +522,11 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 		    // This causes faults to be tripped mid-fetch, which is bad.
 			// mont_rothstein @ yahoo.com 2005-09-28
 			// OK, the change noted above was wrong.  What we need to do here is check to see if the to-many relationship is still a fault and only if it is do we skip it.
-			value = [object storedValueForKey:name];
+			// tom.martin @ riemer.com - 2011-09-16
+			// replace depreciated method.  This should be tested, behavior is different.
+			// It may be acceptable, and then again maybe not. 
+			//value = [object storedValueForKey:name];
+			value = [object valueForKey:name];
 			if ([EOFault isFault: value]) continue;
 			value = [value shallowCopy];
 			[snapshot setObject:value == nil ? [NSNull null] : value forKey:name];
@@ -511,7 +549,11 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 			// end up trying to grab toMany relationships which we don't have.
 			if ([relationship _isClassProperty])
 			{
-				value = [object storedValueForKey:name];
+				// tom.martin @ riemer.com - 2011-09-16
+				// replace depreciated method.  This should be tested, behavior is different.
+				// It may be acceptable, and then again maybe not. 
+				//value = [object storedValueForKey:name];
+				value = [object valueForKey:name];
 				[snapshot setObject:value == nil ? [NSNull null] : value forKey:name];
 			}
 		}

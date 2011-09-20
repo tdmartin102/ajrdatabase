@@ -591,7 +591,14 @@
 			isa = PBXProject;
 			buildConfigurationList = 70B72DFB0956026E005162B9 /* Build configuration list for PBXProject "Adaptors" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = FA63DA8F0742707200AB5036;
 			productRefGroup = FA63DA9E0742709200AB5036 /* Products */;
 			projectDirPath = "";
@@ -843,6 +850,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -862,6 +871,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = Oracle;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",

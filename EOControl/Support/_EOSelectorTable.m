@@ -33,7 +33,7 @@ typedef struct _eoHashItem {
    NSZone		*zone;
 } EOHashItem;
 
-static unsigned _eoHash(NSHashTable *table, const void *item)
+static NSUInteger _eoHash(NSHashTable *table, const void *item)
 {
    return [((EOHashItem *)item)->key hash];
 }

@@ -73,7 +73,9 @@ http://www.raftis.net/~alex/
 	if (object == nil) return NO;
 	
 	// aclark78@users.sourceforge.org - 2006/10/02
-	Class isaClass = ((struct objc_class *)object)->isa;
+	//Class isaClass = ((struct objc_class *)object)->isa;
+	// tom.martin @ riemer.com - 2011/09/15
+	Class isaClass = ((Class)object)->isa;
 	return ((isaClass == [EOFault class]) || 
 			(isaClass == NSClassFromString(@"NSKVONotifying_EOFault")));
 }
@@ -180,29 +182,46 @@ http://www.raftis.net/~alex/
    return [self _valueForKey:key];
 }
 
+// tom.martin @ riemer.com - 2011-09-16
+// replace depreciated method.  
 - (void)takeValue:(id)value forKey:(NSString *)key
 {
+   [self setValue:value forKey:key];
+}
+- (void)setValue:(id)value forKey:(NSString *)key
+{
    [handler faultObject:self];
-   [self takeValue:value forKey:key];
+   [self setValue:value forKey:key];
 }
 
+
+// tom.martin @ riemer.com - 2011-09-16
+// replace depreciated method.  
 - (void)_takeValue:(id)value forKey:(NSString *)key
 {
    [handler faultObject:self];
-   [self takeValue:value forKey:key];
+   [self setValue:value forKey:key];
 }
 
 - (id)storedValueForKey:(NSString *)key
 {
     [handler faultObject:self];
-    [self storedValueForKey:key];
+	// tom.martin @ riemer.com - 2011-09-16
+	// replace depreciated method.  This should be tested, behavior is different.
+	// It may be acceptable, and then again maybe not. 
+	// [self storedValueForKey:key];    
+	[self valueForKey:key];
 }
 
 // (ja @ sente.ch) was missing
 - (void)takeStoredValue:(id)value forKey:(NSString *)key
 {
 	[handler faultObject:self];
-	[self takeStoredValue:value forKey:key];
+	// tom.martin @ riemer.com - 2011-09-16
+	// replace depreciated method.  This should be tested, behavior is different.
+	// It may be acceptable, and then again maybe not. 
+	//[self takeStoredValue:value forKey:key];
+	[self setValue:value forKey:key];
 }
 
 

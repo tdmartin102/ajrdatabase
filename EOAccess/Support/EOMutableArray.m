@@ -54,12 +54,12 @@ http://www.raftis.net/~alex/
    [super dealloc];
 }
 
-- (unsigned)count
+- (NSUInteger)count
 {
    return [array count];
 }
 
-- (id)objectAtIndex:(unsigned int)index
+- (id)objectAtIndex:(NSUInteger)index
 {
    return [array objectAtIndex:index];
 }
@@ -69,7 +69,7 @@ http://www.raftis.net/~alex/
    [array addObject:object];
 }
 
-- (void)insertObject:(id)object atIndex:(unsigned int)index
+- (void)insertObject:(id)object atIndex:(NSUInteger)index
 {
    [array insertObject:object atIndex:index];
 }
@@ -79,12 +79,12 @@ http://www.raftis.net/~alex/
    [array removeLastObject];
 }
 
-- (void)removeObjectAtIndex:(unsigned int)index
+- (void)removeObjectAtIndex:(NSUInteger)index
 {
    [array removeObjectAtIndex:index];
 }
 
-- (void)replaceObjectAtIndex:(unsigned int)index withObject:(id)object
+- (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)object
 {
    [array replaceObjectAtIndex:index withObject:object];
 }

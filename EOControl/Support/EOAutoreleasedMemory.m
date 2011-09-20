@@ -31,7 +31,7 @@ http://www.raftis.net/~alex/
 
 @implementation EOAutoreleasedMemory
 
-- (id)initWithCapacity:(unsigned int)cap
+- (id)initWithCapacity:(NSUInteger)cap
 {
    [super init];
    mutableBytes = NSZoneMalloc(NULL, cap);
@@ -39,12 +39,12 @@ http://www.raftis.net/~alex/
    return self;
 }
 
-- (unsigned int)remainingCapacity
+- (NSUInteger)remainingCapacity
 { /* This method only correct for instances created with defaultMallocMemoryCapacity */ 
     return defaultMallocMemoryCapacity - length;
 }
 
-- (void *)mallocMemoryWithCapacity:(unsigned)cap\
+- (void *)mallocMemoryWithCapacity:(NSUInteger)cap
 {
     void *ret = mutableBytes + length;
     length += cap;
@@ -63,7 +63,7 @@ http://www.raftis.net/~alex/
    [super dealloc];
 }
 
-+ (void *)autoreleasedMemoryWithCapacity:(unsigned)cap
++ (void *)autoreleasedMemoryWithCapacity:(NSUInteger)cap
 {
    EOAutoreleasedMemory *toBeUsed = nil;
 

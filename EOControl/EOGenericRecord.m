@@ -256,19 +256,35 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
    return selector;
 }
 
+// tom.martin @ riemer.com 2011-09-16
+// Added method to replace deprecated handleQueryWithUnboundKey
 - (id)handleQueryWithUnboundKey:(NSString *)key
 {
    return [_values valueForKey:key];
 }
+- (id)valueForUndefinedKey:(NSString *)key
+{
+	return [_values valueForKey:key];
+}
 
 // mont_rothstein @ yahoo.com 2005-08-06
-// Added method because handleTakeValue:forUnboundKey: has been deprecated.  handletakeValue: forUnboundKey: was also missing a call to willChange, so that has been added here.
+// Added method because handleTakeValue:forUnboundKey: has been deprecated.  
+// handletakeValue: forUnboundKey: was also missing a call to willChange, so that has been added here.
+// tom.martin @ riemer.com 2011-09-16
+// this is sort of odd as indeed setValue:forUndefinedKey is the new method, but handletakeValue:forUnboundKey:
+// is the OLD depreciated method.  see notes below
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key
 {
 	[self willChange];
-	[_values takeValue:value forKey:key];
+	// tom.martin @ riemer.com 2011-09-15
+	// This method has been deprecated.  Changed this to call new method name
+	//	[_values takeValue:value forKey:key];
+	[_values setValue:value forKey:key];
 }
 
+// tom.martin @ riemer.com 2011-09-16
+// handletakeValue:forUnboundKey: is the depreciated method. 
+// replacing with the new and simply removing this one as we are only going to support 10.4 and up.
 - (void)handleTakeValue:(id)value forUnboundKey:(NSString *)key
 {
 // mont_rothstein @ yahoo.com 2005-08-06
@@ -277,44 +293,69 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
 	[self setValue: value forUndefinedKey: key];
 }
 
+
+// tom.martin @ riemer.com 2011-09-16
+// unableToSetNilForKey: is the depreciated method. 
 - (void)unableToSetNilForKey:(NSString *)key
 {
-	[_values takeValue:nil forKey:key];
+	[_values setValue:nil forKey:key];
+}
+- (void)setNilValueForKey:(NSString *)key
+{
+	[_values setValue:nil forKey:key];
 }
 
+
+// tom.martin @ riemer.com 2011-09-16
+// takeStoredValue:forKey is a depreciated method. 
+// setValue:forKey will be called instead.  I'm not sure what kind of
+// impact this may have.  Perhaps some performance, maybe something else
+// I am just going to comment this out for now and if this comes back to
+// haunt me, then perhaps we could implement setPrimitiveValue:forKey: or
+// something like that.
 - (void)takeStoredValue:(id)value forKey:(NSString *)key
 {
-	void		*variable;
-	Ivar		ivar;
+	//void		*variable;
+	//Ivar		ivar;
 	
 	// mont_rothstein @ yahoo.com 2005-02-17
 	// As per the WO 4.5.1 docs call to willChange added
 	[self willChange];
+	[_values setValue:value forKey:key];
 
 	// If the key exists as a ivar in the object, then use super's implementation.
-	ivar = object_getInstanceVariable(self, [key cString], &variable);
-	if (ivar) {
-		[super takeStoredValue:value forKey:key];
-	} else {
-		[_values takeValue:value forKey:key];
-	}
+	//ivar = object_getInstanceVariable(self, [key UTF8String], &variable);
+	//if (ivar) {
+	//	[super takeStoredValue:value forKey:key];
+	//} else {
+	//	[_values takeValue:value forKey:key];
+	//}
 }
 
+// tom.martin @ riemer.com 2011-09-16
+// storedValueForKey: is a depreciated method. 
+// setValue:forKey will be called instead.  I'm not sure what kind of
+// impact this may have.  Perhaps some performance, maybe something else
+// I am just going to comment this out for now and if this comes back to
+// haunt me, then perhaps we could implement primitiveValueForKey: or
+// something like that.
 - (id)storedValueForKey:(NSString *)key
 {
-	void		*variable;
-	id			value;
-	Ivar		ivar;
+//	void		*variable;
+//	id			value;
+//	Ivar		ivar;
+
+	return [_values valueForKey:key];
 	
 	// If the key exists as a ivar in the object, then use super's implementation.
-	ivar = object_getInstanceVariable(self, [key cString], &variable);
-	if (ivar) {
-		value = [super storedValueForKey:key];
-	} else {
-		value = [_values valueForKey:key];
-	}
+//	ivar = object_getInstanceVariable(self, [key UTF8String], &variable);
+//	if (ivar) {
+//		value = [super storedValueForKey:key];
+//	} else {
+//		value = [_values valueForKey:key];
+//	}
 	
-   return value;
+//   return value;
 }
 
 // mont_rothstein @ yahoo.com 2004-12-05

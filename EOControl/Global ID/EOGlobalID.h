@@ -51,6 +51,10 @@ extern NSString *EOGlobalIDChangedNotification;
  * of the global ID based on key.
  */
 - (id)valueForKey:(NSString *)key;
+
+// tom.martin @ riemer.com - 2011-09-16
+// replace depreciated method.  
+- (NSDictionary *)dictionaryWithValuesForKeys:(NSArray *)keys;
 - (NSDictionary *)valuesForKeys:(NSArray *)keys;
 
 - (NSComparisonResult)compare:(id)other;

@@ -844,7 +844,10 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 		
 		value = [row valueForKey:key];
 		if (value == nil) return nil;
-		[pk takeValue:value forKey:key];
+		// tom.martin @ riemer.com - 2011-09-16
+		// replace depreciated method.  
+		//[pk takeValue:value forKey:key];
+		[pk setValue:value forKey:key];
 	}
 	
 	return pk;
@@ -1328,7 +1331,7 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 
 - (void)removeSubEntity:(EOEntity *)subentity
 {
-	unsigned int index;
+	NSUInteger index;
 	
 	if ((index = [subentities indexOfObjectIdenticalTo:subentity]) != NSNotFound) {
 		[self willChange];

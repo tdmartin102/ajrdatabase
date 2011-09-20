@@ -1238,7 +1238,11 @@ static Class _eoDatabaseContextClass = Nil;
 		// Call the underscore method, since we're fetch from the database. This will give any subclasses the chance to by-pass business logic.
 		// mont_rothstein @ yahoo.com 2005-09-11
 		// Yet another place where NSNull values weren't being handled properly.
-		if (value != [NSNull null])	[object takeStoredValue:value forKey:key];
+		// tom.martin @ riemer.com - 2011-09-16
+		// replace depreciated method.  This should be tested, behavior is different.
+		// It may be acceptable, and then again maybe not. 
+		//if (value != [NSNull null])	[object takeStoredValue:value forKey:key];
+		if (value != [NSNull null])	[object setValue:value forKey:key];
 	}
 }
 
@@ -1621,7 +1625,9 @@ static Class _eoDatabaseContextClass = Nil;
 		}
 	}
 	
-	return [[self snapshotForGlobalID:[[object editingContext] globalIDForObject:object]] valuesForKeys:keys];
+	// tom.martin @ riemer.com - 2011-09-16
+	// replace depreciated method.  
+	return [[self snapshotForGlobalID:[[object editingContext] globalIDForObject:object]] dictionaryWithValuesForKeys:keys];
 }
 
 - (void)invalidateAllObjects
@@ -2059,7 +2065,11 @@ static Class _eoDatabaseContextClass = Nil;
 		// Here we have to store the globalID directly on the EOGenericRecord
 		// because this object doesn't have an editing context.  snapshotForObject:
 		// will need to grab this globalID to grab the primary key attributes.
-		[joinObject takeStoredValue: newGlobalID forKey: @"globalID"];
+		// tom.martin @ riemer.com - 2011-09-16
+		// replace depreciated method.  This should be tested, behavior is different.
+		// It may be acceptable, and then again maybe not. 
+		//[joinObject takeStoredValue: newGlobalID forKey: @"globalID"];
+		[joinObject setValue: newGlobalID forKey: @"globalID"];
 
 		// mont_rothstein @ yahoo.com 2005-04-03
 		// We need to set the relationship objects (if they are class properties) on the

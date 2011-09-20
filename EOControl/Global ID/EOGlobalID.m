@@ -55,7 +55,10 @@ NSString *EOGlobalIDChangedNotification = @"EOGlobalIDChangedNotification";
    return nil;
 }
 
-- (NSDictionary *)valuesForKeys:(NSArray *)keys
+
+// tom.martin @ riemer.com - 2011-09-16
+// replace depreciated method.  
+- (NSDictionary *)dictionaryWithValuesForKeys:(NSArray *)keys
 {
 	NSMutableDictionary	*values;
 	int						x, numKeys;
@@ -64,10 +67,17 @@ NSString *EOGlobalIDChangedNotification = @"EOGlobalIDChangedNotification";
 	
 	for (x = 0; x < numKeys; x++) {
 		NSString		*key = [keys objectAtIndex:x];
-		[values takeValue:[self valueForKey:key] forKey:key];
+		// tom.martin @ riemer.com - 2011-09-16
+		// replace depreciated method.  
+		//[values takeValue:[self valueForKey:key] forKey:key];
+		[values setValue:[self valueForKey:key] forKey:key];
 	}
 	
 	return values;
+}
+- (NSDictionary *)valuesForKeys:(NSArray *)keys
+{
+	return [self dictionaryWithValuesForKeys:keys];
 }
 
 - (id)copyWithZone:(NSZone *)zone

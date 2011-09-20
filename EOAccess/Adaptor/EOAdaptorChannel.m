@@ -186,7 +186,10 @@ NSString *EOGenericAdaptorException = @"EOGenericAdaptorException";
 	
 	numAttributes = [attributes count];
 	for (x = 0; x < numAttributes; x++) {
-		[dictionary takeValue:objects[x] forKey:[[attributes objectAtIndex:x] name]];
+		// tom.martin @ riemer.com - 2011-09-16
+		// replace depreciated method.  
+		//[dictionary takeValue:objects[x] forKey:[[attributes objectAtIndex:x] name]];
+		[dictionary setValue:objects[x] forKey:[[attributes objectAtIndex:x] name]];
 	}
 	
 	return dictionary;

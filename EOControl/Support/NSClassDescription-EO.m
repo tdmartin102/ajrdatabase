@@ -184,8 +184,11 @@
 	
 	for (x = 0; x < numKeys; x++) {
 		NSString		*key = [keys objectAtIndex:x];
-		
-		value = [self storedValueForKey:key];
+		// tom.martin @ riemer.com - 2011-09-16
+		// replace depreciated method.  This should be tested, behavior is different.
+		// It may be acceptable, and then again maybe not. 
+		//value = [self storedValueForKey:key];
+		value = [self valueForKey:key];
 		[snapshot setObject:value == nil ? [NSNull null] : value forKey:key];
 	}
 	
@@ -194,7 +197,11 @@
 	
 	for (x = 0; x < numKeys; x++) {
 		NSString		*key = [keys objectAtIndex:x];
-		value = [self storedValueForKey:key];
+		// tom.martin @ riemer.com - 2011-09-16
+		// replace depreciated method.  This should be tested, behavior is different.
+		// It may be acceptable, and then again maybe not. 
+		//value = [self storedValueForKey:key];
+		value = [self valueForKey:key];
 		[snapshot setObject:value == nil ? [NSNull null] : value forKey:key];
 	}
 	
@@ -203,7 +210,11 @@
 	
 	for (x = 0; x < numKeys; x++) {
 		NSString		*key = [keys objectAtIndex:x];
-		value = [[self storedValueForKey:key] shallowCopy];
+		// tom.martin @ riemer.com - 2011-09-16
+		// replace depreciated method.  This should be tested, behavior is different.
+		// It may be acceptable, and then again maybe not.
+		//value = [[self storedValueForKey:key] shallowCopy];
+		value = [[self valueForKey:key] shallowCopy];
 		[snapshot setObject:value == nil ? [NSNull null] : value forKey:key];
 		[value release];
 	}

@@ -79,8 +79,8 @@ NSString *EOStoredProcedureDidChangeNameNotification = @"EOStoredProcedureDidCha
 {
 	NSMutableDictionary		*argument;
 	NSMutableArray				*someArguments;
-	int							x;
-	int numArguments;
+	NSInteger							x;
+	NSInteger numArguments;
 	
 	[self _initialize];
 	
@@ -197,7 +197,7 @@ NSString *EOStoredProcedureDidChangeNameNotification = @"EOStoredProcedureDidCha
 
 - (void)addArgument:(EOAttribute *)anArgument
 {
-	int			index;
+	NSInteger		index;
 	
 	[self _initialize];
 
@@ -213,7 +213,7 @@ NSString *EOStoredProcedureDidChangeNameNotification = @"EOStoredProcedureDidCha
 
 - (void)removeArgument:(EOAttribute *)anArgument
 {
-	int			index;
+	NSInteger	index;
 	
 	[self _initialize];
 	

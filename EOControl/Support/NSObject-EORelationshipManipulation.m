@@ -134,7 +134,10 @@ static NSMutableDictionary *_eoRemoveMethodCache = nil;
 				[[self editingContext] deleteObject: key];
 			}
 		}
-			[self takeValue:object forKey:key];
+			// tom.martin @ riemer.com - 2011-09-16
+			// replace depreciated method.  
+			//[self takeValue:object forKey:key];
+			[self setValue:object forKey:key];
 //		}
 	}
 	if (ownsDestination && ([object editingContext] == nil)) {
@@ -178,7 +181,10 @@ static NSMutableDictionary *_eoRemoveMethodCache = nil;
 //			[self willChange];
 //			[value removeObjectIdenticalTo:object];
 //		} else {
-			[self takeValue:NULL forKey:key];
+			// tom.martin @ riemer.com - 2011-09-16
+			// replace depreciated method.  
+			//[self takeValue:NULL forKey:key];
+			[self setValue:nil forKey:key];
 //		}
 	}
 	if (ownsDestination  && ([object editingContext] != nil)) {

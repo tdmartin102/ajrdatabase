@@ -39,14 +39,14 @@ http://www.raftis.net/~alex/
 
 - (id)init;
 
-- (unsigned)count;
-- (id)objectAtIndex:(unsigned int)index;
+- (NSUInteger)count;
+- (id)objectAtIndex:(NSUInteger)index;
 
 - (void)addObject:(id)object;
-- (void)insertObject:(id)object atIndex:(unsigned int)index;
+- (void)insertObject:(id)object atIndex:(NSUInteger)index;
 - (void)removeLastObject;
-- (void)removeObjectAtIndex:(unsigned int)index;
-- (void)replaceObjectAtIndex:(unsigned int)index withObject:(id)object;
+- (void)removeObjectAtIndex:(NSUInteger)index;
+- (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)object;
 
 - (void)refaultWithSourceGlobalID:(EOGlobalID *)sourceGlobalID
                  relationshipName:(NSString *)aRelationshipName

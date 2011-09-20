@@ -333,7 +333,7 @@ NSString *EORelationshipDidChangeNameNotification = @"EORelationshipDidChangeNam
 		error = @"A stored procedure already exists with that name.";
 	}
 	
-	if (error)  [NSException raise:NSInvalidArgumentException format:error];
+	if (error)  [NSException raise:NSInvalidArgumentException format:@"%@", error];
 	
 	return nil;
 }
@@ -732,7 +732,7 @@ NSString *EORelationshipDidChangeNameNotification = @"EORelationshipDidChangeNam
 	if (deleteRule != rule) {
 		[self willChange];
 		if ([[[self entity] model] undoManager]) {
-			[[[[[self entity] model] undoManager] prepareWithInvocationTarget:self] setDeleteRule:deleteRule];
+			[(EORelationship *)[[[[self entity] model] undoManager] prepareWithInvocationTarget:self] setDeleteRule:deleteRule];
 		}
 		deleteRule = rule;
 	}

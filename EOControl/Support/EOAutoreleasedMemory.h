@@ -34,8 +34,8 @@ http://www.raftis.net/~alex/
 
 @interface EOAutoreleasedMemory : NSObject
 {
-    void				*mutableBytes;
-    unsigned int	length;	/* Number of bytes used up... */
+    void			*mutableBytes;
+    NSUInteger		length;	/* Number of bytes used up... */
 }
 
 /*!
@@ -45,6 +45,6 @@ http://www.raftis.net/~alex/
 
  @result Allocated memory which will be freed on the next clean up of the autorelease pool.
  */
-+ (void *)autoreleasedMemoryWithCapacity:(unsigned int)capacity;
++ (void *)autoreleasedMemoryWithCapacity:(NSUInteger)capacity;
 
 @end
