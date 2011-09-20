@@ -25,8 +25,33 @@ http://www.raftis.net/~alex/
  *%*%*%*%*/
 
 #import "NSObject-EOQualifier.h"
+#import "EOAutoreleasedMemory.h"
 
 #import <fnmatch.h>
+@interface NSString (EOQuaifierString)
+- (char *)lossyASCIIString;
+@end
+
+@implementation NSString (EOQuaifierString)
+#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+- (char *)lossyASCIIString
+{
+	char		*buffer;
+	NSData		*data;
+	NSUInteger	len;
+	
+	data = [self dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+	len = [data length];
+	buffer = [EOAutoreleasedMemory autoreleasedMemoryWithCapacity:len + 1];
+	if (len)
+		[data getBytes:buffer length:[data length]];
+	buffer[len]=0;
+	return buffer;
+}
+#else
+- (char *)lossyASCIIString { return [self lossyCString]; }
+#endif
+@end
 
 @implementation NSObject (EOQualifier)
 
@@ -71,22 +96,22 @@ http://www.raftis.net/~alex/
 
 - (BOOL)qualifierLike:(id)value
 {
-   return fnmatch([[value description] lossyCString], [[self description] lossyCString], 0) != FNM_NOMATCH;
+   return fnmatch([[value description] lossyASCIIString], [[self description] lossyASCIIString], 0) != FNM_NOMATCH;
 }
 
 - (BOOL)qualifierCaseInsensitiveLike:(id)value
 {
-   return fnmatch([[[value description] lowercaseString] lossyCString], [[[self description] lowercaseString] lossyCString], 0) != FNM_NOMATCH;
+   return fnmatch([[[value description] lowercaseString] lossyASCIIString], [[[self description] lowercaseString] lossyASCIIString], 0) != FNM_NOMATCH;
 }
 
 - (BOOL)qualifierNotLike:(id)value
 {
-   return fnmatch([[value description] lossyCString], [[self description] lossyCString], 0) == FNM_NOMATCH;
+   return fnmatch([[value description] lossyASCIIString], [[self description] lossyASCIIString], 0) == FNM_NOMATCH;
 }
 
 - (BOOL)qualifierCaseInsensitiveNotLike:(id)value
 {
-   return fnmatch([[[value description] lowercaseString] lossyCString], [[[self description] lowercaseString] lossyCString], 0) == FNM_NOMATCH;
+   return fnmatch([[[value description] lowercaseString] lossyASCIIString], [[[self description] lowercaseString] lossyASCIIString], 0) == FNM_NOMATCH;
 }
 
 // mont_rothstein@yahoo.com 2006-01-22
