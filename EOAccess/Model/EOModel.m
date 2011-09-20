@@ -693,7 +693,10 @@ static NSCharacterSet		*validNameSet = nil;
          value = EOFormat(@"%d", databaseEncoding);
    }
 
-   [[self connectionDictionary] takeValue:value forKey:@"encoding"];
+	// tom.martin @ riemer.com - 2011-09-16
+	// replace depreciated method.  
+	//[[self connectionDictionary] takeValue:value forKey:@"encoding"];
+	[[self connectionDictionary] setValue:value forKey:@"encoding"];
 }
 
 - (NSStringEncoding)databaseEncoding
@@ -778,15 +781,24 @@ static NSCharacterSet		*validNameSet = nil;
 		
 		backupPath = [NSString stringWithFormat:@"%@~.%@", 
 			[aPath stringByDeletingPathExtension], [aPath pathExtension]];
-		[[NSFileManager defaultManager] removeFileAtPath:backupPath handler:nil];
-		
-		if (![[NSFileManager defaultManager] movePath:aPath toPath:backupPath handler:nil]) 
+	#if MAC_OS_X_VERSION_MAX_ALLOWED > 1040
+		[[NSFileManager defaultManager] removeItemAtPath:backupPath error:NULL];
+		if (![[NSFileManager defaultManager] moveItemAtPath:aPath toPath:backupPath error:NULL]) 
 		{
 			[NSException raise:NSInvalidArgumentException format:@"Unable to create directory: %@: %s", aPath, strerror(errno)];
 		}
 	}
 
+	[[NSFileManager defaultManager] createDirectoryAtPath:aPath withIntermediateDirectories:YES attributes:nil error:NULL];
+	#else
+		[[NSFileManager defaultManager] removeFileAtPath:backupPath handler:nil];		
+		if (![[NSFileManager defaultManager] movePath:aPath toPath:backupPath handler:nil]) 
+		{
+			[NSException raise:NSInvalidArgumentException format:@"Unable to create directory: %@: %s", aPath, strerror(errno)];
+		}
+	}
 	[[NSFileManager defaultManager] createDirectoryAtPath:aPath attributes:nil];
+	#endif
 
 	if (backupPath) 
 	{
@@ -805,9 +817,17 @@ static NSCharacterSet		*validNameSet = nil;
 			{
 				if (isDirectory) 
 				{
+					// tom.martin @ riemer.com - 2011-09-16
+					// replace depreciated method.  
+					#if MAC_OS_X_VERSION_MAX_ALLOWED > 1040
+					[[NSFileManager defaultManager] copyItemAtPath: vcBackupPath 
+													toPath: vcNewPath 
+													error:NULL];
+					#else
 					[[NSFileManager defaultManager] copyPath: vcBackupPath 
-													  toPath: vcNewPath 
-													 handler:nil];
+													toPath: vcNewPath 
+													handler:nil];
+					#endif
 				}
 			}
 		}
@@ -825,7 +845,9 @@ static NSCharacterSet		*validNameSet = nil;
 	   dictionary = [[NSMutableDictionary allocWithZone:[self zone]] init];
 	   NS_DURING
 		   [entity encodeIntoPropertyList:dictionary];
-		   [[dictionary description] writeToFile:outputPath atomically:NO];
+		   // tom.martin @ riemer.com - 2011-09-16
+			// replace depreciated method.  
+		   [[dictionary description] writeToFile:outputPath atomically:NO encoding:NSUTF8StringEncoding error:NULL];
 		   [entityIndex addObject:[NSDictionary dictionaryWithObjectsAndKeys:[entity name], @"name", [[entity className] isEqualToString:@"EOGenericRecord"] ? @"EOGenericRecord" : [entity className], @"className", nil]];
 	   NS_HANDLER
 		   [dictionary release];
@@ -853,7 +875,9 @@ static NSCharacterSet		*validNameSet = nil;
 			   }
 			   
 			   outputPath = [[aPath stringByAppendingPathComponent:[entity name]] stringByAppendingPathExtension:@"fspec"];
-			   [[encodedFetches description] writeToFile:outputPath atomically:NO];
+			   // tom.martin @ riemer.com - 2011-09-16
+				// replace depreciated method.  
+			   [[encodedFetches description] writeToFile:outputPath atomically:NO encoding:NSUTF8StringEncoding error:NULL];
 		   NS_HANDLER
 			   [encodedFetches release];
 			   [entityIndex release];
@@ -877,7 +901,9 @@ static NSCharacterSet		*validNameSet = nil;
 	   dictionary = [[NSMutableDictionary allocWithZone:[self zone]] init];
 	   NS_DURING
 		   [storedProcedure encodeIntoPropertyList:dictionary];
-		   [[dictionary description] writeToFile:outputPath atomically:NO];
+		   // tom.martin @ riemer.com - 2011-09-16
+			// replace depreciated method.  
+		   [[dictionary description] writeToFile:outputPath atomically:NO encoding:NSUTF8StringEncoding error:NULL];
 		   [storedProcedureIndex addObject:[storedProcedure name]];
 	   NS_HANDLER
 		   [dictionary release];
@@ -899,7 +925,10 @@ static NSCharacterSet		*validNameSet = nil;
    
    [index setObject:@"2.1" forKey:@"EOModelVersion"];
    
-   if (![[index description] writeToFile:[[aPath stringByAppendingPathComponent:@"index"] stringByAppendingPathExtension:@"eomodeld"] atomically:NO]) {
+   if (![[index description] writeToFile:[[aPath stringByAppendingPathComponent:@"index"]
+		// tom.martin @ riemer.com - 2011-09-16
+		// replace depreciated method.   
+		stringByAppendingPathExtension:@"eomodeld"] atomically:NO encoding:NSUTF8StringEncoding error:NULL]) {
 	   [NSException raise:NSInvalidArgumentException format:@"Unable to write to file: %@: %s", [aPath stringByAppendingPathExtension:@"eomodeld"], strerror(errno)];
    }
    
