@@ -49,8 +49,10 @@ static NSCharacterSet	*numberSet;
 	input = [aString retain];
 	length = [input length];
 	position = 0;
-	arguments = someArguments;
-	
+	//arguments = someArguments;
+	// tom.martin @ riemer.com - 2011/09/15
+	isVaList = YES;
+	va_copy(arguments, someArguments);
 	return self;
 }
 
@@ -63,7 +65,8 @@ static NSCharacterSet	*numberSet;
 	input = [aString retain];
 	length = [input length];
 	position = 0;
-	arguments = nil;
+	isVaList = NO;
+	// arguments = NULL;
 	argEnumerator = [[someArguments objectEnumerator] retain];
 	
 	return self;
@@ -74,6 +77,9 @@ static NSCharacterSet	*numberSet;
 	[input release];
 	[stack release];
 	[argEnumerator release];
+	// tom.martin @ riemer.com 2011/09-15
+	if (isVaList)
+		va_end(arguments);
 	
 	[super dealloc];
 }
@@ -253,7 +259,7 @@ static NSCharacterSet	*numberSet;
 	character = [input characterAtIndex:position];
 	position++;
 	if (character == 'd') {
-		if (arguments != nil)
+		if (isVaList)
 		{
 			int		arg = va_arg(arguments, int);
 			return [EOQualifierToken tokenWithType:EOTokenNumber value:[NSNumber numberWithInt:arg]];
@@ -263,7 +269,7 @@ static NSCharacterSet	*numberSet;
 			return [EOQualifierToken tokenWithType:EOTokenNumber value:[argEnumerator nextObject]];
 		}
 	} else if (character == 's') {
-		if (arguments != nil)
+		if (isVaList)
 		{
 			char		*arg = va_arg(arguments, char *);
 			return [EOQualifierToken tokenWithType:EOTokenNumber value:[NSString stringWithCString:arg]];
@@ -273,7 +279,7 @@ static NSCharacterSet	*numberSet;
 			return [EOQualifierToken tokenWithType:EOTokenNumber value:[argEnumerator nextObject]];
 		}
 	} else if (character == '@') {
-		if (arguments != nil)
+		if (isVaList)
 		{
 			id		arg = va_arg(arguments, id);
 			return [EOQualifierToken tokenWithType:EOTokenNumber value:arg];
@@ -283,7 +289,7 @@ static NSCharacterSet	*numberSet;
 			return [EOQualifierToken tokenWithType:EOTokenNumber value:[argEnumerator nextObject]];
 		}
 	} else if (character == 'f') {
-		if (arguments != nil)
+		if (isVaList)
 		{
 			double		arg = va_arg(arguments, double);
 			return [EOQualifierToken tokenWithType:EOTokenNumber value:[NSNumber numberWithDouble:arg]];

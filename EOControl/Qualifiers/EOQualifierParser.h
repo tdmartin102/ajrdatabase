@@ -15,12 +15,13 @@ typedef enum _eoQualifierTokenType {
 
 @interface EOQualifierParser : NSObject
 {
-	NSString				*input;
+	NSString			*input;
 	int					length;
 	int					position;
 	va_list				arguments;
 	NSMutableArray		*stack;
 	NSEnumerator		*argEnumerator;
+	BOOL				isVaList;
 }
 
 - (id)initWithString:(NSString *)aString varargList:(va_list)arguments;
