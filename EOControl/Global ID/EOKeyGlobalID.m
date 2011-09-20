@@ -115,7 +115,9 @@ http://www.raftis.net/~alex/
 	if (other == self) return YES;
     if (other == nil) return NO;
 	
-   if (((struct objc_class *)other)->isa == ((struct objc_class *)self)->isa) {
+   //if (((struct objc_class *)other)->isa == ((struct objc_class *)self)->isa) {
+   // tom.martin @ riemer.com -- 2011/09/15
+   if (((Class)other)->isa == ((Class)self)->isa) {
       EOKeyGlobalID    *trueOther = other;
       int                     x;
 

@@ -97,13 +97,13 @@ http://www.raftis.net/~alex/
 {
 	if (other == self) return YES;
 	
-   if (((struct objc_class *)other)->isa == ((struct objc_class *)self)->isa) {
-      EONumericKeyGlobalID    *trueOther = other;
-      //int                     x;
-		
-		// Entity name's should be unique strings across all entities, since they'll be the exact same entity.
-      if (entityName != trueOther->entityName) return NO;
-		
+	//if (((struct objc_class *)other)->isa == ((struct objc_class *)self)->isa) {
+	// tom.martin @ riemer.com -- 2011/09/15
+	if (((Class)other)->isa == ((Class)self)->isa) {
+		EONumericKeyGlobalID    *trueOther = other;
+		//int                     x;
+	// Entity name's should be unique strings across all entities, since they'll be the exact same entity.
+	if (entityName != trueOther->entityName) return NO;		
       return memcmp(values, trueOther->values, sizeof(unsigned long long) * count) == 0;
    }
 	

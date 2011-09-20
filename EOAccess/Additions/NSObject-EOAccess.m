@@ -29,8 +29,14 @@
 // mont_rothstein @ yahoo.com 2005-01-08
 // We need to keep NSObject's original dealloc around because we are going to override
 // it, but still need to call it.
-static void (*_eofSavedDealloc)(id, SEL);
-
+//static void (*_eofSavedDealloc)(id, SEL);
+// Tom.Martin @ Riemer.com - 2011-09-18
+// I am changing this a bit as the internals for objects are now opaque.  
+// Same idea though, implemented in the same way.
+// declare the method here so the compilier knows about it.
+@interface NSObject (EOAccessPrivateParts)
+- (void)_eofNSObjectDealloc;
+@end
 
 @implementation NSObject (EOAccess)
 
@@ -39,11 +45,20 @@ static void (*_eofSavedDealloc)(id, SEL);
 // will in turn call the original dealloc.
 + (void)load
 {
-	Method		method;
+	Method		originalMethod;
+	Method		ourMethod;
+	originalMethod = class_getInstanceMethod([NSObject class], @selector(dealloc));
 	
-	method = class_getInstanceMethod([NSObject class], @selector(dealloc));
-	_eofSavedDealloc = (void (*)(id, SEL))method->method_imp;
-	method->method_imp = [NSObject instanceMethodForSelector:@selector(_eofNSObjectDealloc)];
+	// Tom.Martin @ Riemer.com - 2011-09-18
+	// I am changing this a bit as the internals for objects are now opaque.  
+	// Same idea though, implemented in the same way.
+	// todo:  I think this should be moved to EOModel and only perform this swap on clases that
+	// we KNOW are EO's  It is silly to do this for ALL objects.
+	//_eofSavedDealloc = (void (*)(id, SEL))originalMethod->method_imp;
+	//originalMethod->method_imp = [NSObject instanceMethodForSelector:@selector(_eofNSObjectDealloc)];
+	ourMethod = class_getInstanceMethod([NSObject class], @selector(_eofNSObjectDealloc));
+	method_exchangeImplementations(originalMethod, ourMethod);
+
 }
 
 - (NSDictionary *)primaryKey
@@ -101,7 +116,11 @@ static void (*_eofSavedDealloc)(id, SEL);
 	}
 	
 	// Calls NSObjects's original dealloc
-	_eofSavedDealloc(self, @selector(dealloc));
+	// Tom.Martin @ Riemer.com 2011-09-18
+	// change the call to be more OBJ-C like.
+	//_eofSavedDealloc(self, @selector(dealloc));
+	// This is NOT recursive since msg_send will reslove this call to the original dealloc
+	[self _eofNSObjectDealloc];
 }
 
 @end
