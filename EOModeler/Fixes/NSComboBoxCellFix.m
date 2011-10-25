@@ -8,8 +8,6 @@
 
 #import "NSComboBoxCellFix.h"
 
-#import <AJRFoundation/AJRFoundation.h>
-
 // Some private Apple API
 @interface NSComboBoxCell (ApplePrivate)
 
