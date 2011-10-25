@@ -13,7 +13,7 @@
 #import "NSTableView-ColumnVisibility.h"
 
 #import <EOAccess/EOAccess.h>
-#import <AJRInterface/AJRInterface.h>
+#import <EOControl/NSArray+CocoaDevUsersAdditions.h>
 
 // Need to access some private relationship API
 @interface EORelationship (Private)
@@ -100,7 +100,7 @@
 	[join _setDestinationAttribute:attribute];
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
 	if (aTableView == entityAttributesTable) {
 		return [[[self selectedEntity] attributes] count];
@@ -111,7 +111,7 @@
 	return 0;
 }
 
-- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
 	if (aTableView == entityAttributesTable) {
 		NSString		*ident = [aTableColumn identifier];
@@ -196,7 +196,7 @@
 	}
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
 	if (aTableView == entityAttributesTable) {
 		NSString		*ident = [aTableColumn identifier];
@@ -241,7 +241,7 @@
 	return @"";
 }
 
-- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
 	if (aTableView == entityAttributesTable) {
 		NSString		*ident = [aTableColumn identifier];
@@ -535,8 +535,8 @@
 - (void)update
 {
 	//AJRPrintf(@"Selected: %@\n", [self selectedEntity]);
-	[entityAttributesText setStringValue:AJRFormat(@"%@ Attributes", [[self selectedEntity] name])];
-	[entityRelationshipsText setStringValue:AJRFormat(@"%@ Relationships", [[self selectedEntity] name])];
+	[entityAttributesText setStringValue:[NSString stringWithFormat:@"%@ Attributes", [[self selectedEntity] name]]];
+	[entityRelationshipsText setStringValue:[NSString stringWithFormat:@"%@ Relationships", [[self selectedEntity] name]]];
 	
 	[entityAttributesTable reloadData];
 	[entityRelationshipsTable reloadData];
