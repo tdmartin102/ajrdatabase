@@ -10,7 +10,6 @@
 
 #import <EOAccess/EOAccess.h>
 
-#import <AJRFoundation/AJRFoundation.h>
 
 @implementation DataBrowser
 
@@ -151,13 +150,13 @@
 	NS_ENDHANDLER
 	
 	if (error) {
-		[statusField setStringValue:AJRFormat(@"Error: %@", error)];
+		[statusField setStringValue:[NSString stringWithFormat:@"Error: %@", error]];
 	} else {
 		float				seconds;
 		int				x;
 		
 		seconds = [[NSCalendarDate date] timeIntervalSinceReferenceDate] - [start timeIntervalSinceReferenceDate];
-		[statusField setStringValue:AJRFormat(@"%d row%@ fetched in %.1f second%@", count, count == 1 ? @"" : @"s", seconds, seconds == 1 ? @"" : @"s")];
+		[statusField setStringValue:[NSString stringWithFormat:@"%d row%@ fetched in %.1f second%@", count, count == 1 ? @"" : @"s", seconds, seconds == 1 ? @"" : @"s"]];
 		
 		while ([[dataTable tableColumns] count]) {
 			[dataTable removeTableColumn:[[dataTable tableColumns] lastObject]];
@@ -197,7 +196,7 @@
 {
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)tableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
 	if (tableView == entityTable) {
 		return [[model entities] count];
@@ -208,7 +207,7 @@
 	return 0;
 }
 
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(int)row
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(NSInteger)row
 {
 	if (tableView == entityTable) {
 		return [[[model entities] objectAtIndex:row] name];
