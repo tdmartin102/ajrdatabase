@@ -8,7 +8,6 @@
 
 #import "NoEventMatrix.h"
 
-#import <AJRFoundation/AJRFoundation.h>
 
 @implementation NoEventMatrix
 
