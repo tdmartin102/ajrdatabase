@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		148CDC9F145759C8008F682E /* NSArray+CocoaDevUsersAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 148CDC9D145759C8008F682E /* NSArray+CocoaDevUsersAdditions.h */; };
+		148CDCA0145759C8008F682E /* NSArray+CocoaDevUsersAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 148CDC9E145759C8008F682E /* NSArray+CocoaDevUsersAdditions.m */; };
 		7031682D075EC21B00B78A07 /* EONull.h in Headers */ = {isa = PBXBuildFile; fileRef = 7031682B075EC21B00B78A07 /* EONull.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7031682E075EC21B00B78A07 /* EONull.m in Sources */ = {isa = PBXBuildFile; fileRef = 7031682C075EC21B00B78A07 /* EONull.m */; };
 		7031684C075EC46B00B78A07 /* EOKeyValueCoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 7031684A075EC46B00B78A07 /* EOKeyValueCoding.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -122,6 +124,8 @@
 
 /* Begin PBXFileReference section */
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		148CDC9D145759C8008F682E /* NSArray+CocoaDevUsersAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+CocoaDevUsersAdditions.h"; sourceTree = "<group>"; };
+		148CDC9E145759C8008F682E /* NSArray+CocoaDevUsersAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+CocoaDevUsersAdditions.m"; sourceTree = "<group>"; };
 		32DBCF5E0370ADEE00C91783 /* EOControl_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EOControl_Prefix.pch; sourceTree = "<group>"; };
 		7031682B075EC21B00B78A07 /* EONull.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EONull.h; sourceTree = "<group>"; };
 		7031682C075EC21B00B78A07 /* EONull.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EONull.m; sourceTree = "<group>"; };
@@ -400,6 +404,8 @@
 		FAC10B1D073F03A300744E1E /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				148CDC9D145759C8008F682E /* NSArray+CocoaDevUsersAdditions.h */,
+				148CDC9E145759C8008F682E /* NSArray+CocoaDevUsersAdditions.m */,
 				FAC10CE6073F0DC200744E1E /* _EOSelectorTable.h */,
 				FAC10CE7073F0DC200744E1E /* _EOSelectorTable.m */,
 				FAC10CD5073F0D7700744E1E /* _EOWeakMutableArray.h */,
@@ -514,6 +520,7 @@
 				FA0DBCB2082F96CC00C22582 /* EOLog.h in Headers */,
 				FA0DBCB6082F9A8F00C22582 /* NSString-EO.h in Headers */,
 				FA0DC59A082FACD400C22582 /* EOAutoreleasedMemory.h in Headers */,
+				148CDC9F145759C8008F682E /* NSArray+CocoaDevUsersAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -623,6 +630,7 @@
 				FA0DBCB3082F96CC00C22582 /* EOLog.m in Sources */,
 				FA0DBCB7082F9A8F00C22582 /* NSString-EO.m in Sources */,
 				FA0DC59B082FACD400C22582 /* EOAutoreleasedMemory.m in Sources */,
+				148CDCA0145759C8008F682E /* NSArray+CocoaDevUsersAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
