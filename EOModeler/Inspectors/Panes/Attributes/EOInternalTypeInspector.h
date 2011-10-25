@@ -6,8 +6,6 @@
 //  Copyright 2004 __MyCompanyName__. All rights reserved.
 //
 
-#import <AJRFoundation/AJRFoundation.h>
-
 @class EOAttribute, EOAttributePane, EOInternalTypePane;
 
 @interface EOInternalTypeInspector : NSView
