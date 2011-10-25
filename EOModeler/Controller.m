@@ -11,7 +11,7 @@
 #import "Document.h"
 
 #import <EOAccess/EOAccess.h>
-#import <AJRInterface/AJRInterface.h>
+#import <EOInterface/EOInterface.h>
 
 @implementation Controller
 
@@ -123,7 +123,7 @@
 
 		if (needsSaving > 1) { 
 			// If we only have 1 unsaved document, we skip the "review changes?" panel
-			choice = NSRunAlertPanel(AJRFormat(@"You have %d documents with unsaved changes. Do you want to review these changes before quitting?", needsSaving), @"If you don't review your documents, all changes will be lost.", @"Review Changes...", @"Discard Changes", @"Cancel");
+			choice = NSRunAlertPanel([NSString stringWithFormat:@"You have %d documents with unsaved changes. Do you want to review these changes before quitting?", needsSaving], @"If you don't review your documents, all changes will be lost.", @"Review Changes...", @"Discard Changes", @"Cancel");
 			
 			if (choice == NSAlertOtherReturn) return NSTerminateCancel; /* Cancel */
 		}
@@ -137,14 +137,14 @@
 	return NSTerminateNow;
 }
 
-- (int)numberOfItemsInMenu:(NSMenu *)menu
+- (NSInteger)numberOfItemsInMenu:(NSMenu *)menu
 {
 	Document		*document = [Document currentDocument];
 	
 	return [[document possibleEntityNames] count] + 2;
 }
 
-- (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(int)index shouldCancel:(BOOL)shouldCancel
+- (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(NSInteger)index shouldCancel:(BOOL)shouldCancel
 {
 	Document		*document = [Document currentDocument];
 	
