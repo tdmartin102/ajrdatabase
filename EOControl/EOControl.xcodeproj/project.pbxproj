@@ -547,7 +547,6 @@
 			isa = PBXProject;
 			buildConfigurationList = 707D5ABE0955EADE00ADB2F1 /* Build configuration list for PBXProject "EOControl" */;
 			compatibilityVersion = "Xcode 2.4";
-			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -718,9 +717,9 @@
 		707D5ABF0955EADE00ADB2F1 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = i386;
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CURRENT_PROJECT_VERSION = 0.85;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 			};
 			name = Development;
 		};
@@ -729,7 +728,7 @@
 			buildSettings = {
 				ARCHS = i386;
 				CURRENT_PROJECT_VERSION = 0.85;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 			};
 			name = Deployment;
 		};
@@ -738,7 +737,7 @@
 			buildSettings = {
 				ARCHS = i386;
 				CURRENT_PROJECT_VERSION = 0.85;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 			};
 			name = Default;
 		};
