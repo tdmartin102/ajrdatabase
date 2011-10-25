@@ -6,7 +6,6 @@
 //  Copyright 2004 __MyCompanyName__. All rights reserved.
 //
 
-#import <AJRFoundation/AJRFoundation.h>
 #import <EOControl/EOControl.h>
 
 @class EOModel, EOEntity, EOStoredProcedure, EditorView;
