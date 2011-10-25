@@ -11,8 +11,6 @@
 #import "Document.h"
 #import "Editor.h"
 
-#import <AJRFoundation/AJRFoundation.h>
-
 @implementation EditorView
 
 - (id)initWithFrame:(NSRect)frame
