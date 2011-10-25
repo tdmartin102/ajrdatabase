@@ -32,8 +32,6 @@ http://www.raftis.net/~alex/
 
 #import "PBPopUpButtonCell.h"
 
-#import <AJRFoundation/AJRFoundation.h>
-
 @implementation PBPopUpButtonCell
 
 - (void)dealloc

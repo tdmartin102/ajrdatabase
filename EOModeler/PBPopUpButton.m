@@ -34,8 +34,6 @@ http://www.raftis.net/~alex/
 
 #import "PBPopUpButtonCell.h"
 
-#import <AJRFoundation/AJRFoundation.h>
-
 static Class		cellClass = Nil;
 
 @implementation PBPopUpButton
