@@ -23,6 +23,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		14001D3414572BEB008E8514 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C3E14572B67008E8514 /* EOAccess.framework */; };
+		14001D3514572BF7008E8514 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
+		14001D4614572C2C008E8514 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C3E14572B67008E8514 /* EOAccess.framework */; };
+		14001D4914572C44008E8514 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
 		1E0EACAA13B3B54C00EDEC95 /* OracleBindInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E0EACA913B3B54C00EDEC95 /* OracleBindInfo.m */; };
 		1E22343B141117CD00F1C663 /* OracleConnectionPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E22343A141117CD00F1C663 /* OracleConnectionPane.nib */; };
 		1E45D52113FD8AAC0043B572 /* OracleSchemaGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E45D52013FD8AAC0043B572 /* OracleSchemaGeneration.m */; };
@@ -32,8 +36,6 @@
 		1E9889131296F41B00F17A39 /* OracleAdaptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E98890D1296F41B00F17A39 /* OracleAdaptor.m */; };
 		1E9889141296F41B00F17A39 /* OracleChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E98890F1296F41B00F17A39 /* OracleChannel.m */; };
 		1E9889151296F41B00F17A39 /* OracleContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E9889111296F41B00F17A39 /* OracleContext.m */; };
-		1E9889161296F4F400F17A39 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DABC0742713500AB5036 /* EOAccess.framework */; };
-		1E9889171296F4F400F17A39 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DABD0742713500AB5036 /* EOControl.framework */; };
 		1E98891D1296F56400F17A39 /* libocci.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E98891C1296F56400F17A39 /* libocci.dylib */; };
 		1E98891F1296F57C00F17A39 /* libclntsh.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E98891E1296F57C00F17A39 /* libclntsh.dylib */; };
 		1E9889A51296F74600F17A39 /* OracleAdaptor.h in Resources */ = {isa = PBXBuildFile; fileRef = 1E98890C1296F41B00F17A39 /* OracleAdaptor.h */; };
@@ -54,8 +56,6 @@
 		FA63DAB5074270D600AB5036 /* OpenBaseChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DAAF074270D600AB5036 /* OpenBaseChannel.m */; };
 		FA63DAB6074270D600AB5036 /* OpenBaseContext.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DAB0074270D600AB5036 /* OpenBaseContext.h */; };
 		FA63DAB7074270D600AB5036 /* OpenBaseContext.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DAB1074270D600AB5036 /* OpenBaseContext.m */; };
-		FA63DABF0742713500AB5036 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DABC0742713500AB5036 /* EOAccess.framework */; };
-		FA63DAC00742713500AB5036 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DABD0742713500AB5036 /* EOControl.framework */; };
 		FA63DAC40742715100AB5036 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DAC20742715100AB5036 /* Foundation.framework */; };
 		FA63DC7A0742726500AB5036 /* OpenBaseAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DC780742726500AB5036 /* OpenBaseAPI.framework */; };
 		FA63DC7B0742726500AB5036 /* OpenBaseNet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DC790742726500AB5036 /* OpenBaseNet.framework */; };
@@ -76,14 +76,10 @@
 		FA63DCE30742734F00AB5036 /* PostgresDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DCA60742730700AB5036 /* PostgresDateFormatter.m */; };
 		FA63DCE40742735000AB5036 /* PostgresDateFormatter.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DCA50742730700AB5036 /* PostgresDateFormatter.h */; };
 		FA63DCE60742736000AB5036 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DAC20742715100AB5036 /* Foundation.framework */; };
-		FA63DD540742736100AB5036 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DABD0742713500AB5036 /* EOControl.framework */; };
-		FA63DD550742736100AB5036 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DABC0742713500AB5036 /* EOAccess.framework */; };
 		FA63DDA8074273E700AB5036 /* libpq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DDA7074273E700AB5036 /* libpq.a */; };
 		FA63DDD00742754500AB5036 /* PostgreSQLConnectionPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FA63DCCB0742731600AB5036 /* PostgreSQLConnectionPane.nib */; };
 		FA63DDD10742754600AB5036 /* PostgreSQLConnectionPane.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DCAE0742730700AB5036 /* PostgreSQLConnectionPane.m */; };
 		FA63DDD20742754600AB5036 /* PostgreSQLConnectionPane.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DCAD0742730700AB5036 /* PostgreSQLConnectionPane.h */; };
-		FA63DDD6074275BB00AB5036 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DABD0742713500AB5036 /* EOControl.framework */; };
-		FA63DDD7074275BB00AB5036 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DABC0742713500AB5036 /* EOAccess.framework */; };
 		FA63DDDA074275E300AB5036 /* PostgreSQLInterface.interface in Resources */ = {isa = PBXBuildFile; fileRef = FA63DDCE074274FA00AB5036 /* PostgreSQLInterface.interface */; };
 		FA63DE1B0742768500AB5036 /* SQLiteAdaptor.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DE110742768500AB5036 /* SQLiteAdaptor.h */; };
 		FA63DE1C0742768500AB5036 /* SQLiteAdaptor.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DE120742768500AB5036 /* SQLiteAdaptor.m */; };
@@ -96,10 +92,6 @@
 		FA63DE28074276A100AB5036 /* SQLiteConnectionPane.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DE150742768500AB5036 /* SQLiteConnectionPane.h */; };
 		FA63DE29074276A200AB5036 /* SQLiteConnectionPane.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DE160742768500AB5036 /* SQLiteConnectionPane.m */; };
 		FA63DE2A074276A200AB5036 /* SQLiteConnectionPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FA63DE250742769600AB5036 /* SQLiteConnectionPane.nib */; };
-		FA63DEF5074276AB00AB5036 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DABD0742713500AB5036 /* EOControl.framework */; };
-		FA63DEF6074276AC00AB5036 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DABC0742713500AB5036 /* EOAccess.framework */; };
-		FA63DEF9074276B100AB5036 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DABC0742713500AB5036 /* EOAccess.framework */; };
-		FA63DEFA074276B100AB5036 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DABD0742713500AB5036 /* EOControl.framework */; };
 		FA63DEFC074276D300AB5036 /* libsqlite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DEFB074276D300AB5036 /* libsqlite.a */; };
 		FA63DF2A074277A600AB5036 /* SQLiteInterface.interface in Resources */ = {isa = PBXBuildFile; fileRef = FA63DE0F0742766600AB5036 /* SQLiteInterface.interface */; };
 		FA63DF530742783D00AB5036 /* copyright in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF4F0742783D00AB5036 /* copyright */; };
@@ -153,6 +145,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		14001C3E14572B67008E8514 /* EOAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOAccess.framework; path = ../EOAccess/build/Development/EOAccess.framework; sourceTree = SOURCE_ROOT; };
+		14001C7714572B7B008E8514 /* EOControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOControl.framework; path = ../EOControl/build/Development/EOControl.framework; sourceTree = SOURCE_ROOT; };
 		1E0EACA813B3B54C00EDEC95 /* OracleBindInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleBindInfo.h; sourceTree = "<group>"; };
 		1E0EACA913B3B54C00EDEC95 /* OracleBindInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleBindInfo.m; sourceTree = "<group>"; };
 		1E34465012E4D06B007574F2 /* oracle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = oracle; path = /usr/local/include/oracle; sourceTree = "<absolute>"; };
@@ -189,8 +183,6 @@
 		FA63DAAF074270D600AB5036 /* OpenBaseChannel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = OpenBaseChannel.m; sourceTree = "<group>"; };
 		FA63DAB0074270D600AB5036 /* OpenBaseContext.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = OpenBaseContext.h; sourceTree = "<group>"; };
 		FA63DAB1074270D600AB5036 /* OpenBaseContext.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = OpenBaseContext.m; sourceTree = "<group>"; };
-		FA63DABC0742713500AB5036 /* EOAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOAccess.framework; path = /Library/Frameworks/EOAccess.framework; sourceTree = "<absolute>"; };
-		FA63DABD0742713500AB5036 /* EOControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOControl.framework; path = /Library/Frameworks/EOControl.framework; sourceTree = "<absolute>"; };
 		FA63DAC10742715100AB5036 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		FA63DAC20742715100AB5036 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		FA63DC780742726500AB5036 /* OpenBaseAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenBaseAPI.framework; path = /Library/Frameworks/OpenBaseAPI.framework; sourceTree = "<absolute>"; };
@@ -245,8 +237,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1E9889161296F4F400F17A39 /* EOAccess.framework in Frameworks */,
-				1E9889171296F4F400F17A39 /* EOControl.framework in Frameworks */,
 				1E98891D1296F56400F17A39 /* libocci.dylib in Frameworks */,
 				1E98891F1296F57C00F17A39 /* libclntsh.dylib in Frameworks */,
 			);
@@ -256,8 +246,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA63DABF0742713500AB5036 /* EOAccess.framework in Frameworks */,
-				FA63DAC00742713500AB5036 /* EOControl.framework in Frameworks */,
 				FA63DAC40742715100AB5036 /* Foundation.framework in Frameworks */,
 				FA63DC7A0742726500AB5036 /* OpenBaseAPI.framework in Frameworks */,
 				FA63DC7B0742726500AB5036 /* OpenBaseNet.framework in Frameworks */,
@@ -269,9 +257,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA63DCE60742736000AB5036 /* Foundation.framework in Frameworks */,
-				FA63DD540742736100AB5036 /* EOControl.framework in Frameworks */,
-				FA63DD550742736100AB5036 /* EOAccess.framework in Frameworks */,
 				FA63DDA8074273E700AB5036 /* libpq.a in Frameworks */,
+				14001D3414572BEB008E8514 /* EOAccess.framework in Frameworks */,
+				14001D3514572BF7008E8514 /* EOControl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,8 +267,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA63DDD6074275BB00AB5036 /* EOControl.framework in Frameworks */,
-				FA63DDD7074275BB00AB5036 /* EOAccess.framework in Frameworks */,
+				14001D4614572C2C008E8514 /* EOAccess.framework in Frameworks */,
+				14001D4914572C44008E8514 /* EOControl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,8 +276,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA63DEF5074276AB00AB5036 /* EOControl.framework in Frameworks */,
-				FA63DEF6074276AC00AB5036 /* EOAccess.framework in Frameworks */,
 				FA63DEFC074276D300AB5036 /* libsqlite.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -298,8 +284,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA63DEF9074276B100AB5036 /* EOAccess.framework in Frameworks */,
-				FA63DEFA074276B100AB5036 /* EOControl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,8 +369,6 @@
 			isa = PBXGroup;
 			children = (
 				FA63DAC10742715100AB5036 /* AppKit.framework */,
-				FA63DABC0742713500AB5036 /* EOAccess.framework */,
-				FA63DABD0742713500AB5036 /* EOControl.framework */,
 				FA63DAC20742715100AB5036 /* Foundation.framework */,
 				FA63DC780742726500AB5036 /* OpenBaseAPI.framework */,
 				FA63DC790742726500AB5036 /* OpenBaseNet.framework */,
@@ -394,6 +376,8 @@
 				FA63DEFB074276D300AB5036 /* libsqlite.a */,
 				1E98891C1296F56400F17A39 /* libocci.dylib */,
 				1E98891E1296F57C00F17A39 /* libclntsh.dylib */,
+				14001C3E14572B67008E8514 /* EOAccess.framework */,
+				14001C7714572B7B008E8514 /* EOControl.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -591,7 +575,6 @@
 			isa = PBXProject;
 			buildConfigurationList = 70B72DFB0956026E005162B9 /* Build configuration list for PBXProject "Adaptors" */;
 			compatibilityVersion = "Xcode 2.4";
-			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -1038,7 +1021,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "\"$(HOME)/Library/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(HOME)/Library/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../EOAccess/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../EOControl/build/Development\"";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1068,7 +1058,14 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				FRAMEWORK_SEARCH_PATHS = "\"$(HOME)/Library/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(HOME)/Library/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../EOAccess/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../EOControl/build/Development\"";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1096,7 +1093,14 @@
 		70B72DEA0956026E005162B9 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "\"$(HOME)/Library/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(HOME)/Library/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../EOAccess/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../EOControl/build/Development\"";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1124,8 +1128,16 @@
 		70B72DEC0956026E005162B9 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/Frameworks";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(HOME)/Library/Frameworks",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../EOAccess/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../EOControl/build/Development\"";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1144,6 +1156,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = PostgreSQL;
 				SECTORDER_FLAGS = "";
+				VALID_ARCHS = i386;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -1158,7 +1171,13 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/Frameworks";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(HOME)/Library/Frameworks",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../EOAccess/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../EOControl/build/Development\"";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1190,7 +1209,13 @@
 		70B72DEE0956026E005162B9 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/Frameworks";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(HOME)/Library/Frameworks",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../EOAccess/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../EOControl/build/Development\"";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1449,8 +1474,10 @@
 		70B72DFC0956026E005162B9 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				CURRENT_PROJECT_VERSION = 0.85;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 			};
 			name = Development;
 		};
@@ -1458,7 +1485,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 0.85;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 			};
 			name = Deployment;
 		};
@@ -1466,7 +1493,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 0.85;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 			};
 			name = Default;
 		};
