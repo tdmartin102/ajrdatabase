@@ -1,0 +1,246 @@
+#! /bin/sh
+# buildFrameworks
+#----------------------------------------------------------------------------------------
+#	Script Name:	buildFrameworks
+#
+#	Edit Number:	000002
+#
+#	Description:	This file is a shell script which will cause the compilation of
+#			        an XCode project in the current directory and install it with
+#                   the intent of allowing for the debugging of that framework.  In
+#                   otherwords it does not compile for install, but rather compiles
+#                   for debug using a defined configuration.  By default that
+#                   configuration is named RemoteUsers.  After the framework
+#                   has been compiled the script will copy it to the install location
+#                   so that an application can be linked against it and debugged, AND
+#                   so the debug code is not stripped.
+#
+#                   the configuration name and install location can be overridden
+#                   using command line options.  See usage for more information.
+#
+#	Author	Date		Edit	Description
+#	-------	---------	------	---------------------------------------------------
+#	Tom		7-20-2011	000002  Complete re-write and now takes command line options.
+#----------------------------------------------------------------------------------------
+
+CONFIG=Default
+DEST=NONE
+SDIR='EOControl EOAccess Adaptors'   
+ADAPTOR_TARGET=Oracle
+BUNDLE=eoadaptor
+   
+usage()
+{
+  echo
+   echo "Usage:  buildFrameworks [-c <configname>] [-d <installdest>]"              
+   echo "     This script will build EOControl, EOAccess and Adaptors frameworks"
+   echo "     -c <configname>"
+   echo "              The project config to use.  By default this is Default." 
+   echo "              You can override this by specifying a different config name"
+   echo "     -d <installdest>"
+   echo "              The install location for the compiled framework.  If you specify"
+   echo "              something here the compiled frameworks will be copied to the" 
+   echo "              specified location.  This makes compiling for debug and then"
+   echo "              installing the frameworks so that they can easily be debuged"
+   echo "              without striping the debug code much easier."  
+   echo ""
+   echo "Example: buildFrameworks -c Development -d /Library/Frameworks"
+   echo "         This will build all the frameworks for debug and then"
+   echo "         copy the result to /Library/Frameworks"
+   echo 
+   exit 1
+}
+
+echoPlan()
+{
+	echo
+	echo
+	echo "This is the plan:"
+	echo "   Compile the project $F"
+	echo "      Config = $CONFIG"
+	echo "      Install location = $DEST"
+	echo 
+	echo
+}
+
+sanityCheck()
+{
+	#--- capture the OS version here
+	MajorVersion=`sw_vers | grep ProductVersion | awk '{ print $2 }' | sed 's/\.//'`
+	Tiger="104"
+	MajorVersion=`echo $MajorVersion | sed 's/\..*//'`
+
+	# Use Project Builder if older than Tiger, us xcode if tiger or above.
+	if [ $MajorVersion -ge $Tiger ] 
+	    then
+	        MAKETOOL="xcodebuild"
+	     else
+	        echo This will only work with XCode on Tiger and above
+			exit 1
+	fi
+
+	projExt="xcodeproj"
+
+	if [ -r EOControl ]
+	then
+	  OK=1
+	else
+	  echo "No EOControl folder was found in the current directory, Make sure your current directory is the ajrdatabase directory."
+	  exit 1
+	fi                                                
+}
+
+# if an argument is a single character or a single character with a '-' prefix, then it is not good.
+argTest()
+{
+	if [ "`echo "$1" | grep ^-.$`" ]
+	then
+		echo "Invalid option argument specified."
+		usage
+	fi    
+	if [ "`echo "$1" | grep ^.$`" ]
+	then
+		echo "Invalid option argument specified."
+		usage
+	 fi
+}
+
+options()
+{ 
+	while getopts 'c:d:' opt; do
+		case $opt in
+			d) DEST=$OPTARG
+			   argTest $DEST;;
+			c) CONFIG=$OPTARG
+				argTest $OPTARG;;
+			[?])
+				echo "Invalid option flag specified."
+				usage
+			;;
+			:)
+				echo "Option -${OPTARG} (source) was missing the argument of the source dir."
+				usage
+			;;
+		esac
+	done
+	
+	# catch errors  
+	if [ "$DEST" != "NONE" ]  
+	then
+	    if [ ! -d "$DEST" ]
+	   	then	
+	    	echo "specified install directory not found."
+	      	usage
+	   	fi  
+	fi	
+	# if we got this far we are okay!
+	echoPlan
+}
+
+buildProject()
+{ 
+	s=$1
+
+	if [ ! -d $s ]
+	then
+		echo -------------------------------------------------------------------------
+		echo ---    EXPECTED SOURCE DIRECTORY "$s" NOT FOUND   
+		echo -------------------------------------------------------------------------
+		exit 1
+	fi
+	
+	echo ' '
+  	echo ----------------------------------------------------------------
+   	echo `date`
+   	echo $s
+ 	echo ----------------------------------------------------------------
+
+ 	cd $s
+
+	 if [ "$s" = "Adaptors" ] 
+	 then
+		sudo $MAKETOOL -configuration $CONFIG -target $ADAPTOR_TARGET clean
+		$MAKETOOL -configuration $CONFIG -target $ADAPTOR_TARGET  
+		CSTAT=$?
+		if [ $CSTAT -eq 1 ]
+		then
+		    echo ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		    echo !!! The Adaptor failed to compile !!!
+		    echo ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+			exit 1
+		fi
+
+		if [ -d "build/${CONFIG}/${ADAPTOR_TARGET}.${BUNDLE}" ]; then
+			echo "Found Adaptor product"
+		else 	
+			echo "Can not find the compiled Adaptor, exiting"
+			exit 1
+		fi
+        
+		if [ "$DEST" != "NONE" ]
+		then          
+  	  	# remove currently installed Adaptor
+			sudo rm -fR "/Library/Database Adaptors/${ADAPTOR_TARGET}.${BUNDLE}"
+
+			# copy compiled framework to install location
+			sudo ditto build/${CONFIG}/${ADAPTOR_TARGET}.${BUNDLE} "/Library/Database Adaptors/${ADAPTOR_TARGET}.${BUNDLE}"         
+		fi
+	else   
+  	   	sudo $MAKETOOL -configuration $CONFIG clean
+		$MAKETOOL -configuration $CONFIG
+		CSTAT=$?
+		if [ $CSTAT -eq 1 ]
+		then
+	    	echo ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	    	echo !!! The framework failed to compile !!!
+	    	echo ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+			exit 1
+		fi  			 
+		if [ -d "build/${CONFIG}/${s}.framework" ]; then
+			Framework=${s}.framework
+		else 	
+			echo "Can not find the compiled framework, exiting"
+			exit 1
+		fi
+        
+ 		
+		if [ "$DEST" != "NONE" ]      
+		then
+  	  		# remove currently instlled framework
+			sudo rm -fR ${DEST}/${Framework}
+
+			# copy compiled framework to install location
+			sudo ditto build/${CONFIG}/${Framework} ${DEST}/${Framework}                   
+		fi
+
+		echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+		echo " The framework $Framework compiled"
+		echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"  
+	fi
+	
+	cd ..
+}
+
+buildFrameworks()
+{
+	# build normal Frameworks
+	for s in $SDIR
+	do
+		buildProject $s
+	done
+	
+	echo ' '
+	echo ----------------------------------------------------------------
+	echo `date`
+	echo Build Complete
+	echo ----------------------------------------------------------------			
+}
+
+main()
+{ 
+	sanityCheck
+	options $*
+    buildFrameworks
+}
+      
+main $*
