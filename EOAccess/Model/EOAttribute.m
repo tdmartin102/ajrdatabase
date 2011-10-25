@@ -195,7 +195,7 @@ NSString *EOAttributeDidChangeNameNotification = @"EOAttributeDidChangeNameNotif
 
 - (NSException *)validateName:(NSString *)aName
 {
-	NSString		*error = [EOModel _validateName:aName];
+	NSString *error = [EOModel _validateName:aName];
 	
 	if (!error && [parent attributeNamed:aName] != nil) {
 		error = @"Another attribute with that name already exists.";
