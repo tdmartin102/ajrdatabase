@@ -12,7 +12,10 @@
 
 @interface EOAssociation : EODelayedObserver <NSCoding>
 {
-
+    id target;
+    NSMutableDictionary *boundGroups;
+    NSMutableDictionary *boundKeys;
+    BOOL established;
 }
 
 + (NSArray *)aspects;
