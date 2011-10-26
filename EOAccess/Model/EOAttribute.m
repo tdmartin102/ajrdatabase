@@ -198,14 +198,11 @@ NSString *EOAttributeDidChangeNameNotification = @"EOAttributeDidChangeNameNotif
 	NSString *error = [EOModel _validateName:aName];
 	
 	if (!error && [parent attributeNamed:aName] != nil) {
-		error = @"Another attribute with that name already exists.";
+		[NSException raise:NSInvalidArgumentException format:@"Another attribute with that name already exists."];
 	}
 	if (!error && [[parent model] storedProcedureNamed:aName]) {
-		error = @"A stored procedure already exists with that name.";
+		[NSException raise:NSInvalidArgumentException format:@"A stored procedure already exists with that name."];
 	}
-		
-	if (error) [NSException raise:NSInvalidArgumentException format:error];
-	
 	return nil;
 }
 
