@@ -10,6 +10,7 @@
 
 #import <EOAccess/EOAccess.h>
 #import <EOControl/EOControl.h>
+#import "EOAssociation.h"
 
 int EODefaultFetchLimit = 0;
 
