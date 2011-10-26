@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1409A4291457BA1600501E81 /* EOAssociation.h in Headers */ = {isa = PBXBuildFile; fileRef = 1409A4271457BA1600501E81 /* EOAssociation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1409A42A1457BA1600501E81 /* EOAssociation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1409A4281457BA1600501E81 /* EOAssociation.m */; };
 		14DF93371457257900DF0C65 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DF93361457257900DF0C65 /* EOAccess.framework */; };
 		14DF933B1457258900DF0C65 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DF933A1457258900DF0C65 /* EOControl.framework */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
@@ -34,6 +36,8 @@
 /* Begin PBXFileReference section */
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1409A4271457BA1600501E81 /* EOAssociation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EOAssociation.h; sourceTree = "<group>"; };
+		1409A4281457BA1600501E81 /* EOAssociation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EOAssociation.m; sourceTree = "<group>"; };
 		14DF93361457257900DF0C65 /* EOAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOAccess.framework; path = ../EOAccess/build/Development/EOAccess.framework; sourceTree = SOURCE_ROOT; };
 		14DF933A1457258900DF0C65 /* EOControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOControl.framework; path = ../EOControl/build/Development/EOControl.framework; sourceTree = SOURCE_ROOT; };
 		32DBCF5E0370ADEE00C91783 /* EOInterface_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EOInterface_Prefix.pch; sourceTree = "<group>"; };
@@ -110,6 +114,8 @@
 				FA65F56E0833E4BB00BC6F83 /* Glue */,
 				FA65F3D00832838000BC6F83 /* EODisplayGroup.h */,
 				FA65F3D10832838000BC6F83 /* EODisplayGroup.m */,
+				1409A4271457BA1600501E81 /* EOAssociation.h */,
+				1409A4281457BA1600501E81 /* EOAssociation.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -144,6 +150,7 @@
 				FA65F3DA083283E800BC6F83 /* EOInterface.h in Headers */,
 				FA65F5730833E4D000BC6F83 /* EOQualifier-EOInterface.h in Headers */,
 				FA65F5790833E4E000BC6F83 /* NSPredicate-EOInterface.h in Headers */,
+				1409A4291457BA1600501E81 /* EOAssociation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,6 +214,7 @@
 				FA65F3D30832838000BC6F83 /* EODisplayGroup.m in Sources */,
 				FA65F5740833E4D000BC6F83 /* EOQualifier-EOInterface.m in Sources */,
 				FA65F57A0833E4E000BC6F83 /* NSPredicate-EOInterface.m in Sources */,
+				1409A42A1457BA1600501E81 /* EOAssociation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
