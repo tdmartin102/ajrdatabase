@@ -727,7 +727,9 @@
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CURRENT_PROJECT_VERSION = 0.85;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				GCC_MODEL_TUNING = G5;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 			};
 			name = Development;
 		};
@@ -736,7 +738,7 @@
 			buildSettings = {
 				ARCHS = i386;
 				CURRENT_PROJECT_VERSION = 0.85;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Deployment;
 		};
@@ -745,7 +747,7 @@
 			buildSettings = {
 				ARCHS = i386;
 				CURRENT_PROJECT_VERSION = 0.85;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Default;
 		};
