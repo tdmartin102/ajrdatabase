@@ -69,9 +69,9 @@ http://www.raftis.net/~alex/
 	NSString		*string;
 	
 	if (resultSet) {
-		string = [NSString stringWithCString:PQresultErrorMessage(resultSet)];
+		string = [NSString stringWithUTF8String:PQresultErrorMessage(resultSet)];
 	} else {
-		string = [NSString stringWithCString:PQerrorMessage(connection)];
+		string = [NSString stringWithUTF8String:PQerrorMessage(connection)];
 	}
 	
 	while ([string hasSuffix:@"\n"] && [string length]) {
@@ -94,7 +94,7 @@ http://www.raftis.net/~alex/
       return NSASCIIStringEncoding;
    }
 
-   encodingName = [NSString stringWithCString:PQgetvalue(resultSet, 0, 0)];
+   encodingName = [NSString stringWithUTF8String:PQgetvalue(resultSet, 0, 0)];
    PQclear(resultSet); resultSet = NULL;
 
    if ([encodingName isEqualToString:@"SQL_ASCII"]) {
@@ -166,7 +166,7 @@ http://www.raftis.net/~alex/
    if (username) [cInfo appendFormat:@" user='%@'", username];
 	if (port != 0) [cInfo appendFormat:@" port=%d", port];
 
-   connection = PQconnectdb([cInfo cString]);
+   connection = PQconnectdb([cInfo UTF8String]);
    if (PQstatus(connection) == CONNECTION_BAD) {
 		[EOLog logErrorWithFormat:@"%@\n", [self errorMessage]];
       [NSException raise:EODatabaseException format:@"%@", [self errorMessage]];
@@ -246,7 +246,7 @@ http://www.raftis.net/~alex/
 				NSDictionary		*dataType;
 				
 				tempAttribute = [[EOAttribute alloc] init];
-				[tempAttribute setName:[NSString stringWithCString:PQfname(resultSet, x)]];
+				[tempAttribute setName:[NSString stringWithUTF8String:PQfname(resultSet, x)]];
 				[tempAttribute setColumnName:[tempAttribute name]];
 				
 				// Look up the datatype and map it appropriately, but if we don't recognize the database, we can still treat as a string.
@@ -353,7 +353,7 @@ http://www.raftis.net/~alex/
       [data release];
       return string;
    } else if ([valueClassName isEqualToString:@"NSDecimalNumber"]) {
-      return [NSDecimalNumber decimalNumberWithString:[NSString stringWithCString:string]];
+      return [NSDecimalNumber decimalNumberWithString:[NSString stringWithUTF8String:string]];
    } else if ([valueClassName isEqualToString:@"NSNumber"]) {
       NSString	*type = [attribute valueType];
 
@@ -407,7 +407,7 @@ http://www.raftis.net/~alex/
 			buffer[23] = '0';
 			buffer[24] = '0';
 			buffer[25] = '\0';
-			return [NSCalendarDate dateWithString:[NSString stringWithCString:buffer]];
+			return [NSCalendarDate dateWithString:[NSString stringWithUTF8String:buffer]];
 		} else if ([externalType isEqualToString: @"timetz"]) {
 			strncpy(buffer, string, 8);
 			buffer[8] = '\0';
@@ -416,21 +416,21 @@ http://www.raftis.net/~alex/
 			buffer[12] = '0';
 			buffer[13] = '0';
 			buffer[14] = '\0';
-			return [NSCalendarDate dateWithString:[NSString stringWithCString:buffer] calendarFormat:@"%I:%M:%S %z"];
+			return [NSCalendarDate dateWithString:[NSString stringWithUTF8String:buffer] calendarFormat:@"%I:%M:%S %z"];
 		} else if ([externalType isEqualToString: @"time"]) {
 			strncpy(buffer, string, 8);
 			buffer[8] = '\0';
-			return [NSCalendarDate dateWithString:[NSString stringWithCString:buffer] calendarFormat:@"%I:%M:%S"];
+			return [NSCalendarDate dateWithString:[NSString stringWithUTF8String:buffer] calendarFormat:@"%I:%M:%S"];
 		} else if ([externalType isEqualToString: @"timestamp"]) {
 			strncpy(buffer, string, 19);
 			buffer[19] = '\0';
 			// mont_rothstein @ yahoo.com 2005-01-01
 			// This incorrectly had a %z in the format, corrected.
-			return [NSCalendarDate dateWithString:[NSString stringWithCString:buffer] calendarFormat:@"%Y-%m-%d %I:%M:%S"];
+			return [NSCalendarDate dateWithString:[NSString stringWithUTF8String:buffer] calendarFormat:@"%Y-%m-%d %I:%M:%S"];
 		} else if ([externalType isEqualToString: @"date"]) {
 			strncpy(buffer, string, 10);
 			buffer[10] = '\0';
-			return [NSCalendarDate dateWithString:[NSString stringWithCString:buffer] calendarFormat:@"%Y-%m-%d"];
+			return [NSCalendarDate dateWithString:[NSString stringWithUTF8String:buffer] calendarFormat:@"%Y-%m-%d"];
 		}
 	} else if ([valueClassName isEqualToString:@"NSArray"]) {
       NSString	*type = [attribute valueType];
@@ -498,7 +498,7 @@ http://www.raftis.net/~alex/
 
 	  numFetchAttributes = [fetchAttributes count];
       for (x = 0; x < numFetchAttributes; x++) {
-         [result takeValue:[self valueForResultAtIndex:x] forKey:[[fetchAttributes objectAtIndex:x] name]];
+         [result setValue:[self valueForResultAtIndex:x] forKey:[[fetchAttributes objectAtIndex:x] name]];
       }
 
       rowsFetched++;
@@ -670,7 +670,7 @@ http://www.raftis.net/~alex/
    char					buffer[1024];
 
    // Start the sequence at two, since we're just going to assume that when we create the sequence, we can return 1.
-   sprintf(buffer, "CREATE SEQUENCE %s_PK MINVALUE 1 START 2", [name cString]);
+   sprintf(buffer, "CREATE SEQUENCE %s_PK MINVALUE 1 START 2", [name UTF8String]);
 
    set = PQexec(connection, buffer);
    if (!set || PQresultStatus(set) != PGRES_COMMAND_OK) {
@@ -702,9 +702,9 @@ http://www.raftis.net/~alex/
 		// mont_rothstein @ yahoo.com 2005-02-07
 		// Somehow the second reference to [entity name] in the line below was still in place.  Changed
 		// it to be [entity externalName]
-		sprintf(buffer, "SELECT setval('%s_PK', nextval('%s_PK') + %d) - %d", [[entity externalName] cString], [[entity externalName] cString], count, count);
+		sprintf(buffer, "SELECT setval('%s_PK', nextval('%s_PK') + %d) - %d", [[entity externalName] UTF8String], [[entity externalName] UTF8String], count, count);
 	} else {
-		sprintf(buffer, "SELECT nextval('%s_PK')", [[entity externalName] cString]);
+		sprintf(buffer, "SELECT nextval('%s_PK')", [[entity externalName] UTF8String]);
 	}
    resultSet = PQexec(connection, buffer);
    if (!resultSet || PQresultStatus(resultSet) != PGRES_TUPLES_OK) {
@@ -966,11 +966,11 @@ http://www.raftis.net/~alex/
 					if (resultValue) [results addObject: resultValue];
 				}
 				
-				[storedProcedureResults takeValue:results forKey: @"returnValue"];
+				[storedProcedureResults setValue:results forKey: @"returnValue"];
 			}
 			else
 			{
-				[storedProcedureResults takeValue:[self valueForResultAtIndex:0] forKey: @"returnValue"];
+				[storedProcedureResults setValue:[self valueForResultAtIndex:0] forKey: @"returnValue"];
 			}
 		}
 	} else {
