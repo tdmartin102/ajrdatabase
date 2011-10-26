@@ -20,7 +20,7 @@
 #import "SQLGenerator.h"
 
 #import <EOAccess/EOAccess.h>
-#import <AJRInterface/AJRInterface.h>
+#import <EOControl/NSArray+CocoaDevUsersAdditions.h>
 
 
 NSString *DocumentSelectionDidChangeNotification = @"DocumentSelectionDidChangeNotification";

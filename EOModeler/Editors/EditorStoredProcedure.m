@@ -13,7 +13,6 @@
 #import "NSTableView-ColumnVisibility.h"
 
 #import <EOAccess/EOAccess.h>
-#import <AJRInterface/AJRInterface.h>
 
 @implementation EditorStoredProcedure
 
@@ -39,12 +38,12 @@
 	needsToSetValueClasses = YES;
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
 	return [[[self selectedStoredProcedure] arguments] count];
 }
 
-- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
 	NSString		*ident = [aTableColumn identifier];
 	EOAttribute	*argument = [[[self selectedStoredProcedure] arguments] objectAtIndex:rowIndex];
@@ -83,7 +82,7 @@
 	}
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
 	NSString		*ident = [aTableColumn identifier];
 	EOAttribute	*argument = [[[self selectedStoredProcedure] arguments] objectAtIndex:rowIndex];
@@ -109,7 +108,7 @@
 	return @"";
 }
 
-- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
 	NSString		*ident = [aTableColumn identifier];
 	EOAttribute	*argument = [[[self selectedStoredProcedure] arguments] objectAtIndex:rowIndex];

@@ -8,7 +8,6 @@
 
 #import "EODatePane.h"
 
-#import <AJRInterface/AJRInterface.h>
 #import <EOAccess/EOAccess.h>
 
 @implementation EODatePane

@@ -8,7 +8,6 @@
 
 #import "EOModelConnectionPane.h"
 
-#import <AJRFoundation/AJRFoundation.h>
 #import <EOAccess/EOAccess.h>
 
 @implementation EOModelConnectionPane

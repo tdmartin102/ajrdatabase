@@ -10,7 +10,6 @@
 
 #import "EOModelWizard.h"
 
-#import <AJRFoundation/AJRFoundation.h>
 #import <EOAccess/EOAccess.h>
 
 @implementation EOWizardAdaptorPane
@@ -54,12 +53,12 @@
 	[self updateButtons];
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
 	return [[EOAdaptor availableAdaptorNames] count] + 1;
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
 	NSArray		*names = [EOAdaptor availableAdaptorNames];
 	

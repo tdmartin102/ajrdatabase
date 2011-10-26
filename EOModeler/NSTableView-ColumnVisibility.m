@@ -10,8 +10,6 @@
 
 #import "PBPopUpButton.h"
 
-#import <AJRFoundation/AJRFoundation.h>
-
 static void (*_ajrPersistentRead)(id, SEL);
 static void (*_ajrPersistentWrite)(id, SEL);
 
@@ -121,7 +119,7 @@ static void (*_ajrPersistentWrite)(id, SEL);
 
 - (NSString *)_autosaveNameKey
 {
-	return AJRFormat(@"%C Hidden %@", self, [self autosaveName]);
+	return [NSString stringWithFormat:@"%C Hidden %@", self, [self autosaveName]];
 }
 
 - (void)_ajrReadPersistentTableColumns
