@@ -8,7 +8,6 @@
 
 #import "EORelationshipPane.h"
 
-#import <AJRFoundation/AJRFoundation.h>
 #import <EOAccess/EOAccess.h>
 
 // Need to access some private relationship API

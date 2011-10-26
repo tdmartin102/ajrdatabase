@@ -8,7 +8,6 @@
 
 #import "EOModelAdaptorPane.h"
 
-#import <AJRFoundation/AJRFoundation.h>
 #import <EOAccess/EOAccess.h>
 
 @implementation EOModelAdaptorPane

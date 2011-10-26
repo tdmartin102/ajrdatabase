@@ -11,8 +11,6 @@
 #import "EOInspectorPane.h"
 #import "EOInspectorPanel.h"
 
-#import <AJRFoundation/AJRFoundation.h>
-
 @implementation EOInspector
 
 - (void)dealloc

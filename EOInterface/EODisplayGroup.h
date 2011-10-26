@@ -8,11 +8,11 @@
 
 #import <EOAccess/EOAccess.h>
 
-#define EOAssociation id
-
 #if !defined(STRICT_EOF)
 extern int EODefaultFetchLimit;
 #endif
+
+@class EOAssociation;
 
 @interface EODisplayGroup : NSArrayController <NSCoding>
 {
