@@ -6,7 +6,7 @@
 //  Copyright 2004 __MyCompanyName__. All rights reserved.
 //
 
-#import <AJRInterface/AJRInterface.h>
+#import <AppKit/AppKit.h>
 
 @interface NSTableViewFix : NSTableView
 

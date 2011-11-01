@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		148CDD0314575C28008F682E /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 148CDD0214575C28008F682E /* EOControl.framework */; };
+		14DF9359145725E600DF0C65 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DF9358145725E600DF0C65 /* EOAccess.framework */; };
+		14DF93611457260900DF0C65 /* EOInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DF93601457260900DF0C65 /* EOInterface.framework */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -217,15 +220,14 @@
 		FAC1178E07402A2900744E1E /* toolbarNewStoredProcedure.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FAC1176407402A2900744E1E /* toolbarNewStoredProcedure.tiff */; };
 		FAC1178F07402A2900744E1E /* toOne.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FAC1176507402A2900744E1E /* toOne.tiff */; };
 		FAC1179007402A2900744E1E /* world.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FAC1176607402A2900744E1E /* world.tiff */; };
-		FAC117A807402CF600744E1E /* AJRFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAC117A407402CF600744E1E /* AJRFoundation.framework */; };
-		FAC117A907402CF600744E1E /* AJRInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAC117A507402CF600744E1E /* AJRInterface.framework */; };
-		FAC117AA07402CF600744E1E /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAC117A607402CF600744E1E /* EOAccess.framework */; };
-		FAC117AB07402CF600744E1E /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAC117A707402CF600744E1E /* EOControl.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		148CDD0214575C28008F682E /* EOControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOControl.framework; path = /Users/ezamudio/Projects/Personal/Strausz/ajrdatabase/EOControl/build/Development/EOControl.framework; sourceTree = "<absolute>"; };
+		14DF9358145725E600DF0C65 /* EOAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOAccess.framework; path = ../EOAccess/build/Development/EOAccess.framework; sourceTree = SOURCE_ROOT; };
+		14DF93601457260900DF0C65 /* EOInterface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOInterface.framework; path = ../EOInterface/build/Development/EOInterface.framework; sourceTree = SOURCE_ROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -439,10 +441,6 @@
 		FAC1176407402A2900744E1E /* toolbarNewStoredProcedure.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = toolbarNewStoredProcedure.tiff; sourceTree = "<group>"; };
 		FAC1176507402A2900744E1E /* toOne.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = toOne.tiff; sourceTree = "<group>"; };
 		FAC1176607402A2900744E1E /* world.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = world.tiff; sourceTree = "<group>"; };
-		FAC117A407402CF600744E1E /* AJRFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AJRFoundation.framework; path = "~/Library/Frameworks/AJRFoundation.framework"; sourceTree = "<absolute>"; };
-		FAC117A507402CF600744E1E /* AJRInterface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AJRInterface.framework; path = "~/Library/Frameworks/AJRInterface.framework"; sourceTree = "<absolute>"; };
-		FAC117A607402CF600744E1E /* EOAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOAccess.framework; path = "~/Library/Frameworks/EOAccess.framework"; sourceTree = "<absolute>"; };
-		FAC117A707402CF600744E1E /* EOControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOControl.framework; path = "~/Library/Frameworks/EOControl.framework"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -451,10 +449,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
-				FAC117A807402CF600744E1E /* AJRFoundation.framework in Frameworks */,
-				FAC117A907402CF600744E1E /* AJRInterface.framework in Frameworks */,
-				FAC117AA07402CF600744E1E /* EOAccess.framework in Frameworks */,
-				FAC117AB07402CF600744E1E /* EOControl.framework in Frameworks */,
+				14DF9359145725E600DF0C65 /* EOAccess.framework in Frameworks */,
+				14DF93611457260900DF0C65 /* EOInterface.framework in Frameworks */,
+				148CDD0314575C28008F682E /* EOControl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -553,12 +550,11 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FAC117A407402CF600744E1E /* AJRFoundation.framework */,
-				FAC117A507402CF600744E1E /* AJRInterface.framework */,
-				FAC117A607402CF600744E1E /* EOAccess.framework */,
-				FAC117A707402CF600744E1E /* EOControl.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+				14DF9358145725E600DF0C65 /* EOAccess.framework */,
+				14DF93601457260900DF0C65 /* EOInterface.framework */,
+				148CDD0214575C28008F682E /* EOControl.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1411,7 +1407,17 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = Yes;
-				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/Frameworks";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(HOME)/Library/Frameworks",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../EOAccess/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../EOControl/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../EOInterface/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/../EOControl/build/Development\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -1431,7 +1437,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/Frameworks";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(HOME)/Library/Frameworks",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../EOAccess/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../EOControl/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../EOInterface/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/../EOControl/build/Development\"";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1449,7 +1465,17 @@
 		70BEAF1509590ED1005ACB45 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/Frameworks";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(HOME)/Library/Frameworks",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../EOAccess/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../EOControl/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../EOInterface/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/../EOControl/build/Development\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1465,8 +1491,9 @@
 		70BEAF1709590ED1005ACB45 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CURRENT_PROJECT_VERSION = 0.85;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Development;
 		};
@@ -1474,7 +1501,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 0.85;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Deployment;
 		};
@@ -1482,7 +1509,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 0.85;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 			};
 			name = Default;
 		};

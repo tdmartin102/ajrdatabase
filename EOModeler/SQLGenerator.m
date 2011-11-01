@@ -8,7 +8,6 @@
 
 #import "SQLGenerator.h"
 
-#import <AJRFoundation/AJRFoundation.h>
 #import <EOAccess/EOAccess.h>
 
 @implementation SQLGenerator
@@ -99,7 +98,7 @@
 	} else {
 		NSScrollView		*sv = [errorText enclosingScrollView];
 		NSBeep();
-		[errorText setString:AJRFormat(@"The following errors occurred during SQL execution:\n\n%@\n", [errors componentsJoinedByString:@"\n"])];
+		[errorText setString:[NSString stringWithFormat:@"The following errors occurred during SQL execution:\n\n%@\n", [errors componentsJoinedByString:@"\n"]]];
 		if ([sv frame].size.height == 0.0) {
 			NSRect		frame = [sv frame];
 			frame.size.height = 50.0;

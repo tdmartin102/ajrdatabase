@@ -13,7 +13,6 @@
 #import "NSTableView-ColumnVisibility.h"
 
 #import <EOAccess/EOAccess.h>
-#import <AJRInterface/AJRInterface.h>
 
 @implementation EditorStoredProcedures
 
