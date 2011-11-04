@@ -60,10 +60,13 @@ NSString *EOGlobalIDChangedNotification = @"EOGlobalIDChangedNotification";
 // replace depreciated method.  
 - (NSDictionary *)dictionaryWithValuesForKeys:(NSArray *)keys
 {
-	NSMutableDictionary	*values;
+	NSMutableDictionary		*values;
 	int						x, numKeys;
 	
 	numKeys = [keys count];
+	// tom.martin @ riemer.com - 2011-01-04
+	// values dictionary was never created  
+	values = [NSMutableDictionary dictionaryWithCapacity:numKeys];
 	
 	for (x = 0; x < numKeys; x++) {
 		NSString		*key = [keys objectAtIndex:x];
