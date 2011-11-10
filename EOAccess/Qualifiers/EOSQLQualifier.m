@@ -69,12 +69,14 @@ static NSCharacterSet	*singleQSet;
 	id					attribEnum;
 	EOAttribute			*attrib;
 	
+	[super init];
+	
 	_entity = [entity retain];
 	
 	// just go ahead and create the expression now I guess.  This does not create binds but...
 	expression = [[NSString allocWithZone:[self zone]] initWithFormat:format arguments:args];
 
-	return nil;
+	return self;
 }
 
 - (id)initWithEntity:(EOEntity *)entity qualifierFormat:(NSString *)qualifierFormat, ...
@@ -143,6 +145,8 @@ static NSCharacterSet	*singleQSet;
 	
 	sqlString = [[NSMutableString allocWithZone:[self zone]] initWithCapacity:[expression length] + 10];
 	scanner = [[NSScanner allocWithZone:[self zone]] initWithString:expression];
+	// don't skip white space.  I'll tell you if I want you to do that!
+	[scanner setCharactersToBeSkipped:nil];
 	done = NO;
 	while (! done)
 	{

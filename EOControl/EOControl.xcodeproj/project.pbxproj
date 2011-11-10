@@ -554,6 +554,7 @@
 			isa = PBXProject;
 			buildConfigurationList = 707D5ABE0955EADE00ADB2F1 /* Build configuration list for PBXProject "EOControl" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
