@@ -1417,7 +1417,8 @@ static NSCharacterSet	*literalSet;
 		
 	// if we are not using aliases this WILL fail, as there will be no relationship path to
 	// build the joins.  But just in case SOMEHOW I think of a way to make this work, I'll do 
-	// a hail Mary here 	
+	// a hail Mary here 
+	t = nil;	
 	if (usesAliases)
 		t = [aliases objectForKey:[[attrib entity] name]];
 	if (! t)
@@ -1514,6 +1515,16 @@ static NSCharacterSet	*literalSet;
 	[self appendItem:sqlString toListString:listString];
  }
 
+
+static NSInteger joinAliasSort(id a, id b, void *context)
+{
+	EOSQLExpression	*expression = (EOSQLExpression *)context;
+	
+	NSString *aAlias = [expression->aliasesByRelationshipPath objectForKey:a];
+	NSString *bAlias = [expression->aliasesByRelationshipPath objectForKey:b];
+	return [aAlias compare:bAlias];
+}
+
 //========== Building the Join
 - (void)joinExpression;
 {
@@ -1531,6 +1542,7 @@ static NSCharacterSet	*literalSet;
 	EORelationship	*relationship;
 	id				joinEnum;
 	EOJoin			*join;
+	NSArray			*keys;
 	
 	// every path represents one path to an entity
 	// every path component is a relationship.
@@ -1546,7 +1558,14 @@ static NSCharacterSet	*literalSet;
 	
 	// get the root alias
 	rootAlias = [aliasesByRelationshipPath objectForKey:@""];	
-	keyEnum = [aliasesByRelationshipPath keyEnumerator];
+	keys = [aliasesByRelationshipPath allKeys];
+	
+	// we need to sort these paths in order by alias which might insure that
+	// we never reference an alias that has yet to be defined.  I hope.
+	// but only if there is more than one join
+	if (usesAliases  && [keys count] > 2)
+		keys = [keys sortedArrayUsingFunction:joinAliasSort context:self];
+	keyEnum = [keys objectEnumerator];
 		
 	while ((path = [keyEnum nextObject]) != nil)
 	{
