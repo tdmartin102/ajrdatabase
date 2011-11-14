@@ -64,7 +64,7 @@ http://www.raftis.net/~alex/
 	// lets standardize it before we do ANYTHING else
 	aPath = [entity _attributesForKeyPath:key];
 	if ([aPath count] == 0)
-		return @"";
+		[NSException raise:NSInternalInconsistencyException format:@"Cannot reach key \"%@\" from entity \"%@\".", key, [entity name]];
 	
 	sql = [[[NSMutableString alloc] init] autorelease];
 	property = [aPath lastObject];
