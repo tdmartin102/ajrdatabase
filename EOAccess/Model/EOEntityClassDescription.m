@@ -577,22 +577,25 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 	
 	while (relationshipKey = [relationshipKeys nextObject])
 	{
-		switch ([self deleteRuleForRelationshipKey: relationshipKey])
+		relatedObject = [object valueForKey: relationshipKey];
+		if (relatedObject)
 		{
-			case  EODeleteRuleNullify :
-				[object removeObject: [object valueForKey: relationshipKey] fromBothSidesOfRelationshipWithKey: relationshipKey];
-				break;
-			case EODeleteRuleCascade :
-				[editingContext deleteObject: [object valueForKey: relationshipKey]];
-				break;
-			case EODeleteRuleDeny :
-                // aclark @ ghoti.org   2005-12-08
-                // implemented basic EODeleteRuleDeny
-                if ([object valueForKey: relationshipKey])
-                    [NSException raise: @"Denied" format: @"Can not delete because an object in relationship '%@' references this one.", relationshipKey];
-				break;
-			default : // EODeleteRuleNoAction
-				break;
+			switch ([self deleteRuleForRelationshipKey: relationshipKey])
+			{
+				case  EODeleteRuleNullify :
+					[object removeObject:relatedObject fromBothSidesOfRelationshipWithKey: relationshipKey];
+					break;
+				case EODeleteRuleCascade :
+					[editingContext deleteObject:relatedObject];
+					break;
+				case EODeleteRuleDeny :
+					// aclark @ ghoti.org   2005-12-08
+					// implemented basic EODeleteRuleDeny
+					[NSException raise: @"Denied" format: @"Can not delete because an object in relationship '%@' references this one.", relationshipKey];
+					break;
+				default : // EODeleteRuleNoAction
+					break;
+			}
 		}
 	}
 
