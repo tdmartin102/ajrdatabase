@@ -877,11 +877,11 @@ static NSCharacterSet	*literalSet;
 
 	NSMutableString	*sqlString;
 	sqlString = [@"DELETE FROM " mutableCopyWithZone:[self zone]];
-	[statement appendString:aTableList];
+	[sqlString appendString:aTableList];
 	if (aWhereClause)
 	{
-		[statement appendString:@" WHERE "];
-		[statement appendString:aWhereClause];
+		[sqlString appendString:@" WHERE "];
+		[sqlString appendString:aWhereClause];
    }
    return [sqlString autorelease];
 }
@@ -898,10 +898,7 @@ static NSCharacterSet	*literalSet;
 
 	// create where clause
 	if (qualifier)
-	{
 		whereClause = [[qualifier sqlStringForSQLExpression:self] mutableCopyWithZone:[self zone]];
-		[qualifier release];
-	}	
 	
 	// no joins, sorry.
 	
@@ -917,7 +914,7 @@ static NSCharacterSet	*literalSet;
 		}
 	}
 	
-	// we are done here, do the reset in the assymble
+	// we are done here, do the reset in the assemble
 	statement = [[self assembleDeleteStatementWithQualifier:qualifier 
 		tableList:tableClause 
 		whereClause:whereClause] mutableCopyWithZone:[self zone]];
