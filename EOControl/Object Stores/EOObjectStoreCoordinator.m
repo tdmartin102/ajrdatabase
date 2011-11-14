@@ -178,13 +178,18 @@ static EOObjectStoreCoordinator	*_eoDefaultCoordinator = nil;
 - (void)saveChangesInEditingContext: (EOEditingContext *)anEditingContext
 {
 	// This method is the work horse of the whole object store procedure when saving objects.
-	NSArray		*stores = [self _objectStores]; // To make sure the array doesn't change while working.
-	int			storesCount = [stores count];
-	NSException	*exception = nil;
+	NSArray						*stores = [self _objectStores]; // To make sure the array doesn't change while working.
+	int							storesCount = [stores count];
+	NSException					*exception = nil;
 	int			x;
 	
 	NS_DURING
 		// First, let each object store get ready for the save operation.
+		// lock all the stores first
+		for (x = 0; x < storesCount; x++) {
+			[[stores objectAtIndex:x] lock];
+		}
+
 		for (x = 0; x < storesCount; x++) {
 			[[stores objectAtIndex:x] prepareForSaveWithCoordinator:self editingContext:anEditingContext];
 		}
@@ -196,6 +201,11 @@ static EOObjectStoreCoordinator	*_eoDefaultCoordinator = nil;
 		for (x = 0; x < storesCount; x++) {
 			[[stores objectAtIndex:x] performChanges];
 		}
+		
+		// unlock the stores
+		for (x = 0; x < storesCount; x++) {
+			[[stores objectAtIndex:x] unlock];
+		}
 	NS_HANDLER
 		exception = [localException retain];
 	NS_ENDHANDLER
@@ -203,6 +213,7 @@ static EOObjectStoreCoordinator	*_eoDefaultCoordinator = nil;
 	// Now, attempt to commit or rollback the changes, depending if the above generated an error or not.
 	for (x = 0; x < storesCount; x++) {
 		EOCooperatingObjectStore	*objectStore = [stores objectAtIndex:x];
+		[objectStore lock];
 		if (exception) {
 			// An error did occur, so rollback the changes.
 			NS_DURING
@@ -222,6 +233,7 @@ static EOObjectStoreCoordinator	*_eoDefaultCoordinator = nil;
 				exception = [localException retain];
 			NS_ENDHANDLER
 		}
+		[objectStore unlock];
 	}
 	
 	if (exception) {

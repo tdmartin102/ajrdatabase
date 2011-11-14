@@ -257,16 +257,24 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 - (void)lock
 {
 	[super lock];
+	[self lockObjectStore];
 }
 
 - (BOOL)tryLock
 {
-	return [super tryLock];
+	BOOL result = NO;
+	if ([super tryLock])
+	{
+		result = YES;
+		[self lockObjectStore];
+	}
+	return result;
 }
 
 - (void)unlock
 {
 	[super unlock];
+	[self unlockObjectStore];
 }
 
 - (void)lockObjectStore
@@ -837,6 +845,7 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 		[self unlockObjectStore];
 		[self handleException:localException];
 	NS_ENDHANDLER
+	[self unlockObjectStore];
 }
 
 - (void)insertObject:(id)object
