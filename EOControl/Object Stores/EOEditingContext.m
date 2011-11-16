@@ -520,9 +520,10 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 
 	// Reset the undos, if necessary.
 	if (undoManager) {
-		NSEnumerator		*enumerator = [undoObjects keyEnumerator];
 		EOGlobalID			*key;
-		
+		NSArray				*keys = [undoObjects allKeys];
+		NSEnumerator		*enumerator = [keys objectEnumerator];
+
 		while ((key = [enumerator nextObject])) {
 			id					object = [self objectForGlobalID:key];
 			NSDictionary	*snapshot = [undoObjects objectForKey:key];
