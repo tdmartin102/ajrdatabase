@@ -52,14 +52,14 @@ extern NSString *EOObjectDidUpdateGlobalIDNotification;
 
 - (id)initWithEditingContext:(EOEditingContext *)editingContext classDescription:(NSClassDescription *)classDescription globalID:(EOGlobalID *)globalID;
 
-
 //=========== Methods deprecated ==========
-//- (void)takeStoredValue:(id)value forKey:(NSString *)key;
-//- (id)storedValueForKey:(NSString *)key;
+- (void)takeStoredValue:(id)value forKey:(NSString *)key;
+- (void)setPrimitiveValue:(id)value forkey:(NSString *)key;
+- (id)storedValueForKey:(NSString *)key;
 //========== The Old methods ===============
-//- (id)handleQueryWithUnboundKey:(NSString *)key;
-//- (void)handleTakeValue:(id)value forUnboundKey:(NSString *)key;
-//- (void)unableToSetNilForKey:(NSString *)key;
+- (id)handleQueryWithUnboundKey:(NSString *)key;
+- (void)handleTakeValue:(id)value forUnboundKey:(NSString *)key;
+- (void)unableToSetNilForKey:(NSString *)key;
 //========== and the new methods ===============
 - (id)valueForUndefinedKey:(NSString *)key;
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key;

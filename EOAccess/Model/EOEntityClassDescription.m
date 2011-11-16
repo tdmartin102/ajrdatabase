@@ -170,7 +170,13 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 		// replace depreciated method.  This should be tested, behavior is different.
 		// It may be acceptable, and then again maybe not. 
 		//[object takeStoredValue:[anEditingContext arrayFaultWithSourceGlobalID:globalID relationshipName:[relationship name] editingContext:anEditingContext] forKey:[relationship name]];
-		[object setValue:[anEditingContext arrayFaultWithSourceGlobalID:globalID relationshipName:[relationship name] editingContext:anEditingContext] forKey:[relationship name]];
+		// tom.martin @ riemer.com 2011-11-16
+		// it turns out that the purpose of takeStoredValue is basically to 
+		// avoid calling the accessor method so that willChange will NOT be called
+		// I have implemented setPrimitiveValue:forKey to replace takeStoredValue:forKey:
+		// So this method is replaced here.      
+		//[object setValue:[anEditingContext arrayFaultWithSourceGlobalID:globalID relationshipName:[relationship name] editingContext:anEditingContext] forKey:[relationship name]];
+		[object setPrimitiveValue:[anEditingContext arrayFaultWithSourceGlobalID:globalID relationshipName:[relationship name] editingContext:anEditingContext] forKey:[relationship name]];
       } else if ([relationship definition] != nil) {
          /*! @todo Create many to many relationship. This may actually be nothing, since it may be handled by the above block. */
       } else {
@@ -210,7 +216,13 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 			// replace depreciated method.  This should be tested, behavior is different.
 			// It may be acceptable, and then again maybe not. 
 			//[object takeStoredValue:[anEditingContext faultForGlobalID:dstGlobalID editingContext:anEditingContext] forKey:[relationship name]];
-			[object setValue:[anEditingContext faultForGlobalID:dstGlobalID editingContext:anEditingContext] forKey:[relationship name]];
+			// tom.martin @ riemer.com 2011-11-16
+			// it turns out that the purpose of takeStoredValue is basically to 
+			// avoid calling the accessor method so that willChange will NOT be called
+			// I have implemented setPrimitiveValue:forKey to replace takeStoredValue:forKey:
+			// So this method is replaced here.  
+			//[object setValue:[anEditingContext faultForGlobalID:dstGlobalID editingContext:anEditingContext] forKey:[relationship name]];
+			[object setPrimitiveValue:[anEditingContext faultForGlobalID:dstGlobalID editingContext:anEditingContext] forKey:[relationship name]];
       }
    }
 }
@@ -253,7 +265,13 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 			// replace depreciated method.  This should be tested, behavior is different.
 			// It may be acceptable, and then again maybe not. 
 			//[object takeStoredValue:array forKey:[relationship name]];
-			[object setValue:array forKey:[relationship name]];
+			// tom.martin @ riemer.com 2011-11-16
+			// it turns out that the purpose of takeStoredValue is basically to 
+			// avoid calling the accessor method so that willChange will NOT be called
+			// I have implemented setPrimitiveValue:forKey to replace takeStoredValue:forKey:
+			// So this method is replaced here.
+			//[object setValue:array forKey:[relationship name]];
+			[object setPrimitiveValue:array forKey:[relationship name]];
 			[array release];
 		}
 	}

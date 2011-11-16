@@ -55,4 +55,10 @@
 // Private
 - (void)_clearInstanceObjects;
 
+// tom.martin @ riemer.com 2011-11-16
+// it turns out that the purpose of takeStoredValue is basically to 
+// avoid calling the accessor method so that willChange will NOT be called
+// I have implemented setPrimitiveValue:forKey here to replace takeStoredValue:forKey:
+- (void)setPrimitiveValue:(id)value forKey:(NSString *)key;
+
 @end

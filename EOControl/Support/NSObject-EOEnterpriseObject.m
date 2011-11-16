@@ -14,6 +14,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import <objc/objc-class.h>
+
 // mont_rothstein @ yahoo.com 2005-01-14
 // Added support for the EO's to keep a pointer to their editing context rather
 // than having AJRUserInfo do it.
@@ -255,7 +257,13 @@ static EOHashObject	*_eofKey = NULL;
 		// replace depreciated method.  This should be tested, behaviour is different.
 		// It may be acceptable, and then again maybe not. 
 		//[self takeStoredValue:nil forKey:[array objectAtIndex:x]];
-		[self setValue:nil forKey:[array objectAtIndex:x]];
+		// tom.martin @ riemer.com 2011-11-16
+		// it turns out that the purpose of takeStoredValue is basically to 
+		// avoid calling the accessor method so that willChange will NOT be called
+		// I have implemented setPrimitiveValue:forKey to replace takeStoredValue:forKey:
+		// So this method is replaced here.                   
+		//[self setValue:nil forKey:[array objectAtIndex:x]];
+		[self setPrimitiveValue:nil forKey:[array objectAtIndex:x]];
 	}
 	
 	array = [self toManyRelationshipKeys];
@@ -266,7 +274,13 @@ static EOHashObject	*_eofKey = NULL;
 		// replace depreciated method.  This should be tested, behaviour is different.
 		// It may be acceptable, and then again maybe not. 
 		//[self takeStoredValue:nil forKey:[array objectAtIndex:x]];
-		[self setValue:nil forKey:[array objectAtIndex:x]];
+		// tom.martin @ riemer.com 2011-11-16
+		// it turns out that the purpose of takeStoredValue is basically to 
+		// avoid calling the accessor method so that willChange will NOT be called
+		// I have implemented setPrimitiveValue:forKey to replace takeStoredValue:forKey:
+		// So this method is replaced here.                   
+		//[self setValue:nil forKey:[array objectAtIndex:x]];
+		[self setPrimitiveValue:nil forKey:[array objectAtIndex:x]];
 	}
 }
 
@@ -290,7 +304,13 @@ static EOHashObject	*_eofKey = NULL;
 				// replace depreciated method.  This should be tested, behaviour is different.
 				// It may be acceptable, and then again maybe not. 
 				//[self takeStoredValue:copy forKey:key];
-				[self setValue:copy forKey:key];
+				// tom.martin @ riemer.com 2011-11-16
+				// it turns out that the purpose of takeStoredValue is basically to 
+				// avoid calling the accessor method so that willChange will NOT be called
+				// I have implemented setPrimitiveValue:forKey to replace takeStoredValue:forKey:
+				// So this method is replaced here. 
+				//[self setValue:copy forKey:key];
+				[self setPrimitiveValue:copy forKey:key];       
 				[copy release];
 			} 
 		} else {
@@ -301,7 +321,13 @@ static EOHashObject	*_eofKey = NULL;
 				// replace depreciated method.  This should be tested, behaviour is different.
 				// It may be acceptable, and then again maybe not. 
 				//[self takeStoredValue:[snapshot valueForKey:key] forKey:key];
-				[self setValue:[snapshot valueForKey:key] forKey:key];
+				// tom.martin @ riemer.com 2011-11-16
+				// it turns out that the purpose of takeStoredValue is basically to 
+				// avoid calling the accessor method so that willChange will NOT be called
+				// I have implemented setPrimitiveValue:forKey to replace takeStoredValue:forKey:
+				// So this method is replaced here.
+				//[self setValue:[snapshot valueForKey:key] forKey:key];
+				[self setPrimitiveValue:[snapshot valueForKey:key] forKey:key];       
 			NS_HANDLER
 				NS_ENDHANDLER
 		}
@@ -496,6 +522,733 @@ static EOHashObject	*_eofKey = NULL;
 // Moved here from EOUserDefaults in AJRFoundation because it was conflicting with
 // the re-direction of dealloc that allows an EO to tell its editing context to
 // forget it.
+
+#define ASSIGN(object,value)     ({\
+     id __value = (id)(value); \
+     id __object = (id)(object); \
+     if (__value != __object) \
+       { \
+         if (__value != nil) \
+           { \
+             [__value retain]; \
+           } \
+         object = __value; \
+         if (__object != nil) \
+           { \
+             [__object release]; \
+           } \
+       } \
+   })
+
+
+#define BITS_PER_UNIT	8
+
+int objc_sizeof_type (const char *type)
+{
+  /* Skip the variable name if any */
+  if (*type == '"')
+    {
+      for (type++; *type++ != '"';)
+	/* do nothing */;
+    }
+
+  switch (*type) {
+  case _C_ID:
+    return sizeof (id);
+    break;
+
+  case _C_CLASS:
+    return sizeof (Class);
+    break;
+
+  case _C_SEL:
+    return sizeof (SEL);
+    break;
+
+  case _C_CHR:
+    return sizeof (char);
+    break;
+
+  case _C_UCHR:
+    return sizeof (unsigned char);
+    break;
+
+  case _C_SHT:
+    return sizeof (short);
+    break;
+
+  case _C_USHT:
+    return sizeof (unsigned short);
+    break;
+
+  case _C_INT:
+    return sizeof (int);
+    break;
+
+  case _C_UINT:
+    return sizeof (unsigned int);
+    break;
+
+  case _C_LNG:
+    return sizeof (long);
+    break;
+
+  case _C_ULNG:
+    return sizeof (unsigned long);
+    break;
+
+  case _C_LNG_LNG:
+    return sizeof (long long);
+    break;
+
+  case _C_ULNG_LNG:
+    return sizeof (unsigned long long);
+    break;
+
+  case _C_FLT:
+    return sizeof (float);
+    break;
+
+  case _C_DBL:
+    return sizeof (double);
+    break;
+
+  case _C_VOID:
+    return sizeof (void);
+    break;
+
+  case _C_PTR:
+//  case _C_ATOM:
+  case _C_CHARPTR:
+    return sizeof (char *);
+    break;
+
+ // case _C_ARY_B:
+ //   {
+ //     int len = atoi (type + 1);
+ //     while (isdigit ((unsigned char)*++type))
+	//;
+    //  return len * objc_aligned_size (type);
+   // }
+   // break;
+
+  case _C_BFLD:
+    {
+      /* The new encoding of bitfields is: b 'position' 'type' 'size' */
+      int position, size;
+      int startByte, endByte;
+
+      position = atoi (type + 1);
+      while (isdigit ((unsigned char)*++type))
+	;
+      size = atoi (type + 1);
+
+      startByte = position / BITS_PER_UNIT;
+      endByte = (position + size) / BITS_PER_UNIT;
+      return endByte - startByte;
+    }
+
+ // case _C_STRUCT_B:
+ //   {
+ //     struct objc_struct_layout layout;
+//      unsigned int size;
+
+  //    objc_layout_structure (type, &layout);
+   //   while (objc_layout_structure_next_member (&layout))
+        /* do nothing */ ;
+   //   objc_layout_finish_structure (&layout, &size, NULL);
+
+   //   return size;
+   // }
+
+ // case _C_UNION_B:
+ //   {
+ //     int max_size = 0;
+ //     while (*type != _C_UNION_E && *type++ != '=')
+	/* do nothing */;
+ //     while (*type != _C_UNION_E)
+//	{
+	  /* Skip the variable name if any */
+//	  if (*type == '"')
+//	    {
+//	      for (type++; *type++ != '"';)
+		/* do nothing */;
+//	    }
+//	  max_size = MAX (max_size, objc_sizeof_type (type));
+//	  type = objc_skip_typespec (type);
+//	}
+  //    return max_size;
+    //}
+
+  default:
+    {
+		[NSException raise: @"OBJC_ERR_BAD_TYPE"
+			format: @"unknown type %s\n", type];
+	  return 0;
+    }
+  }
+}
+
+
+/**
+ * This function is used to locate information about the instance
+ * variable of obj called name.  It returns YES if the variable
+ * was found, NO otherwise.  If it returns YES, then the values
+ * pointed to by type, size, and offset will be set (except where
+ * they are null pointers).
+ */
+BOOL GSObjCFindVariable(id obj, const char *name,
+		   const char **type, unsigned int *size, int *offset)
+{	
+	// Tom.Martin @ riemer.com 2011-11-15
+	// updated the calls to the runtime functions as structures are now opaque.
+	Class					klass;
+	//struct objc_ivar_list	*ivars;
+	//struct objc_ivar		*ivar = 0;
+	Ivar	ivar;
+	if (obj == nil) return NO;
+	//class = GSObjCClass([obj class]);
+    klass = [(NSObject *)obj class];
+	ivar = 0;
+	while (klass != nil && ivar == 0)
+	{
+		//ivars = klass->ivars;
+		ivar = class_getInstanceVariable(klass, name);
+		if (ivar)
+			break;
+		klass = class_getSuperclass(klass);
+	}
+
+	/*
+	while (klass != nil && ivar == 0)
+	{
+		ivars = klass->ivars;
+		klass = klass->super_class;
+		if (ivars != 0)
+		{
+			int	i;
+
+			for (i = 0; i < ivars->ivar_count; i++)
+			{
+				if (strcmp(ivars->ivar_list[i].ivar_name, name) == 0)
+				{
+					ivar = &ivars->ivar_list[i];
+					break;
+				}
+			}
+		}
+	}
+	
+	if (ivar == 0)
+	{
+		return NO;
+	}
+
+	if (type)
+		*type = ivar->ivar_type;
+	if (size)
+		*size = objc_sizeof_type(ivar->ivar_type);
+	if (offset)
+		*offset = ivar->ivar_offset;
+	*/
+		
+	if (ivar == 0)
+		return NO;
+		
+	if (type)	
+		*type = ivar_getTypeEncoding(ivar);
+	if (size)
+		*size = objc_sizeof_type(*type);
+	if (offset)
+		*offset = ivar_getOffset(ivar);
+
+  return YES;
+}
+
+/**
+ * This is used internally by the key-value coding methods, to set a
+ * value in an object either via an accessor method (if sel is
+ * supplied), or via direct access (if type, size, and offset are
+ * supplied).<br />
+ * Automatic conversion between NSNumber and C scalar types is performed.<br />
+ * If type is null and can't be determined from the selector, the
+ * [NSObject-handleTakeValue:forUnboundKey:] method is called to try
+ * to set a value.
+ */
+void GSObjCSetVal(NSObject *self, const char *key, id val, SEL sel,
+  const char *type, unsigned size, int offset)
+{
+	static NSNull	*null = nil;
+
+	if (null == nil)
+    {
+		null = [NSNull new];
+    }
+	if (sel != 0)
+    {
+		NSMethodSignature	*sig = [self methodSignatureForSelector: sel];
+
+		if ([sig numberOfArguments] != 3)
+		{
+			[NSException raise: NSInvalidArgumentException
+				format: @"key-value set method has wrong number of args"];
+		}
+		type = [sig getArgumentTypeAtIndex: 2];
+	}
+	if (type == NULL)
+    {
+		[self setValue: val forUndefinedKey: [NSString stringWithUTF8String: key]];
+    }
+	else if ((val == nil || val == null) && *type != _C_ID && *type != _C_CLASS)
+    {
+		[self setNilValueForKey: [NSString stringWithUTF8String: key]];
+    }
+	else
+    {
+		switch (*type)
+		{
+			case _C_ID:
+			case _C_CLASS:
+			{
+				id	v = val;
+
+				if (sel == 0)
+				{
+					id *ptr = (id *)((char *)self + offset);
+					ASSIGN(*ptr, v);
+				}
+				else
+				{
+					void	(*imp)(id, SEL, id) =
+					(void (*)(id, SEL, id))[self methodForSelector: sel];
+
+					(*imp)(self, sel, val);
+				}
+			}
+			break;
+
+			case _C_CHR:
+			{
+				char	v = [val charValue];
+
+				if (sel == 0)
+				{
+					char *ptr = (char *)((char *)self + offset);
+
+					*ptr = v;
+				}
+				else
+				{
+					void	(*imp)(id, SEL, char) =
+					(void (*)(id, SEL, char))[self methodForSelector: sel];
+
+					(*imp)(self, sel, v);
+				}
+			}
+			break;
+
+			case _C_UCHR:
+			{
+				unsigned char	v = [val unsignedCharValue];
+
+				if (sel == 0)
+				{
+					unsigned char *ptr = (unsigned char*)((char *)self + offset);
+
+					*ptr = v;
+				}
+				else
+				{
+					void	(*imp)(id, SEL, unsigned char) =
+					(void (*)(id, SEL, unsigned char))[self methodForSelector:sel];
+
+					(*imp)(self, sel, v);
+				}
+			}
+			break;
+
+			case _C_SHT:
+			{
+				short	v = [val shortValue];
+
+				if (sel == 0)
+				{
+					short *ptr = (short*)((char *)self + offset);
+
+					*ptr = v;
+				}
+				else
+				{
+					void	(*imp)(id, SEL, short) =
+					(void (*)(id, SEL, short))[self methodForSelector: sel];
+
+					(*imp)(self, sel, v);
+				}
+			}
+			break;
+
+			case _C_USHT:
+			{
+				unsigned short	v = [val unsignedShortValue];
+
+				if (sel == 0)
+				{
+					unsigned short *ptr;
+
+					ptr = (unsigned short*)((char *)self + offset);
+					*ptr = v;
+				}
+				else
+				{
+					void	(*imp)(id, SEL, unsigned short) =
+					(void (*)(id, SEL, unsigned short))[self methodForSelector:sel];
+
+					(*imp)(self, sel, v);
+				}
+			}
+			break;
+
+			case _C_INT:
+			{
+				int	v = [val intValue];
+
+				if (sel == 0)
+				{
+					int *ptr = (int*)((char *)self + offset);
+
+					*ptr = v;
+				}
+				else
+				{
+					void	(*imp)(id, SEL, int) =
+					(void (*)(id, SEL, int))[self methodForSelector: sel];
+
+					(*imp)(self, sel, v);
+				}
+			}
+			break;
+
+			case _C_UINT:
+			{
+				unsigned int	v = [val unsignedIntValue];
+
+				if (sel == 0)
+				{
+					unsigned int *ptr = (unsigned int*)((char *)self + offset);
+
+					*ptr = v;
+				}
+				else
+				{
+					void	(*imp)(id, SEL, unsigned int) =
+					(void (*)(id, SEL, unsigned int))[self methodForSelector:sel];
+
+					(*imp)(self, sel, v);
+				}
+			}
+			break;
+
+			case _C_LNG:
+			{
+				long	v = [val longValue];
+
+				if (sel == 0)
+				{
+					long *ptr = (long*)((char *)self + offset);
+
+					*ptr = v;
+				}
+				else
+				{
+					void	(*imp)(id, SEL, long) =
+					(void (*)(id, SEL, long))[self methodForSelector: sel];
+
+					(*imp)(self, sel, v);
+				}
+			}
+			break;
+
+			case _C_ULNG:
+			{
+				unsigned long	v = [val unsignedLongValue];
+
+				if (sel == 0)
+				{
+					unsigned long *ptr = (unsigned long*)((char *)self + offset);
+
+					*ptr = v;
+				}
+				else
+				{
+					void	(*imp)(id, SEL, unsigned long) =
+					(void (*)(id, SEL, unsigned long))[self methodForSelector:sel];
+
+					(*imp)(self, sel, v);
+				}
+			}
+			break;
+
+			case _C_LNG_LNG:
+			{
+				long long	v = [val longLongValue];
+
+				if (sel == 0)
+				{
+					long long *ptr = (long long*)((char *)self + offset);
+
+					*ptr = v;
+				}
+				else
+				{
+					void	(*imp)(id, SEL, long long) =
+					(void (*)(id, SEL, long long))[self methodForSelector: sel];
+
+					(*imp)(self, sel, v);
+				}
+			}
+			break;
+			case _C_ULNG_LNG:
+			{
+				unsigned long long	v = [val unsignedLongLongValue];
+
+				if (sel == 0)
+				{
+					unsigned long long *ptr = (unsigned long long*)((char*)self + offset);
+
+					*ptr = v;
+				}
+				else
+				{
+					void	(*imp)(id, SEL, unsigned long long) =
+					(void (*)(id, SEL, unsigned long long))[self methodForSelector: sel];
+
+					(*imp)(self, sel, v);
+				}
+			}
+			break;
+
+			case _C_FLT:
+			{
+				float	v = [val floatValue];
+
+				if (sel == 0)
+				{
+					float *ptr = (float*)((char *)self + offset);
+
+					*ptr = v;
+				}
+				else
+				{
+					void	(*imp)(id, SEL, float) =
+					(void (*)(id, SEL, float))[self methodForSelector: sel];
+
+					(*imp)(self, sel, v);
+				}
+			}
+			break;
+
+			case _C_DBL:
+			{
+				double	v = [val doubleValue];
+
+				if (sel == 0)
+				{
+					double *ptr = (double*)((char *)self + offset);
+
+					*ptr = v;
+				}
+				else
+				{
+					void	(*imp)(id, SEL, double) =
+					(void (*)(id, SEL, double))[self methodForSelector: sel];
+
+					(*imp)(self, sel, v);
+				}
+			}
+			break;
+
+		default:
+			[NSException raise: NSInvalidArgumentException
+				format: @"key-value set method has unsupported type"];
+		}
+    }
+}
+
+/*
+- (void) setValue: (id)anObject forUndefinedKey: (NSString*)aKey
+{
+	NSDictionary	*dict;
+	NSException	*exp; 
+	static IMP	o = 0;
+
+	// Backward compatibility hack 
+	if (o == 0)
+    {
+		o = [NSObject instanceMethodForSelector:@selector(handleTakeValue:forUnboundKey:)];
+    }
+	if ([self methodForSelector: @selector(handleTakeValue:forUnboundKey:)] != o)
+    {
+		[self handleTakeValue: anObject forUnboundKey: aKey];
+		return;
+    }
+
+	dict = [NSDictionary dictionaryWithObjectsAndKeys:
+		(anObject ? (id)anObject : (id)@"(nil)"), @"NSTargetObjectUserInfoKey",
+		(aKey ? (id)aKey : (id)@"(nil)"), @"NSUnknownUserInfoKey",
+		nil];
+	exp = [NSException exceptionWithName: NSInvalidArgumentException
+				reason: @"Unable to set nil value for key"
+			      userInfo: dict];
+	[exp raise];
+}
+
+- (void) setNilValueForKey: (NSString*)aKey
+{
+	static IMP	o = 0;
+
+	// Backward compatibility hack 
+	if (o == 0)
+	{
+      o = [NSObject instanceMethodForSelector:
+		@selector(unableToSetNilForKey:)];
+    }
+	if ([self methodForSelector: @selector(unableToSetNilForKey:)] != o)
+    {
+		[self unableToSetNilForKey: aKey];
+    }
+
+	[NSException raise: NSInvalidArgumentException
+	      format: @"%@ -- %@ 0x%x: Given nil value to set for key \"%@\"",
+    NSStringFromSelector(_cmd), NSStringFromClass([self class]), self, aKey];
+}
+
+- (void)setValue:(id)value forKey:(NSString *)key
+{
+	SEL			sel = 0;
+	const char	*type = 0;
+	int			off;
+	unsigned	size = [key length];
+
+	if (size > 0)
+	{
+		const char	*name;
+		char		buf[size+6];
+		char		lo;
+		char		hi;
+
+		// make _setKey: from key
+		strcpy(buf, "_set");
+		[key getCString: &buf[4]];
+		lo = buf[4];
+		hi = islower(lo) ? toupper(lo) : lo;
+		buf[4] = hi;
+		buf[size+4] = ':';
+		buf[size+5] = '\0';
+
+		name = &buf[1];	// setKey:
+		type = NULL;
+		sel = sel_getUid(name);
+		if (sel == 0 || [self respondsToSelector: sel] == NO)
+		{
+			name = buf;	// _setKey:
+			sel = sel_getUid(name);
+			if (sel == 0 || [self respondsToSelector: sel] == NO)
+			{
+				sel = 0;
+				if ([[self class] accessInstanceVariablesDirectly] == YES)
+				{
+					buf[size+4] = '\0';
+					buf[3] = '_';
+					buf[4] = lo;
+					name = &buf[4];	// key
+					if (GSObjCFindVariable(self, name, &type, &size, &off) == NO)
+					{
+						name = &buf[3];	// _key
+						GSObjCFindVariable(self, name, &type, &size, &off);
+					}
+				}
+			}
+			
+		}
+	}
+	GSObjCSetVal(self, [key UTF8String], value, sel, type, size, off);
+}
+*/
+
+- (void)setPrimitiveValue:(id)value forKey:(NSString *)key
+{
+	SEL			sel = 0;
+	const char	*type = 0;
+	int			off;
+	unsigned	size = [key length];
+
+	if (size > 0)
+	{
+		const char	*name;
+		char		buf[size+6];
+		char		lo;
+		char		hi;
+		BOOL		found;
+
+		//1  private accessor method FIRST _setKey:
+		//2  variable key
+		//3  variable _key
+		//4  public accessor method setKey:
+		
+		// make _setKey: from key
+		found = NO;
+		strcpy(buf, "_set");
+		// Tom.Martin @ riemer.com 2011-11-15
+		// replaced depreciated call.
+		//[key getCString: &buf[4]];
+		strcpy(&buf[4], [key cStringUsingEncoding:NSASCIIStringEncoding]);
+		lo = buf[4];
+		hi = islower(lo) ? toupper(lo) : lo;
+		buf[4] = hi;
+		buf[size+4] = ':';
+		buf[size+5] = 0;
+		type = NULL;
+		name = buf; // _setKey:
+		sel = sel_getUid(name);
+		if (sel != 0 && [self respondsToSelector: sel] == YES) 
+			found = YES;
+		
+		if (! found)
+		{
+			sel = 0;
+			if ([[self class] accessInstanceVariablesDirectly] == YES)
+			{
+				buf[3]='_';
+				buf[4]=lo;
+				buf[size+4]=0;
+				name = &buf[3];	// _key
+				if (GSObjCFindVariable(self, name, &type, &size, &off) == NO) 
+				{
+					name = &buf[4];	// key
+					if (GSObjCFindVariable(self, name, &type, &size, &off) == YES)
+					{
+						found = YES;
+					}
+				}
+				else
+					found = YES;
+			}
+		}
+		
+		if (! found)
+		{
+			buf[3]='t';
+			buf[4]=hi;
+			buf[size+4]=':';
+			name = &buf[1];
+			sel = sel_getUid(name); // setKey:
+			if (sel == 0 || [self respondsToSelector: sel] == NO) 
+				sel = 0;
+		}
+	}
+		
+	GSObjCSetVal(self, [key UTF8String], value, sel, type, size, off);
+}
 
 @end
 

@@ -213,15 +213,32 @@ http://www.raftis.net/~alex/
 	[self valueForKey:key];
 }
 
+// tom.martin @ riemer.com 2011-11-16
+// it turns out that the purpose of takeStoredValue is basically to 
+// avoid calling the accessor method so that willChange will NOT be called
+// I have implemented setPrimitiveValue:forKey to replace takeStoredValue:forKey:
+// So this method is replaced here.                                              
+- (void)setPrimitiveValue:(id)value forkey:(NSString *)key
+{
+	[handler faultObject:self];
+	[self  setPrimitiveValue:value forkey:key];
+}
+
 // (ja @ sente.ch) was missing
 - (void)takeStoredValue:(id)value forKey:(NSString *)key
 {
-	[handler faultObject:self];
+	//[handler faultObject:self];
 	// tom.martin @ riemer.com - 2011-09-16
 	// replace depreciated method.  This should be tested, behavior is different.
 	// It may be acceptable, and then again maybe not. 
 	//[self takeStoredValue:value forKey:key];
-	[self setValue:value forKey:key];
+	//[self setValue:value forKey:key];
+	// tom.martin @ riemer.com 2011-11-16
+	// it turns out that the purpose of takeStoredValue is basically to 
+	// avoid calling the accessor method so that willChange will NOT be called
+	// I have implemented setPrimitiveValue:forKey to replace takeStoredValue:forKey:
+	// So this method is replaced here.  
+	[self setPrimitiveValue:value forkey:key];
 }
 
 

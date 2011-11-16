@@ -275,7 +275,7 @@
 		//value = [object storedValueForKey:key];
 		value = [object valueForKey:key];
 
-			//[EOLog logDebugWithFormat:@"%@ %@ is a fault\n", key, ([EOFault isFault:value] ? @"is" : @"isn't")];
+		//[EOLog logDebugWithFormat:@"%@ %@ is a fault\n", key, ([EOFault isFault:value] ? @"is" : @"isn't")];
 			
          if (![EOFault isFault:value]) {
             // We only need to check the relationship if it's not a fault

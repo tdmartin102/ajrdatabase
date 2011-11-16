@@ -172,12 +172,12 @@ http://www.raftis.net/~alex/
          [string appendFormat:@"- (void)set%@:(%@ *)value\n", [[attribute name] capitalizedName], [attribute _valueClass]];
          [string appendFormat:@"{\n"];
          [string appendFormat:@"   [self willChange];\n"];
-         [string appendFormat:@"   [self takeStoredValue:value forKey:@\"%@\"];\n", [attribute name]];
+         [string appendFormat:@"   [self setPrimitiveValue:value forKey:@\"%@\"];\n", [attribute name]];
          [string appendFormat:@"}\n"];
          [string appendFormat:@"\n"];
          [string appendFormat:@"- (%@ *)%@\n", [attribute _valueClass], [attribute name]];
          [string appendFormat:@"{\n"];
-         [string appendFormat:@"   return [self storedValueForKey:@\"%@\"];\n", [attribute name]];
+         [string appendFormat:@"   return [self valueForKey:@\"%@\"];\n", [attribute name]];
          [string appendFormat:@"}\n"];
          [string appendFormat:@"\n"];
       }
@@ -193,12 +193,12 @@ http://www.raftis.net/~alex/
          [string appendFormat:@"- (void)set%@:(%@ *)value\n", [[relationship name] capitalizedName], [[relationship destinationEntity] className]];
          [string appendFormat:@"{\n"];
          [string appendFormat:@"   [self willChange];\n"];
-         [string appendFormat:@"   [self takeStoredValue:value forKey:@\"%@\"];\n", [relationship name]];
+         [string appendFormat:@"   [self setPrimitiveValue:value forKey:@\"%@\"];\n", [relationship name]];
          [string appendFormat:@"}\n"];
          [string appendFormat:@"\n"];
          [string appendFormat:@"- (%@ *)%@\n", [[relationship destinationEntity] className], [relationship name]];
          [string appendFormat:@"{\n"];
-         [string appendFormat:@"   return [self storedValueForKey:@\"%@\"];\n", [relationship name]];
+         [string appendFormat:@"   return [self valueForKey:@\"%@\"];\n", [relationship name]];
          [string appendFormat:@"}\n"];
          [string appendFormat:@"\n"];
       }
@@ -215,12 +215,12 @@ http://www.raftis.net/~alex/
          [string appendFormat:@"- (void)set%@:(%@ *)value\n", [[relationship name] capitalizedName], @"NSMutableArray"];
          [string appendString:@"{\n"];
          [string appendString:@"   [self willChange];\n"];
-         [string appendFormat:@"   [self takeStoredValue:value forKey:@\"%@\"];\n", [relationship name]];
+         [string appendFormat:@"   [self setPrimitiveValue:value forKey:@\"%@\"];\n", [relationship name]];
          [string appendString:@"}\n"];
          [string appendString:@"\n"];
          [string appendFormat:@"- (%@ *)%@\n", @"NSArray", [relationship name]];
          [string appendString:@"{\n"];
-         [string appendFormat:@"   return [self storedValueForKey:@\"%@\"];\n", [relationship name]];
+         [string appendFormat:@"   return [self valueForKey:@\"%@\"];\n", [relationship name]];
          [string appendString:@"}\n"];
          [string appendString:@"\n"];
          [string appendFormat:@"- (void)addTo%@:(%@ *)value\n", [[relationship name] capitalizedName], [[relationship destinationEntity] className]];

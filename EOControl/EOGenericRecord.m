@@ -313,14 +313,29 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
 // I am just going to comment this out for now and if this comes back to
 // haunt me, then perhaps we could implement setPrimitiveValue:forKey: or
 // something like that.
+// tom.martin @ riemer.com 2011-11-16
+// it turns out that the purpose of takeStoredValue is basically to 
+// avoid calling the accessor method so that willChange will NOT be called
+// I have implemented setPrimitiveValue:forKey to replace takeStoredValue:forKey:
+// So this method is replaced here
 - (void)takeStoredValue:(id)value forKey:(NSString *)key
+{
+	[self setPrimitiveValue:value forkey:key];
+}
+- (void)setPrimitiveValue:(id)value forkey:(NSString *)key
 {
 	//void		*variable;
 	//Ivar		ivar;
 	
 	// mont_rothstein @ yahoo.com 2005-02-17
 	// As per the WO 4.5.1 docs call to willChange added
-	[self willChange];
+	// tom.martin @ riemer.com 2011-09-16
+	// I'm sorry but this make no sense at all.  I reviewed the documentation
+	// and feel that it does not imply that willChange should be called.
+	// further since the WHOLE POINT seems to be to avoid calling willChange
+	// then I am just going to call setValue here as willChange is NOT going
+	// to be called.
+	//[self willChange];
 	[_values setValue:value forKey:key];
 
 	// If the key exists as a ivar in the object, then use super's implementation.
@@ -334,7 +349,7 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
 
 // tom.martin @ riemer.com 2011-09-16
 // storedValueForKey: is a depreciated method. 
-// setValue:forKey will be called instead.  I'm not sure what kind of
+// value:forKey will be called instead.  I'm not sure what kind of
 // impact this may have.  Perhaps some performance, maybe something else
 // I am just going to comment this out for now and if this comes back to
 // haunt me, then perhaps we could implement primitiveValueForKey: or
