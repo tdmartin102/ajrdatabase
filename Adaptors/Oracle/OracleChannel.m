@@ -1015,10 +1015,11 @@ mailto:tom.martin@riemer.com
 			[NSException raise:EODatabaseException format:@"unable to create next primary Key using Oracle Sequence for entity \"%@\": %@", 
 				[entity externalName], [localException reason]];
 		NS_ENDHANDLER
+		[self setAttributesToFetch:[self describeResults]];
 		row = [self fetchRowWithZone:[self zone]];
 		pk = [[row allValues] objectAtIndex:0];
 		if (pk)
-			[keys addObject:[NSDictionary dictionaryWithObject:row forKey:name]];
+			[keys addObject:[NSDictionary dictionaryWithObject:pk forKey:name]];
 		[self cancelFetch];
 	}
 	[expression release];
