@@ -1068,15 +1068,21 @@ static Class _eoDatabaseContextClass = Nil;
 	}
 }
 
+// Tom.Martin @ Riemer.com
+// This method is never called, so I am taking it out, as it is broken anyway, and I am not going to bother
+// fixing it if it is not used.
+/*
 - (void)_generatePrimaryKeyForObject:(id)object entity:(EOEntity *)entity
 {
 	NSArray					*pkAttributes = [entity primaryKeyAttributeNames];
 	EOTemporaryGlobalID	*currentGlobalID;
 	
 	currentGlobalID = (EOTemporaryGlobalID *)[[object editingContext] globalIDForObject:object];
-	if ([currentGlobalID isTemporary]) {
+	if ([currentGlobalID isTemporary]) 
+	{
 		// Sanity check: Only do this if we have a temporary ID. If it's not temporary, then a primary has already been set.
-		if ([entity _primaryKeyIsPrivate] && [pkAttributes count] == 1) {
+		if ([entity _primaryKeyIsPrivate] && [pkAttributes count] == 1) 
+		{
 			NSDictionary			*primaryKey = nil;
 			EOAdaptorChannel		*adaptorChannel;
 			
@@ -1088,11 +1094,14 @@ static Class _eoDatabaseContextClass = Nil;
 				[localException raise];
 			NS_ENDHANDLER
 			[currentGlobalID setNewGlobalID:[entity globalIDForRow:primaryKey]];
-		} else {
+		} 
+		else 
+		{
 			[currentGlobalID setNewGlobalID:[entity globalIDForRow:[object primaryKey]]];
 		}
 	}
 }
+*/
 
 - (void)_generatePrimaryKeysForObjects:(NSDictionary *)cache
 {
@@ -1100,27 +1109,47 @@ static Class _eoDatabaseContextClass = Nil;
     NSEnumerator *enumerator = [cache keyEnumerator];
 	NSString *entityName;
     
-	while ((entityName = [enumerator nextObject]) != nil) {
+	while ((entityName = [enumerator nextObject]) != nil) 
+	{
 		NSArray *pkObjects = [cache objectForKey:entityName];
 
-		if ([pkObjects count]) { // Just for sanity's sake
-            int x, max;
+		// Just for sanity's sake
+		if ([pkObjects count]) 
+		{ 
+			int x, max;
+			NSArray *pkValues;
 			EOEntity *entity = [database entityNamed:entityName];
-            NSArray *pkAttributes = [entity primaryKeyAttributeNames];
+            //NSArray *pkAttributes = [entity primaryKeyAttributeNames];
             // lon.varscsak @ gmail.com 10/03/2006
-            // pkValues only gets assigned and used via primaryKeysForNewRowsWithEntity:count: if the entity's pks are private and it's a single primary key.
-			NSArray *pkValues = ([entity _primaryKeyIsPrivate] && [pkAttributes count] == 1) ? [channel primaryKeysForNewRowsWithEntity:entity count:[pkObjects count]] : nil;  
-			
-			for (x = 0, max = [pkObjects count]; x < max; x++) {
+            // pkValues only gets assigned and used via primaryKeysForNewRowsWithEntity:count: 
+			//if the entity's pks are private and it's a single primary key.
+			// Tom.Martin @ Riemer.com 11/17/11
+			// the primarkey was pre-qualified in prepareForSaveWithCoordinator:editingContext:
+			// so we no longer need to check
+			//NSArray *pkValues = ([entity _primaryKeyIsPrivate] && [pkAttributes count] == 1) ? 
+			//[channel primaryKeysForNewRowsWithEntity:entity count:[pkObjects count]] : nil; 
+			NS_DURING 
+				pkValues = [channel primaryKeysForNewRowsWithEntity:entity count:[pkObjects count]];  
+			NS_HANDLER
+				[localException raise];
+			NS_ENDHANDLER
+			for (x = 0, max = [pkObjects count]; x < max; x++)
+			{
 				id object = [pkObjects objectAtIndex:x];
 				EOTemporaryGlobalID	*currentGlobalID = (EOTemporaryGlobalID *)[[object editingContext] globalIDForObject:object];
                 
                 // lon.varscsak @ gmail.com 10/03/2006
-                // If the entity's pks are private and it's a single primary key use the PK values that came from primaryKeysForNewRowsWithEntity:count: otherwise just use the -primaryKey values from the object
-                if ([entity _primaryKeyIsPrivate] && [pkAttributes count] == 1)
-                    [currentGlobalID setNewGlobalID:[entity globalIDForRow:[pkValues objectAtIndex:x]]];
-                else
-                    [currentGlobalID setNewGlobalID:[entity globalIDForRow:[object primaryKey]]];
+                // If the entity's pks are private and it's a single primary key use the PK values that came 
+				//from primaryKeysForNewRowsWithEntity:count: otherwise just use the -primaryKey values 
+				//from the object
+				// Tom.Martin @ Riemer.com 11/17/11
+				// the object here have been prequalified in prepareForSaveWithCoordinator:editingContext:
+				// so we no longer need to check
+                //if ([entity _primaryKeyIsPrivate] && [pkAttributes count] == 1)
+                //    [currentGlobalID setNewGlobalID:[entity globalIDForRow:[pkValues objectAtIndex:x]]];
+                //else
+                //    [currentGlobalID setNewGlobalID:[entity globalIDForRow:[object primaryKey]]];
+				[currentGlobalID setNewGlobalID:[entity globalIDForRow:[pkValues objectAtIndex:x]]];
 			}
 		}
 	}
@@ -1128,10 +1157,10 @@ static Class _eoDatabaseContextClass = Nil;
 
 - (void)prepareForSaveWithCoordinator:(EOObjectStoreCoordinator *)aCoordinator editingContext:(EOEditingContext *)anEditingContext
 {
-	NSArray					*insertedObjects;
-	NSMutableDictionary  *pkCache;
-	int						x;
-	int numInsertedObjects;
+	NSArray				*insertedObjects;
+	NSMutableDictionary *pkCache;
+	int					x;
+	int					numInsertedObjects;
 	
 	// 0. Make sure we've been locked.
 	[self _assertLock];
@@ -1153,25 +1182,59 @@ static Class _eoDatabaseContextClass = Nil;
 	// 3. Cache the editing context for future steps in the save process.
 	savingContext = [anEditingContext retain];
 	
-	// 4. Scan the inserted objects and create a list of object's we own that need primary keys. The list is creating by entity, which allows us to request a block of primary keys, saving a lot of round trips to the database.
+	// 4. Scan the inserted objects and create a list of object's we own that need primary keys. 
+	//    The list is creating by entity, which allows us to request a block of primary keys, saving 
+	//    a lot of round trips to the database.  However the delegate may give us primary keys
+	//    so we will not include those in our cache.
 	insertedObjects = [savingContext insertedObjects];
 	pkCache = [[NSMutableDictionary allocWithZone:[self zone]] init];
 	numInsertedObjects = [insertedObjects count];
-	for (x = 0; x < numInsertedObjects; x++) {
-		id					object = [insertedObjects objectAtIndex:x];
+	for (x = 0; x < numInsertedObjects; x++) 
+	{
+		id				object = [insertedObjects objectAtIndex:x];
 		EOGlobalID		*globalID = [[object editingContext] globalIDForObject:object];
 		
-		if ([globalID isTemporary] && [self ownsGlobalID:globalID]) {
-			NSString				*entityName = [globalID entityName];
-			NSMutableArray		*cache = [pkCache objectForKey:entityName];
+		if ([globalID isTemporary] && [self ownsGlobalID:globalID]) 
+		{
+			NSString		*entityName = [globalID entityName];
+			NSMutableArray	*cache = [pkCache objectForKey:entityName];
+			EOEntity		*entity = [database entityNamed:entityName];
+			NSDictionary	*pk;
 
-			if (cache == nil) {
-				cache = [[NSMutableArray allocWithZone:[self zone]] init];
-				[pkCache setObject:cache forKey:entityName];
-				[cache release];
-			}
-			
-			[cache addObject:object];
+			// Tom.Martin @ Riemer.com 11/17/2011
+			// First check to see if the delegate is going to hand us a primary Key
+			pk = nil;
+			if (delegateRespondsToNewPrimaryKeyForObjectEntity)
+				pk = [delegate databaseContext:self newPrimaryKeyForObject:object entity:entity];
+
+			if (pk)
+				[(EOTemporaryGlobalID *)globalID setNewGlobalID:[entity globalIDForRow:pk]];
+			else
+			{
+				// Tom.Martin @ Riemer.com 11/17/11
+				// ONLY add objects to the pkCache if we truly need to.
+				// We don't want to ask the database to build keys that
+				// we don't need.
+				// We only need adaptor keys IF the primary key has only one element,
+				// AND that element is private.
+				// The mechanisim for assiging a 12 byte unique id by this framework for
+				// the datatype NSData is not implemented yet. So we are not going to deal with that.
+				NSArray *pkAttributes = [entity primaryKeyAttributes];
+				if (([pkAttributes count] == 1)  && [entity _primaryKeyIsPrivate])
+				{
+					cache = [pkCache objectForKey:entityName];
+					if (cache == nil) 
+					{
+						cache = [[NSMutableArray allocWithZone:[self zone]] init];
+						[pkCache setObject:cache forKey:entityName];
+						[cache release];
+					}
+					[cache addObject:object];
+				}
+				else
+					// we assume it is already set
+					[(EOTemporaryGlobalID *)globalID setNewGlobalID:[entity globalIDForRow:[object primaryKey]]];
+			}			
 		}
 	}
 	
