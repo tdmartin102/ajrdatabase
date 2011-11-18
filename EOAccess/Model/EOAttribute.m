@@ -415,6 +415,10 @@ NSString *EOAttributeDidChangeNameNotification = @"EOAttributeDidChangeNameNotif
 	// if there is no custom class, then no conversion is needed
 	result = value;
 	
+	// if there is nothing to convert then return the nothing.
+	if (! value || [value isKindOfClass:[NSNull class]])
+		return [NSNull null];
+	
 	if ([adaptorValueConversionMethodName length])
 	{
 		// If the data type to be fetched is EOAdaptorBytesType then
