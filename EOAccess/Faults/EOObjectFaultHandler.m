@@ -85,6 +85,12 @@ http://www.raftis.net/~alex/
 	EOAdaptorChannel				*adaptorChannel;
 	NSDictionary					*row = nil;
 	
+	// Tom.Martin @ Riemer.com 2011-08-31
+	// We need to lock the context, added lock, unlock and unlock on thrown exception
+	// Tom.Martin @ Riemer.com 2011-12-1
+	// moved this to beore accessing the database context.
+	[editingContext lockObjectStore];
+
 	classDescription = (EOEntityClassDescription *)[EOEntityClassDescription classDescriptionForEntityName:[globalID entityName]];
 	aDatabaseContext = [EODatabaseContext registeredDatabaseContextForModel:[[classDescription entity] model] editingContext:editingContext];
 	databaseChannel = [aDatabaseContext availableChannel];
@@ -94,10 +100,6 @@ http://www.raftis.net/~alex/
 		[adaptorChannel openChannel];
 	}
 	fetch = [EOFetchSpecification fetchSpecificationWithEntityName:[globalID entityName] qualifier:[(EOKeyGlobalID *)globalID buildQualifier] sortOrderings:nil];
-
-	// Tom.Martin @ Riemer.com 2011-08-31
-	// We need to lock the context, added lock, unlock and unlock on thrown exception
-	[editingContext lockObjectStore];
 	
 	// mont_rothstein @ yahoo.com 2005-06-27
 	// If the update strategy is pessimistic locking then override the setting on the
