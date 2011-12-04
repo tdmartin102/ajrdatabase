@@ -112,6 +112,11 @@
 	timestamp = aTimestamp;
 }
 
+- (NSString *)description
+{
+	return [NSString stringWithFormat:@"referenceCount = %d, %@", referenceCount, [object description]];
+}
+
 @end
 
 
@@ -221,6 +226,11 @@
 			[dictionary removeObjectForKey:key];
 		}
 	} 
+}
+
+- (NSString *)description
+{
+	return [dictionary description];
 }
 
 @end
