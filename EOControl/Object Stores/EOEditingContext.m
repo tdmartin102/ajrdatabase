@@ -1426,6 +1426,9 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 	invalidatedObjects = [[NSMutableArray allocWithZone:[self zone]] init];
 	
 	// First, refault the objects. We also want to track which objects in the requested array actually get refaulted, since the delegate can prevent object invalidating.
+	// tom.martin @ riemer.com - 2011-12-1
+	// added missing lock  
+	[self lockObjectStore];
 	NS_DURING
 		numGlobalIDs = [globalIDs count];
 		for (x = 0; x < numGlobalIDs; x++) {
