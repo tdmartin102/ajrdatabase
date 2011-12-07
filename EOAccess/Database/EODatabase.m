@@ -53,14 +53,14 @@ static BOOL _eoDisableSnapshotRefCounting = NO;
 
 - (id)init
 {
-	[super init];
-	
-	models = [[NSMutableDictionary allocWithZone:[self zone]] init];
-	entityCache = [[NSMutableDictionary allocWithZone:[self zone]] init];
-	resultCache = [[NSMutableDictionary allocWithZone:[self zone]] init];
-	databaseContexts = [[NSClassFromString(@"_EOWeakMutableArray") allocWithZone:[self zone]] init];
-	snapshots = [[_EOSnapshotMutableDictionary allocWithZone:[self zone]] init];
-
+	if (self = [super init])
+	{
+		models = [[NSMutableDictionary allocWithZone:[self zone]] init];
+		entityCache = [[NSMutableDictionary allocWithZone:[self zone]] init];
+		resultCache = [[NSMutableDictionary allocWithZone:[self zone]] init];
+		databaseContexts = [[NSClassFromString(@"_EOWeakMutableArray") allocWithZone:[self zone]] init];
+		snapshots = [[_EOSnapshotMutableDictionary allocWithZone:[self zone]] init];
+	}
 	return self;
 }
 

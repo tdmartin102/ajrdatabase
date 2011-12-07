@@ -23,9 +23,12 @@ static EONull *null = nil;
 	 operatorSelector:(SEL)_selector
 			 rightKey:(NSString *)_rightKey;
 {
-	self->leftKey  = [_leftKey  copyWithZone:NULL];
-	self->rightKey = [_rightKey copyWithZone:NULL];
-	self->operator = _selector;
+	if (self = [super init])
+	{
+		self->leftKey  = [_leftKey  copyWithZone:NULL];
+		self->rightKey = [_rightKey copyWithZone:NULL];
+		self->operator = _selector;
+	}
 	return self;
 }
 

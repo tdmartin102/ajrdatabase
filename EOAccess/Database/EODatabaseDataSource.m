@@ -22,9 +22,12 @@
  */
 - (id)init
 {
-	editingContext = [[EOEditingContext allocWithZone:[self zone]] init];
-	fetchSpecification = [[EOFetchSpecification allocWithZone:[self zone]] init];
-	fetchEnabled = YES;
+	if (self = [super init])
+	{
+		editingContext = [[EOEditingContext allocWithZone:[self zone]] init];
+		fetchSpecification = [[EOFetchSpecification allocWithZone:[self zone]] init];
+		fetchEnabled = YES;
+	}
 	
 	return self;
 }
@@ -36,6 +39,9 @@
 
 - (id)initWithEditingContext:(EOEditingContext *)anEditingContext entityName:(NSString *)anEntityName fetchSpecificationName:(NSString *)aFetchSpecificationName
 {
+	if ((self = [super init]) == nil)
+		return nil;
+		
 	editingContext = [anEditingContext retain];
 	if (editingContext == nil) {
 		editingContext = [[EOEditingContext allocWithZone:[self zone]] init];

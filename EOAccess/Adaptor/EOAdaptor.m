@@ -117,10 +117,12 @@ static NSMutableDictionary *_eoExpressionClasses = nil;
 
 - (id)initWithName:(NSString *)aName
 {
-	name = [aName retain];
-	adaptorContexts = [[NSClassFromString(@"_EOWeakMutableArray") allocWithZone:[self zone]] init];
-	
-   return self;
+	if (self = [super init])
+	{
+		name = [aName retain];
+		adaptorContexts = [[NSClassFromString(@"_EOWeakMutableArray") allocWithZone:[self zone]] init];
+	}
+	return self;
 }
 
 - (void)dealloc

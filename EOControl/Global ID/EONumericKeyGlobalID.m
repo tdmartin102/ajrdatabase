@@ -42,30 +42,33 @@ http://www.raftis.net/~alex/
 
 - (id)initWithEntityName:(NSString *)anEntityName keys:(NSString **)primaryKeys values:(id *)someValues count:(int)aCount
 {
-   int			x;
+	int			x;
+
+	if (self = [super init])
+	{
+	   count = aCount;
+		
+	   entityName = [anEntityName retain];
+	   values = (unsigned long long *)NSZoneMalloc([self zone], sizeof(unsigned long long) * count);
+	   keys = (NSString **)NSZoneMalloc([self zone], sizeof(id) * count);
+		
+		hash = [entityName hash];
+		// This uses random to prevent the hash values from being sequential. This happens, for example, if you fetch a large number of items from the same entity in a database. This creates serious slow downs in NSDictionary's hash table. By using call srandom() on the first item and then hashing xor'd with random(), we always produce the same number, but get something "random" enough to prevent the slow down in NSDictionary.
+	   for (x = 0; x < count; x++) {
+		   // mont_rothstein @ yahoo.com 2004-12-03
+		   // If the value at someValues[x] is nil, then we need to return nil because there isn't
+		   // enough data to create the global ID.  This happens when there is a NULL in the database.
+		   if (someValues[x] == nil) return nil;
+		   values[x] = [someValues[x] unsignedLongLongValue];
+		  keys[x] = [primaryKeys[x] retain];
+			if (x == 0) {
+				srandom([someValues[x] unsignedLongValue]);
+			}
+			hash ^= random();
+	   }
+	}
 	
-   count = aCount;
-	
-   entityName = [anEntityName retain];
-   values = (unsigned long long *)NSZoneMalloc([self zone], sizeof(unsigned long long) * count);
-   keys = (NSString **)NSZoneMalloc([self zone], sizeof(id) * count);
-	
-	hash = [entityName hash];
-	// This uses random to prevent the hash values from being sequential. This happens, for example, if you fetch a large number of items from the same entity in a database. This creates serious slow downs in NSDictionary's hash table. By using call srandom() on the first item and then hashing xor'd with random(), we always produce the same number, but get something "random" enough to prevent the slow down in NSDictionary.
-   for (x = 0; x < count; x++) {
-	   // mont_rothstein @ yahoo.com 2004-12-03
-	   // If the value at someValues[x] is nil, then we need to return nil because there isn't
-	   // enough data to create the global ID.  This happens when there is a NULL in the database.
-	   if (someValues[x] == nil) return nil;
-	   values[x] = [someValues[x] unsignedLongLongValue];
-      keys[x] = [primaryKeys[x] retain];
-		if (x == 0) {
-			srandom([someValues[x] unsignedLongValue]);
-		}
-		hash ^= random();
-   }
-	
-   return self;
+	return self;
 }
 
 - (void)dealloc

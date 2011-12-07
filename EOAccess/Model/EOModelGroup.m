@@ -90,6 +90,8 @@ static id						classDelegate = nil;
  */
 - (id)init
 {
+	if ((self = [super init]) == nil)
+		return nil;
    models = [[NSMutableArray allocWithZone:[self zone]] init];
    modelIndex = [[NSMutableDictionary allocWithZone:[self zone]] init];
    modelPathIndex = [[NSMutableDictionary allocWithZone:[self zone]] init];

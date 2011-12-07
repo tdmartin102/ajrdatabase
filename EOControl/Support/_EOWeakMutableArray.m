@@ -6,10 +6,12 @@
 
 - (id)init
 {
-	maxCount = 8;
-	objects = (id *)NSZoneMalloc([self zone], sizeof(id) * maxCount);
-	count = 0;
-	
+	if (self = [super init])
+	{
+		maxCount = 8;
+		objects = (id *)NSZoneMalloc([self zone], sizeof(id) * maxCount);
+		count = 0;
+	}
 	return self;
 }
 

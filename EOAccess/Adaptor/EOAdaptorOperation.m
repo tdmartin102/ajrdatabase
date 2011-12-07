@@ -18,9 +18,8 @@
 // Creating a new EOAdaptorOperation
 - (id)initWithEntity:(EOEntity *)anEntity
 {
-	[super init];
-	
-	entity = [anEntity retain];
+	if (self = [super init])	
+		entity = [anEntity retain];
 	
 	return self;
 }

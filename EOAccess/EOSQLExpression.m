@@ -231,10 +231,11 @@ static NSCharacterSet	*literalSet;
 
 - (id)initWithRootEntity:(EOEntity *)aRootEntity
 {
-	[super init];
-	
-	rootEntity = [aRootEntity retain];
-	usesAliases = NO;
+	if (self = [super init])
+	{
+		rootEntity = [aRootEntity retain];
+		usesAliases = NO;
+	}
 	return self;
 }
 
@@ -245,8 +246,8 @@ static NSCharacterSet	*literalSet;
 
 - (id)initWithStatement:(NSString *)aStatement
 {
-   statement = [aStatement retain];
-
+	if (self = [super init])
+		statement = [aStatement retain];
    return self;
 }
 

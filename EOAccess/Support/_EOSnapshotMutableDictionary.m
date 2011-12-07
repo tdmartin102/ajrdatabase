@@ -124,7 +124,8 @@
 
 - (id)init
 {
-	dictionary = [[NSMutableDictionary allocWithZone:[self zone]] init];
+	if (self = [super init])
+		dictionary = [[NSMutableDictionary allocWithZone:[self zone]] init];
 	
 	return self;
 }

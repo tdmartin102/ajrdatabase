@@ -28,7 +28,8 @@
 {
 	NSArray		*array;
 	
-	[super init];
+	if ((self = [super init]) == nil)
+		return nil;
 	
 	entityName = [[properties objectForKey:@"entityName"] retain];
 	fetchLimit = [[properties objectForKey:@"fetchLimit"] intValue];

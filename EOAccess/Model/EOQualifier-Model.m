@@ -15,7 +15,7 @@
 	NSString		*className;
 	NSZone		*zone = [self zone];
 	
-	[super init];
+	self = [super init];
 	
 	className = [properties objectForKey:@"class"];
 	if ([className isEqualToString:@"EOAndQualifier"]) {

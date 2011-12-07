@@ -56,7 +56,7 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 
 - (id)initWithParentObjectStore:(EOObjectStore *)anObjectStore
 {
-   [super init];
+	self = [super init];
    
 	// mont_rothstein @ yahoo.com 2005-01-07
 	// I made the objects dictionary weak again.  The EOs now tell their editing context

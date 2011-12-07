@@ -32,19 +32,22 @@ http://www.raftis.net/~alex/
 
 - (id)initWithEntityName:(NSString *)anEntityName
 {
-   entityName = [anEntityName retain];
-   uniqueID = [[[NSProcessInfo processInfo] globallyUniqueString] retain];
+	if (self = [super init])
+	{
+		entityName = [anEntityName retain];
+		uniqueID = [[[NSProcessInfo processInfo] globallyUniqueString] retain];
+	}
 
-   return self;
+	return self;
 }
 
 - (void)dealloc
 {
-   [entityName release];
-   [uniqueID release];
+	[entityName release];
+	[uniqueID release];
 	[newGlobalID release];
 
-   [super dealloc];
+	[super dealloc];
 }
 
 - (BOOL)isTemporary

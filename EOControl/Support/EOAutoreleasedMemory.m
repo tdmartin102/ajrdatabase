@@ -33,10 +33,12 @@ http://www.raftis.net/~alex/
 
 - (id)initWithCapacity:(NSUInteger)cap
 {
-   [super init];
-   mutableBytes = NSZoneMalloc(NULL, cap);
-   length = 0;
-   return self;
+	if (self = [super init])
+	{
+		mutableBytes = NSZoneMalloc(NULL, cap);
+		length = 0;
+	}
+	return self;
 }
 
 - (NSUInteger)remainingCapacity

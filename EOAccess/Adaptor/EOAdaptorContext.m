@@ -67,14 +67,16 @@ static id   _defaultDelegate = nil;
 
 - (id)initWithAdaptor:(EOAdaptor *)anAdaptor
 {
-	[super init];
-	// we retain the adaptor, but the adaptor does not retain us.
-	// this way there is no retain cycle, and you only need to hang on
-	// to the adaptorChannel to keep the adaptor and context around.
-	adaptor = [anAdaptor retain];
-	adaptorChannels = [[NSClassFromString(@"_EOWeakMutableArray") alloc] init];
-	debugging = [[self class] debugEnabledDefault];
-    [self setDelegate:[[self class] defaultDelegate]];
+	if (self = [super init])
+	{
+		// we retain the adaptor, but the adaptor does not retain us.
+		// this way there is no retain cycle, and you only need to hang on
+		// to the adaptorChannel to keep the adaptor and context around.
+		adaptor = [anAdaptor retain];
+		adaptorChannels = [[NSClassFromString(@"_EOWeakMutableArray") alloc] init];
+		debugging = [[self class] debugEnabledDefault];
+		[self setDelegate:[[self class] defaultDelegate]];
+	}
    
    return self;
 }

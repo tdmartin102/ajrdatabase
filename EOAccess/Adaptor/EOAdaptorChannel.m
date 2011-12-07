@@ -48,13 +48,16 @@ NSString *EOGenericAdaptorException = @"EOGenericAdaptorException";
 
 - (id)initWithAdaptorContext:(EOAdaptorContext *)aContext
 {
-	// we retain the context, but the context does not retain us.
-	// this way there is no retain cycle, and you only need to hang on
-	// to the channel.
-	adaptorContext = [aContext retain];
-	connected = NO;
-	[self setDelegate:[aContext delegate]];
-	debug = [adaptorContext isDebugEnabled];
+	if (self = [super init])
+	{
+		// we retain the context, but the context does not retain us.
+		// this way there is no retain cycle, and you only need to hang on
+		// to the channel.
+		adaptorContext = [aContext retain];
+		connected = NO;
+		[self setDelegate:[aContext delegate]];
+		debug = [adaptorContext isDebugEnabled];
+	}
 	return self;
 }
 

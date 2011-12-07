@@ -10,10 +10,8 @@
 
 - (id)initWithQualifier:(EOQualifier *)aQualifier
 {
-	[super init];
-	
-	qualifier = [aQualifier retain];
-	
+	if (self = [super init])
+		qualifier = [aQualifier retain];
 	return self;
 }
 

@@ -83,13 +83,8 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
 // alloc/init.
 - init
 {
-	self = [super init];
-	
-	if (self)
-	{
-		_values = [[NSMutableDictionary alloc] init];
-	}
-	
+	if (self = [super init])
+		_values = [[NSMutableDictionary alloc] init];	
 	return self;
 }
 

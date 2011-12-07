@@ -164,7 +164,7 @@ static EOHashObject	*_eofKey = NULL;
 // Initializing enterprise objects
 - (id)initWithEditingContext:(EOEditingContext *)editingContext classDescription:(NSClassDescription *)classDescription globalID:(EOGlobalID *)globalID
 {
-	[self init];
+	self = [self init];
 
 	// mont_rothstein @ yahoo.com 2004-12-05
 	// Commented these two lines out.  According to the WO 4.5 docs the editing context

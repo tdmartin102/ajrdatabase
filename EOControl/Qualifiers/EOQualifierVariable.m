@@ -16,8 +16,8 @@
 }
 
 - (id)initWithKey:(NSString *)_key {
-    [super init];
-	self->varKey = [_key copyWithZone:[self zone]];
+    if (self = [super init])
+		self->varKey = [_key copyWithZone:[self zone]];
 	return self;
 }
 - (id)init {

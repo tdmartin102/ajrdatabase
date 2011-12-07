@@ -42,10 +42,8 @@ NSString *EORelationshipDidChangeNameNotification = @"EORelationshipDidChangeNam
 
 - (id)init
 {
-	[super init];
-	
-	joins = [[NSMutableArray allocWithZone:[self zone]] init];
-	
+	if (self = [super init])
+		joins = [[NSMutableArray allocWithZone:[self zone]] init];
 	return self;
 }
 
@@ -60,6 +58,9 @@ NSString *EORelationshipDidChangeNameNotification = @"EORelationshipDidChangeNam
 	// The following variable is used in the unarchiving of sort orderings
    NSArray		*someOrderings;
 #endif
+
+	if ((self = [super init]) == nil)
+		return nil;
    
    entity = owner;
    name = [[properties objectForKey:@"name"] retain];

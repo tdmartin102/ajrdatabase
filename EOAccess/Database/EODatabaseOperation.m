@@ -23,11 +23,12 @@
 
 - (id)initWithGlobalID:(EOGlobalID *)aGlobalID object:(id)anObject entity:(EOEntity *)anEntity
 {
-	[super init];
-	
-	globalID = [aGlobalID retain];
-	object = [anObject retain];
-	entity = [anEntity retain];
+	if (self = [super init])
+	{
+		globalID = [aGlobalID retain];
+		object = [anObject retain];
+		entity = [anEntity retain];
+	}
 	
 	return self;
 }

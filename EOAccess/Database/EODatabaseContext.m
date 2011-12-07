@@ -150,13 +150,14 @@ extern int objc_sizeof_type(const char* type);
 
 - (id)initWithDatabase:(EODatabase *)aDatabase
 {
-	[super init];
-	
-   database = [aDatabase retain];
-// mont_rothstein @ yahoo.com 2005-1-2
-// The database context's objects instance variable was removed
-//	objects = [[NSMutableDictionary allocWithZone:[self zone]] init];
-   adaptorContext = [[[database adaptor] createAdaptorContext] retain];
+	if ((self = [super init]) == nil)
+		return nil;
+		
+	database = [aDatabase retain];
+	// mont_rothstein @ yahoo.com 2005-1-2
+	// The database context's objects instance variable was removed
+	//	objects = [[NSMutableDictionary allocWithZone:[self zone]] init];
+	adaptorContext = [[[database adaptor] createAdaptorContext] retain];
 	lockedObjects = [[NSMutableSet allocWithZone:[self zone]] init];
 	databaseChannels = [[NSMutableArray allocWithZone:[self zone]] init];
 	// mont_rothstein @ yahoo.com 2004-12-19
@@ -169,7 +170,7 @@ extern int objc_sizeof_type(const char* type);
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_adaptorContextDidCommitTransaction:) name:EOAdaptorContextCommitTransactionNotification object:adaptorContext];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_adaptorContextDidRollbackTransaction:) name:EOAdaptorContextRollbackTransactionNotification object:adaptorContext];
 
-   return self;
+	return self;
 }
 
 - (void)dealloc

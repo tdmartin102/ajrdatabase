@@ -15,9 +15,11 @@ NSString *EOUpdatedKey = @"EOUpdatedKey";
 
 - (id)init
 {
-	lock = [[NSRecursiveLock allocWithZone:[self zone]] init];
-	lockCount = 0;
-	
+	if (self = [super init])
+	{
+		lock = [[NSRecursiveLock allocWithZone:[self zone]] init];
+		lockCount = 0;
+	}
 	return self;
 }
 

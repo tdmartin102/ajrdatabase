@@ -86,7 +86,8 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 
 - (id)initWithEntity:(EOEntity *)anEntity
 {
-	entity = [anEntity retain];
+	if (self = [super init])
+		entity = [anEntity retain];
 	
 	return self;
 }

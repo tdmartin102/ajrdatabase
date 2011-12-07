@@ -59,9 +59,10 @@ http://www.raftis.net/~alex/
 
 - (id)init
 {
-   dictionary = [[NSMutableDictionary alloc] init];
+	if (self = [super init])
+		dictionary = [[NSMutableDictionary alloc] init];
 
-   return self;
+	return self;
 }
 
 - (void)dealloc

@@ -44,6 +44,8 @@ NSString *EOAttributeDidChangeNameNotification = @"EOAttributeDidChangeNameNotif
 {
 	NSString		*work;
 	
+	if ((self = [super init]) == nil)
+		return nil;
 	// Don't retain owner, because it's suppose to retain us.
 	parent = owner;
 	

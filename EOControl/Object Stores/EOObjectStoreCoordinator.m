@@ -14,10 +14,11 @@ static EOObjectStoreCoordinator	*_eoDefaultCoordinator = nil;
 
 - (id)init
 {
-	[super init];
-	
-	storesLock = [[NSLock allocWithZone:[self zone]] init];
-	objectStores = [[NSMutableArray allocWithZone:[self zone]] init];
+	if (self = [super init])
+	{
+		storesLock = [[NSLock allocWithZone:[self zone]] init];
+		objectStores = [[NSMutableArray allocWithZone:[self zone]] init];
+	}
 
 	return self;
 }

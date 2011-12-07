@@ -41,20 +41,23 @@ http://www.raftis.net/~alex/
 - (id)initWithEntityName:(NSString *)anEntityName keys:(NSString **)primaryKeys values:(id *)someValues count:(int)aCount
 {
    int			x;
-	
-   count = aCount;
+   
+   if (self = [super init])
+   {	
+	   count = aCount;
 
-   entityName = [anEntityName retain];
-   values = (id *)NSZoneMalloc([self zone], sizeof(id) * count);
-   keys = (NSString **)NSZoneMalloc([self zone], sizeof(id) * count);
+	   entityName = [anEntityName retain];
+	   values = (id *)NSZoneMalloc([self zone], sizeof(id) * count);
+	   keys = (NSString **)NSZoneMalloc([self zone], sizeof(id) * count);
 
-	hash = [entityName hash];
-   for (x = 0; x < count; x++) {
-      values[x] = [someValues[x] retain];
-      keys[x] = [primaryKeys[x] retain];
+		hash = [entityName hash];
+	   for (x = 0; x < count; x++) {
+		  values[x] = [someValues[x] retain];
+		  keys[x] = [primaryKeys[x] retain];
 
-		hash ^= [keys[x] hash];
-		hash ^= [values[x] hash];
+			hash ^= [keys[x] hash];
+			hash ^= [values[x] hash];
+	   }
    }
 
    return self;
@@ -64,16 +67,19 @@ http://www.raftis.net/~alex/
 {
 	int			x;
 	
-	count = aCount;
-	
-	entityName = [anEntityName retain];
-	values = (id *)NSZoneMalloc(zone, sizeof(id) * count);
-	
-	hash = [entityName hash];
-	for (x = 0; x < count; x++) {
-		values[x] = [keyValues[x] retain];
+	if (self = [super init])
+	{
+		count = aCount;
 		
-		hash ^= [values[x] hash];
+		entityName = [anEntityName retain];
+		values = (id *)NSZoneMalloc(zone, sizeof(id) * count);
+		
+		hash = [entityName hash];
+		for (x = 0; x < count; x++) {
+			values[x] = [keyValues[x] retain];
+			
+			hash ^= [values[x] hash];
+		}
 	}
 	
 	return self;

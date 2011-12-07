@@ -74,9 +74,9 @@ static NSHashTableCallBacks _eoHashTableCallbacks = {
 
 - (id)init
 {
-   [super init];
-   table = NSCreateHashTable(_eoHashTableCallbacks, 0);
-   return self;
+	if (self = [super init])
+		table = NSCreateHashTable(_eoHashTableCallbacks, 0);
+	return self;
 }
 
 - (void)dealloc

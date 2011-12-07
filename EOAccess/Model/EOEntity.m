@@ -56,31 +56,33 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 
 - (id)init
 {
-   initialized = YES;
+	if ((self = [super init]) == nil)
+		return nil;
+	initialized = YES;
 	subentities = [[NSMutableArray allocWithZone:[self zone]] init];
-   attributes = [[NSMutableArray allocWithZone:[self zone]] init];
-   attributeIndex = [[NSMutableDictionary allocWithZone:[self zone]] init];
-   attributesUsedForLocking = [[NSMutableArray allocWithZone:[self zone]] init];
+	attributes = [[NSMutableArray allocWithZone:[self zone]] init];
+	attributeIndex = [[NSMutableDictionary allocWithZone:[self zone]] init];
+	attributesUsedForLocking = [[NSMutableArray allocWithZone:[self zone]] init];
 	attributesToFetch = [[NSMutableArray allocWithZone:[self zone]] init];
 	// mont_rothstein @ yahoo.com 2004-12-20
 	// Moved the below line to _initializeClassProperties so we can use it as a flag for
 	// whether initialization has been done or not.
-//   classProperties = [[NSMutableArray allocWithZone:[self zone]] init];
-   classPropertyNames = [[NSMutableArray allocWithZone:[self zone]] init];
-   classAttributes = [[NSMutableArray allocWithZone:[self zone]] init];
-   classRelationships = [[NSMutableArray allocWithZone:[self zone]] init];
-   classRelationshipsToOne = [[NSMutableArray allocWithZone:[self zone]] init];
-   classRelationshipsToMany = [[NSMutableArray allocWithZone:[self zone]] init];
-   primaryKeyAttributes = [[NSMutableArray allocWithZone:[self zone]] init];
-   primaryKeyAttributeNames = [[NSMutableArray allocWithZone:[self zone]] init];
-   relationships = [[NSMutableArray allocWithZone:[self zone]] init];
-   relationshipIndex = [[NSMutableDictionary allocWithZone:[self zone]] init];
+	//   classProperties = [[NSMutableArray allocWithZone:[self zone]] init];
+	classPropertyNames = [[NSMutableArray allocWithZone:[self zone]] init];
+	classAttributes = [[NSMutableArray allocWithZone:[self zone]] init];
+	classRelationships = [[NSMutableArray allocWithZone:[self zone]] init];
+	classRelationshipsToOne = [[NSMutableArray allocWithZone:[self zone]] init];
+	classRelationshipsToMany = [[NSMutableArray allocWithZone:[self zone]] init];
+	primaryKeyAttributes = [[NSMutableArray allocWithZone:[self zone]] init];
+	primaryKeyAttributeNames = [[NSMutableArray allocWithZone:[self zone]] init];
+	relationships = [[NSMutableArray allocWithZone:[self zone]] init];
+	relationshipIndex = [[NSMutableDictionary allocWithZone:[self zone]] init];
 	storedProcedures = [[NSMutableDictionary allocWithZone:[self zone]] init];
 	userInfo = [[NSMutableDictionary allocWithZone:[self zone]] init];
 	primaryKeyIsNumeric = NO;
 	className = [@"EOGenericRecord" retain];
 
-   return self;
+	return self;
 }
 
 - (id)initWithPropertyList:(NSDictionary *)properties owner:(id)owner
