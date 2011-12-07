@@ -53,7 +53,8 @@
 	// I am changing this a bit as the internals for objects are now opaque.  
 	// Same idea though, implemented in the same way.
 	// todo:  I think this should be moved to EOModel and only perform this swap on clases that
-	// we KNOW are EO's  It is silly to do this for ALL objects.
+	// we KNOW are EO's  It is silly to do this for ALL objects.  On the other hand that may fail for Faults
+	// but that could be handled as well.  Should look into this.
 	//_eofSavedDealloc = (void (*)(id, SEL))originalMethod->method_imp;
 	//originalMethod->method_imp = [NSObject instanceMethodForSelector:@selector(_eofNSObjectDealloc)];
 	ourMethod = class_getInstanceMethod([NSObject class], @selector(_eofNSObjectDealloc));
