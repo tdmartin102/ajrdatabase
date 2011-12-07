@@ -75,9 +75,13 @@ http://www.raftis.net/~alex/
 	// aclark78@users.sourceforge.org - 2006/10/02
 	//Class isaClass = ((struct objc_class *)object)->isa;
 	// tom.martin @ riemer.com - 2011/09/15
-	Class isaClass = ((Class)object)->isa;
-	return ((isaClass == [EOFault class]) || 
-			(isaClass == NSClassFromString(@"NSKVONotifying_EOFault")));
+	//Class isaClass = ((Class)object)->isa;
+	//return ((isaClass == [EOFault class]) || 
+	//		(isaClass == NSClassFromString(@"NSKVONotifying_EOFault")));
+	// Tom.martin @ riemer.com - 2011/12/5
+	// I can not verify that NSKVONotifying_EOFault exists in any context.
+	// it is silly to test for something that does not exist so I am removing it
+	return (((Class)object)->isa == [EOFault class]);
 }
 
 + (void)clearFault: (EOFault *)aFault
@@ -196,7 +200,7 @@ http://www.raftis.net/~alex/
 
 
 // tom.martin @ riemer.com - 2011-09-16
-// replace depreciated method.  
+// replace depreciated method. and .... I have no idea what the intent of this method is. 
 - (void)_takeValue:(id)value forKey:(NSString *)key
 {
    [handler faultObject:self];
