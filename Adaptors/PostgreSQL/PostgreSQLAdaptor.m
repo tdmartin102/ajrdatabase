@@ -87,7 +87,10 @@ static NSMutableDictionary 	*dataTypes = nil;
 	
 	context = [[PostgreSQLContext allocWithZone:[self zone]] initWithAdaptor:self];
 	[adaptorContexts addObject:context];
-	[context release];
+	// Tom.Martin @ riemer.com 2011-12-7
+	// changed from release to autorelease.  This needs to be an autorelease 
+	// because adaptorContext is weak
+	[context autorelease];
 	
 	return context;
 }
