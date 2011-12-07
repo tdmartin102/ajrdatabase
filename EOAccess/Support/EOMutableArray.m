@@ -36,8 +36,8 @@ http://www.raftis.net/~alex/
 
 - (id)init
 {
-   array = [[NSMutableArray allocWithZone:[self zone]] init];
-
+	if (self = [super init])
+		array = [[NSMutableArray allocWithZone:[self zone]] init];
    return self;
 }
 
@@ -93,25 +93,29 @@ http://www.raftis.net/~alex/
                  relationshipName:(NSString *)aRelationshipName
                    editingContext:(EOEditingContext *)anEditingContext
 {
-   EOFaultHandler		*newHandler;
+	EOFaultHandler		*newHandler;
 
-   // Free and make sure everything is 0! This must be done, since we're about to change our class back into a EOFault.
-   isDeallocating = YES;
-   deallocRequested = NO;
-   [array release]; array = nil;
-   if (deallocRequested) {
-      // This flag is set if dealloc is called when we release our array. This can occur when we're part of retain cycle.
-      [super dealloc];
-      return;
-   }
-   isDeallocating = NO;
-   _padding = 0;
+	// Free and make sure everything is 0! This must be done, since we're about to change our class back into a EOFault.
+	isDeallocating = YES;
+	deallocRequested = NO;
+	[array release]; array = nil;
+	if (deallocRequested) {
+		// This flag is set if dealloc is called when we release our array. This can occur when we're part of retain cycle.
+		[super dealloc];
+		return;
+	}
+	isDeallocating = NO;
+	_padding = 0;
 
-   newHandler = [[EOArrayFaultHandler allocWithZone:[self zone]] initWithSourceGlobalID:sourceGlobalID relationshipName:aRelationshipName editingContext:anEditingContext];
+	newHandler = [[EOArrayFaultHandler allocWithZone:[self zone]] initWithSourceGlobalID:sourceGlobalID relationshipName:aRelationshipName editingContext:anEditingContext];
    
-   self->isa = [EOFault class];
-   [EOFault setFaultHandler:newHandler forFault:(EOFault *)self];
-   [newHandler release];
+	//self->isa = [EOFault class];
+	// tom.martin @ riemer.com 2011-12-5
+	// using object_setClass is just a hair safer.
+	object_setClass(self, [EOFault class]);
+
+	[EOFault setFaultHandler:newHandler forFault:(EOFault *)self];
+	[newHandler release];
 }
 
 @end
