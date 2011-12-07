@@ -51,10 +51,12 @@ http://www.raftis.net/~alex/
             relationshipName:(NSString *)aRelationshipName
               editingContext:(EOEditingContext *)anEditingContext;
 {
-	globalID = [sourceGlobalID retain];
-	relationshipName = [aRelationshipName retain];
-	editingContext = [anEditingContext retain];
-	
+	if (self = [super init])
+	{
+		globalID = [sourceGlobalID retain];
+		relationshipName = [aRelationshipName retain];
+		editingContext = [anEditingContext retain];
+	}
 	return self;
 }
 
@@ -89,7 +91,11 @@ http://www.raftis.net/~alex/
 	[self retain];
 	[EOFault clearFault: (EOFault *)object];
     // This isn't 100%, since we're not dealing with retain / release counts.
-	object->isa = [self faultedClass];
+	// object->isa = [self faultedClass];
+	// tom.martin @ riemer.com 2011-12-5
+	// using object_setClass is just a hair safer.
+	object_setClass(object, [self faultedClass]);
+
 	[object init];
 	[object addObjectsFromArray:newObjects];
 	
