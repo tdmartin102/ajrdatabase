@@ -48,10 +48,12 @@ http://www.raftis.net/~alex/
 
 - (id)initWithGlobalID:(EOGlobalID *)aGlobalID editingContext:(EOEditingContext *)aContext;
 {
-   editingContext = [aContext retain];
-   globalID = [aGlobalID retain];
-
-   return self;
+	if (self = [super init])
+	{
+		editingContext = [aContext retain];
+		globalID = [aGlobalID retain];
+	}
+	return self;
 }
 
 // mont_rothstein @ yahoo.com 2005-07-11
@@ -60,10 +62,12 @@ http://www.raftis.net/~alex/
    databaseContext:(EODatabaseContext *)aDatabaseContext 
 	editingContext:(EOEditingContext *)anEditingContext;
 {
-	editingContext = [anEditingContext retain];
-	globalID = [aGlobalID retain];
-	databaseContext = [aDatabaseContext retain];
-	
+	if (self = [super init])
+	{
+		editingContext = [anEditingContext retain];
+		globalID = [aGlobalID retain];
+		databaseContext = [aDatabaseContext retain];
+	}
 	return self;
 }
 
@@ -167,8 +171,12 @@ http://www.raftis.net/~alex/
 	// Added initialization of object.  We allocated it, so we have to initialize it.
 	// jean_alexis @ sourceforge.net 2005-11-22
 	// do not initialize the object twice (or we should have deallocated it first)
-	if ([EOFault isFault: object]) {
-		object->isa = [self faultedClass];
+	if ([EOFault isFault: object]) 
+	{
+		//object->isa = [self faultedClass];
+		// tom.martin @ riemer.com 2011-12-5
+		// using object_setClass is just a hair safer.
+		object_setClass(object, [self faultedClass]);
 		[object initWithEditingContext:editingContext classDescription:classDescription globalID:globalID];
 	}
 	
