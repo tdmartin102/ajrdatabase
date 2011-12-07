@@ -46,9 +46,8 @@ http://www.raftis.net/~alex/
 
 - (id)initWithDatabaseContext:(EODatabaseContext *)aDatabaseContext
 {
-   [super init];
-   
-	[self _setDatabaseContext:aDatabaseContext];
+    if (self = [super init])
+		[self _setDatabaseContext:aDatabaseContext];
 
    return self;
 }
@@ -123,7 +122,11 @@ http://www.raftis.net/~alex/
 	EOGlobalID			*globalID;
 	NSAutoreleasePool	*pool;
 	
-	fetchedRow = [adaptorChannel fetchRowWithZone:NULL];
+	// Tom.Martin @ Riemer.com 2011-12-7
+	// fetched row was not being retained, yet it was being released in cancel fetch.
+	// since it is returned in row, it should be retained.  added code here to deal with retain/release
+	[fetchedRow release];
+	fetchedRow = [[adaptorChannel fetchRowWithZone:NULL] retain];
 
 	if (fetchedRow == nil) {
 		[self cancelFetch];
@@ -138,41 +141,60 @@ http://www.raftis.net/~alex/
    
 	pool = [[NSAutoreleasePool allocWithZone:[self zone]] init];
    
-	if (object) {
+	if (object) 
+	{
 		// Check the object, since we need to do special handling if it's a fault...
-		if ([EOFault isFault:object]) {
-			// The object is s fault, so we need to initialize it, but we don't want the fault to do a round trip to the database for this. So, instead, we'll have the fault handler initialize it from the raw row.
+		if ([EOFault isFault:object]) 
+		{
+			// The object is a fault, so we need to initialize it, but we don't want the fault to do a round trip to the database for this.
+			// So, instead, we'll have the fault handler initialize it from the raw row.
 			[[EOFault faultHandlerForFault:object] faultObject:object withRawRow:fetchedRow databaseContext:databaseContext];
 			// Don't forget to register the snapshot, since we just went from a fault to an object, which means we now actually have our snapshot to register.
 			// Tom.Martin @ Riemer.com 8/30/2011
 			// No need to register the snapshot as the faultHandler does that.
 			//[[databaseContext database] recordSnapshot:fetchedRow forGlobalID:globalID];
-			// And, on top of that, we don't initialize through the database context, but we're now a real object, so we should increment our snapshot reference count.
+			// And, on top of that, we don't initialize through the database context, but we're now a real object, 
+			// so we should increment our snapshot reference count.
 			[[databaseContext database] incrementSnapshotCountForGlobalID:globalID];
-		} else {
-			BOOL		refresh = NO;
+		} 
+		else 
+		{
+			BOOL			refresh = NO;
+	
 			
 			// The object exists, so see if we need to do anything with it...
-			if (checkDelegateForRefresh) {
-				fetchedRow = [[self delegate] databaseContext:databaseContext shouldUpdateCurrentSnapshot:[[databaseContext database] snapshotForGlobalID:globalID] newSnapshot:fetchedRow globalID:globalID databaseChannel:self];
-				refresh = fetchedRow != nil;
-			} else if (refreshesObjects) {
+			if (checkDelegateForRefresh) 
+			{
+				NSDictionary	*tempRow;
+				NSDictionary	*currentSnapshot;
+				currentSnapshot = [[databaseContext database] snapshotForGlobalID:globalID];
+				tempRow = [[self delegate] databaseContext:databaseContext shouldUpdateCurrentSnapshot:currentSnapshot newSnapshot:fetchedRow globalID:globalID databaseChannel:self];
+				if (! (tempRow == currentSnapshot) || (tempRow == nil))
+				{
+					refresh = YES;
+					[fetchedRow release];
+					fetchedRow = [tempRow retain];
+				}
+			} 
+			else if (refreshesObjects) 
+			{
 				refresh = YES;
 			}
 			
-			if (refresh) {
+			if (refresh) 
+			{
 				// This indicates that we need to replace the values of the object in memory with the values newly refetched from the database.
-				
 				// Regiester the snapshot with the new values.
 				[[databaseContext database] recordSnapshot:fetchedRow forGlobalID:globalID];
 				// Rebind the new values... Use the private method to avoid increment the snapshot's reference count.
 				[databaseContext _initializeObject:object withGlobalID:globalID editingContext:editingContext];
 				// The above code will increment the snapshot count, but we're not actually added a "new" object, so decrement the snapshot back down.
-				
 				[[NSNotificationCenter defaultCenter] postNotificationName:EOObjectsChangedInStoreNotification object:databaseContext userInfo:[NSDictionary dictionaryWithObject:[NSArray arrayWithObject:globalID] forKey:EOUpdatedKey]];
 			}
 		}
-	} else {
+	} 
+	else 
+	{
 		// Create the object.
 		object = [(EOEntityClassDescription *)[fetchEntity classDescriptionForInstances] createInstanceWithEditingContext:editingContext globalID:globalID zone:NULL];
 		
