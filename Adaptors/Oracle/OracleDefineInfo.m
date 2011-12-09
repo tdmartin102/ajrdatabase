@@ -334,12 +334,16 @@ static sb4 ociDefineCallback(dvoid *octxp, OCIDefine *defnp, ub4 iter, dvoid **b
 		[dateComponents setMinute:buffer[5] - 1];
 		[dateComponents setSecond:buffer[6] - 1];
 		currentCalendar = [NSCalendar currentCalendar];
+		[currentCalendar setTimeZone:[attrib serverTimeZone]];
+		// NSDate is not time zone dependent so we do not need to adjust time zones
 		result = [[currentCalendar dateFromComponents:dateComponents] retain];
 		[dateComponents release];
 	#else
 		result = [[NSCalendarDate allocWithZone:[self zone]] initWithYear:y month:buffer[2] 
 			day:buffer[3] hour:buffer[4] - 1 minute:buffer[5] - 1 second:buffer[6] - 1 
 			timeZone:[attrib serverTimeZone]];
+		// change the server timezone to the local time zone.	
+		[(NSCalendarDate *)result setTimeZone:[NSTimeZone localTimeZone]];
 	#endif
                                  
 	return [result autorelease];

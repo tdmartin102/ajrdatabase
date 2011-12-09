@@ -232,6 +232,8 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
 		NSDate *aDate = [OracleAdaptor convert:value toValueClassNamed:@"NSDate"];
 		NSDateComponents *dateComponents;
 		NSCalendar *currentCalendar = [NSCalendar currentCalendar];
+		// write time in server time zone
+		[currentCalendar setTimeZone:[attrib serverTimeZone]];
 		NSUInteger	flags;
 		flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit |
 			NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
@@ -244,6 +246,8 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
 		s = [dateComponents second];
 	#else
 		NSCalendarDate *aDate = [OracleAdaptor convert:value toValueClassNamed:@"NSCalendarDate"];
+		// write time in server time zone
+		[aDate setTimeZone:[attrib serverTimeZone]];
 		y = [aDate yearOfCommonEra];
 		m = [aDate monthOfYear];
 		d = [aDate dayOfMonth];
