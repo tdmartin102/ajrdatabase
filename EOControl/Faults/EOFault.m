@@ -81,7 +81,7 @@ http://www.raftis.net/~alex/
 	// Tom.martin @ riemer.com - 2011/12/5
 	// I can not verify that NSKVONotifying_EOFault exists in any context.
 	// it is silly to test for something that does not exist so I am removing it
-	return (((Class)object)->isa == [EOFault class]);
+	return (((EOFault *)object)->isa == [EOFault class]);
 }
 
 + (void)clearFault: (EOFault *)aFault
