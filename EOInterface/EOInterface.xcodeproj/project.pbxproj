@@ -198,7 +198,14 @@
 			isa = PBXProject;
 			buildConfigurationList = FA2B2ADD0A5160670025E016 /* Build configuration list for PBXProject "EOInterface" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* EOInterface */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
 			projectDirPath = "";
