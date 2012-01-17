@@ -11,6 +11,8 @@
 #import "Document.h"
 #import "NSTableView-ColumnVisibility.h"
 
+#import "Additions.h"
+
 #import <EOAccess/EOAccess.h>
 
 @implementation EditorEntities
@@ -108,7 +110,7 @@
 
 - (void)updateEntityDisplay:(EOEntity *)entity
 {
-	unsigned int index = [[[self model] entities] indexOfObjectIdenticalTo:entity];
+	NSUInteger index = [[[self model] entities] indexOfObjectIdenticalTo:entity];
 	
 	if (index != NSNotFound) {
 		if (entity == editingEntity) {
@@ -135,7 +137,7 @@
 - (void)objectWillChange:(id)object
 {
 	if ([object isKindOfClass:[EOEntity class]]) {
-		unsigned int	index = [[[self model] entities] indexOfObjectIdenticalTo:object];
+		NSUInteger	index = [[[self model] entities] indexOfObjectIdenticalTo:object];
 		
 		if (index != NSNotFound && index == [entityTable editedRow]) {
 			[editingEntity release];
@@ -188,9 +190,9 @@
 
 - (void)editEntity:(EOEntity *)entity
 {
-	int				index = [[[self model] entities] indexOfObjectIdenticalTo:entity];
+	NSInteger		index = [[[self model] entities] indexOfObjectIdenticalTo:entity];
 	NSTableColumn	*column;
-	int				columnIndex;
+	NSInteger		columnIndex;
 	
 	// mont_rothstein @ yahoo.com 2005-04-17
 	// This was checking for index >= 0 which causes all new (not added to model) entities to be included.
