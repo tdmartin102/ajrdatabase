@@ -111,7 +111,8 @@
 		NS_ENDHANDLER
 		
 		if (exception) {
-			NSBeginAlertSheet(@"Unable to connect to the database", @"OK", nil, nil, [adaptorTable window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, AJRFormat(@"The following reason was provided: %lc%@%lc.", 0x201C, exception, 0x201D));
+			NSBeginAlertSheet(@"Unable to connect to the database", @"OK", nil, nil, [adaptorTable window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, 
+				[NSString stringWithFormat:@"The following reason was provided: %@.", exception]);
 			[exception release];
 		} else {
 			NSBeginAlertSheet(@"Database connection successful", @"OK", nil, nil, [adaptorTable window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, @"The adaptor was able to successfully make a connection to the database.");
