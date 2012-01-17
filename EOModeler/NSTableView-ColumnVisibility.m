@@ -7,6 +7,10 @@
 //
 
 #import "NSTableView-ColumnVisibility.h"
+#import "Additions.h"
+
+#import <Foundation/NSObjCRuntime.h>
+#import <objc/runtime.h>
 
 #import "PBPopUpButton.h"
 
@@ -27,12 +31,16 @@ static void (*_ajrPersistentWrite)(id, SEL);
 		Method		method;
 		
 		method = class_getInstanceMethod([NSTableView class], @selector(_readPersistentTableColumns));
-		_ajrPersistentRead = (void (*)(id, SEL))method->method_imp;
-		method->method_imp = [NSTableView instanceMethodForSelector:@selector(_ajrReadPersistentTableColumns)];
+		//_ajrPersistentRead = (void (*)(id, SEL))method->method_imp;		
+		_ajrPersistentRead = (void (*)(id, SEL))method_getImplementation(method);
+		//method->method_imp = [NSTableView instanceMethodForSelector:@selector(_ajrReadPersistentTableColumns)];
+		method_setImplementation(method, [NSTableView instanceMethodForSelector:@selector(_ajrReadPersistentTableColumns)]);
 		
 		method = class_getInstanceMethod([NSTableView class], @selector(_writePersistentTableColumns));
-		_ajrPersistentWrite = (void (*)(id, SEL))method->method_imp;
-		method->method_imp = [NSTableView instanceMethodForSelector:@selector(_ajrWritePersistentTableColumns)];
+		//_ajrPersistentWrite = (void (*)(id, SEL))method->method_imp;
+		_ajrPersistentWrite = (void (*)(id, SEL))method_getImplementation(method);
+		//method->method_imp = [NSTableView instanceMethodForSelector:@selector(_ajrWritePersistentTableColumns)];
+		method_setImplementation(method, [NSTableView instanceMethodForSelector:@selector(_ajrWritePersistentTableColumns)]);
 	}
 }
 
