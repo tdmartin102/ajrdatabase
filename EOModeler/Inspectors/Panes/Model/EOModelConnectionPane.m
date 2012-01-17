@@ -7,6 +7,7 @@
 //
 
 #import "EOModelConnectionPane.h"
+#import "Additions.h"
 
 #import <EOAccess/EOAccess.h>
 
@@ -42,10 +43,10 @@
 
 - (void)updateTable
 {
-	int			row = [keyValueTable selectedRow];
+	NSInteger		row = [keyValueTable selectedRow];
 	NSString		*key = nil;
-	int			editedRow;
-	int			editedColumn;
+	NSInteger		editedRow;
+	NSInteger		editedColumn;
 	
 	if (editKey) {
 		key = [editKey retain];
@@ -71,7 +72,7 @@
 	// If we have a key, then we had a row previous selected, and we want that row still selected now that we've reload the table data. This check is done because the order of the rows can change, since the rows are displayed by sorting the "key" column.
 	if (key) {
 		// Remember the previous row.
-		int		oldRow = row;
+		NSInteger		oldRow = row;
 		
 		// See if the old key still exists after the reload.
 		row = [keys indexOfObject:key];
@@ -131,10 +132,10 @@
 	int			count = 0;
 	NSString		*key = nil;
 	
-	key = AJRFormat(@"key");
+	key = @"key";
 	while ([info objectForKey:key] != nil) {
 		count++;
-		key = AJRFormat(@"key%d", count);
+		key = [NSString stringWithFormat:@"key%d", count];
 	}
 	
 	[info setObject:@"" forKey:key];
