@@ -33,11 +33,13 @@ Status
   "(Join semantic) table on atrrib1 = attrib2".  This enables better 
   database engine optimization and eliminates the need for complex 
   code to place join clauses based upon qualifier semantics.
-* I have completely ignored EOInterface so I have no idea what it's status
+* EOInterface compiles, but I have no idea what it's status
   is.
-* The EOModeler application code is very broken, which is a 
-  shame as apparently a ton of work went into it.  I would
-  love to get this working again as anyone that wants to use
+* The EOModeler application code needs work, which is a 
+  shame as apparently a ton of work went into it.  As of Jan 17th 2011
+  it compiles and runs.  It is pre alpha at this point, but there is
+  quite a bit that is working. I would
+  love to get this working 100% again as anyone that wants to use
   this will need some sort of working EOModeler application.
   That said, the frameworks will work with any legacy EOModel
   file and most likely work with versions that are more current than
