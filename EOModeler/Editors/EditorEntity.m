@@ -8,12 +8,15 @@
 
 #import "EditorEntity.h"
 
+#import "Additions.h"
 #import "Document.h"
 #import "IconHeaderCell.h"
 #import "NSTableView-ColumnVisibility.h"
 
+#import "Additions.h"
+
 #import <EOAccess/EOAccess.h>
-#import <EOControl/NSArray+CocoaDevUsersAdditions.h>
+//#import <EOControl/NSArray+CocoaDevUsersAdditions.h>
 
 // Need to access some private relationship API
 @interface EORelationship (Private)
@@ -118,14 +121,14 @@
 		EOAttribute	*attribute = [[[self selectedEntity] attributes] objectAtIndex:rowIndex];
 		
 		if ([ident isEqualToString:@"primaryKey"]) {
-			[aCell setState:[[[self selectedEntity] primaryKeyAttributes] containsObjectIdenticalTo:attribute]];
+			[aCell setState:[[[self selectedEntity] primaryKeyAttributes] containsObject:attribute]];
 		} else if ([ident isEqualToString:@"classProperty"]) {
-			[aCell setState:[[[self selectedEntity] classProperties] containsObjectIdenticalTo:attribute]];
+			[aCell setState:[[[self selectedEntity] classProperties] containsObject:attribute]];
 		} else if ([ident isEqualToString:@"lock"]) {
-			[aCell setState:[[[self selectedEntity] attributesUsedForLocking] containsObjectIdenticalTo:attribute]];
+			[aCell setState:[[[self selectedEntity] attributesUsedForLocking] containsObject:attribute]];
 		} else if ([ident isEqualToString:@"nullable"]) {
 			[aCell setState:[attribute allowsNull]];
-			[aCell setEnabled:![[[self selectedEntity] primaryKeyAttributes] containsObjectIdenticalTo:attribute]];
+			[aCell setEnabled:![[[self selectedEntity] primaryKeyAttributes] containsObject:attribute]];
 		} else if ([ident isEqualToString:@"externalType"]) {
 			if (needsToSetExternalTypes) {
 				NSArray		*types;
@@ -365,7 +368,7 @@
 	int			x;
 	
 	for (x = 0; x < (const int)[relationships count]; x++) {
-		if ([[[relationships objectAtIndex:x] joins] containsObjectIdenticalTo:join]) {
+		if ([[[relationships objectAtIndex:x] joins] containsObject:join]) {
 			return [relationships objectAtIndex:x];
 		}
 	}
@@ -436,7 +439,7 @@
 - (void)updateAttribute:(EOAttribute *)attribute
 {
 	EOEntity			*entity = [attribute entity];
-	unsigned int	index = [[entity attributes] indexOfObjectIdenticalTo:attribute];
+	NSUInteger	index = [[entity attributes] indexOfObjectIdenticalTo:attribute];
 		
 	if (index != NSNotFound) {
 		if (attribute == editingObject) {
@@ -460,7 +463,7 @@
 - (void)updateRelationship:(EORelationship *)relationship
 {
 	EOEntity			*entity = [relationship entity];
-	unsigned int	index = [[entity relationships] indexOfObjectIdenticalTo:relationship];
+	NSUInteger	index = [[entity relationships] indexOfObjectIdenticalTo:relationship];
 	
 	if (index != NSNotFound) {
 		if (relationship == editingObject) {
@@ -494,7 +497,7 @@
 - (void)objectWillChange:(id)object
 {
 	if ([object isKindOfClass:[EOAttribute class]]) {
-		int		index = [[(EOEntity *)[object entity] attributes] indexOfObjectIdenticalTo:object];
+		NSInteger		index = [[(EOEntity *)[object entity] attributes] indexOfObjectIdenticalTo:object];
 		
 		if (index != NSNotFound) {
 			if (index == [entityAttributesTable editedRow]) {
@@ -504,7 +507,7 @@
 			[entityAttributesTable setNeedsDisplayInRect:[entityAttributesTable rectOfRow:index]];
 		}
 	} else if ([object isKindOfClass:[EORelationship class]]) {
-		int		index = [[(EOEntity *)[object entity] relationships] indexOfObjectIdenticalTo:object];
+		NSInteger		index = [[(EOEntity *)[object entity] relationships] indexOfObjectIdenticalTo:object];
 		
 		if (index != NSNotFound) {
 			if (index == [entityRelationshipsTable editedRow]) {
@@ -544,9 +547,9 @@
 
 - (void)editAttribute:(EOAttribute *)attribute
 {
-	int				index = [[[self selectedEntity] attributes] indexOfObjectIdenticalTo:attribute];
+	NSInteger		index = [[[self selectedEntity] attributes] indexOfObjectIdenticalTo:attribute];
 	NSTableColumn	*column;
-	int				columnIndex;
+	NSInteger		columnIndex;
 	
 	// mont_rothstein @ yahoo.com 2005-04-17
 	// This was checking for index >= 0 it needs to be NSNotFound.
@@ -566,7 +569,7 @@
 
 - (void)editRelationship:(EORelationship *)relationship
 {
-	int				index = [[[self selectedEntity] relationships] indexOfObjectIdenticalTo:relationship];
+	NSInteger		index = [[[self selectedEntity] relationships] indexOfObjectIdenticalTo:relationship];
 	//NSTableColumn	*column;
 	//int				columnIndex;
 	
