@@ -11,6 +11,8 @@
 #import "EOAttributePane.h"
 #import "EOInternalTypeInspector.h"
 
+#import "Additions.h"
+
 #import <EOAccess/EOAccess.h>
 
 @implementation EOInternalTypePane

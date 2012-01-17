@@ -9,6 +9,7 @@
 #import "EOInternalTypeInspector.h"
 
 #import "EOInternalTypePane.h"
+#import "Additions.h"
 
 #import <EOAccess/EOAccess.h>
 
