@@ -7,6 +7,7 @@
 //
 
 #import "EORelationshipPane.h"
+#import "Additions.h"
 
 #import <EOAccess/EOAccess.h>
 
@@ -60,7 +61,7 @@
 	return [[[[modelsPopUp selectedItem] representedObject] entities] objectAtIndex:row];
 }
 
-- (unsigned int)indexOfJoinForSourceAttribute:(EOAttribute *)attribute
+- (NSUInteger)indexOfJoinForSourceAttribute:(EOAttribute *)attribute
 {
 	EORelationship		*relationship = [self selectedRelationship];
 	NSArray				*joins;
@@ -75,7 +76,7 @@
 	return NSNotFound;
 }
 
-- (unsigned int)indexOfJoinForDestinationAttribute:(EOAttribute *)attribute
+- (NSUInteger)indexOfJoinForDestinationAttribute:(EOAttribute *)attribute
 {
 	EORelationship		*relationship = [self selectedRelationship];
 	NSArray				*joins;
@@ -92,9 +93,9 @@
 
 - (void)updateConnectButton
 {
-	int			sIndex = [sourceTable selectedRow];
-	int			dIndex = [destinationTable selectedRow];
-	int			jIndex;
+	NSInteger	sIndex = [sourceTable selectedRow];
+	NSInteger	dIndex = [destinationTable selectedRow];
+	NSInteger	jIndex;
 	EOJoin		*join;
 	EOAttribute	*sourceAttribute = nil;
 	EOAttribute	*destinationAttribute = nil;
@@ -255,8 +256,8 @@
 - (void)toggleJoin:(id)sender
 {
 	EORelationship	*relationship = [self selectedRelationship];
-	int				sIndex = [sourceTable selectedRow];
-	int				dIndex = [destinationTable selectedRow];
+	NSInteger		sIndex = [sourceTable selectedRow];
+	NSInteger		dIndex = [destinationTable selectedRow];
 	NSArray			*joins = [relationship joins];
 	EOJoin			*sJoin = nil;
 	EOJoin			*dJoin = nil;
@@ -342,8 +343,8 @@
 		if ([ident isEqualToString:@"source"]) {
 			return [attribute name];
 		} else if ([ident isEqualToString:@"index"]) {
-			int		index = [self indexOfJoinForSourceAttribute:attribute];
-			if (index != NSNotFound) return AJRFormat(@"%d", index + 1);
+			NSInteger		index = [self indexOfJoinForSourceAttribute:attribute];
+			if (index != NSNotFound) return [NSString stringWithFormat:@"%d", index + 1];
 			return @"";
 		}
 	} else if (aTableView == destinationTable) {
@@ -352,8 +353,8 @@
 		if ([ident isEqualToString:@"destination"]) {
 			return [attribute name];
 		} else if ([ident isEqualToString:@"index"]) {
-			int		index = [self indexOfJoinForDestinationAttribute:attribute];
-			if (index != NSNotFound) return AJRFormat(@"%d", index + 1);
+			NSInteger		index = [self indexOfJoinForDestinationAttribute:attribute];
+			if (index != NSNotFound) return [NSString stringWithFormat:@"%d", index + 1];
 			return @"";
 		}
 	}
