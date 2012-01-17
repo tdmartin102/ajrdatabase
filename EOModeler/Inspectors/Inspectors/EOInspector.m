@@ -35,7 +35,7 @@
 	[inspectorPanel setToolbar:[self toolbar]];
 	pane = [[self inspectorPanes] objectAtIndex:currentPane];
 	[inspectorPanel setContentView:[pane view]];
-	[inspectorPanel setTitle:AJRFormat(@"%@ (%@)", [self name], [pane name])];
+	[inspectorPanel setTitle:[NSString stringWithFormat:@"%@ (%@)", [self name], [pane name]]];
 	
 	object = [inspectorPanel firstResponder];
 	[pane update];
@@ -73,7 +73,7 @@
 	pane = [[self inspectorPanes] objectAtIndex:currentPane];
 	
 	[inspectorPanel setContentView:[pane view]];
-	[inspectorPanel setTitle:AJRFormat(@"%@ (%@)", [self name], [pane name])];
+	[inspectorPanel setTitle:[NSString stringWithFormat:@"%@ (%@)", [self name], [pane name]]];
 	[pane update];
 }
 
@@ -84,7 +84,7 @@
 	return [[panes objectAtIndex:index] view];
 }
 
-- (unsigned int)indexOfPaneWithName:(NSString *)aName
+- (NSUInteger)indexOfPaneWithName:(NSString *)aName
 {
 	NSArray		*panes = [self inspectorPanes];
 	int			x;
