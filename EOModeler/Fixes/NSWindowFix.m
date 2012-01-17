@@ -13,7 +13,8 @@
 
 + (void)load
 {
-	[self poseAsClass:[NSWindow class]];
+	// [self poseAsClass:[NSWindow class]];
+	#warning We need to swizzel this class
 }
 
 - (void)sendEvent:(NSEvent *)event
