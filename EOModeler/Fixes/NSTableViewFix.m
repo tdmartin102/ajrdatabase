@@ -8,12 +8,16 @@
 
 #import "NSTableViewFix.h"
 
+#import <objc/objc-class.h>
+
 @implementation NSTableViewFix
 
 + (void)load
 {
-	[[AJRTableView class] poseAsClass:[NSTableView class]];
-	[self poseAsClass:[NSTableView class]];
+	//[[AJRTableView class] poseAsClass:[NSTableView class]];
+	//[self poseAsClass:[NSTableView class]];
+	#warning We need to swizzel this class
+
 }
 
 - (void)selectAll:(id)sender

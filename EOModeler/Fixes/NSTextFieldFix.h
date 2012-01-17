@@ -9,6 +9,6 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface NSTextFieldFix : NSTextField
+@interface NSTextField (EOModler)
 
 @end
