@@ -10,6 +10,7 @@
 		148CDD0314575C28008F682E /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 148CDD0214575C28008F682E /* EOControl.framework */; };
 		14DF9359145725E600DF0C65 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DF9358145725E600DF0C65 /* EOAccess.framework */; };
 		14DF93611457260900DF0C65 /* EOInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DF93601457260900DF0C65 /* EOInterface.framework */; };
+		1EB269CD14C5C7C10024D4AB /* Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB269CC14C5C7C10024D4AB /* Additions.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -225,9 +226,11 @@
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		148CDD0214575C28008F682E /* EOControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOControl.framework; path = /Users/ezamudio/Projects/Personal/Strausz/ajrdatabase/EOControl/build/Development/EOControl.framework; sourceTree = "<absolute>"; };
+		148CDD0214575C28008F682E /* EOControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOControl.framework; path = /Library/Frameworks/EOControl.framework; sourceTree = "<absolute>"; };
 		14DF9358145725E600DF0C65 /* EOAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOAccess.framework; path = ../EOAccess/build/Development/EOAccess.framework; sourceTree = SOURCE_ROOT; };
 		14DF93601457260900DF0C65 /* EOInterface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOInterface.framework; path = ../EOInterface/build/Development/EOInterface.framework; sourceTree = SOURCE_ROOT; };
+		1EB269CB14C5C7C10024D4AB /* Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Additions.h; sourceTree = "<group>"; };
+		1EB269CC14C5C7C10024D4AB /* Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Additions.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -484,6 +487,8 @@
 				FAC115110740224200744E1E /* PBPopUpButton.m */,
 				FAC115120740224200744E1E /* PBPopUpButtonCell.h */,
 				FAC115130740224200744E1E /* PBPopUpButtonCell.m */,
+				1EB269CB14C5C7C10024D4AB /* Additions.h */,
+				1EB269CC14C5C7C10024D4AB /* Additions.m */,
 				FAC115140740224200744E1E /* SQLGenerator.h */,
 				FAC115150740224200744E1E /* SQLGenerator.m */,
 			);
@@ -879,7 +884,14 @@
 			isa = PBXProject;
 			buildConfigurationList = 70BEAF1609590ED1005ACB45 /* Build configuration list for PBXProject "EOModeler" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* EOModeler */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1113,6 +1125,7 @@
 				FAC117090740292600744E1E /* EOWizardPane.m in Sources */,
 				FAC1170B0740292600744E1E /* EOWizardTablesPane.m in Sources */,
 				FAC1170D0740292600744E1E /* NoEventMatrix.m in Sources */,
+				1EB269CD14C5C7C10024D4AB /* Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
