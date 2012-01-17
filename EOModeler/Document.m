@@ -8,6 +8,7 @@
 
 #import "Document.h"
 
+#import "Additions.h"
 #import "DataBrowser.h"
 #import "EOInspectorPanel.h"
 #import "EOModelWizard.h"
@@ -20,7 +21,7 @@
 #import "SQLGenerator.h"
 
 #import <EOAccess/EOAccess.h>
-#import <EOControl/NSArray+CocoaDevUsersAdditions.h>
+//#import <EOControl/NSArray+CocoaDevUsersAdditions.h>
 
 
 NSString *DocumentSelectionDidChangeNotification = @"DocumentSelectionDidChangeNotification";
@@ -193,7 +194,7 @@ NSString *StoredProcedures = @"Stored Procedures";
 
 - (void)selectModel:(id)sender selectObject:(BOOL)selectObject
 {
-	int		row = [sender selectedRow];
+	NSInteger		row = [sender selectedRow];
 	
 	if (row != NSNotFound) {
 		id			item = [sender itemAtRow:row];
@@ -243,7 +244,7 @@ NSString *StoredProcedures = @"Stored Procedures";
 	
 	[[NSNotificationQueue defaultQueue] enqueueNotification:[NSNotification notificationWithName:@"ObjectDidChange" object:self userInfo:[NSDictionary dictionaryWithObject:object forKey:@"object"]] postingStyle:NSPostWhenIdle coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender forModes:modes];
 
-	if (([object isKindOfClass:[EOJoin class]] && [[self selectedObject] isKindOfClass:[EORelationship class]] && [[[self selectedObject] joins] containsObjectIdenticalTo:object]) || ([self selectedObject] == object)) {
+	if (([object isKindOfClass:[EOJoin class]] && [[self selectedObject] isKindOfClass:[EORelationship class]] && [[[self selectedObject] joins] containsObject:object]) || ([self selectedObject] == object)) {
 		// This'll get the inspector updating the change.
 		[[NSNotificationQueue defaultQueue] enqueueNotification:[NSNotification notificationWithName:DocumentSelectionDidChangeNotification  object:self userInfo:[NSDictionary dictionaryWithObject:selectedObject forKey:@"object"]] postingStyle:NSPostWhenIdle coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender forModes:modes];
 	}
@@ -359,7 +360,7 @@ NSString *StoredProcedures = @"Stored Procedures";
 		selectedObject = [anObject retain];
 		
 		if (selectedObject == nil) {
-			int		row = [modelOutline selectedRow];
+			NSInteger		row = [modelOutline selectedRow];
 			
 			if (row != NSNotFound) {
 				selectedObject = [[modelOutline itemAtRow:row] retain];
@@ -508,7 +509,7 @@ NSString *StoredProcedures = @"Stored Procedures";
 	
 	name = @"Entity";
 	while ([model entityNamed:name]) {
-		name = AJRFormat(@"Entity%d", count++);
+		name = [NSString stringWithFormat:@"Entity%d", count++];
 	}
 	
 	[entity setName:name];
@@ -534,7 +535,7 @@ NSString *StoredProcedures = @"Stored Procedures";
 		attribute = [[EOAttribute allocWithZone:[entity zone]] init];
 		name = @"attribute";
 		while ([entity attributeNamed:name]) {
-			name = AJRFormat(@"attribute%d", count++);
+			name = [NSString stringWithFormat:@"attribute%d", count++];
 		}
 		[attribute setName:name];
 		[attribute setAllowsNull:YES];
@@ -585,7 +586,7 @@ NSString *StoredProcedures = @"Stored Procedures";
 		relationship = [[EORelationship allocWithZone:[entity zone]] init];
 		name = @"relationship";
 		while ([entity relationshipNamed:name]) {
-			name = AJRFormat(@"relationship%d", count++);
+			name = [NSString stringWithFormat:@"relationship%d", count++];
 		}
 		[relationship setName:name];
 		[entity addRelationship:relationship];
@@ -628,7 +629,7 @@ NSString *StoredProcedures = @"Stored Procedures";
 	relationship = [[EORelationship allocWithZone:[object zone]] init];
 	name = [[array valueForKey:@"name"] componentsJoinedByString:@"_"];
 	while ([object relationshipNamed:name]) {
-		name = AJRFormat(@"%@%d", [[array valueForKey:@"name"] componentsJoinedByString:@"_"], count++);
+		name = [NSString stringWithFormat:@"%@%d", [[array valueForKey:@"name"] componentsJoinedByString:@"_"], count++];
 	}
 	[relationship setName:name];
 	[relationship setDefinition:definition];
@@ -655,7 +656,7 @@ NSString *StoredProcedures = @"Stored Procedures";
 	
 	name = @"StoredProcedure";
 	while ([model storedProcedureNamed:name]) {
-		name = AJRFormat(@"StoredProcedure%d", count++);
+		name = [NSString stringWithFormat:@"StoredProcedure%d", count++];
 	}
 	
 	[storedProcedure setName:name];
