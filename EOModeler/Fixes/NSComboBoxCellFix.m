@@ -8,6 +8,8 @@
 
 #import "NSComboBoxCellFix.h"
 
+#import <objc/objc-class.h>
+
 // Some private Apple API
 @interface NSComboBoxCell (ApplePrivate)
 
@@ -16,11 +18,42 @@
 @end
 
 
-@implementation NSComboBoxCellFix
+@implementation NSComboBoxCell (EOModler )
 
 + (void)load
 {
-	[self poseAsClass:[NSComboBoxCell class]];
+	Method		originalMethod;
+	Method		ourMethod;
+
+	//[self poseAsClass:[NSComboBoxCell class]];
+	
+	//originalMethod = class_getInstanceMethod([NSComboBoxCell class], @selector(setStringValue:));
+	//ourMethod = class_getInstanceMethod([NSComboBoxCell class], @selector(_ajrSetStringValue:));
+	//method_exchangeImplementations(originalMethod, ourMethod);
+	
+	originalMethod = class_getInstanceMethod([NSComboBoxCell class], @selector(drawWithFrame:inView:));
+	ourMethod = class_getInstanceMethod([NSComboBoxCell class], @selector(_ajrDrawWithFrame:inView:));
+	method_exchangeImplementations(originalMethod, ourMethod);
+	
+	//originalMethod = class_getInstanceMethod([NSComboBoxCell class], @selector(drawInteriorWithFrame:inView:));
+	//ourMethod = class_getInstanceMethod([NSComboBoxCell class], @selector(_ajrDrawInteriorWithFrame:inView:));
+	//method_exchangeImplementations(originalMethod, ourMethod);
+
+	originalMethod = class_getInstanceMethod([NSComboBoxCell class], @selector(editWithFrame:inView:editor:delegate:event:));
+	ourMethod = class_getInstanceMethod([NSComboBoxCell class], @selector(_ajrEditWithFrame:inView:editor:delegate:event:));
+	method_exchangeImplementations(originalMethod, ourMethod);
+	
+	originalMethod = class_getInstanceMethod([NSComboBoxCell class], @selector(selectWithFrame:inView:editor:delegate:start:length:));
+	ourMethod = class_getInstanceMethod([NSComboBoxCell class], @selector(_ajrSelectWithFrame:inView:editor:delegate:start:length:));
+	method_exchangeImplementations(originalMethod, ourMethod);
+
+	originalMethod = class_getInstanceMethod([NSComboBoxCell class], @selector(initWithCoder:));
+	ourMethod = class_getInstanceMethod([NSComboBoxCell class], @selector(_ajrInitWithCoder:));
+	method_exchangeImplementations(originalMethod, ourMethod);
+
+	originalMethod = class_getInstanceMethod([NSComboBoxCell class], @selector(initPopUpWindow));
+	ourMethod = class_getInstanceMethod([NSComboBoxCell class], @selector(_ajrInitPopUpWindow));
+	method_exchangeImplementations(originalMethod, ourMethod);
 }
 
 - (void)setStringValue:(NSString *)aString
@@ -43,7 +76,7 @@
 	return min + 30.0;
 }
 
-- (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
+- (void)_ajrDrawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
 	if ([controlView isKindOfClass:[NSTableView class]]) {
 		cellFrame.size.width -= 10.0;
@@ -61,7 +94,7 @@
 		}
 		[[NSImage imageNamed:@"smallPopupArrows"] compositeToPoint:(NSPoint){cellFrame.origin.x + cellFrame.size.width - 5.0, cellFrame.origin.y + cellFrame.size.height - 2.0} operation:NSCompositeSourceOver];
 	} else {
-		[super drawWithFrame:cellFrame inView:controlView];
+		[self _ajrDrawWithFrame:cellFrame inView:controlView];
 	}
 }
 
@@ -77,29 +110,29 @@
 	}
 }
 
-- (void)editWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject event:(NSEvent *)theEvent
+- (void)_ajrEditWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject event:(NSEvent *)theEvent
 {
 	if ([controlView isKindOfClass:[NSTableView class]]) {
 		aRect.origin.y -= 1.0;
 		aRect.size.height += 3.0;
 		aRect.size.width += 10.0;
 	}
-	[super editWithFrame:aRect inView:controlView editor:textObj delegate:anObject event:theEvent];
+	[self _ajrEditWithFrame:aRect inView:controlView editor:textObj delegate:anObject event:theEvent];
 }
 
-- (void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(int)selStart length:(int)selLength
+- (void)_ajrSelectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(NSInteger)selStart length:(NSInteger)selLength
 {
 	if ([controlView isKindOfClass:[NSTableView class]]) {
 		aRect.origin.y -= 1.0;
 		aRect.size.height += 3.0;
 		aRect.size.width += 10.0;
 	}
-	[super selectWithFrame:aRect inView:controlView editor:textObj delegate:anObject start:selStart length:selLength];
+	[self _ajrSelectWithFrame:aRect inView:controlView editor:textObj delegate:anObject start:selStart length:selLength];
 }
 
-- (id)initWithCoder:(NSCoder *)coder
+- (id)_ajrInitWithCoder:(NSCoder *)coder
 {
-	[super initWithCoder:coder];
+	[self _ajrInitWithCoder:coder];
 	switch ([self controlSize]) {
 		case NSRegularControlSize:
 			[self setFont:[[NSFontManager sharedFontManager] convertFont:[self font] toSize:[NSFont systemFontSize]]];
@@ -115,9 +148,9 @@
 	return self;
 }
 
-- (void)initPopUpWindow
+- (void)_ajrInitPopUpWindow
 {
-	[super initPopUpWindow];
+	[self  _ajrInitPopUpWindow];
 	[[[[_tableView tableColumns] objectAtIndex:0] dataCell] setFont:[self font]];
 }
 

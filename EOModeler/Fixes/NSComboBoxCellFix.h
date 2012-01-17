@@ -8,6 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface NSComboBoxCellFix : NSComboBoxCell
+@interface NSComboBoxCell (EOModler)
 
 @end
