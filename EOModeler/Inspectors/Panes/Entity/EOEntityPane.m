@@ -8,6 +8,7 @@
 
 #import "EOEntityPane.h"
 
+#import "Additions.h"
 #import "IconHeaderCell.h"
 #import "NSTableView-ColumnVisibility.h"
 
@@ -70,14 +71,14 @@
 	if (rowIndex < [attributes count]) {
 		if ([ident isEqualToString:@"primaryKey"]) {
 			[aCell setImage:nil];
-			[aCell setState:[[entity primaryKeyAttributes] containsObjectIdenticalTo:[attributes objectAtIndex:rowIndex]]];
+			[aCell setState:[[entity primaryKeyAttributes] containsObject:[attributes objectAtIndex:rowIndex]]];
 			[aCell setEnabled:YES];
 		} else if ([ident isEqualToString:@"locking"]) {
 			[aCell setImage:nil];
-			[aCell setState:[[entity attributesUsedForLocking] containsObjectIdenticalTo:[attributes objectAtIndex:rowIndex]]];
+			[aCell setState:[[entity attributesUsedForLocking] containsObject:[attributes objectAtIndex:rowIndex]]];
 			[aCell setEnabled:YES];
 		} else if ([ident isEqualToString:@"classProperty"]) {
-			[aCell setState:[[entity classProperties] containsObjectIdenticalTo:[attributes objectAtIndex:rowIndex]]];
+			[aCell setState:[[entity classProperties] containsObject:[attributes objectAtIndex:rowIndex]]];
 		}
 	} else {
 		if ([ident isEqualToString:@"primaryKey"]) {
@@ -90,7 +91,7 @@
 			[aCell setEnabled:NO];
 		} else if ([ident isEqualToString:@"classProperty"]) {
 			if (rowIndex - [attributes count] < [relationships count]) {
-				[aCell setState:[[entity classProperties] containsObjectIdenticalTo:[relationships objectAtIndex:rowIndex - [attributes count]]]];
+				[aCell setState:[[entity classProperties] containsObject:[relationships objectAtIndex:rowIndex - [attributes count]]]];
 			}
 		}
 	}
