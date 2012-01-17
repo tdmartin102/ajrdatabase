@@ -10,6 +10,7 @@
 
 #import "Document.h"
 #import "Editor.h"
+#import "Additions.h"
 
 @implementation EditorView
 
