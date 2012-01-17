@@ -1,7 +1,10 @@
 
 #import "Document.h"
+#import "Additions.h"
 
 #import "ModelOutlineCell.h"
+
+#import "Additions.h"
 
 #import <EOAccess/EOAccess.h>
 
