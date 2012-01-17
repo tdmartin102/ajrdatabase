@@ -210,8 +210,8 @@ static NSMutableDictionary 	*dataTypes = nil;
 	while ((entry = [enumerator nextObject]) != nil) 
 	{
 		external = [entry objectForKey:@"externalType"];
-		if (![external hasPrefix:@"_"]) 
-			[types addObject:[entry objectForKey:@"externalType"]];
+		if (external)
+			[types addObject:external];
 	}
 	
 	return [[types allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
