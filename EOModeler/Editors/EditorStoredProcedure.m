@@ -147,7 +147,7 @@
 
 - (void)updateDisplayForAttribute:(EOAttribute *)argument
 {
-	unsigned int index = [[[self selectedStoredProcedure] arguments] indexOfObjectIdenticalTo:argument];
+	NSUInteger index = [[[self selectedStoredProcedure] arguments] indexOfObjectIdenticalTo:argument];
 	if (index != NSNotFound) {
 		[procedureTable setNeedsDisplayInRect:[procedureTable rectOfRow:index]];
 	}
@@ -173,9 +173,9 @@
 
 - (void)editArgument:(EOAttribute *)argument
 {
-	int				index = [[[self selectedStoredProcedure] arguments] indexOfObjectIdenticalTo:argument];
+	NSInteger		index = [[[self selectedStoredProcedure] arguments] indexOfObjectIdenticalTo:argument];
 	NSTableColumn	*column;
-	int				columnIndex;
+	NSInteger		columnIndex;
 	
 	// mont_rothstein @ yahoo.com 2005-04-17
 	// This was checking for index >= 0 it needs to be NSNotFound.
@@ -216,7 +216,7 @@
 	EOStoredProcedure	*procedure = [self selectedStoredProcedure];
 	
 	if (procedure) {
-		unsigned int index = [[procedure arguments] indexOfObjectIdenticalTo:procedure];
+		NSUInteger index = [[procedure arguments] indexOfObjectIdenticalTo:procedure];
 		
 		if (index != NSNotFound) {
 			if (argument == editingObject) {
@@ -252,7 +252,7 @@
 		EOStoredProcedure	*procedure = [self selectedStoredProcedure];
 		
 		if (procedure) {
-			int					index = [[procedure arguments] indexOfObjectIdenticalTo:object];
+			NSInteger					index = [[procedure arguments] indexOfObjectIdenticalTo:object];
 			
 			if (index != NSNotFound) {
 				if (index == [procedureTable editedRow]) {
