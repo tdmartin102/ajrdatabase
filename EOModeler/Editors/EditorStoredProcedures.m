@@ -12,6 +12,8 @@
 #import "IconHeaderCell.h"
 #import "NSTableView-ColumnVisibility.h"
 
+#import "Additions.h"
+
 #import <EOAccess/EOAccess.h>
 
 @implementation EditorStoredProcedures
@@ -70,7 +72,7 @@
 
 - (void)updateProcedureDisplay:(EOStoredProcedure *)procedure
 {
-	unsigned int index = [[[self model] storedProcedures] indexOfObjectIdenticalTo:procedure];
+	NSUInteger index = [[[self model] storedProcedures] indexOfObjectIdenticalTo:procedure];
 	
 	if (index != NSNotFound) {
 		if (procedure == editingObject) {
@@ -92,7 +94,7 @@
 - (void)objectWillChange:(id)object
 {
 	if ([object isKindOfClass:[EOStoredProcedure class]]) {
-		int		index = [[[self model] storedProcedures] indexOfObjectIdenticalTo:object];
+		NSInteger		index = [[[self model] storedProcedures] indexOfObjectIdenticalTo:object];
 		
 		if (index != NSNotFound) {
 			if (index == [proceduresTable editedRow]) {
@@ -128,9 +130,9 @@
 
 - (void)editStoredProcedure:(EOStoredProcedure *)storedProcedure
 {
-	int				index = [[[self model] storedProcedures] indexOfObjectIdenticalTo:storedProcedure];
+	NSInteger		index = [[[self model] storedProcedures] indexOfObjectIdenticalTo:storedProcedure];
 	NSTableColumn	*column;
-	int				columnIndex;
+	NSInteger		columnIndex;
 	
 	// mont_rothstein @ yahoo.com 2005-04-17
 	// This was checking for index >= 0 it needs to be NSNotFound.
