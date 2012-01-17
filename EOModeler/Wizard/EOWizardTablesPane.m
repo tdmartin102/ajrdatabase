@@ -62,7 +62,7 @@
 {
 	NSMutableArray		*names = [[NSMutableArray alloc] init];
 	NSIndexSet			*set = [tablesTable selectedRowIndexes];
-	int					index;
+	NSInteger			index;
 	
 	index = [set firstIndex];
 	while (index != NSNotFound) {
