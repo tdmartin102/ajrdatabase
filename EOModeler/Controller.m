@@ -10,6 +10,8 @@
 
 #import "Document.h"
 
+#import "Additions.h"
+
 #import <EOAccess/EOAccess.h>
 #import <EOInterface/EOInterface.h>
 
@@ -113,8 +115,10 @@
 	for (x = 0; x < (const int)[windows count]; x++) {
 		NSWindow		*window = [windows objectAtIndex:x];
 		
-		if ([[window delegate] isKindOfClass:[Document class]] && [[window delegate] isDocumentEdited]) {
-			needsSaving++;
+		if ([[window delegate] isKindOfClass:[Document class]])
+		{
+			if ([(Document *)[window delegate] isDocumentEdited])
+				needsSaving++;
 		}
 	}
 	
