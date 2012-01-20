@@ -16,7 +16,9 @@
 
 - (void)awakeFromNib
 {
-	[adaptorTable selectRow:[[EOAdaptor availableAdaptorNames] count] byExtendingSelection:NO];
+    NSIndexSet  *indexSet;
+    indexSet = [NSIndexSet indexSetWithIndex:[[EOAdaptor availableAdaptorNames] count]];
+	[adaptorTable selectRowIndexes:indexSet byExtendingSelection:NO];
 	[connectionBox setContentView:noneView];
 	[self updateButtons];
 }

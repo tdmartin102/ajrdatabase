@@ -78,7 +78,8 @@
 		row = [keys indexOfObject:key];
 		if (row != NSNotFound) {
 			// It does, so select that row.
-			[keyValueTable selectRow:row byExtendingSelection:NO];
+			[keyValueTable selectRowIndexes:[NSIndexSet indexSetWithIndex:row]
+                       byExtendingSelection:NO];
 			if (oldRow >= 0 && oldRow == editedRow) {
 				// Now, if the oldRow was a valid selection, and that row was getting editing, then we want to start editing it again. Note that this must be done after a return to the even loop, which is why we don't call the table view directly.
 				[self editRow:row column:editedColumn];

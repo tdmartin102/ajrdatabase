@@ -448,7 +448,8 @@
 			// We had a name change, or at least a sorting change, so we need to re-display the whole table.
 			[entityAttributesTable setNeedsDisplay:YES];
 			editedColumn = [entityAttributesTable editedColumn];
-			[entityAttributesTable selectRow:index byExtendingSelection:NO];
+			[entityAttributesTable selectRowIndexes:[NSIndexSet indexSetWithIndex:index]
+                    byExtendingSelection:NO];
 			if (editedColumn >= 0) {
 				[entityAttributesTable editColumn:editedColumn row:index withEvent:nil select:YES];
 			}
@@ -472,7 +473,8 @@
 			// We had a name change, or at least a sorting change, so we need to re-display the whole table.
 			[entityRelationshipsTable setNeedsDisplay:YES];
 			editedColumn = [entityRelationshipsTable editedColumn];
-			[entityRelationshipsTable selectRow:index byExtendingSelection:NO];
+			[entityRelationshipsTable selectRowIndexes:[NSIndexSet indexSetWithIndex:index]
+                                  byExtendingSelection:NO];
 			if (editedColumn >= 0) {
 				[entityRelationshipsTable editColumn:editedColumn row:index withEvent:nil select:YES];
 			}
@@ -554,7 +556,8 @@
 	// mont_rothstein @ yahoo.com 2005-04-17
 	// This was checking for index >= 0 it needs to be NSNotFound.
 	if (index >= NSNotFound) {
-		[entityAttributesTable selectRow:index byExtendingSelection:NO];
+		[entityAttributesTable selectRowIndexes:[NSIndexSet indexSetWithIndex:index]
+                byExtendingSelection:NO];
 		[[entityAttributesTable window] makeFirstResponder:entityAttributesTable];
 		column = [entityAttributesTable tableColumnWithIdentifier:@"name"];
 		if (column) {
@@ -576,7 +579,8 @@
 	// mont_rothstein @ yahoo.com 2005-04-17
 	// This was checking for index >= 0 it needs to be NSNotFound.
 	if (index >= NSNotFound) {
-		[entityRelationshipsTable selectRow:index byExtendingSelection:NO];
+		[entityRelationshipsTable selectRowIndexes:[NSIndexSet indexSetWithIndex:index]
+                byExtendingSelection:NO];
 		[[entityRelationshipsTable window] makeFirstResponder:entityRelationshipsTable];
 		[entityRelationshipsTable scrollRowToVisible:index];
 #if 0
@@ -611,13 +615,12 @@
 		}
 	} else {
 		NSMutableArray		*selectedAttributes = [[NSMutableArray alloc] init];
-		NSEnumerator		*enumerator = [entityAttributesTable selectedRowEnumerator];
-		NSNumber				*index;
+		NSIndexSet          *indexSet = [entityAttributesTable selectedRowIndexes];
+		NSNumber			*index;
 		NSArray				*attributes = [[self selectedEntity] attributes];
 		
-		while ((index = [enumerator nextObject]) != nil) {
-			[selectedAttributes addObject:[attributes objectAtIndex:[index intValue]]];
-		}
+        [indexSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop){
+            [selectedAttributes addObject:[attributes objectAtIndex:idx]];}];
 		
 		[document setSelectedObject:selectedAttributes];
 		[selectedAttributes release];

@@ -10,7 +10,7 @@
 
 @class EOInspectorPanel;
 
-@interface EOInspector : NSObject 
+@interface EOInspector : NSObject <NSToolbarDelegate>
 {
 	EOInspectorPanel		*inspectorPanel;
 	NSToolbar				*toolbar;

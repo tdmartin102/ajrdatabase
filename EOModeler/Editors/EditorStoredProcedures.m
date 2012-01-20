@@ -81,7 +81,8 @@
 			// We had a name change, or at least a sorting change, so we need to re-display the whole table.
 			[proceduresTable setNeedsDisplay:YES];
 			editedColumn = [proceduresTable editedColumn];
-			[proceduresTable selectRow:index byExtendingSelection:NO];
+			[proceduresTable selectRowIndexes:[NSIndexSet indexSetWithIndex:index]
+                    byExtendingSelection:NO];
 			if (editedColumn >= 0) {
 				[proceduresTable editColumn:editedColumn row:index withEvent:nil select:YES];
 			}
@@ -137,7 +138,8 @@
 	// mont_rothstein @ yahoo.com 2005-04-17
 	// This was checking for index >= 0 it needs to be NSNotFound.
 	if (index >= NSNotFound) {
-		[proceduresTable selectRow:index byExtendingSelection:NO];
+		[proceduresTable selectRowIndexes:[NSIndexSet indexSetWithIndex:index]
+            byExtendingSelection:NO];
 		[[proceduresTable window] makeFirstResponder:proceduresTable];
 		column = [proceduresTable tableColumnWithIdentifier:@"name"];
 		if (column) {

@@ -171,7 +171,7 @@ static void (*_ajrPersistentWrite)(id, SEL);
 {
 	if (flag) {
 		PBPopUpButton		*button;
-		id <NSMenuItem>	item;
+		NSMenuItem          *item;
 		NSMutableArray		*titles;
 		NSArray				*columns;
 		int					x;
@@ -217,11 +217,11 @@ static void (*_ajrPersistentWrite)(id, SEL);
 	[self setColumn:column visible:![self isColumnVisible:column]];
 }
 
-- (BOOL)validateMenuItem:(id <NSMenuItem>)item
+- (BOOL)validateUserInterfaceItem:(id < NSValidatedUserInterfaceItem >)item
 {
-	NSTableColumn	*column = [[item title] instanceObjectForKey:@"column"];
+	NSTableColumn	*column = [[(NSMenuItem *)item title] instanceObjectForKey:@"column"];
 	
-	[item setState:[self isColumnVisible:column] ? NSOnState : NSOffState];
+	[(NSMenuItem *)item setState:[self isColumnVisible:column] ? NSOnState : NSOffState];
 	
 	return YES;
 }

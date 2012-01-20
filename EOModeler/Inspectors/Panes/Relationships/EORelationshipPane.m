@@ -140,6 +140,8 @@
 	NSArray				*models;
 	NSArray				*joins;
 	EOJoin				*firstJoin = nil;
+    NSIndexSet          *indexSet;
+    NSArray             *anArray;
 	
 	[nameField setStringValue:[relationship name]];
 
@@ -170,7 +172,10 @@
 		if ([self destinationEntity] == nil) {
 			[entitiesTable deselectAll:self];
 		} else {
-			[entitiesTable selectRow:[[[[modelsPopUp selectedItem] representedObject] entities] indexOfObjectIdenticalTo:[self destinationEntity]] byExtendingSelection:NO];
+            anArray = [[[modelsPopUp selectedItem] representedObject] entities];
+            indexSet = [NSIndexSet indexSetWithIndex:[anArray indexOfObjectIdenticalTo:
+                                                      [self destinationEntity]]];
+			[entitiesTable selectRowIndexes:indexSet byExtendingSelection:NO];
 		}
 		[entitiesTable scrollRowToVisible:[entitiesTable selectedRow]];
 		
@@ -179,7 +184,10 @@
 		
 		[sourceTable reloadData];
 		if (firstJoin) {
-			[sourceTable selectRow:[[[self sourceEntity] attributes] indexOfObjectIdenticalTo:[firstJoin sourceAttribute]] byExtendingSelection:NO];
+            anArray = [[self sourceEntity] attributes];
+            indexSet = [NSIndexSet indexSetWithIndex:
+                        [anArray indexOfObjectIdenticalTo:[firstJoin sourceAttribute]]];
+			[sourceTable selectRowIndexes:indexSet byExtendingSelection:NO];
 			[sourceTable scrollRowToVisible:[sourceTable selectedRow]];
 		} else {
 			[sourceTable deselectAll:self];
@@ -187,7 +195,10 @@
 		
 		[destinationTable reloadData];
 		if (firstJoin) {
-			[destinationTable selectRow:[[[self destinationEntity] attributes] indexOfObjectIdenticalTo:[firstJoin destinationAttribute]] byExtendingSelection:NO];
+            anArray = [[self destinationEntity] attributes];
+            indexSet = [NSIndexSet indexSetWithIndex:
+                        [anArray indexOfObjectIdenticalTo:[firstJoin destinationAttribute]]];
+			[destinationTable selectRowIndexes:indexSet byExtendingSelection:NO];
 			[destinationTable scrollRowToVisible:[destinationTable selectedRow]];
 		} else {
 			[destinationTable deselectAll:self];

@@ -19,7 +19,9 @@
 
 - (void)awakeFromNib
 {
-	[adaptorTable selectRow:[[EOAdaptor availableAdaptorNames] count] byExtendingSelection:NO];
+    NSIndexSet *indexSet;
+    indexSet = [NSIndexSet indexSetWithIndex:[[EOAdaptor availableAdaptorNames] count]];
+	[adaptorTable selectRowIndexes:indexSet byExtendingSelection:NO];
 	[connectionBox setContentView:noneView];
 }
 
@@ -45,15 +47,22 @@
 	
 	adaptorName = [model adaptorName];
 	if (adaptorName == nil) {
-		[adaptorTable selectRow:[[EOAdaptor availableAdaptorNames] count] byExtendingSelection:NO];
+        NSIndexSet *indexSet;
+        indexSet = [NSIndexSet indexSetWithIndex:[[EOAdaptor availableAdaptorNames] count]];
+		[adaptorTable selectRowIndexes:indexSet byExtendingSelection:NO];
 		[connectionBox setContentView:noneView];
 		[connectionPane release]; connectionPane = nil;
 //		[adaptorTable setNextKeyView:[modelWizard cancelButton]];
 	} else {
 		EOAdaptor		*adaptor = [EOAdaptor adaptorWithModel:model];
 		NSView			*contentView;
+        NSIndexSet      *indexSet;
+        
+        indexSet = [NSIndexSet indexSetWithIndex:
+                    [[EOAdaptor availableAdaptorNames] indexOfObject:[adaptor name]]];
+        
 		
-		[adaptorTable selectRow:[[EOAdaptor availableAdaptorNames] indexOfObject:[adaptor name]] byExtendingSelection:NO];
+		[adaptorTable selectRowIndexes:indexSet byExtendingSelection:NO];
 		
 		[connectionPane setModel:nil];
 		[connectionPane release]; connectionPane = nil;
