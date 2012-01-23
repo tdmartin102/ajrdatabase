@@ -22,7 +22,7 @@ typedef enum _documentSaveResponse {
 	DocumentDidFail = 3
 } DocumentSaveResponse;
 
-@interface Document : NSObject <EOObserving>
+@interface Document : NSObject <EOObserving, NSToolbarDelegate>
 {
 	IBOutlet	NSWindow			*window;
 	IBOutlet NSOutlineView	*modelOutline;

@@ -180,7 +180,8 @@
 	// mont_rothstein @ yahoo.com 2005-04-17
 	// This was checking for index >= 0 it needs to be NSNotFound.
 	if (index >= NSNotFound) {
-		[procedureTable selectRow:index byExtendingSelection:NO];
+		[procedureTable selectRowIndexes:[NSIndexSet indexSetWithIndex:index]
+                    byExtendingSelection:NO];
 		[[procedureTable window] makeFirstResponder:procedureTable];
 		column = [procedureTable tableColumnWithIdentifier:@"name"];
 		if (column) {
@@ -220,12 +221,12 @@
 		
 		if (index != NSNotFound) {
 			if (argument == editingObject) {
-				int		editedColumn;
+				NSInteger	editedColumn;
 				
 				// We had a name change, or at least a sorting change, so we need to re-display the whole table.
 				[procedureTable setNeedsDisplay:YES];
 				editedColumn = [procedureTable editedColumn];
-				[procedureTable selectRow:index byExtendingSelection:NO];
+				[procedureTable selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
 				if (editedColumn >= 0) {
 					[procedureTable editColumn:editedColumn row:index withEvent:nil select:YES];
 				}

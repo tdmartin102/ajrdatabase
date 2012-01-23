@@ -10,7 +10,7 @@
 
 @class Document;
 
-@interface EOInspectorPanel : NSPanel
+@interface EOInspectorPanel : NSPanel < NSToolbarDelegate >
 {
 	IBOutlet NSView		*nothingView;
 	IBOutlet NSView		*multipleView;

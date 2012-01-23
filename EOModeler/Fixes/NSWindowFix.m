@@ -8,6 +8,14 @@
 
 #import "NSWindowFix.h"
 
+@implementation NSObject (NSWindowFix)
+
+- (BOOL)processKeyDown:(NSEvent *)event
+{
+	return NO;
+}
+
+@end
 
 @implementation NSWindowFix
 
@@ -25,7 +33,7 @@
 			return;
 		} else {
 			if ([[self firstResponder] processKeyDown:event]) return;
-			if ([[self delegate] processKeyDown:event]) return;
+			if ([(NSObject *)[self delegate] processKeyDown:event]) return;
 			if ([[NSApp delegate] processKeyDown:event]) return;
 		}
 	}
@@ -36,11 +44,3 @@
 @end
 
 
-@implementation NSObject (NSWindowFix)
-
-- (BOOL)processKeyDown:(NSEvent *)event
-{
-	return NO;
-}
-
-@end

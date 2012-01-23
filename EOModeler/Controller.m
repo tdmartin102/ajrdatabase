@@ -93,7 +93,7 @@
 	for (x = 0; x < (const int)[windows count]; x++) {
 		NSWindow		*window = [windows objectAtIndex:x];
 		if ([[window delegate] isKindOfClass:[Document class]]) {
-			Document		*document = [window delegate];
+			Document		*document = (Document *)[window delegate];
 			if ([[[document model] path] isEqualToString:[url path]]) {
 				[window makeKeyAndOrderFront:self];
 				return YES;
@@ -189,7 +189,7 @@
 
 - (void)createNewEntity:(id)sender
 {
-	[[Document currentDocument] addEntityWithTableName:[(id <NSMenuItem>)sender title]];
+	[[Document currentDocument] addEntityWithTableName:[(NSMenuItem *)sender title]];
 }
 
 - (void)synchronizeEntity:(id)sender

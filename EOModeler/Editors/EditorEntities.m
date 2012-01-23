@@ -114,12 +114,13 @@
 	
 	if (index != NSNotFound) {
 		if (entity == editingEntity) {
-			int		editedColumn;
+			NSInteger		editedColumn;
 			
 			// We had a name change, or at least a sorting change, so we need to re-display the whole table.
 			[entityTable setNeedsDisplay:YES];
 			editedColumn = [entityTable editedColumn];
-			[entityTable selectRow:index byExtendingSelection:NO];
+			[entityTable selectRowIndexes:[NSIndexSet indexSetWithIndex:index]
+                     byExtendingSelection:NO];
 			if (editedColumn >= 0) {
 				[entityTable editColumn:editedColumn row:index withEvent:nil select:YES];
 			}
@@ -163,13 +164,13 @@
 	
 	if ([[entityTable selectedRowIndexes] count] > 1) {
 		NSMutableArray		*selectedEntities = [[NSMutableArray allocWithZone:[self zone]] init];
-		NSEnumerator		*enumerator = [entityTable selectedRowEnumerator];
-		NSNumber				*index;
+		NSIndexSet          *indexSet = [entityTable selectedRowIndexes];
+		NSNumber			*index;
 		NSArray				*entities = [[self model] entities];
 		
-		while ((index = [enumerator nextObject]) != nil) {
-			[selectedEntities addObject:[entities objectAtIndex:[index intValue]]];
-		}
+        [indexSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop){
+            [selectedEntities addObject:[entities objectAtIndex:idx]];}];
+        
 		
 		[document setSelectedEntity:nil];
 		[document setSelectedObject:selectedEntities];
@@ -197,7 +198,8 @@
 	// mont_rothstein @ yahoo.com 2005-04-17
 	// This was checking for index >= 0 which causes all new (not added to model) entities to be included.
 	if (index != NSNotFound) {
-		[entityTable selectRow:index byExtendingSelection:NO];
+		[entityTable selectRowIndexes:[NSIndexSet indexSetWithIndex:index]
+            byExtendingSelection:NO];
 		[[entityTable window] makeFirstResponder:entityTable];
 		column = [entityTable tableColumnWithIdentifier:@"name"];
 		if (column) {

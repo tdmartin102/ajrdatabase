@@ -21,6 +21,9 @@
 #import "SQLGenerator.h"
 
 #import <EOAccess/EOAccess.h>
+
+#import <objc/message.h>
+
 //#import <EOControl/NSArray+CocoaDevUsersAdditions.h>
 
 
@@ -46,14 +49,14 @@ NSString *StoredProcedures = @"Stored Procedures";
 	
 	// First, see if the key window is correct.
 	if ([[[NSApp keyWindow] delegate] isKindOfClass:[Document class]]) {
-		return [[NSApp keyWindow] delegate];
+		return (Document *)[[NSApp keyWindow] delegate];
 	}
 	
 	// Nope, so just return any document attached to any window.
 	for (x = 0; x < (const int)[windows count]; x++) {
 		NSWindow		*aWindow = [windows objectAtIndex:x];
 		
-		if ([[aWindow delegate] isKindOfClass:[Document class]]) return [aWindow delegate];
+		if ([[aWindow delegate] isKindOfClass:[Document class]]) return (Document *)[aWindow delegate];
 	}
 	
 	return nil;
@@ -167,13 +170,14 @@ NSString *StoredProcedures = @"Stored Procedures";
 
 - (void)_updateModelTable
 {
-	id			item = [modelOutline itemAtRow:[modelOutline selectedRow]];
-	int		index;
+	id              item = [modelOutline itemAtRow:[modelOutline selectedRow]];
+	NSUInteger		index;
 	
 	[modelOutline reloadData];
 	
 	index = [modelOutline rowForItem:item];
-	[modelOutline selectRow:index byExtendingSelection:NO];
+    [modelOutline selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+
 	[self selectModel:modelOutline selectObject:NO];
 }
 
@@ -283,7 +287,7 @@ NSString *StoredProcedures = @"Stored Procedures";
 	return [object isKindOfClass:aClass];
 }
 
-- (BOOL)validateMenuItem:(id <NSMenuItem>)item
+- (BOOL)validateUserInterfaceItem:(id < NSValidatedUserInterfaceItem >)item
 {
 	switch ([item tag]) {
 		// File menu
@@ -378,7 +382,7 @@ NSString *StoredProcedures = @"Stored Procedures";
 	[model _revert];
 	[window setDocumentEdited:NO];
 	[modelOutline reloadData];
-	[modelOutline selectRow:0 byExtendingSelection:NO];
+	[modelOutline selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 	[self selectModel:modelOutline];
 }
 
@@ -448,7 +452,9 @@ NSString *StoredProcedures = @"Stored Procedures";
 		implementation = [entity objectiveCImplementation];
 		interface = [entity objectiveCInterface];
 		
-		if (![implementation writeToFile:implementationFile atomically:YES]) {
+        if (![implementation writeToFile:implementationFile atomically:YES 
+                                    encoding:NSUTF8StringEncoding error:NULL]) {
+
 			if (NSRunAlertPanel(@"Error writing Objective-C implementation", @"Unable to write to file: %@: %s", @"Continue", @"Cancel", nil, implementationFile, strerror(errno)) == NSOKButton) {
 				continue;
 			} else {
@@ -456,7 +462,8 @@ NSString *StoredProcedures = @"Stored Procedures";
 			}
 		}
 		
-		if (![interface writeToFile:interfaceFile atomically:YES]) {
+		if (![interface writeToFile:interfaceFile atomically:YES 
+                           encoding:NSUTF8StringEncoding error:NULL]) {
 			if (NSRunAlertPanel(@"Error writing Objective-C interface", @"Unable to write to file: %@: %s", @"Continue", @"Cancel", nil, implementationFile, strerror(errno)) == NSOKButton) {
 				continue;
 			} else {
@@ -516,7 +523,7 @@ NSString *StoredProcedures = @"Stored Procedures";
 	[model addEntity:entity];
 	
 	[modelOutline reloadData];
-	[modelOutline selectRow:0 byExtendingSelection:NO];
+	[modelOutline selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 	[self selectModel:modelOutline];
 	[[editorView currentEditor] performSelector:@selector(editEntity:) withObject:entity afterDelay:0.01];
 }
@@ -552,7 +559,7 @@ NSString *StoredProcedures = @"Stored Procedures";
 		[entity setClassProperties:temp];
 		[temp release];
 		
-		[modelOutline selectRow:[modelOutline rowForItem:entity] byExtendingSelection:NO];
+        [modelOutline selectRowIndexes:[NSIndexSet indexSetWithIndex:[modelOutline rowForItem:entity]] byExtendingSelection:NO];
 		[editorView displayEditorNamed:@"Entity"];
 		[[editorView currentEditor] performSelector:@selector(editAttribute:) withObject:attribute afterDelay:0.01];
 	} else if (storedProcedure) {
@@ -564,8 +571,10 @@ NSString *StoredProcedures = @"Stored Procedures";
 		[argument setParameterDirection:EOInParameter];
 		[storedProcedure addArgument:argument];
 		[argument release];
-
-		[modelOutline selectRow:[modelOutline rowForItem:storedProcedure] byExtendingSelection:NO];
+        
+        [modelOutline selectRowIndexes:[NSIndexSet indexSetWithIndex:
+                                        [modelOutline rowForItem:storedProcedure]] 
+                                                byExtendingSelection:NO];
 		[editorView displayEditorNamed:@"Stored Procedure"];
 		[[editorView currentEditor] performSelector:@selector(editArgument:) withObject:argument afterDelay:0.01];
 	} else {
@@ -596,8 +605,9 @@ NSString *StoredProcedures = @"Stored Procedures";
 		[temp addObject:relationship];
 		[entity setClassProperties:temp];
 		[temp release];
-		
-		[modelOutline selectRow:[modelOutline rowForItem:entity] byExtendingSelection:NO];
+		        
+        [modelOutline selectRowIndexes:[NSIndexSet indexSetWithIndex:[modelOutline rowForItem:entity]]
+                byExtendingSelection:NO];
 		[editorView displayEditorNamed:@"Entity"];
 		[[editorView currentEditor] performSelector:@selector(editRelationship:) withObject:relationship afterDelay:0.01];
 	} else {
@@ -640,8 +650,9 @@ NSString *StoredProcedures = @"Stored Procedures";
 	[array addObject:relationship];
 	[object setClassProperties:array];
 	[array release];
-	
-	[modelOutline selectRow:[modelOutline rowForItem:object] byExtendingSelection:NO];
+	    
+    [modelOutline selectRowIndexes:[NSIndexSet indexSetWithIndex:[modelOutline rowForItem:object]]
+              byExtendingSelection:NO];
 	[self selectModel:modelOutline];
 	[[editorView currentEditor] performSelector:@selector(editRelationship:) withObject:relationship afterDelay:0.01];
 }
@@ -663,7 +674,9 @@ NSString *StoredProcedures = @"Stored Procedures";
 	[model addStoredProcedure:storedProcedure];
 	
 	[modelOutline reloadData];
-	[modelOutline selectRow:[modelOutline rowForItem:StoredProcedures] byExtendingSelection:NO];
+	[modelOutline selectRowIndexes:
+        [NSIndexSet indexSetWithIndex:[modelOutline rowForItem:StoredProcedures]] 
+        byExtendingSelection:NO];
 	[self selectModel:modelOutline];
 	[[editorView currentEditor] performSelector:@selector(editStoredProcedure:) withObject:storedProcedure afterDelay:0.01];
 }
@@ -857,7 +870,7 @@ NSString *StoredProcedures = @"Stored Procedures";
 	
 	for (x = 0; x < (const int)[windows count]; x++) {
 		NSWindow		*aWindow = [windows objectAtIndex:x];
-		Document		*document = [aWindow delegate];
+		Document		*document = (Document *)[aWindow delegate];
 		
 		if ([document isKindOfClass:[Document class]] && [document isDocumentEdited]) {
 			[document promptForWindowShouldCloseWithCallback:@selector(terminateWithResponse:)];
