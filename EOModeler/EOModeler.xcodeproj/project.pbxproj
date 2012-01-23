@@ -1438,7 +1438,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = EOModeler_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
+				INSTALL_PATH = "$(HOME)/Apps";
 				PREBINDING = NO;
 				PRODUCT_NAME = EOModeler;
 				WRAPPER_EXTENSION = app;
