@@ -90,23 +90,24 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
 
 - (id)initWithEditingContext:(EOEditingContext *)editingContext classDescription:(NSClassDescription *)classDescription globalID:(EOGlobalID *)globalID;
 {
-   [self init];
+   if (self = [self init])
+   {
 
-// mont_rothstienn @ yahoo.com 2005-02-18
-// Moved the initialization of _values to the init method.
-//   _values = [[NSMutableDictionary alloc] init];
+       // mont_rothstienn @ yahoo.com 2005-02-18
+       // Moved the initialization of _values to the init method.
+       //   _values = [[NSMutableDictionary alloc] init];
 
-	// mont_rothstein @ yahoo.com 2005-02-25
-	// _entityName has to be stored here because otherwise there is no way to know
-	// what entity the EOGenericRecord is for.  Trying to call classDescription directly
-	// on EOGenericRecord would always cause the first entity that has a generic record
-	// to be returned.
+       // mont_rothstein @ yahoo.com 2005-02-25
+       // _entityName has to be stored here because otherwise there is no way to know
+       // what entity the EOGenericRecord is for.  Trying to call classDescription directly
+       // on EOGenericRecord would always cause the first entity that has a generic record
+       // to be returned.
 	   _entityName = [[classDescription entityName] retain];
 
-// mont_rothstein @ yahoo.com 2004-12-05
-// Commented this out because we should be getting the globalID from the editingContext.
-//	_globalID = [globalID retain];
-
+       // mont_rothstein @ yahoo.com 2004-12-05
+       // Commented this out because we should be getting the globalID from the editingContext.
+       //	_globalID = [globalID retain];
+   }
    return self;
 }
 

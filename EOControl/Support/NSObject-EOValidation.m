@@ -50,6 +50,7 @@
 		firstLetter = [[key substringToIndex: 1] uppercaseString];
 		selectorString = [[NSString alloc] initWithFormat: @"validate%@%@:", firstLetter, [key substringFromIndex: 1]]; 
 		selector = NSSelectorFromString(selectorString);
+        [selectorString release];
 		
 		if ([self respondsToSelector: selector])
 		{

@@ -30,11 +30,11 @@ http://www.raftis.net/~alex/
 
 @interface EONumericKeyGlobalID : EOGlobalID
 {
-   NSString					*entityName;
-   NSString					**keys;
-   unsigned long long	*values;
-   int						count;
-	unsigned int			hash;
+    NSString			*entityName;
+    NSString			**keys;
+    unsigned long long	*values;
+    int					count;
+    NSUInteger			hash;
 }
 
 + (id)globalIDWithEntityName:(NSString *)anEntityName keys:(NSString **)primaryKeys values:(id *)someValues count:(int)count;

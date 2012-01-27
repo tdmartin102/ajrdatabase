@@ -111,7 +111,7 @@ http://www.raftis.net/~alex/
    return NO;
 }
 
-- (unsigned)hash
+- (NSUInteger)hash
 {
 	return hash;
 }
@@ -154,7 +154,7 @@ http://www.raftis.net/~alex/
 
    [buffer appendString:@"]"];
 
-   return buffer;
+   return [buffer autorelease];
 }
 
 - (NSString **)keys

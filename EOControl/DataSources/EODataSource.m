@@ -76,14 +76,18 @@
 - (id)createObject 
 {
 	EOClassDescription	*classDescription;
-	EOEditingContext		*editingContext = [self editingContext];
-	id							newObject;
+	EOEditingContext	*editingContext = [self editingContext];
+	id					newObject;
+    EOGlobalID          *gid;
 	
 	if ((classDescription = [self classDescriptionForObjects]) == nil) {
 		return nil;
 	}
 	
-	newObject = [classDescription createInstanceWithEditingContext:editingContext globalID:[[EOTemporaryGlobalID alloc] init] zone:[self zone]];
+    gid = [[EOTemporaryGlobalID alloc] init];
+	newObject = [classDescription createInstanceWithEditingContext:editingContext 
+        globalID:gid zone:[self zone]];
+    [gid release];
 	[editingContext insertObject:newObject];
 	
 	return newObject;

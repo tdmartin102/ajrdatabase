@@ -55,11 +55,14 @@ static EOLog				*SELF = nil;
 
 - (id)init
 {
-   if (lock == nil) {
-      lock = [[NSLock alloc] init];
-		[[self class] registerLogger:[[[EOLogger allocWithZone:[self zone]] init] autorelease]];
-   }
-
+    if (self = [super init])
+    {
+        if (lock == nil) {
+            lock = [[NSLock alloc] init];
+            [[self class] registerLogger:[[[EOLogger allocWithZone:[self zone]] init] autorelease]];
+        }
+    }
+        
    return self;
 }
 
@@ -70,7 +73,7 @@ static EOLog				*SELF = nil;
 
 - (void)registerLogger:(Class)aLogger
 {
-   [loggers addObject:[[aLogger allocWithZone:[self zone]] init]];
+   [loggers addObject:[[[aLogger allocWithZone:[self zone]] init] autorelease]];
 }
 
 + (void)log:(NSString *)string

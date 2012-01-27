@@ -118,21 +118,21 @@ static EOQualifierOperation EOEOFQualifierNotEqual;
 	// have at least one item in the array.
 	if ([aValue isKindOfClass:[NSArray class]] && [aValue count] == 0) return nil;
 	
-	[super init];
-
-   key = [aKey retain];
-   operation = anOperation;
-   [self _checkOperationShouldSetCaseSensitive: YES];
-   // mont_rothstein @ yahoo.com 2005-07-24
-   // If the value is a NSNull then we want to store it as nil
-   value = [aValue isKindOfClass: [NSNull class]] ? nil : [aValue retain];
-   
+	if (self = [super init])
+    {
+        key = [aKey retain];
+        operation = anOperation;
+        [self _checkOperationShouldSetCaseSensitive: YES];
+        // mont_rothstein @ yahoo.com 2005-07-24
+        // If the value is a NSNull then we want to store it as nil
+        value = [aValue isKindOfClass: [NSNull class]] ? nil : [aValue retain];
       
-   // mont_rothstein @ yahoo.com 2005-05-15
-   // If the value is a fault then we need to trip it.  If we don't trip it now then it
-   // will be tripped during the fetch, and that could result in an attempt to perform a
-   // fetch while one is already in process.
-   if ([EOFault isFault: value]) [value self];
+        // mont_rothstein @ yahoo.com 2005-05-15
+        // If the value is a fault then we need to trip it.  If we don't trip it now then it
+        // will be tripped during the fetch, and that could result in an attempt to perform a
+        // fetch while one is already in process.
+        if ([EOFault isFault: value]) [value self];
+    }
 
    return self;
 }
@@ -189,11 +189,10 @@ static EOQualifierOperation EOEOFQualifierNotEqual;
 {
 	static Class VarClass = Nil;
 	id       newValue;
-	BOOL     needNew;
 	id myValue = [self value];
 	
-	if (VarClass == Nil) VarClass = [EOQualifierVariable class];
-	needNew = NO;
+	if (VarClass == Nil) 
+        VarClass = [EOQualifierVariable class];
 	
 	if ([myValue class] == VarClass) {
 		newValue =
@@ -277,10 +276,12 @@ static EOQualifierOperation EOEOFQualifierNotEqual;
 
 - (id)initWithCoder:(NSCoder *)coder
 {
-   int   version = [coder versionForClassName:@"EOKeyValueQualifier"];
-   BOOL  setCaseSensitiveFromOperation = NO;
+    int   version = [coder versionForClassName:@"EOKeyValueQualifier"];
+    BOOL  setCaseSensitiveFromOperation = NO;
    
-	[super initWithCoder:coder];
+	self = [super initWithCoder:coder];
+    if (! self)
+        return nil;
 	
 	if ([coder allowsKeyedCoding]) {
 		key = [[coder decodeObjectForKey:@"key"] retain];

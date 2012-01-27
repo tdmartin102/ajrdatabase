@@ -21,14 +21,14 @@
 	[super dealloc];
 }
 
-- (void)_checkBounds:(unsigned int)index
+- (void)_checkBounds:(NSUInteger)index
 {
 	if (index >= count) {
 		[NSException raise:NSRangeException format:@"Index %d is outside of bounds of array [0..%d]", index, count - 1];
 	}
 }
 
-- (void)_checkSize:(unsigned int)size
+- (void)_checkSize:(NSUInteger)size
 {
 	if (size >= maxCount) {
 		maxCount += 8;
@@ -36,13 +36,13 @@
 	}
 }
 
-- (id)objectAtIndex:(unsigned int)index
+- (id)objectAtIndex:(NSUInteger)index
 {
 	[self _checkBounds:index];
 	return objects[index];
 }
 
-- (unsigned int)count
+- (NSUInteger)count
 {
 	return count;
 }
@@ -54,7 +54,7 @@
 	count++;
 }
 
-- (void)insertObject:(id)anObject atIndex:(unsigned)index
+- (void)insertObject:(id)anObject atIndex:(NSUInteger)index
 {
 	if (index == count) {
 		[self addObject:anObject];
@@ -73,14 +73,14 @@
 	count--;
 }
 
-- (void)removeObjectAtIndex:(unsigned)index
+- (void)removeObjectAtIndex:(NSUInteger)index
 {
 	[self _checkBounds:index];
 	memmove(objects + index, objects + index + 1, sizeof(id) * (count - index - 1));
 	count--;
 }
 
-- (void)replaceObjectAtIndex:(unsigned)index withObject:(id)anObject
+- (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject
 {
 	[self _checkBounds:index];
 	objects[index] = anObject;

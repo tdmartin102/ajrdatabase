@@ -1179,7 +1179,7 @@ void GSObjCSetVal(NSObject *self, const char *key, id val, SEL sel,
 {
 	SEL			sel = 0;
 	const char	*type = 0;
-	int			off;
+	int			off = 0;
 	unsigned	size = [key length];
 
 	if (size > 0)

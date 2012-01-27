@@ -50,11 +50,11 @@ SEL EOCompareCaseInsensitiveDescending;
 
 - (id)initWithKey:(NSString *)aKey selector:(SEL)aSelector
 {
-   [super init];
-
-   key = [aKey retain];
-   selector = aSelector;
-
+   if (self = [super init])
+   {
+       key = [aKey retain];
+       selector = aSelector;
+   }
    return self;
 }
 

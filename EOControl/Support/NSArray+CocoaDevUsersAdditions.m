@@ -23,7 +23,7 @@
     {
         [resultArray addObjectsFromArray:current];
     }
-    return [NSArray arrayWithArray:resultArray];
+    return [NSArray arrayWithArray:[resultArray autorelease]];
 }
 
 +(NSArray *)arrayWithClonesOf:(id)object count:(unsigned)count
@@ -44,7 +44,9 @@
 + (NSArray *)arrayWithLinesOfFile:(NSString *)filePath lineEnding:(NSString *)lineEnding
 {
 	NSArray * result = nil;
-	NSString * theFile = [NSString stringWithContentsOfFile:filePath];
+    NSStringEncoding    enc;
+	NSString * theFile = [NSString stringWithContentsOfFile:filePath 
+                                               usedEncoding:&enc error:NULL];
 	if (theFile == nil) // no string
 		return result; // no result.
     

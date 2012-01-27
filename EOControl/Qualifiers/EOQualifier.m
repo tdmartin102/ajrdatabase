@@ -126,7 +126,7 @@ EOQualifierOperation EOQualifierCaseInsensitiveNotEqual;
 		[qualifier release];
 	}
 	
-	return [EOAndQualifier qualifierWithArray:array];
+	return [EOAndQualifier qualifierWithArray:[array autorelease]];
 }
 
 + (id)qualifierToMatchAnyValue:(NSDictionary *)values
@@ -144,7 +144,7 @@ EOQualifierOperation EOQualifierCaseInsensitiveNotEqual;
 		[qualifier release];
 	}
 	
-	return [EOOrQualifier qualifierWithArray:array];
+	return [EOOrQualifier qualifierWithArray:[array autorelease]];
 }
 
 - (EOQualifier *)qualifierWithBindings:(NSDictionary *)bindings requiresAllVariables:(BOOL)requiresAll

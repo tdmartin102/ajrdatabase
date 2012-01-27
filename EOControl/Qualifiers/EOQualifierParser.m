@@ -44,31 +44,32 @@ static NSCharacterSet	*numberSet;
 // Renamed this method because of changes in EOQualifier to comply with WO 4.5 API.
 - (id)initWithString:(NSString *)aString varargList:(va_list)someArguments
 {
-	[super init];
-	
-	input = [aString retain];
-	length = [input length];
-	position = 0;
-	//arguments = someArguments;
-	// tom.martin @ riemer.com - 2011/09/15
-	isVaList = YES;
-	va_copy(arguments, someArguments);
-	return self;
+	if (self = [super init])
+    {
+        input = [aString retain];
+        length = [input length];
+        position = 0;
+        //arguments = someArguments;
+        // tom.martin @ riemer.com - 2011/09/15
+        isVaList = YES;
+        va_copy(arguments, someArguments);
+    }
+    return self;
 }
 
 // mont_rothsetin @ yahoo.com 2004-12-02
 // New method because EOQualifier needed to handle array to be WO 4.5 compliant.
 - (id)initWithString:(NSString *)aString arguments:(NSArray *)someArguments
 {
-	[super init];
-	
-	input = [aString retain];
-	length = [input length];
-	position = 0;
-	isVaList = NO;
-	// arguments = NULL;
-	argEnumerator = [[someArguments objectEnumerator] retain];
-	
+	if (self = [super init])
+    {
+        input = [aString retain];
+        length = [input length];
+        position = 0;
+        isVaList = NO;
+        // arguments = NULL;
+        argEnumerator = [[someArguments objectEnumerator] retain];
+    }
 	return self;
 }
 
@@ -272,7 +273,7 @@ static NSCharacterSet	*numberSet;
 		if (isVaList)
 		{
 			char		*arg = va_arg(arguments, char *);
-			return [EOQualifierToken tokenWithType:EOTokenNumber value:[NSString stringWithCString:arg]];
+			return [EOQualifierToken tokenWithType:EOTokenNumber value:[NSString stringWithUTF8String:arg]];
 		}
 		else
 		{
@@ -449,11 +450,11 @@ static EOQualifierToken		*closeParen = nil;
 
 - (id)initWithType:(EOQualifierTokenType)aType value:(id)aValue
 {
-	[super init];
-	
-	type = aType;
-	value = [aValue retain];
-	
+	if (self = [super init])
+    {
+        type = aType;
+        value = [aValue retain];
+	}
 	return self;
 }
 

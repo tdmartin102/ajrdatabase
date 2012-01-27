@@ -184,8 +184,9 @@ static EONull *null = nil;
 	}
 }
 
-- (id)initWithCoder:(NSCoder *)_coder {
-	[super initWithCoder:_coder];	
+- (id)initWithCoder:(NSCoder *)_coder 
+{
+	self = [super initWithCoder:_coder];	
 	if ([_coder allowsKeyedCoding]) {
 		self->leftKey  = [[_coder decodeObjectForKey:@"leftKey"] retain];
 		self->rightKey = [[_coder decodeObjectForKey:@"rightKey"] retain];

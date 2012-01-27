@@ -52,14 +52,14 @@
 
 - (id)initWithCoder:(NSCoder *)coder
 {
-	[super initWithCoder:coder];
-	
-	if ([coder allowsKeyedCoding]) {
-		qualifier = [[coder decodeObjectForKey:@"qualifier"] retain];
-	} else {
-		qualifier = [[coder decodeObject] retain];
-	}
-	
+	if (self = [super initWithCoder:coder])
+	{
+        if ([coder allowsKeyedCoding]) {
+            qualifier = [[coder decodeObjectForKey:@"qualifier"] retain];
+        } else {
+            qualifier = [[coder decodeObject] retain];
+        }
+    }
 	return self;
 }
 

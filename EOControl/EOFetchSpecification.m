@@ -52,15 +52,16 @@ http://www.raftis.net/~alex/
 
 - (id)initWithEntityName:(NSString *)anEntityName qualifier:(EOQualifier *)aQualifier sortOrderings:(NSArray *)someSortOrderings usesDistinct:(BOOL)distinctFlag isDeep:(BOOL)isDeepFlag hints:(NSDictionary *)someHints
 {
-   [super init];
-   
-   entityName = [anEntityName retain];
-   qualifier = [aQualifier retain];
-   sortOrderings = [someSortOrderings retain];
-	hints = [someHints retain];
-	isDeep = isDeepFlag;
-	usesDistinct = distinctFlag;
-	userInfo = [[NSMutableDictionary alloc] init];
+   if (self = [super init])
+   {
+       entityName = [anEntityName retain];
+       qualifier = [aQualifier retain];
+       sortOrderings = [someSortOrderings retain];
+       hints = [someHints retain];
+       isDeep = isDeepFlag;
+       usesDistinct = distinctFlag;
+       userInfo = [[NSMutableDictionary alloc] init];
+   }
 
    return self;
 }
@@ -282,7 +283,9 @@ http://www.raftis.net/~alex/
 
 - (id)initWithCoder:(NSCoder *)coder
 {
-	[self init];
+	self = [self init];
+    if (! self)
+        return nil;
 	
 	if ([coder allowsKeyedCoding]) {
 		entityName = [[coder decodeObjectForKey:@"entityName"] retain];

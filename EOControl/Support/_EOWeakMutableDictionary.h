@@ -34,7 +34,7 @@ http://www.raftis.net/~alex/
 
 - (id)init;
 
-- (unsigned int)count;
+- (NSUInteger)count;
 - (id)objectForKey:(id)key;
 - (void)setObject:(id)object forKey:(id)key;
 - (void)removeObjectForKey:(id)key;

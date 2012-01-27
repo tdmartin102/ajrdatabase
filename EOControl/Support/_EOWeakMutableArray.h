@@ -3,17 +3,17 @@
 
 @interface _EOWeakMutableArray : NSMutableArray
 {
-	int	maxCount;
-	int	count;
-	id		*objects;
+	NSUInteger  maxCount;
+	NSUInteger	count;
+	id          *objects;
 }
 
-- (id)objectAtIndex:(unsigned int)index;
-- (unsigned int)count;
+- (id)objectAtIndex:(NSUInteger)index;
+- (NSUInteger)count;
 - (void)addObject:(id)anObject;
-- (void)insertObject:(id)anObject atIndex:(unsigned)index;
+- (void)insertObject:(id)anObject atIndex:(NSUInteger)index;
 - (void)removeLastObject;
-- (void)removeObjectAtIndex:(unsigned)index;
-- (void)replaceObjectAtIndex:(unsigned)index withObject:(id)anObject;
+- (void)removeObjectAtIndex:(NSUInteger)index;
+- (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject;
 
 @end

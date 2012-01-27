@@ -42,9 +42,10 @@ http://www.raftis.net/~alex/
 
 + (_EOWeakContainer *)containerWithObject:(id)anObject
 {
-   _EOWeakContainer	*container = [_EOWeakContainer alloc];
-   container->object = anObject;
-   return container;
+    // yep, return the retained object
+    _EOWeakContainer	*container = [_EOWeakContainer alloc];
+    container->object = anObject;
+    return container;
 }
 
 - (id)object
@@ -72,7 +73,7 @@ http://www.raftis.net/~alex/
    [super dealloc];
 }
 
-- (unsigned int)count
+- (NSUInteger)count
 {
    return [dictionary count];
 }
@@ -84,9 +85,10 @@ http://www.raftis.net/~alex/
 
 - (void)setObject:(id)object forKey:(id)key
 {
-   _EOWeakContainer	*container = [_EOWeakContainer containerWithObject:object];
-   [dictionary setObject:container forKey:key];
-   [container release];
+    _EOWeakContainer	*container = [_EOWeakContainer containerWithObject:object];
+    [dictionary setObject:container forKey:key];
+    // the follwing release is correct because the above returns a retained object
+    [container release];
 }
 
 - (void)removeObjectForKey:(id)key

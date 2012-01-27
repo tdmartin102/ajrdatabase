@@ -70,16 +70,16 @@ http://www.raftis.net/~alex/
    return NO;
 }
 
-- (unsigned)hash
+- (NSUInteger)hash
 {
    return [uniqueID hash];
 }
 
-- (int)compare:(id)other
+- (NSComparisonResult)compare:(id)other
 {
    if ([other isKindOfClass:[EOTemporaryGlobalID class]]) {
       EOTemporaryGlobalID	*trueOther = other;
-      int						result;
+      NSComparisonResult	result;
 
       result = [entityName compare:trueOther->entityName];
       if (result == NSOrderedSame) {

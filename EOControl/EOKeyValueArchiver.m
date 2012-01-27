@@ -168,23 +168,30 @@ static BOOL isPListObject(id _obj) {
 
 @implementation EOKeyValueUnarchiver
 
-- (id)initWithDictionary:(NSDictionary *)_dict {
-  self->plist = [[NSDictionary alloc] initWithDictionary:_dict];
-  self->unarchivedObjects = [[NSMutableArray alloc] initWithCapacity:16];
-  // should be a hashtable
-  self->awakeObjects = [[NSMutableSet alloc] initWithCapacity:16];
-  return self;
-}
-- (id)init {
-  [self release];
-  return nil;
+- (id)initWithDictionary:(NSDictionary *)_dict 
+{
+    if (self = [super init])
+    {
+        self->plist = [[NSDictionary alloc] initWithDictionary:_dict];
+        self->unarchivedObjects = [[NSMutableArray alloc] initWithCapacity:16];
+        // should be a hashtable
+        self->awakeObjects = [[NSMutableSet alloc] initWithCapacity:16];
+    }
+    return self;
 }
 
-- (void)dealloc {
-  [self->awakeObjects      release];
-  [self->unarchivedObjects release];
-  [self->plist             release];
-  [super dealloc];
+- (id)init 
+{
+    [self release];
+    return nil;
+}
+
+- (void)dealloc 
+{
+    [self->awakeObjects      release];
+    [self->unarchivedObjects release];
+    [self->plist             release];
+    [super dealloc];
 }
 
 /* class handling */

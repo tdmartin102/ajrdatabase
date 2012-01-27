@@ -15,6 +15,11 @@ NSString *EOExceptionsKey = @"EOExceptionsKey";
 
 @implementation NSException (EO)
 
+- (id)initWithFormat:(NSString *)format arguments:(va_list)ap
+{
+	return [self initWithName:EOValidationException reason:EOFormatv(format, ap) userInfo:nil];
+}
+
 + (id)validationExceptionWithFormat:(NSString *)format, ...
 {
 	NSException		*exception;
@@ -25,13 +30,6 @@ NSString *EOExceptionsKey = @"EOExceptionsKey";
 	va_end(ap);
 	
 	return exception;
-}
-
-- (id)initWithFormat:(NSString *)format arguments:(va_list)ap
-{
-	[self initWithName:EOValidationException reason:EOFormatv(format, ap) userInfo:nil];
-	
-	return self;
 }
 
 - (id)initWithFormat:(NSString *)format, ...
@@ -51,7 +49,7 @@ NSString *EOExceptionsKey = @"EOExceptionsKey";
 	NSMutableDictionary	*someUserInfo = [[NSMutableDictionary allocWithZone:[self zone]] init];
 	NSMutableArray			*exceptions;
 	
-	[self initWithName:EOAggregateException reason:@"Multiple exceptions have occurred." userInfo:someUserInfo];
+	self = [self initWithName:EOAggregateException reason:@"Multiple exceptions have occurred." userInfo:someUserInfo];
 	[someUserInfo release];
 	
 	exceptions = [[NSMutableArray allocWithZone:[self zone]] initWithObjects:other, nil];
@@ -99,14 +97,15 @@ NSString *EOExceptionsKey = @"EOExceptionsKey";
 	NSMutableDictionary		*dictionary = [[self userInfo] mutableCopyWithZone:[self zone]];
     NSException             *exception;
 	
-	if (dictionary == nil) dictionary = [[NSMutableDictionary allocWithZone:[self zone]] init];
+	if (dictionary == nil) 
+        dictionary = [[NSMutableDictionary allocWithZone:[self zone]] init];
 	
 	[dictionary addEntriesFromDictionary:additions];
 	
 	exception = [NSException exceptionWithName:[self name] reason:[self reason] userInfo:dictionary];
     [dictionary release];
     
-    return [exception autorelease];
+    return exception;
 }
 
 @end

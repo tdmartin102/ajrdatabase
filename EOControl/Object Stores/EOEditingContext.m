@@ -483,52 +483,57 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 
 - (void)processRecentChanges
 {
-   NSEnumerator	*iterator;
-   EOGlobalID		*globalID;
-   NSDictionary *userInfo;
-
-   iterator = [insertedQueue keyEnumerator];
-   while ((globalID = [iterator nextObject])) {
-      [insertedObjects setObject:[insertedQueue objectForKey:globalID] forKey:globalID];
-   }
-   [insertedQueue removeAllObjects];
+    NSEnumerator	*iterator;
+    EOGlobalID	*globalID;
+    NSDictionary *userInfo;
+    
+    iterator = [insertedQueue keyEnumerator];
+    while ((globalID = [iterator nextObject]))
+        [insertedObjects setObject:[insertedQueue objectForKey:globalID] forKey:globalID];
+    [insertedQueue removeAllObjects];
 	[insertedCache removeAllObjects];
 
-   iterator = [deletedQueue keyEnumerator];
-   while ((globalID = [iterator nextObject])) {
-      [deletedObjects setObject:[deletedQueue objectForKey:globalID] forKey:globalID];
-   }
-   [deletedQueue removeAllObjects];
+    iterator = [deletedQueue keyEnumerator];
+    while ((globalID = [iterator nextObject]))
+        [deletedObjects setObject:[deletedQueue objectForKey:globalID] forKey:globalID];
+    [deletedQueue removeAllObjects];
 	[deletedCache removeAllObjects];
 
-   iterator = [updatedQueue keyEnumerator];
-   while ((globalID = [iterator nextObject])) {
-      if (![insertedObjects objectForKey:globalID] &&
-          ![deletedObjects objectForKey:globalID] &&
-          ![updatedObjects objectForKey:globalID]) {
-         [updatedObjects setObject:[updatedQueue objectForKey:globalID] forKey:globalID];
+    iterator = [updatedQueue keyEnumerator];
+    while ((globalID = [iterator nextObject]))
+    {
+        if (![insertedObjects objectForKey:globalID] &&
+            ![deletedObjects objectForKey:globalID] &&
+            ![updatedObjects objectForKey:globalID]) 
+        {
+            [updatedObjects setObject:[updatedQueue objectForKey:globalID] forKey:globalID];
 			[updatedCache removeAllObjects]; // Invalidate the cache.
-      }
-   }
-   [updatedQueue removeAllObjects];
+        }
+    }
+    [updatedQueue removeAllObjects];
 	[updatedCache removeAllObjects];
 
 	// mont_rothstein @ yahoo.com 2005-09-19
 	// Added post of notification as per API.  This is needed particularly for changes that aren't saved (like adding objects to a to-many relationship).  However the WO docs do not make it clear what happens if the save fails.  When this notification is posted for changes actually saved to the DB it happens after the save has succeeded.
-	userInfo = [[NSDictionary alloc] initWithObjectsAndKeys: [insertedObjects allKeys], EOInsertedKey, [updatedObjects allKeys], EOUpdatedKey, [deletedObjects allKeys], EODeletedKey, nil];
+    userInfo = [[NSDictionary alloc] initWithObjectsAndKeys: [insertedObjects allKeys], EOInsertedKey, [updatedObjects allKeys], EOUpdatedKey, [deletedObjects allKeys], EODeletedKey, nil];
 	[[NSNotificationCenter defaultCenter] postNotificationName: EOObjectsChangedInStoreNotification object: self userInfo: userInfo];
+    [userInfo autorelease];
 
 	// Reset the undos, if necessary.
-	if (undoManager) {
-		EOGlobalID			*key;
+	if (undoManager) 
+    {
+        EOGlobalID			*key;
 		NSArray				*keys = [undoObjects allKeys];
 		NSEnumerator		*enumerator = [keys objectEnumerator];
 
-		while ((key = [enumerator nextObject])) {
-			id					object = [self objectForGlobalID:key];
+		while ((key = [enumerator nextObject])) 
+        {
+			id				object = [self objectForGlobalID:key];
 			NSDictionary	*snapshot = [undoObjects objectForKey:key];
 
-			[undoManager registerUndoWithTarget:object selector:@selector(reapplyChangesFromDictionary:) object:[object changesFromSnapshot:snapshot]];
+			[undoManager registerUndoWithTarget:object 
+                selector:@selector(reapplyChangesFromDictionary:) 
+                object:[object changesFromSnapshot:snapshot]];
 		}
 		
 		// mont_rothstein @ yahoo.com 2005-10-23
@@ -1550,7 +1555,9 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 
 - (id)initWithCoder:(NSCoder *)coder
 {
-	[self init];
+	self = [self init];
+    if (! self)
+        return nil;
 	
 	if ([coder allowsKeyedCoding]) {
 		delegate = [[coder decodeObjectForKey:@"delegate"] retain];

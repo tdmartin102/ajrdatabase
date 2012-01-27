@@ -117,7 +117,7 @@ http://www.raftis.net/~alex/
    va_list				ap;
 
    va_start(ap, aQualifier);
-   [self _initWithQualifier:aQualifier andList:ap];
+   self = [self _initWithQualifier:aQualifier andList:ap];
    va_end(ap);
 
    return self;
@@ -175,7 +175,7 @@ http://www.raftis.net/~alex/
 
 - (id)initWithCoder:(NSCoder *)coder
 {
-	[super initWithCoder:coder];
+	self = [super initWithCoder:coder];
 	
 	if ([coder allowsKeyedCoding]) {
 		qualifiers = [[coder decodeObjectForKey:@"qualifiers"] retain];
