@@ -180,7 +180,7 @@ NSString *EOStoredProcedureDidChangeNameNotification = @"EOStoredProcedureDidCha
 		}
 		
 		[arguments release];
-		arguments = [someArguments retain];
+		arguments = [someArguments mutableCopy];
 		
 		numArguments = [arguments count];
 		for (x = 0; x < numArguments; x++ ) {
