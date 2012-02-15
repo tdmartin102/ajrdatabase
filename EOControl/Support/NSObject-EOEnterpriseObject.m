@@ -480,7 +480,11 @@ static EOHashObject	*_eofKey = NULL;
 				// tom.martin @ riemer.com - 2011-09-16
 				// replace depreciated method.  This should be tested, behavior is different.
 				// It may be acceptable, and then again maybe not. 
-				[self setValue:object1 forKey:key];
+				//[self setValue:object1 forKey:key];
+                // Tom.Martin @ riemer.com - 2012-02-02
+                // and indeed this was a problem.  We need to use the new method 
+                // setPrimitiveValue so that the object is not flagged as modified
+                [self setPrimitiveValue:object1 forKey:key];
 			}
 		}
 	}
@@ -755,10 +759,12 @@ BOOL GSObjCFindVariable(id obj, const char *name,
 	if (ivar == 0)
 		return NO;
 		
-	if (type)	
+	if (type)
+    {
 		*type = ivar_getTypeEncoding(ivar);
-	if (size)
-		*size = objc_sizeof_type(*type);
+        if (size)
+            *size = objc_sizeof_type(*type);
+    }
 	if (offset)
 		*offset = ivar_getOffset(ivar);
 
