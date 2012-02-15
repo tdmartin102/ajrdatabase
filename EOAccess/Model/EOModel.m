@@ -72,12 +72,12 @@ static NSCharacterSet		*validNameSet = nil;
 
 + (EOModel *)modelWithPath:(NSString *)aPath;
 {
-   return [[[EOModelGroup alloc] initWithPath:aPath] autorelease];
+   return [[[[self class] alloc] initWithContentsOfFile:aPath] autorelease];
 }
 
 + (EOModel *)modelWithURL:(NSURL *)aURL
 {
-   return [[[EOModelGroup alloc] initWithURL:aURL] autorelease];
+   return [[[[self class] alloc] initWithContentsOfURL:aURL] autorelease];
 }
 
 - (id)init
@@ -114,7 +114,7 @@ static NSCharacterSet		*validNameSet = nil;
 - (id)initWithTableOfContentsPropertyList:(NSDictionary *)tableOfContents path:(NSString *)aPath
 {
 	[self _setPath:[NSURL fileURLWithPath:aPath]];
-	index = [tableOfContents retain];
+	index = [tableOfContents mutableCopy];
 	[self _setupEntities];
 
 	return self;
@@ -541,12 +541,13 @@ static NSCharacterSet		*validNameSet = nil;
 - (NSMutableDictionary *)_propertiesForURL:(NSURL *)aURL
 {
    NSMutableDictionary     *properties = nil;
-	NSString						*contents;
-	
+	NSString				*contents;
+	NSStringEncoding        encoding;
 	if (![[NSFileManager defaultManager] fileExistsAtPath:[aURL path]]) {
 		return nil;
 	}
-	contents = [[NSString allocWithZone:[self zone]] initWithContentsOfURL:aURL];
+	contents = [[NSString allocWithZone:[self zone]] initWithContentsOfURL:aURL
+                usedEncoding:&encoding error:NULL];
 	if (!contents) {
 		[NSException raise:NSInvalidArgumentException format:@"Unable to read contents of url: %@: %s", aURL, strerror(errno)];
 	}
