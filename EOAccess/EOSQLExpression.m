@@ -247,7 +247,7 @@ static NSCharacterSet	*literalSet;
 - (id)initWithStatement:(NSString *)aStatement
 {
 	if (self = [super init])
-		statement = [aStatement retain];
+		statement = [aStatement mutableCopy];
    return self;
 }
 
@@ -994,7 +994,7 @@ static NSCharacterSet	*literalSet;
 {
    if ((NSString *)statement != (NSString *)aStatement) {
       [statement release];
-      statement = [aStatement retain];
+      statement = [aStatement mutableCopy];
    }
 }
 
