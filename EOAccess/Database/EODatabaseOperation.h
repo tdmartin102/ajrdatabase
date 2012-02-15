@@ -50,8 +50,8 @@ typedef enum _eoDatabaseOperator {
 - (NSDictionary *)EOSnapshot;
 
 // Accessing the row
-- (void)setNewRow:(NSDictionary *)aRow;
-- (NSDictionary *)newRow;
+- (void)setNewRow:(NSMutableDictionary *)aRow;
+- (NSMutableDictionary *)newRow;
 	
 // Accessing the adaptor operations
 - (void)addAdaptorOperation:(EOAdaptorOperation *)anOperation;
