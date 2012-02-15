@@ -281,7 +281,7 @@ NSString *EORelationshipDidChangeNameNotification = @"EORelationshipDidChangeNam
 
       path = [entity _attributesForKeyPath:definition];
       [destinationEntity release];
-      destinationEntity = [[[path lastObject] destinationEntity] retain];
+      destinationEntity = [[(EORelationship *)[path lastObject] destinationEntity] retain];
       if (destinationEntity == nil) {
 			[EOLog logWarningWithFormat:@"No destination for flattened relationship \"%@\"\n", definition];
       }
