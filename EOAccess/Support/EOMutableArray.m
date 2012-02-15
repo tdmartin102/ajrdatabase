@@ -32,6 +32,8 @@ http://www.raftis.net/~alex/
 #import <EOControl/EOFault.h>
 #import <EOControl/EOGlobalID.h>
 
+#import <objc/runtime.h>
+
 @implementation EOMutableArray
 
 - (id)init
