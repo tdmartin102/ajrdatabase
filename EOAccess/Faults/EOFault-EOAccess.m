@@ -95,7 +95,7 @@ static size_t arraySize;
 	// alloc what ever is bigger
 	if (arraySize > faultSize)
 	{
-		newFault = [EOMutableArray alloc];
+		newFault = (EOFault *)[EOMutableArray alloc];
 		object_setClass(newFault, [EOFault class]);
 	}
 	else
