@@ -143,7 +143,7 @@ NSString *EOPrimaryKeyConstraintsKey = @"EOPrimaryKeyConstraintsKey";
 
 - (NSArray *)dropPrimaryKeySupportStatementsForEntityGroup:(NSArray *)entityGroup
 {
-	NSMutableArray		*statements;
+	NSArray         *statements;
 	EOSQLExpression	*expression;
 	
 	expression = [[[self expressionClass] allocWithZone:[self zone]] init];
@@ -268,7 +268,7 @@ NSString *EOPrimaryKeyConstraintsKey = @"EOPrimaryKeyConstraintsKey";
 
 - (NSArray *)primaryKeySupportStatementsForEntityGroup:(NSArray *)entityGroup
 {
-	NSMutableArray		*statements;
+	NSArray         *statements;
 	EOSQLExpression	*expression;
 	
 	expression = [[[self expressionClass] allocWithZone:[self zone]] init];
