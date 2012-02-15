@@ -231,7 +231,7 @@ http://www.raftis.net/~alex/
 {
 	return [super retain];
 }
-- (void)release
+- (oneway void)release
 {
 	[super release];
 }
