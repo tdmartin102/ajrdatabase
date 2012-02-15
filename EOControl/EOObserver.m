@@ -29,14 +29,18 @@ http://www.raftis.net/~alex/
 
 #import <Foundation/Foundation.h>
 
-@implementation NSObject (EOObserver)
-
-- (void)willChange
-{
-   [EOObserverCenter notifyObserversObjectWillChange:self];
-}
-
-@end
+// Tom.Martin @Riemer.com  2012-02-13
+// The following method as a category of NSObject is already defined
+// in NSObject - EOEnterpriseObject.m.  I'm yanking this version.
+// I would think this, or the other, would throw an error ...
+//@implementation NSObject (EOObserver)
+//
+//- (void)willChange
+//{
+//   [EOObserverCenter notifyObserversObjectWillChange:self];
+//}
+//
+//@end
 
 
 static NSZone		*observerZone;
