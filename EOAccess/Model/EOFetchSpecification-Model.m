@@ -7,7 +7,7 @@
 //
 
 #import "EOFetchSpecification-Model.h"
-
+#import "EOSortOrdering-Model.h"
 #import "EOQualifier-Model.h"
 #import "EOModelGroup.h"
 #import "EOEntity.h"
@@ -51,9 +51,10 @@
 		
 		sortOrderings = [[NSMutableArray allocWithZone:[self zone]] init];
 		numProperties = [array count];
-		for (x = 0; x < numProperties; x++) {
+		for (x = 0; x < numProperties; x++) 
+        {
 			EOSortOrdering	*ordering;
-			
+            			
 			ordering = [[EOSortOrdering allocWithZone:[self zone]] initWithPropertyList:[array objectAtIndex:x] owner:self];
 			[(NSMutableArray *)sortOrderings addObject:ordering];
 			[ordering release];
