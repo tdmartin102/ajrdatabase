@@ -129,7 +129,14 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 	[deletedObjects release];
 	[updatedQueue release];
 	[deletedQueue release];
-	[insertedQueue release];
+    [insertedQueue release];
+
+    // tom.Martin @ Riemer.com 2012-02-01
+    // inserted, updated and deletedCache was not being released
+    [updatedCache release];
+    [deletedCache release];
+    [insertedCache release];
+    
 	[objectStore release];
 	[undoManager release];
 	[undoObjects release];
@@ -316,8 +323,9 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 
 - (void)forgetObject:(id)object
 {
-	EOGlobalID		*globalID = [self globalIDForObject:object];
+    EOGlobalID		*globalID = [self globalIDForObject:object];
 	
+    [object retain];
 	[objects removeObjectForKey:globalID];
 	// mont_rothstein @ yahoo.com 2005-05-15
 	// The below line was moved to after we are done using the globalID in the methods below.
@@ -330,11 +338,17 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 	[insertedQueue removeObjectForKey:globalID];
 	[deletedObjects removeObjectForKey:globalID];
 	[deletedQueue removeObjectForKey:globalID];
-	
-   [EOObserverCenter removeObserver:self forObject:object];
-	
+    
+    // Tom.Martin @ Riemer.com 2012-2-2
+    // We also need to remove the object from the cache
+    [insertedCache removeObject:object];
+    [updatedCache removeObject:object];
+    [deletedCache removeObject:object];
+    
+    [EOObserverCenter removeObserver:self forObject:object];
 	[objectStore editingContext:self didForgetObject:object withGlobalID:globalID];
 	[objectGlobalIDs removeObjectForKey:[NSValue valueWithPointer:object]];
+    [object release];
 }
 
 - (void)recordObject:(id)object globalID:(EOGlobalID *)globalID;
@@ -467,8 +481,8 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
    EOGlobalID	*globalID = [self globalIDForObject:object];
 
    if (![updatedQueue objectForKey:globalID]) {
-      [updatedQueue setObject:object forKey:globalID];
-		[updatedCache removeAllObjects]; // Invalidate cache.
+       [updatedQueue setObject:object forKey:globalID];
+       [updatedCache removeAllObjects]; // Invalidate cache.
    }
 	
 	// See about tracking undo / redo.
@@ -507,11 +521,10 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
             ![updatedObjects objectForKey:globalID]) 
         {
             [updatedObjects setObject:[updatedQueue objectForKey:globalID] forKey:globalID];
-			[updatedCache removeAllObjects]; // Invalidate the cache.
         }
     }
     [updatedQueue removeAllObjects];
-	[updatedCache removeAllObjects];
+	[updatedCache removeAllObjects]; // Invalidate the cache.
 
 	// mont_rothstein @ yahoo.com 2005-09-19
 	// Added post of notification as per API.  This is needed particularly for changes that aren't saved (like adding objects to a to-many relationship).  However the WO docs do not make it clear what happens if the save fails.  When this notification is posted for changes actually saved to the DB it happens after the save has succeeded.
@@ -732,9 +745,18 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
    [self sendPrepareMessages];
    // The above should be written such that a second call to processRecentChanges() isn't necessary.
 	
-	if (![delegate respondsToSelector:@selector(editingContextShouldValidateChanges:)] || [delegate editingContextShouldValidateChanges:self]) {
-		[self sendValidateMethods];
-	}
+    // Tom.Martin @ Riemer.com 2012-2-14
+    // Logic error is here with if statement.  Fixed it up.
+	//if (![delegate respondsToSelector:@selector(editingContextShouldValidateChanges:)] || [delegate editingContextShouldValidateChanges:self]) {
+	//	[self sendValidateMethods];
+	//}
+    if ([delegate respondsToSelector:@selector(editingContextShouldValidateChanges:)])
+    {
+        if ([delegate editingContextShouldValidateChanges:self])
+            [self sendValidateMethods];
+    }
+    else
+        [self sendValidateMethods];
 	
 	[objectStore saveChangesInEditingContext:self];
 
@@ -742,6 +764,13 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 	[self _sendSelector:@selector(objectDidSave) toObjects:updatedObjects moveTo:nil];
 	[self _sendSelector:@selector(objectDidSave) toObjects:insertedObjects moveTo:nil];
 	[self _sendSelector:@selector(objectDidDelete) toObjects:deletedObjects moveTo:nil];
+    
+    // aclark @ ghoti.org 2006-01-02
+    // add post of EOEditingContextDidSaveChangesNotification after objectStore has saved the changes per EOControl spec
+    // Tom.Martin @ Riemer.com 2012-02-01
+    // moved this to BEFORE the contents of updated,inserted, and deletedObjects are removed.
+    [[NSNotificationCenter defaultCenter] postNotificationName:EOEditingContextDidSaveChangesNotification object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[updatedObjects allValues], EOUpdatedKey, [insertedObjects allValues], EOInsertedKey, [deletedObjects allValues], EODeletedKey, nil]];
+    
 	// We succeeded, so we can discard the various state trackers.
 	[updatedObjects removeAllObjects];
 	[insertedObjects removeAllObjects];
@@ -751,10 +780,6 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 	[insertedCache removeAllObjects];
 	[deletedCache removeAllObjects];
     
-    // aclark @ ghoti.org 2006-01-02
-    // add post of EOEditingContextDidSaveChangesNotification after objectStore has saved the changes per EOControl spec
-    [[NSNotificationCenter defaultCenter] postNotificationName:EOEditingContextDidSaveChangesNotification object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[updatedObjects allValues], EOUpdatedKey, [insertedObjects allValues], EOInsertedKey, [deletedObjects allValues], EODeletedKey, nil]];
-	
 	// And clear out the undo stack. It's possible to maintain this over saves, but somewhat difficult (I think), so I'm not going to worry about it for the time being.
 	if (undoManager) {
 		[undoManager removeAllActions];
@@ -1385,36 +1410,45 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 		NS_ENDHANDLER
 		[self unlockObjectStore];
 	}
-	
-	// Nope, we're responsible for the object, so we need to clear to clear out any actions on the object (except for insert).
-	[deletedObjects removeObjectForKey:globalID];
-	[deletedQueue removeObjectForKey:globalID];
-	[updatedObjects removeObjectForKey:globalID];
-	[updatedQueue removeObjectForKey:globalID];
-	
-	[self lockObjectStore];
-	NS_DURING
-		if ([globalID isTemporary]) {
-			// This is a freshly inserted object, so we just re-initialize it, since there's nothing to fetch from the database. Make sure no one (especially us) is listening for the changes, either.
-			[EOObserverCenter suppressObserverNotification];
-			NS_DURING
-				[objectStore initializeObject:anObject withGlobalID:globalID editingContext:anEditingContext];
-			NS_HANDLER
-				[EOObserverCenter enableObserverNotification];
-				[self handleException:localException];
-				return;
-			NS_ENDHANDLER
-			[EOObserverCenter enableObserverNotification];
-		} else {
-			// Nope, it's in the database so we can actually refault it.
-			[objectStore refaultObject:anObject withGlobalID:globalID editingContext:anEditingContext];
-		}
-	NS_HANDLER
-		[self unlockObjectStore];
-		[self handleException:localException];
-		return;
-	NS_ENDHANDLER
-	[self unlockObjectStore];
+	// tom.martin @ riemer.com 2012-2-2
+    // I am pretty DARN sure we need an 'else' here so I am putting it in
+    else
+    {
+        // Nope, we're responsible for the object, so we need to clear out any actions on the object (except for insert).
+        [deletedObjects removeObjectForKey:globalID];
+        [deletedQueue removeObjectForKey:globalID];
+        [updatedObjects removeObjectForKey:globalID];
+        [updatedQueue removeObjectForKey:globalID];
+        
+        // tom.martin @ riemer.com 2012-2-2
+        // AND clear out the updated and deleted cache
+        [updatedCache removeAllObjects];
+        [deletedCache removeAllObjects];
+        
+        [self lockObjectStore];
+        NS_DURING
+            if ([globalID isTemporary]) {
+                // This is a freshly inserted object, so we just re-initialize it, since there's nothing to fetch from the database. Make sure no one (especially us) is listening for the changes, either.
+                [EOObserverCenter suppressObserverNotification];
+                NS_DURING
+                    [objectStore initializeObject:anObject withGlobalID:globalID editingContext:anEditingContext];
+                NS_HANDLER
+                    [EOObserverCenter enableObserverNotification];
+                    [self handleException:localException];
+                    return;
+                NS_ENDHANDLER
+                [EOObserverCenter enableObserverNotification];
+            } else {
+                // Nope, it's in the database so we can actually refault it.
+                [objectStore refaultObject:anObject withGlobalID:globalID editingContext:anEditingContext];
+            }
+        NS_HANDLER
+            [self unlockObjectStore];
+            [self handleException:localException];
+            return;
+        NS_ENDHANDLER
+        [self unlockObjectStore];
+    }
 }
 
 - (void)invalidateObjectsWithGlobalIDs:(NSArray *)globalIDs
