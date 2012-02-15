@@ -84,7 +84,7 @@
 	return snapshot;
 }
 
-- (void)setNewRow:(NSDictionary *)aRow
+- (void)setNewRow:(NSMutableDictionary *)aRow
 {
 	if (newRow != aRow) {
 		[newRow release];
@@ -92,7 +92,7 @@
 	}
 }
 
-- (NSDictionary *)newRow
+- (NSMutableDictionary *)newRow
 {
 	return newRow;
 }
@@ -227,77 +227,89 @@
 
 - (NSDictionary *)rowDiffsForAttributes:(NSArray *)attributes
 {
-   NSMutableDictionary	*updated = [[[NSMutableDictionary allocWithZone:[self zone]] init] autorelease];
-   int						x, max;
-   NSString					*key;
-   id						value1, value2;
-   EOAttribute				*attribute;
+    NSMutableDictionary	*updated = [[[NSMutableDictionary allocWithZone:[self zone]] init] autorelease];
+    int					x, max;
+    NSString			*key;
+    id					value1, value2;
+    EOAttribute			*attribute;
 	
-   // First, check class properties...
-   for (x = 0, max = [attributes count]; x < max; x++) {
-      key = [[attributes objectAtIndex:x] name];
-      attribute = [attributes objectAtIndex:x];
-      if ([attribute isKindOfClass:[EOAttribute class]]) {
-         value1 = [snapshot valueForKey:key];
-		  // tom.martin @ riemer.com 2011-08-16
-		  // fixed no op if (value1 == nil) value1 = nil;
-		  // to what was probably intended
-         if (value1 == [NSNull null]) 
-			value1 = nil;
-         value2 = [object valueForKey:key];
-		 // tom.martin @ riemer.com 2011-08-16
-		 // valueForKey returns a string with no length when the object value is a string, and is nil;
-		 // The snapshot would be nil or NSNull.  strange.
-		 if ([value2 isKindOfClass:[NSString class]]) {
-			if ([(NSString *)value2 length] == 0)
-				value2 = nil;
-		}
-         if (value1 == value2) continue;
-		 // tom.martin @ riemer.com 2011-08-16
-		 // got rid of redundant test
-         //if (value1 == nil && value2 == nil) continue;
-         if ((value1 != nil && value2 == nil) ||
-             (value1 == nil && value2 != nil) ||
-             (![value1 isEqual:value2])) {
-			// aclark @ ghoti.org 2005-08-11
-			// This was setting the value to nil fixed it to use NSNull.
-			// tom.martin @ riemer.com - 2011-09-16
-			// replace depreciated method.  
-            //[updated takeValue:value2 == nil ? [NSNull null] : value2 forKey:key];
-			[updated setValue:value2 == nil ? [NSNull null] : value2 forKey:key];
-         }
-      } else {
-         EORelationship  	*relationship = (EORelationship *)attribute;
-         id						value;
-		
-		// tom.martin @ riemer.com - 2011-09-16
-		// replace depreciated method.  This should be tested, behavior is different.
-		// It may be acceptable, and then again maybe not. 
-		//value = [object storedValueForKey:key];
-		value = [object valueForKey:key];
-
-		//[EOLog logDebugWithFormat:@"%@ %@ is a fault\n", key, ([EOFault isFault:value] ? @"is" : @"isn't")];
-			
-         if (![EOFault isFault:value]) {
-            // We only need to check the relationship if it's not a fault
-            // since if it is, then the foreign key can't have changed,
-            // now can it?
-            if ([relationship isToMany]) {
-               if ([relationship definition] == nil) {
-                  /*! @todo See if many-many relationship has updated */
-               } else {
-                  /*! @todo See if to-many relationship has updated */
-               }
-            } else {
-				// mont_rothstein @ yahoo.com 2004-12-2
-				// Removed withSnapshot: from method name because snapshot is an instance variable
-               [self _addToOneRelationship:relationship andUpdatedValues:updated];
+    // First, check class properties...
+    for (x = 0, max = [attributes count]; x < max; x++) {
+        key = [[attributes objectAtIndex:x] name];
+        attribute = [attributes objectAtIndex:x];
+        if ([attribute isKindOfClass:[EOAttribute class]]) {
+            value1 = [snapshot valueForKey:key];
+            // tom.martin @ riemer.com 2011-08-16
+            // fixed no op if (value1 == nil) value1 = nil;
+            // to what was probably intended
+            // 2012-2-15 ALSO deal with NSString equivelents
+            // I am considering a string of length 0, EONull, nil all equivilent
+            if (value1)
+            {
+                if (value1 == [NSNull null]) 
+                    value1 = nil;
+                else if ([value1 isKindOfClass:[NSString class]])
+                {
+                    if ([(NSString *)value1 length] == 0)
+                        value1 = nil;
+                }
             }
-         }
-      }
-   }
+            value2 = [object valueForKey:key];
+            // tom.martin @ riemer.com 2011-08-16
+            // valueForKey returns a string with no length when the object value is a string, and is nil;
+            // The snapshot would be nil or NSNull.  strange.
+            if ([value2 isKindOfClass:[NSString class]]) 
+            {
+                if ([(NSString *)value2 length] == 0)
+                 value2 = nil;
+            
+            }
+            if (value1 == value2) continue;
+            // tom.martin @ riemer.com 2011-08-16
+            // got rid of redundant test
+            //if (value1 == nil && value2 == nil) continue;
+            if ((value1 != nil && value2 == nil) ||
+                (value1 == nil && value2 != nil) ||
+                (![value1 isEqual:value2])) {
+                // aclark @ ghoti.org 2005-08-11
+                // This was setting the value to nil fixed it to use NSNull.
+                // tom.martin @ riemer.com - 2011-09-16
+                // replace depreciated method.  
+                //[updated takeValue:value2 == nil ? [NSNull null] : value2 forKey:key];
+                [updated setValue:value2 == nil ? [NSNull null] : value2 forKey:key];
+            }
+        } else {
+            EORelationship  	*relationship = (EORelationship *)attribute;
+            id						value;
+		
+            // tom.martin @ riemer.com - 2011-09-16
+            // replace depreciated method.  This should be tested, behavior is different.
+            // It may be acceptable, and then again maybe not. 
+            //value = [object storedValueForKey:key];
+            value = [object valueForKey:key];
+
+            //[EOLog logDebugWithFormat:@"%@ %@ is a fault\n", key, ([EOFault isFault:value] ? @"is" : @"isn't")];
+			
+            if (![EOFault isFault:value]) {
+                // We only need to check the relationship if it's not a fault
+                // since if it is, then the foreign key can't have changed,
+                // now can it?
+                if ([relationship isToMany]) {
+                    if ([relationship definition] == nil) {
+                        /*! @todo See if many-many relationship has updated */
+                    } else {
+                        /*! @todo See if to-many relationship has updated */
+                    }
+                } else {
+                    // mont_rothstein @ yahoo.com 2004-12-2
+                    // Removed withSnapshot: from method name because snapshot is an instance variable
+                    [self _addToOneRelationship:relationship andUpdatedValues:updated];
+                }
+            }
+        }
+    }
 	
-   return updated;
+    return updated;
 }
 
 - (void)recordToManySnapshot:(NSArray *)snapshots relationshipName:(NSString *)name
