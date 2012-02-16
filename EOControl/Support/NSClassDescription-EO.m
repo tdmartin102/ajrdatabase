@@ -189,6 +189,17 @@
 		// It may be acceptable, and then again maybe not. 
 		//value = [self storedValueForKey:key];
 		value = [self valueForKey:key];
+        // tom.martin @ riemer.com - 2012-02-15
+        // NSStrings need special handling becuase empty strings should
+        // be treated as nulls.  An EONull string read by the database
+        // may get changed to an empty string.  If we try to do an update
+        // with optimistic locking and the database string is null yet the
+        // snapshot is an empty string, then the row will not be updated.
+        if ([value isKindOfClass:[NSString class]])
+        {
+            if ([(NSString *)value length] == 0)
+                value = [NSNull null];
+        }
 		[snapshot setObject:value == nil ? [NSNull null] : value forKey:key];
 	}
 	
