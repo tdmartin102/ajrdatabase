@@ -182,7 +182,8 @@
         detailKey = [[unarchiver decodeObjectForKey:@"detailKey"] copy];
         
         ename = [unarchiver decodeObjectForKey:@"masterClassDescription"];
-        masterClassDescription = [[EOClassDescription classDescriptionForEntityName:ename] retain];
+        masterClassDescription = (EOClassDescription *)[[EOClassDescription
+            classDescriptionForEntityName:ename] retain];
     }
     return self;
 }
