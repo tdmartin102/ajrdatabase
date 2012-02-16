@@ -496,6 +496,14 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 			// It may be acceptable, and then again maybe not. 
 			//value = [object storedValueForKey:name];
 			value = [object valueForKey:name];
+            // Tom.Martin @ riemer.com - 2012-02-16
+            // blank strings are written to the database as nulls, we need the 
+            // snapshot to match the database value
+            if ([value isKindOfClass:[NSString class]])
+            {
+                if ([(NSString *)value length] == 0)
+                    value = nil;
+            }
 			[snapshot setObject:value == nil ? [NSNull null] : value forKey:name];
 		}
 	}
