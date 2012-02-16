@@ -1874,18 +1874,20 @@ static Class _eoDatabaseContextClass = Nil;
     NSMutableDictionary *globalIDMappings = [NSMutableDictionary dictionary];
     int x;
 	int numberOfUpdatedObjects = [updatedObjects count];
-
+ 
     for (x = 0; x < numberOfUpdatedObjects; x++) {
         id object = [updatedObjects objectAtIndex:x];
         EOGlobalID *oldGlobalID = [[object editingContext] globalIDForObject:object]; //potentially old global ID
-        
         if ([self ownsGlobalID:oldGlobalID]) {
-            EOGlobalID *newGlobalID = [[database entityNamed:[oldGlobalID entityName]] globalIDForRow:[object snapshot]]; //new global ID from snapshot values
+            // Tom.Martin @ Riemer.com 2012-02-16
+            // multiple calls to [object snapshot] were being made.  That is an expensive call.
+            NSDictionary    *snapshot = [object snapshot];
+            EOGlobalID *newGlobalID = [[database entityNamed:[oldGlobalID entityName]] globalIDForRow:snapshot]; //new global ID from snapshot values
             
             if (![oldGlobalID isEqual:newGlobalID]) { //if our global IDs are different then they have changed and we need to update them
                 [globalIDMappings setObject:newGlobalID forKey:oldGlobalID];
                 
-                [[self database] recordSnapshot:[object snapshot] forGlobalID:newGlobalID];
+                [[self database] recordSnapshot:snapshot forGlobalID:newGlobalID];
             }
         }
     }
