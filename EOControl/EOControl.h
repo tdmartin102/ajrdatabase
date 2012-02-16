@@ -49,5 +49,5 @@
 #import <EOControl/NSObject-EOValidation.h>
 #import <EOControl/NSString-EO.h>
 
-#endif __EO_CONTROL__
+#endif //__EO_CONTROL__
 
