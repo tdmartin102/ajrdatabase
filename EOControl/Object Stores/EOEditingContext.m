@@ -498,10 +498,44 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 // We need to check to-one and to-many relationships against the current objet graph.
 // we do this for all objects in the updated and in inserted (only for added to-manys)
 // 1) If a to-one has bee nulled and it is owned, then the object needs to be deleted.
-// 2) if there are new objects in a to-many, then if they are not in the inserted
-//    then they need to be put into modified.
+// 2) if there are new objects in a to-many, and they are not newly inserted then they 
+//    go into added.
 // 3) if there are objects MISSING from a to-many, then if they are owned they need to
-//    be deleted, if not, they go into updated.
+//    be deleted, if not, they go into removed.
+
+
+
+
+
+// We need to check to-many relationship database snapshots against the current objet graph.
+// we do this for all objects in the updated and in inserted
+// 1) if there are new objects in a to-many, then they go into added, this is for newley
+//    AND for existing that were added to a relationship.
+// 2) if there are objects MISSING from a to-many, then if they are NOT owned they need to
+//    go into removed.
+//
+// The thing is we need the MEMBER objects not the owning objects, but we can only go through
+// the array of OWNING objects when building the array of members.  This means we would need
+// to check ALL the owning objects in EVERY databaseContext.  yuck.
+//
+// Perhaps this can go into editing context and there can be a method in the databaseContext
+// to ADD the member.  This can only happen if there is a way to find out which databaseContext
+// owns the member.  which I am sure there is.'
+//
+// SOO perhaps what I need in the database context is somthing like
+//
+// (void)addAddedRelationshipMember:(NSDictionary *)changeDict
+// (void)addRemovedRelationshipMember:(NSDictionary *)changeDict
+//
+// remember we simply don't care about deleted as that has already been taken
+// care of.
+//
+// another way to do this is to build the added,removed array in EOEditingContext and
+// ACCESS it from the database context.  the database context could then check each 
+// member to see if it owns it, before updating values based upon the releationship join
+
+
+
 - (void)_processRelationships
 {
     NSMutableArray      *added;
@@ -510,6 +544,10 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
     EOGlobalID          *aGid;
     NSObject            *object;
     
+    added =     [[NSMutableArray alloc] init];
+    removed =   [[NSMutableArray alloc] init];
+    deleted =   [[NSMutableArray alloc] init];
+
     // build arrays of all added, removed and deleted objects
     [[self updatedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop)
     {
@@ -617,6 +655,10 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
         if (object)
             [object willChange];
     }
+    
+    [added release];
+    [removed release];
+    [deleted release];
 }
 
 - (void)processRecentChanges

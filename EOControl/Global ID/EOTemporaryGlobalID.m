@@ -55,10 +55,10 @@ http://www.raftis.net/~alex/
 	// Tom.Martin @ Riemer.com 11/18/2011
 	// I am returning NO if the globalId was set as at that point it is no longer a temporary id ..
 	// I am not 100% sure this is the right thing to do, but it will solve a few problems.
-	if (newGlobalID)
-		return NO;
-	else
-		return YES;
+    // Tom.Martin @ Riemer.com 2011-03-20
+    // ugh, changing it back as this creates a problem with rollback.
+    // I'm not sure why I changed it in the first place.
+    return YES;
 }
 
 - (BOOL)isEqual:(id)other
