@@ -29,8 +29,12 @@ http://www.raftis.net/~alex/
 #import "EODatabase.h"
 #import "EODatabaseContext.h"
 #import "EOEntity.h"
+#import "EOEntityClassDescription.h"
 #import "EOMutableArray.h"
 #import "EORelationship.h"
+
+#import "NSObject-EOAccess.h"
+
 #import <EOControl/EOAndQualifier.h>
 #import <EOControl/EOEditingContext.h>
 #import <EOControl/EOFetchSpecification.h>
@@ -72,7 +76,12 @@ http://www.raftis.net/~alex/
 
 - (void)faultObject:(id)object
 {
-	NSArray				*newObjects;
+	NSArray                     *newObjects;
+    EOEntityClassDescription	*classDescription;
+	EODatabaseContext			*aDatabaseContext;
+    NSMutableArray              *gids;
+    id                          anEO;
+
 	// mont_rothstein @ yahoo.com 2004-12-12
 	// Support for restricting qualifier moved to EORelationships
 //	if (restrictingQualifier) {
@@ -85,6 +94,22 @@ http://www.raftis.net/~alex/
 		newObjects = [editingContext objectsForSourceGlobalID:globalID relationshipName:relationshipName editingContext:editingContext];
 //	}
 
+    // Tom.Martin @ Riemer.com 2012-03-01
+    // register the snapshot of the objects in the SOURCE snapshot
+    // as far as I can see this would be the ONLY place we need to register a to-many snapshot in the database
+    // snapshot.
+    classDescription = (EOEntityClassDescription *)[EOEntityClassDescription classDescriptionForEntityName:[globalID entityName]];
+	aDatabaseContext = [EODatabaseContext registeredDatabaseContextForModel:[[classDescription entity] model] editingContext:editingContext];
+    gids = [[NSMutableArray alloc] initWithCapacity:[newObjects count] + 1];
+    for (anEO in newObjects) 
+    {
+        EOGlobalID *gid = [anEO globalID];
+        if (gid)
+            [gids addObject:gid];
+    }
+    [[aDatabaseContext database] recordSnapshot:gids forSourceGlobalID:globalID relationshipName:relationshipName];
+    [gids release];
+     
 	// mont_rothstein @ yahoo.com 2004-12-06
 	// We have to set the handler pointer on the object to nil, otherwise KVC will try
 	// and autorelese it as we set the data on the object.
