@@ -60,6 +60,11 @@ typedef enum _eoDeleteRule {
 // mont_rothstein @ yahoo.com 2005-09-29
 // Needed to add this method so that it can be overridden in EOAccess, so that the updateFromSnapshot: method in EOEnterpriseObject can be completed.
 - (void)completeUpdateForObject:(NSObject *)object fromSnapshot:(NSDictionary *)snapshot;
+
+// Tom.Martin @ Riemer.com 2012-03-06
+// This method is needed to detect objects in to-many 
+- (NSDictionary *)relationshipChangesForObject:(id)object withEditingContext:(EOEditingContext *)anEditingContext;
+
 @end
 
 

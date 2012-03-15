@@ -243,6 +243,14 @@
 	
 }
 
+
+// Tom.Martin @ Riemer.com 2012-3-6
+// This is here so that it can be overridden in EOAccess.
+- (NSDictionary *)relationshipChangesForObject:(id)object withEditingContext:(EOEditingContext *)anEditingContext
+{
+    return nil;
+}
+
 @end
 
 @implementation EOClassDescription
