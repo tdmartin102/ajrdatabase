@@ -30,13 +30,16 @@ http://www.raftis.net/~alex/
 #import "EOAdaptor.h"
 #import "EOAdaptorChannel.h"
 #import "EOEntity.h"
+#import "EOEntityClassDescription.h"
 #import "EOModel.h"
 #import "EOModelGroup.h"
 
+#import <EOControl/EOEditingContext.h>
 #import <EOControl/EOGenericRecord.h>
 #import <EOControl/NSObject-EOEnterpriseObject.h>
 // mont_rothstein @ yahoo.com 2005-08-08
 #import <EOControl/EOObjectStore.h>
+#import <EOControl/EOGlobalID.h>
 
 NSString *EODatabaseException = @"EODatabaseException";
 
@@ -194,6 +197,23 @@ static BOOL _eoDisableSnapshotRefCounting = NO;
 
 - (void)recordSnapshot:(NSDictionary *)snapshot forGlobalID:(EOGlobalID *)globalID
 {
+    // Tom.Marti @ Riemer.com 2012-3-2
+    // First, I really don't think we want to incrementally update the snapshot
+    // I think we really want to replace it.  The chance of leaving a value there
+    // which should NOT be there is just too high
+    //
+    // Second:  The to-many snapshoting is not consistant between undo snapshoting and
+    // database snapshotting.  For undo the to-many array of ojbects itslef is captured
+    // in the snapshot.  For the database snapshot only an array of GID's is captured.
+    // this is a problem when the snapshot needs to be updated from the object itself
+    // which happens when a refetch occurs and after a save occurs.  in each instance the
+    // snapshot in the datase is updated to match the OBJECT using the objects snapshot
+    // in this case we need to translate the to-many array.
+    //
+    // If there is a to-one in the snapshot, I don't think it will hurt anything
+    // even though a database snapshot does not have to-one key-values.  It simply
+    // is not used.
+    /*
 	// aclark @ ghoti.org 2005-08-08
 	// This was incorrectly sending objectForKey: to snapshot instead of snapshots.  Changed to use snapshotForGlobalID: to keep abstracted.
 	NSDictionary		*oldSnapshot = [self snapshotForGlobalID:globalID];
@@ -218,6 +238,58 @@ static BOOL _eoDisableSnapshotRefCounting = NO;
 			[snapshots setObject:snapshot forKey:globalID];
 		}
 	}
+     */
+    
+    // lets just create a new dictionary, but when recording relationship keys,
+    // we will convert the snapshot type if it is not correct
+    NSMutableDictionary *newSnapshot;
+    EOEntityClassDescription *eoDesc;
+
+    newSnapshot = [[NSMutableDictionary alloc] initWithCapacity:30];    
+    // get the entity
+    eoDesc = (EOEntityClassDescription *)[EOEntityClassDescription classDescriptionForEntityName:
+                                        [globalID entityName]];
+    [snapshot enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop){
+            if ([[eoDesc toManyRelationshipKeys] containsObject:key])
+            {
+                // this is a to-many
+                // if the elements in the array are GID's then we are good.
+                // if NOT then we need to translate them
+                NSArray         *anArray = (NSArray *)obj;
+               
+                if ([anArray count])
+                {
+                    // test an object
+                    if ([[anArray objectAtIndex:0] isKindOfClass:[EOGlobalID class]])
+                    {
+                       [newSnapshot setObject:obj forKey:key]; 
+                    }
+                    else
+                    {
+                        // we need to convert the to-many snapshot from 
+                        // an array of EO's to an array of GID's
+                        NSObject            *v;
+                        EOEditingContext    *eoContext;
+                        EOGlobalID          *gid;
+                        NSMutableArray      *resultArray;
+                        resultArray = [[NSMutableArray alloc] initWithCapacity:[anArray count]];
+                        eoContext = [[anArray objectAtIndex:0] editingContext];
+                        for (v in anArray)
+                        {
+                            gid = [eoContext globalIDForObject:v];
+                            if (gid)
+                                [resultArray addObject:gid];
+                        }
+                        [newSnapshot setObject:resultArray forKey:key];
+                        [resultArray release];
+                    }
+                }
+            }
+            else
+                [newSnapshot setObject:obj forKey:key];
+    }];
+    [snapshots setObject:newSnapshot forKey:globalID];
+    [newSnapshot release];
 }
 
 // mont_rothstein @ yahoo.com 2005-08-08
@@ -282,6 +354,26 @@ static BOOL _eoDisableSnapshotRefCounting = NO;
 
 - (void)recordToManySnapshots:(NSDictionary *)someSnapshots
 {
+    // Tom.Martin @ Riemer.com  2012-2-29
+    // structure of to many snapshots should be:
+    //   (Dictionary) 
+    //       (any number of) Key (SourceEO GlobalId) Value (Dictionary) 
+    //           (any number of) Key (Relationship Name) Value (Array)
+    //                Array is GlobalIds of EO at the destination of the relationship
+    // NO CHECKING is performed to assure the structure of the pased in dictionary is correct
+    [someSnapshots enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop)
+    {
+        id keyEnum;
+        NSString *rname;
+        NSArray  *gidArray;
+        
+        keyEnum = [(NSDictionary *)obj keyEnumerator];
+        while ((rname = [keyEnum nextObject]) != nil)
+        {
+            gidArray = [obj objectForKey:rname];
+            [self recordSnapshot:gidArray forSourceGlobalID:key relationshipName:rname];
+        }
+    }];
 }
 
 - (NSArray *)snapshotForSourceGlobalID:(EOGlobalID *)globalID relationshipName:(NSString *)name
