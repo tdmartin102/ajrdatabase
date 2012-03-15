@@ -768,7 +768,21 @@ static Class _eoDatabaseContextClass = Nil;
 {
 	[self _assertLock];
 	ASSERT_SNAPSHOTS();
-	[snapshots setObject:snapshot forKey:globalID];
+    // Tom.Martin @ Riemer.com 2012-02-21
+    // Updated to update only keys passed if the snapshot already exists.
+    // instead of overwritting the snapshot.
+    NSDictionary		*oldSnapshot = [snapshots objectForKey:globalID];
+    if (oldSnapshot == nil)
+    {
+        [snapshots setObject:snapshot forKey:globalID];
+    }
+    else if (snapshot != oldSnapshot) 
+    {
+        if ([oldSnapshot isKindOfClass:[NSMutableDictionary class]])
+            [(NSMutableDictionary *)oldSnapshot setValuesForKeysWithDictionary:snapshot];
+        else
+            [snapshots setObject:snapshot forKey:globalID];
+    }
 }
 
 - (void)recordSnapshots:(NSDictionary *)someSnapshots
@@ -821,6 +835,25 @@ static Class _eoDatabaseContextClass = Nil;
 
 - (void)recordToManySnapshots:(NSDictionary *)someSnapshots
 {
+    // structure of to many snapshots should be:
+    //   (Dictionary) 
+    //       (any number of) Key (SourceEO GlobalId) Value (Dictionary) 
+    //           (any number of) Key (Relationship Name) Value (Array)
+    //                Array is GlobalIds of EO at the destination of the relationship
+    // NO CHECKING is performed to assure the structure of the pased in dictionary is correct
+    [someSnapshots enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop)
+     {
+         id keyEnum;
+         NSString *rname;
+         NSArray  *gidArray;
+         
+         keyEnum = [(NSDictionary *)obj keyEnumerator];
+         while ((rname = [keyEnum nextObject]) != nil)
+         {
+             gidArray = [obj objectForKey:rname];
+             [self recordSnapshot:gidArray forSourceGlobalID:key relationshipName:rname];
+         }
+     }];
 }
 
 - (void)setUpdateStrategy:(EOUpdateStrategy)strategy

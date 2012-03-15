@@ -495,11 +495,140 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 	}
 }
 
+// We need to check to-one and to-many relationships against the current objet graph.
+// we do this for all objects in the updated and in inserted (only for added to-manys)
+// 1) If a to-one has bee nulled and it is owned, then the object needs to be deleted.
+// 2) if there are new objects in a to-many, then if they are not in the inserted
+//    then they need to be put into modified.
+// 3) if there are objects MISSING from a to-many, then if they are owned they need to
+//    be deleted, if not, they go into updated.
+- (void)_processRelationships
+{
+    NSMutableArray      *added;
+    NSMutableArray      *removed;
+    NSMutableArray      *deleted;
+    EOGlobalID          *aGid;
+    NSObject            *object;
+    
+    // build arrays of all added, removed and deleted objects
+    [[self updatedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop)
+    {
+        NSClassDescription  *classDescription = [obj classDescription];
+        NSDictionary        *changes;
+        NSDictionary        *dict;
+        id                  keyEnum;
+        EOGlobalID          *gid;
+
+        changes = [classDescription relationshipChangesForObject:obj withEditingContext:self];
+        for (dict in [changes objectForKey:@"added"])
+        {   
+            keyEnum = [dict keyEnumerator];
+            while ((gid = [keyEnum nextObject]) != nil)
+                [added addObject:gid];
+        }
+        for (dict in [changes objectForKey:@"removed"])
+        {   
+            keyEnum = [dict keyEnumerator];
+            while ((gid = [keyEnum nextObject]) != nil)
+                [removed addObject:gid];
+        }
+        for (gid in [changes objectForKey:@"deleted"])
+        {   
+            [deleted addObject:gid];
+        }
+
+    }];
+    
+    // do the same for inserted objects but only for added
+    [[self insertedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop)
+    {
+        NSClassDescription  *classDescription = [obj classDescription];
+        NSDictionary        *changes;
+        NSDictionary        *dict;
+        id                  keyEnum;
+        EOGlobalID          *gid;
+         
+        changes = [classDescription relationshipChangesForObject:obj withEditingContext:self];
+        for (dict in [changes objectForKey:@"added"])
+        {   
+            keyEnum = [dict keyEnumerator];
+            while ((gid = [keyEnum nextObject]) != nil)
+                [added addObject:gid];
+        }
+    }];
+    
+    // now we want to place these objects into our editing context if we can
+    // deleted
+    //    check in added, if they are not there then send to self delete.
+    // removed
+    //    check in added, if not there then touch object (willChange)
+    // added
+    //    check in insertedObjects, if not there, then touch object (willChange)
+    //    on second thought why bother, just touch object
+    for (aGid in deleted)
+    {
+        if (! [added containsObject:aGid])
+        {
+            object = [self objectForGlobalID:aGid];
+            if (! object)
+            {
+                // looks like this object has left the scene.
+                // lets try to get it back.
+                object = [self faultForGlobalID:aGid editingContext:self];
+                // and fire the fault, but if the object is REALY gone, then thats just fine
+                NS_DURING
+                [object self];
+                NS_HANDLER
+                NSLog(@"WARNING(%s), Deleted relationship member %@ no longer in context, failed to refetch.", __PRETTY_FUNCTION__, aGid);
+                object = nil;
+                NS_ENDHANDLER
+            }
+            if (object)
+                [self deleteObject:object];
+        }
+    }
+
+    for (aGid in removed)
+    {
+        if (! [added containsObject:aGid])
+        {
+            object = [self objectForGlobalID:aGid];
+            if (! object)
+            {
+                // looks like this object has left the scene.
+                // lets try to get it back.
+                object = [self faultForGlobalID:aGid editingContext:self];
+                // and fire the fault, but if the object is REALY gone, then thats just fine
+                NS_DURING
+                [object self];
+                NS_HANDLER
+                NSLog(@"WARNING(%s), Removed relationship member %@ no longer in context, failed to refetch.", __PRETTY_FUNCTION__, aGid);
+                object = nil;
+                NS_ENDHANDLER
+            }
+            if (object)
+                [object willChange];
+        }
+    }
+
+    for (aGid in added)
+    {
+        object = [self objectForGlobalID:aGid];
+        if (object)
+            [object willChange];
+    }
+}
+
 - (void)processRecentChanges
 {
     NSEnumerator	*iterator;
     EOGlobalID	*globalID;
     NSDictionary *userInfo;
+    
+    // put any objects in relationships that may need to be updated into our editing context
+    // this does not actually modify anything just relationships that have changed and 
+    // puts the member objects that have been added or removed into the editing context.
+    [self _processRelationships];
     
     iterator = [insertedQueue keyEnumerator];
     while ((globalID = [iterator nextObject]))
