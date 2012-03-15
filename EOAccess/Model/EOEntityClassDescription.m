@@ -695,5 +695,265 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 	}
 }
 
+- (NSDictionary *)relationshipChangesForObject:(id)object withEditingContext:(EOEditingContext *)anEditingContext
+{
+	// changes will be a dictionary with two dictionaries. and one array 
+    /*
+    
+     Two dictionaries
+        removed
+        added
+     array 
+        deleted
+     
+    each is a mutable.  For the dictionaries
+    key = GID, value = MUTABLE DICTIONARY  any number of GID
+        The GID is for the member object of a to-many relationship that has been
+        detected to be deleted, removed, or added.
+        The Dictionary value:
+            key = GID, value relationship  (any number of GID)
+            The value is the actual relationship, not just the relationship name.
+     The deleted dictionary is a bit different.  We don't care about the owner here, so
+     we simply return an array of GID's that should be deleted from the editing context 
+    
+     we evaluate each object in a relationship and BUILD our deleted, removed and added 
+     arrays/dictionaries.  if an object has been removed from a to-many relationship, 
+     for instance, then we ADD the gid for that object allong with a dictionary for the 
+     owning object and the to-many relationship for which the object was a member.
+     
+     EXAMPLE of changes:
+        
+     <dict>
+        <key>removed</key>
+        <dict>
+            <key>@MemberGID</key>  // This is the object that was missing from the to-many
+            <dict>
+                <key>@OwnerGID</key>  // This is the object that OWNS the to-many
+                <EORelationship /> // This is the relationship object for OwnerGID->MemberGID
+            </dict>
+            <key>@MemberGID</key>  // This is the object that was missing from the to-many
+            <dict>
+                <key>@OwnerGID</key>  // This is the object that OWNS the to-many
+                <EORelationship /> // This is the relationship object for OwnerGID->MemberGID
+            </dict>
+        </dict>
+        <key>added</key>
+            <dict>
+                <key>@MemberGID</key>  // This is the object that was missing from the to-many
+                <dict>
+                    <key>@OwnerGID</key>  // This is the object that OWNS the to-many
+                    <EORelationship /> // This is the relationship object for OwnerGID->MemberGID
+                </dict>
+                <key>@MemberGID</key>  // This is the object that was missing from the to-many
+                <dict>
+                    <key>@OwnerGID</key>  // This is the object that OWNS the to-many
+                    <EORelationship /> // This is the relationship object for OwnerGID->MemberGID
+                </dict>
+        </dict>
+        <key>deleted</key>
+        <array>
+            <@GID />  // objects that need to be deleted
+            <@GID />
+            <@GID />
+        </array>
+     </dict>
+        
+     */   
+
+    // very similar to changesFromSnapshot:
+    // the only difference here is that the snapshot is a EODatabase snapshot, not an object/undo snapshot
+    // also we don't care about the object changes only the relationship changes.  The idea is to identify 
+    // and return objects that need to be deleted from the editingContex or marked as modified so that they 
+    // are available for save changes.  Also we need to return information so that all removed objects may be
+    // processed in one pass, then added, then deleted.  The order is important so that we don't end up clearing
+    // a foreign key that was just set. or deleting an object that was in fact MOVED.
+    EODatabaseContext	*EOContext;
+    NSDictionary        *dbSnapshot;
+    EOGlobalID          *srcGlobalID;
+    EOGlobalID          *dstGlobalID;
+    NSString            *key;
+    NSMutableDictionary	*changes;
+    NSMutableArray      *deleted;
+    NSMutableDictionary *removed;
+    NSMutableDictionary *added;
+    EORelationship		*relationship;
+    
+    // set up our return value
+    changes = [[[NSMutableDictionary allocWithZone:[self zone]] init] autorelease];
+    deleted = [[NSMutableArray allocWithZone:[self zone]] init];
+    removed = [[NSMutableDictionary allocWithZone:[self zone]] init];
+    added = [[NSMutableDictionary allocWithZone:[self zone]] init];
+    [changes setObject:added forKey:@"added"];
+    [changes setObject:removed forKey:@"removed"];
+    [changes setObject:deleted forKey:@"deleted"];
+    [added release];
+    [removed release];
+    [deleted release];
+    
+    EOContext = [EODatabaseContext registeredDatabaseContextForModel:[entity model] editingContext:anEditingContext];
+    srcGlobalID = [anEditingContext globalIDForObject:object];
+    
+    // if this is a newly inserted object, there is no database snapshot, and no need to 
+    // look for deleted to-ones or removed to-manys, just added to-manys
+    if ([srcGlobalID isTemporary])
+        dbSnapshot = nil;
+    else
+        dbSnapshot = [EOContext snapshotForGlobalID:srcGlobalID];
+    
+    if (dbSnapshot)
+    {
+        // Lets check the to-one relationships
+        for (key in [self toOneRelationshipKeys]);
+        {
+            relationship = [entity relationshipNamed:key];    
+            // we only need to be concerned with to-one relationships where we
+            // own the destination, and we removed the original object.
+            // If we ADDED an object, we don't care, because the ADDED ojbect
+            // does not need any chanages, only the parent/source object.
+            // the Source/Parent foriegn key(s) are set to the primary key
+            // of the destination.
+            //
+            // so get the relationsihp first
+            if ([relationship ownsDestination])
+            {
+                // The destination object needs to be deleted only if
+                // there originall was an object and now that relationship
+                // is nil or a different object.  Also if the relationship is a
+                // Fault then it COULD have STILL changed if the object was set to 
+                // a different object and then all objects were refaulted the 
+                // to-one could be a fault and yet point to a different object.
+                // SO, get the GID from the database snapshot and then compare that
+                // to the GID of the existing object OR existing fault.
+                NSArray             *sourceAttributes;
+                NSArray             *destinationAttributes;
+                NSMutableDictionary *row;
+                id                  value;
+                NSInteger           index, numAttributes;
+                EOGlobalID          *newDstGlobalID;
+                
+                // re-create the original destination GID from the commited snapshot
+                row = [NSMutableDictionary dictionary];
+                sourceAttributes = [relationship sourceAttributes];
+                destinationAttributes = [relationship destinationAttributes];
+                numAttributes = [sourceAttributes count];
+                EOAttribute *attrib;
+                
+                for (index = 0; index < numAttributes; index++)
+                {
+                    value = [dbSnapshot objectForKey:[[sourceAttributes objectAtIndex:index] name]];
+                    
+                    if (value)
+                    {
+                        [row setObject:value
+                                forKey:[[destinationAttributes objectAtIndex:index] name]];
+                    }
+                }
+                dstGlobalID = [[relationship destinationEntity] globalIDForRow: row];
+                
+                
+                // You can't delete something if you never had anything
+                if (dstGlobalID)
+                {
+                    id	left = [object valueForKey:key];
+                    newDstGlobalID = nil;
+                    if (left && left != [NSNull null])
+                    {
+                        // I am pretty sure this works even if the object is a fault.
+                        // which means a GID may be added to the array that maps to
+                        // a fault.
+                        newDstGlobalID = [anEditingContext globalIDForObject:left];
+                        if ([newDstGlobalID compare:dstGlobalID] != NSOrderedSame)
+                            [deleted addObject:dstGlobalID];
+                    }
+                    else
+                        [deleted addObject:dstGlobalID];
+                }
+            }
+        }
+    }
+    
+    // For to-many relationships we need to check for any objects that
+    // wern't there before, and for any objects that have been removed.
+    // Further, if an object has been removed, if the object is OWNED we
+    // need to delete it,  otherwise it goes into the updated array	
+    for (key in [self toManyRelationshipKeys]);
+	{
+        NSArray                 *toManyArray;
+        NSMutableArray          *newToManyArray;
+        id                      member;
+        NSMutableDictionary     *dstChangeDict;
+        
+        relationship = [entity relationshipNamed:key];    
+
+        // convert the exiting to-many array of objects into an array of GID's so 
+        // we can do the compare
+        newToManyArray = [[NSMutableArray alloc] initWithCapacity:100];
+        toManyArray = [object valueForKey:key];
+        if (toManyArray && ((id)toManyArray != [EONull null]) && (! [EOFault isFault:toManyArray]))
+        {
+            EOGlobalID  *gid;
+            for (member in toManyArray)
+            {
+                gid = [anEditingContext globalIDForObject:member];
+                if (gid)
+                {
+                    [newToManyArray addObject:gid];
+                }
+            }
+        }
+
+        // This is just a bit easier than the to-one compare as we have a snapshot of the original array.
+        // but of course only if there WAS a snapshot
+        if (dbSnapshot)
+        {
+            toManyArray = [EOContext snapshotForSourceGlobalID:srcGlobalID relationshipName:key];
+             
+            // if the toManyArray was never fired then toManyArray should be nil.
+            // AND newToManyArray should be a fault.  in this case there is nothing to do
+            if (toManyArray)
+            {
+                // toMany WAS fired.  look for removed objects
+                id                      value;
+
+
+                      
+                for (member in toManyArray)
+                {
+                    if (! [newToManyArray containsObject:member])
+                    {
+      
+                        if ([relationship ownsDestination])
+                            [deleted addObject:member]; // the object needs to be deleted
+                        else
+                        {
+                            dstChangeDict = [[NSMutableDictionary alloc] init];
+                            [dstChangeDict setObject:relationship forKey:srcGlobalID];
+                            [removed setObject:dstChangeDict forKey:member]; // the foreign key needs to be nullified
+                            [dstChangeDict release];
+                        }
+                    }
+                }
+            }
+        }
+        else
+            toManyArray = nil;
+            
+        // now look for added object
+        for (member in newToManyArray)
+        {
+            if (! [toManyArray containsObject:member])
+            {
+                dstChangeDict = [[NSMutableDictionary alloc] init];
+                [dstChangeDict setObject:relationship forKey:srcGlobalID];
+                [added setObject:dstChangeDict forKey:member];
+                [dstChangeDict release];
+            }
+        }
+        [newToManyArray release];
+    }
+    
+	return changes;
+}
+
 @end
 
