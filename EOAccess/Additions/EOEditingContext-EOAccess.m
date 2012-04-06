@@ -513,4 +513,14 @@
 }
 
 
+// Tom.Martin @ Riemer,com 2012-03-20
+// This is NOT part of the API, but for now this is the only way I can think of sharing this
+// information among all the database contexts such that all the relationship changes needed 
+// for one object could be accessed.  This is important because if an object is removed from
+// one to-many and then added to another the ORDER of the operations is critical.
+- (NSDictionary *)updatedRelationshipsForMember:(EOGlobalID *)memberGID
+{
+    return [toManyUpdatedMembers objectForKey:memberGID];
+}
+
 @end
