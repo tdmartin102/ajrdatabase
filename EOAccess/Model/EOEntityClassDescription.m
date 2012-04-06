@@ -469,33 +469,48 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 	return nil;
 }
 
-- (NSDictionary *)snapshotForObject:(id)object
+// Tom.Martin @ Riemer.com 2012-3-26
+// convert an array of EO's to an array of GIDs
+- (NSArray *)_gidsForArray:(NSArray *)anArray
 {
-	/*! @todo This isn't sufficient, because we have to duplicate the relationships, at least pull out non-class values represented by relationship keys. */
-	NSMutableDictionary  *snapshot = [NSMutableDictionary dictionary];
-	NSArray					*primaryKeyAttributeNames = [entity primaryKeyAttributeNames];
-	int						x;
-	int numAttributes;
-	int numRelationships;
-	NSArray					*attributes = [entity attributes];
+    NSMutableArray *result;
+    id              object;
+    id              aGID;
+    
+    result = [[NSMutableArray allocWithZone:[anArray zone]] initWithCapacity:[anArray count]];
+    for (object in anArray)
+    {
+        aGID = [object globalID];
+        // we will sliently fail to add GID's we can't find
+        if (aGID)
+            [result addObject:aGID];
+    }
+    return [result autorelease];
+}
+
+// Tom.Martin @ Riemer.com 2012-3-26
+// re-factored from snapshotForObject: this now also serves the new method 
+// contextSnapshotWithDBSnapshot:forObject: and generate either a undo snapshot or a 
+// database snapshot the destinction being how the to-many relationship is archived.
+// also we generate a database snapshot using the original database snapshot.
+- (void)_updateSnapshot:(NSMutableDictionary *)snapshot fromObject:(id)object 
+           isDBSnapshot:(BOOL)isDBSnapshot
+{
 	EOAttribute				*attribute;
-	NSArray					*relationships;
+    EOJoin                  *join;
 	EORelationship			*relationship;
-	NSString					*name;
-	id							value;
-	EOGlobalID				*globalID = [object globalID];
+	NSString				*name;
+	id						value;
+	EOGlobalID				*globalID;
 	
 	// First, copy all the class properties.
-	numAttributes = [attributes count];
-	for (x = 0; x < numAttributes; x++) {
-		attribute = [attributes objectAtIndex:x];
-		name = [attribute name];
-		if ([attribute _isClassProperty]) {
-			// tom.martin @ riemer.com - 2011-09-16
-			// replace depreciated method.  This should be tested, behavior is different.
-			// It may be acceptable, and then again maybe not. 
-			//value = [object storedValueForKey:name];
-			value = [object valueForKey:name];
+    globalID = [object globalID];
+    for (attribute in [entity attributes])
+    {
+        if ([attribute _isClassProperty])
+        {
+            name = [attribute name];
+            value = [object valueForKey:name];
             // Tom.Martin @ riemer.com - 2012-02-16
             // blank strings are written to the database as nulls, we need the 
             // snapshot to match the database value
@@ -505,91 +520,126 @@ static NSMutableDictionary *_classDescriptionCache = nil;
                     value = nil;
             }
 			[snapshot setObject:value == nil ? [NSNull null] : value forKey:name];
-		}
-	}
+
+        }
+    }
 	
-   // If our global ID isn't temporary, we'll go ahead and add any values for it's attributes.
-	numAttributes = [primaryKeyAttributeNames count];
-	for (x = 0; x < numAttributes; x++) {
-		attribute = [entity attributeNamed:[primaryKeyAttributeNames objectAtIndex:x]];
-		if (![attribute _isClassProperty]) {
-			// Only if we didn't get them previously
-			name = [attribute name];
-			
-			// mont_rothstein @ yahoo.com 2004-12-05
+   // If our global ID isn't temporary, we'll go ahead and add any values for it's attributes.        
+    for (name in [entity primaryKeyAttributeNames])
+    {
+        attribute = [entity attributeNamed:name];
+        // Only if we didn't get them previously
+        if (! [attribute _isClassProperty])
+        {
+            value = [object valueForKey:name];
+            // mont_rothstein @ yahoo.com 2004-12-05
 			// In rare cases we won't have an editing context, and therefore it won't have
 			// been able to give us our globalID.  This happens for many-to-many join objects
 			// created during insert.  In those cases we need to grab the global ID from
 			// the EOGenericRecord it self, where it will have been stored.
-			// tom.martin @ riemer.com - 2011-09-16
-			// replace depreciated method.  This should be tested, behavior is different.
-			// It may be acceptable, and then again maybe not. 
-			//if (!globalID) globalID = [object storedValueForKey: @"globalID"];
-			if (!globalID) globalID = [object valueForKey: @"globalID"];
-
-			value = [globalID valueForKey:name];
+			if (!globalID) 
+                globalID = [object valueForKey: @"globalID"];
+            value = [globalID valueForKey:name];
 			[snapshot setObject:value == nil ? [NSNull null] : value forKey:name];
-		}
-	}
-	
-   // mont_rothstein @ yahoo.com 2004-12-05
-   // We only want relationships that are class properties.
+        }
+    }
+    
+    // set relationships
+    // mont_rothstein @ yahoo.com 2004-12-05
+    // We only want relationships that are class properties.
 	// mont_rothstein @ yahoo.com 2005-09-22
-	// In spite of the above comment this was grabbing all relationships instead of just ones that are class properties.  This can cause problems for many-to-many joins among other things.  Changed the following two lines as well as necessary code after (_classRelationships is actually an array of names not actual relationships)
-//	relationships = [entity relationships];
-   relationships = [entity _classRelationships];
-	numRelationships = [relationships count];
-	for (x = 0; x < numRelationships; x++) {
-		relationship = [entity relationshipNamed: [relationships objectAtIndex:x]];
-		
+	// In spite of the above comment this was grabbing all relationships instead of just ones that are clas properties.  This can cause problems for many-to-many joins among other things.  Changed the following two lines as well as necessary code after (_classRelationships is actually an array of names not actual relationships)
+    //	relationships = [entity relationships];
+    for (name in [entity _classRelationships])
+    {
+		relationship = [entity relationshipNamed:name];		
 		name = [relationship name];
-		if ([relationship isToMany]) {
+		if ([relationship isToMany]) 
+        {
 		    // mont_rothstein @ yahoo.com 2004-12-06
 		    // We do not want to place toMany relationships in the snapshot at all.
 		    // This causes faults to be tripped mid-fetch, which is bad.
 			// mont_rothstein @ yahoo.com 2005-09-28
 			// OK, the change noted above was wrong.  What we need to do here is check to see if the to-many relationship is still a fault and only if it is do we skip it.
-			// tom.martin @ riemer.com - 2011-09-16
-			// replace depreciated method.  This should be tested, behavior is different.
-			// It may be acceptable, and then again maybe not. 
-			//value = [object storedValueForKey:name];
+            // tom.martin @ riemer.com 2012-03-27
+            // And I am thinking we DO want the relationship even if it IS a fault, just take care
+            // not to FIRE the fault.
 			value = [object valueForKey:name];
-			if ([EOFault isFault: value]) continue;
-			value = [value shallowCopy];
-			[snapshot setObject:value == nil ? [NSNull null] : value forKey:name];
-			[value release];
-		} else {
-			NSArray		*joins = [relationship joins];
-			EOJoin		*join;
-			int			y;
-			
+            if (value)
+            {
+                if (! [EOFault isFault: value]) 
+                {
+                    // Tom.Martin @ Riemer.com 2012-3-26
+                    // if this is destined to be a database snapshot then
+                    // the to-many snapshot needs to be an array of GIDs
+                    // if it is a undo snapshot then the to-many is a shallow copy
+                    // of the to-many array.
+                    if (isDBSnapshot)
+                        value = [[self _gidsForArray:value] retain];
+                    else
+                        value = [value shallowCopy];
+                    [snapshot setObject:value forKey:name];
+                    [value release];
+                }
+                else if (! isDBSnapshot)
+                    // store the fault if it is NOT a dbsnapshot
+                    [snapshot setObject:value forKey:name];
+            }
+		} 
+        else 
+        {
 			// Get all the foreign keys.
-			for (y = 0; y < [joins count]; y++) {
-				join = [joins objectAtIndex:y];
-				value = [self _valueForJoin:join inRelationship:relationship forObject:object];
-				[snapshot setObject:value == nil ? [NSNull null] : value forKey:[[join sourceAttribute] name]];
-			}
-			
+ 			for (join in [relationship joins])
+            {
+                value = [self _valueForJoin:join inRelationship:relationship forObject:object];
+				[snapshot setObject:value == nil ? [NSNull null] : value 
+                             forKey:[[join sourceAttribute] name]];
+            }
 			// And the object itself.
 			// mont_rothstein @ yahoo.com 2004-12-06
 			// We only want the value if the relationship is a class property.  Otherwise we
 			// end up trying to grab toMany relationships which we don't have.
-			if ([relationship _isClassProperty])
-			{
-				// tom.martin @ riemer.com - 2011-09-16
-				// replace depreciated method.  This should be tested, behavior is different.
-				// It may be acceptable, and then again maybe not. 
-				//value = [object storedValueForKey:name];
-				value = [object valueForKey:name];
-				[snapshot setObject:value == nil ? [NSNull null] : value forKey:name];
-			}
+            // Tom.Martin @ Riemer.com
+            // Further we don't want the value if this is a context snapshot destined to be
+            // a database snapshot.  
+            if (! isDBSnapshot)
+            {
+                if ([relationship _isClassProperty])
+                {
+                    value = [object valueForKey:name];
+                    [snapshot setObject:value == nil ? [NSNull null] : value forKey:name];
+                }
+            }
 		}
-	}
-	
-	return snapshot;
+	} 	
 }
 
-
+- (NSDictionary *)snapshotForObject:(id)object
+{
+	NSMutableDictionary  *snapshot = [NSMutableDictionary dictionary];
+    [self _updateSnapshot:snapshot fromObject:object isDBSnapshot:NO];
+    return snapshot;
+}
+    
+// Tom.Martin @ Riemer.com 2012-03-26
+// Add non API method to produce a snapshot that is destined to become a database snapshot.
+// The difference between this and what 'snapshotForObject:' returns is that the to-many relationship is
+// an array of GID's not a shallow copy,  also it does not contain a copy of the to-one objects
+// Finally we build the snapshot from the ORIGINAL database snapshot just in case there are values 
+// that in the snapshot THAT CAN NOT BE SET.  This is Extremely unlikely, but easy to do, so why not.
+// this mehod is called from the database context when it creates its snapshots.
+// This is called from enterprise object EOControl contextSnapshotWithDBSnapshot:
+- (NSMutableDictionary *)contextSnapshotWithDBSnapshot:(NSDictionary *)dbsnapshot forObject:(id)object
+{
+    NSMutableDictionary *snapshot;
+    if (dbsnapshot)
+        snapshot = [dbsnapshot mutableCopyWithZone:[dbsnapshot zone]];
+    else
+        snapshot = [[NSMutableDictionary allocWithZone:[object zone]] initWithCapacity:20];
+    [self _updateSnapshot:snapshot fromObject:object isDBSnapshot:YES];
+    return [snapshot autorelease];
+}
+    
 // mont_rothstein @ yahoo.com 2005-04-10
 // Added override of method from EOControl
 - (void)propagateDeleteForObject:(id)object editingContext:(EOEditingContext *)editingContext
@@ -664,11 +714,118 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 	}
 }
 
+// Tom.Martin @ Riemer.com 2012-3-27
+// This takes a database/databaseContext snapshot which does not contain to-one objects, and
+// has the to-many relationships as arrays of GIDs.  It converts the arrays of GIDs to arrays
+// of objects (or fault) and SETS the to-one objects or re-faults them.
+// this is used by revert when we have the database snapshot and we need to revert our object
+// to the last saved image.  unfortunatly the database snapshot is missing some information  
+// needed to make that easy.  The undo snapshot works great for this, and it is possible to 
+// fill in the blanks from a database snapshot and make it look like an undo snapshot
+// This method could potentialy be used elsewhere.
+// 
+// To recap: the purpose of this method is to CONVERT a database snapshot into an undo
+// snapshot.  The resulting snapshot is identical to an undo snapshot that would have been
+// been created if it were created the same time as the database snapshot was created.
+- (NSDictionary *)snapshotFromDBSnapshot:(NSDictionary *)dbSnapshot forObject:(id)object
+{
+    NSMutableDictionary *snapshot;
+    NSString            *name;
+    EORelationship      *relationship;
+    id                  value;
+    EOEditingContext    *eoContext;
+    EOGlobalID          *globalID;
+    EOGlobalID          *aGID;
+    id                  anObject;
+  
+    eoContext = [object editingContext];
+    globalID = [object globalID];
+    snapshot = [dbSnapshot copyWithZone:[dbSnapshot zone]];
+    // so what is set now is all the entity attributes, what we DON't have set is our
+    // relationships, so lets do that, but just do the class relationships
+    for (name in [entity _classRelationships])
+    {
+		relationship = [entity relationshipNamed:name];		
+		if ([relationship isToMany]) 
+        {
+            value = [dbSnapshot objectForKey:name];
+            if (! value)
+            {
+                // replace with a fault
+                value = [EOFault createArrayFaultWithSourceGlobalID:globalID 
+                    relationshipName:name inEditingContext:eoContext];
+            }
+            else
+            {
+                // we have a snapshot, so use that
+                NSMutableArray  *toManyArray;
+                // convert an array of GIDs to an array of objects
+                toManyArray = [[NSMutableArray allocWithZone:[value zone]] 
+                               initWithCapacity:[value count]];
+                for (aGID in value)
+                {
+                    anObject = [eoContext objectForGlobalID:aGID];
+                    if (! anObject)
+                    {
+                        // The object is no longer in the editingContext
+                        // it was probably released.  Just create a fault.
+                        anObject = [eoContext faultForGlobalID:aGID editingContext:eoContext];
+                    }
+                    [toManyArray addObject:anObject];
+                }
+                value = [toManyArray autorelease];
+            }
+            [snapshot setObject:value forKey:name];
+        }
+        else
+        {
+            // build the GID from the snapshot
+            NSMutableDictionary *row = [NSMutableDictionary dictionary];
+            NSArray             *sourceAttributes;
+            NSArray             *destinationAttributes;
+            NSInteger           numAttributes;
+            NSInteger           index;
+            
+			sourceAttributes = [relationship sourceAttributes];
+			destinationAttributes = [relationship destinationAttributes];
+			numAttributes = [sourceAttributes count];
+			for (index = 0; index < numAttributes; index++)
+			{
+				value = [dbSnapshot objectForKey: [[sourceAttributes objectAtIndex: index] name]];
+				
+				if (value)
+				{
+					[row setObject: value
+							forKey: [[destinationAttributes objectAtIndex: index] name]];
+				}
+			}
+            aGID = [[relationship destinationEntity] globalIDForRow:row];
+            // a lot of work to get the GID, now we try to get the object itself
+            value = [eoContext objectForGlobalID:aGID];
+            if (! value)
+            {
+                // The object is no longer in the editingContext
+                // it was probably released.  Just create a fault.
+                value = [eoContext faultForGlobalID:aGID editingContext:eoContext];
+            }
+            [snapshot setObject:value forKey:name];
+        }
+    }
+    return [snapshot autorelease];
+}
+
 @end
 
 @implementation EOEntityClassDescription (EOPrivate)
+
 // mont_rothstein @ yahoo.com 2005-09-29
 // Needed to add this method so that that the updateFromSnapshot: method in EOEnterpriseObject can be completed.  This was needed because when a new object was created, inserted, and added to relationships, it was not being removed from the relationship if revert was called before saving.
+// Tom.Martin @ Riemer.com 2012-03-28
+// This method is no longer needed becuase the to-many snapshots WILL be in the snapshot.
+// However we still needed a special non API method to pull that off. 
+// snapshotFromDBSnapshot:forObject: is doing this for us.  This method is potentialy useful
+// so I made it public.
+/*
 - (void)completeUpdateForObject:(NSObject *)object fromSnapshot:(NSDictionary *)snapshot;
 {
 	NSEnumerator *toManyKeys;
@@ -694,7 +851,12 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 		}
 	}
 }
+*/
 
+// Tom.Martin @ Riemer.com 2012-03-28
+// Method to detect changes in relationships in the object graph.  This creates a dictionary 
+// that describes the changes found so that EOEditingContext may handle the changes. This method is
+// called by EOEditingContext in saveChanges before processRecentChanges is called.
 - (NSDictionary *)relationshipChangesForObject:(id)object withEditingContext:(EOEditingContext *)anEditingContext
 {
 	// changes will be a dictionary with two dictionaries. and one array 
@@ -707,12 +869,13 @@ static NSMutableDictionary *_classDescriptionCache = nil;
         deleted
      
     each is a mutable.  For the dictionaries
-    key = GID, value = MUTABLE DICTIONARY  any number of GID
+    key = GID, value = DICTIONARY (not mutable)  any number of GID
         The GID is for the member object of a to-many relationship that has been
         detected to be deleted, removed, or added.
-        The Dictionary value:
+        The Dictionary keys and values:
+            key: ownerGID (string)   value: The GID for the owner of the relationship
+            key: relationshipName (string) value: the NAME for the relationship
             key = GID, value relationship  (any number of GID)
-            The value is the actual relationship, not just the relationship name.
      The deleted dictionary is a bit different.  We don't care about the owner here, so
      we simply return an array of GID's that should be deleted from the editing context 
     
@@ -728,27 +891,34 @@ static NSMutableDictionary *_classDescriptionCache = nil;
         <dict>
             <key>@MemberGID</key>  // This is the object that was missing from the to-many
             <dict>
-                <key>@OwnerGID</key>  // This is the object that OWNS the to-many
-                <EORelationship /> // This is the relationship object for OwnerGID->MemberGID
+                <key>ownerGID</key>
+                <object>@OwnerGID</object>  // This is the GID for the object that OWNS the to-many
+                <key>relationshipName</key>
+                <string>aRelationshipName</string>// This is the relationship name for OwnerGID >> MemberGID
             </dict>
-            <key>@MemberGID</key>  // This is the object that was missing from the to-many
+            <key>@MemberGID</key>  // This is the object that was missing from the to-many\
             <dict>
-                <key>@OwnerGID</key>  // This is the object that OWNS the to-many
-                <EORelationship /> // This is the relationship object for OwnerGID->MemberGID
+                <key>ownerGID</key>
+                <object>@OwnerGID</object>  // This is the GID for the object that OWNS the to-many
+                <key>relationshipName</key>
+                <string>aRelationshipName</string>// This is the relationship name for OwnerGID >> MemberGID        
             </dict>
-        </dict>
-        <key>added</key>
+            <key>added</key>
+            <key>@MemberGID</key>  // This is the object that was added from the to-many
             <dict>
+                <key>ownerGID</key>
+                <object>@OwnerGID</object>  // This is the GID for the object that OWNS the to-many
+                <key>relationshipName</key>
+                <string>aRelationshipName</string>// This is the relationship name for OwnerGID >> MemberGID
                 <key>@MemberGID</key>  // This is the object that was missing from the to-many
-                <dict>
-                    <key>@OwnerGID</key>  // This is the object that OWNS the to-many
-                    <EORelationship /> // This is the relationship object for OwnerGID->MemberGID
-                </dict>
-                <key>@MemberGID</key>  // This is the object that was missing from the to-many
-                <dict>
-                    <key>@OwnerGID</key>  // This is the object that OWNS the to-many
-                    <EORelationship /> // This is the relationship object for OwnerGID->MemberGID
-                </dict>
+            </dict>
+            <key>@MemberGID</key>  // This is the object that was added from the to-many
+            <dict>
+                <key>ownerGID</key>
+                <object>@OwnerGID</object>  // This is the GID for the object that OWNS the to-many
+                <key>relationshipName</key>
+                <string>aRelationshipName</string>// This is the relationship name for OwnerGID >> MemberGID
+            </dict>
         </dict>
         <key>deleted</key>
         <array>
@@ -878,10 +1048,10 @@ static NSMutableDictionary *_classDescriptionCache = nil;
     // need to delete it,  otherwise it goes into the updated array	
     for (key in [self toManyRelationshipKeys]);
 	{
-        NSArray                 *toManyArray;
-        NSMutableArray          *newToManyArray;
-        id                      member;
-        NSMutableDictionary     *dstChangeDict;
+        NSArray         *toManyArray;
+        NSMutableArray  *newToManyArray;
+        id              member;
+        NSDictionary    *dstChangeDict;
         
         relationship = [entity relationshipNamed:key];    
 
@@ -926,8 +1096,9 @@ static NSMutableDictionary *_classDescriptionCache = nil;
                             [deleted addObject:member]; // the object needs to be deleted
                         else
                         {
-                            dstChangeDict = [[NSMutableDictionary alloc] init];
-                            [dstChangeDict setObject:relationship forKey:srcGlobalID];
+                            dstChangeDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                             srcGlobalID, @"ownerGID", 
+                                             [relationship name], @"relationshipName", nil];
                             [removed setObject:dstChangeDict forKey:member]; // the foreign key needs to be nullified
                             [dstChangeDict release];
                         }
@@ -943,9 +1114,9 @@ static NSMutableDictionary *_classDescriptionCache = nil;
         {
             if (! [toManyArray containsObject:member])
             {
-                dstChangeDict = [[NSMutableDictionary alloc] init];
-                [dstChangeDict setObject:relationship forKey:srcGlobalID];
-                [added setObject:dstChangeDict forKey:member];
+                dstChangeDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                 srcGlobalID, @"ownerGID", 
+                                 [relationship name], @"relationshipName", nil];
                 [dstChangeDict release];
             }
         }
