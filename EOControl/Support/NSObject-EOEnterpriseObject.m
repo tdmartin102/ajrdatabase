@@ -289,6 +289,11 @@ static EOHashObject	*_eofKey = NULL;
 	return [[self classDescription] snapshotForObject:self];
 }
 
+- (NSMutableDictionary *)contextSnapshotWithDBSnapshot:(NSDictionary *)dbsnapshot
+{
+    return [[self classDescription] contextSnapshotWithDBSnapshot:dbsnapshot forObject:self];
+}
+
 - (void)updateFromSnapshot:(NSDictionary *)snapshot
 {
 	NSEnumerator		*enumerator = [snapshot keyEnumerator];
@@ -332,8 +337,12 @@ static EOHashObject	*_eofKey = NULL;
 				NS_ENDHANDLER
 		}
 	}
-		
-	[[self classDescription] completeUpdateForObject: self fromSnapshot: snapshot];
+	
+	// Tom.Martin @ Riemer.com 2012-03-27
+    // THis is no longer needed because I have taken steps to ensure the passed in
+    // snapshot is of the correct type and includes relationship arrays and objects
+    // as it should.
+	//[[self classDescription] completeUpdateForObject: self fromSnapshot: snapshot];
 }
 
 - (NSDictionary *)changesFromSnapshot:(NSDictionary *)snapshot
