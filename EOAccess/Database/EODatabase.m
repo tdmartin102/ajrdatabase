@@ -202,7 +202,10 @@ static BOOL _eoDisableSnapshotRefCounting = NO;
     // I think we really want to replace it.  The chance of leaving a value there
     // which should NOT be there is just too high
     //
-    // Second:  The to-many snapshoting is not consistant between undo snapshoting and
+    // Second:  Because we later update the snapshot to include to-many snapshots, the
+    //          snapshot dictionary must be a NSMutableDictionary.
+    //
+    // Third:  The to-many snapshoting is not consistant between undo snapshoting and
     // database snapshotting.  For undo the to-many array of ojbects itslef is captured
     // in the snapshot.  For the database snapshot only an array of GID's is captured.
     // this is a problem when the snapshot needs to be updated from the object itself
@@ -213,6 +216,10 @@ static BOOL _eoDisableSnapshotRefCounting = NO;
     // If there is a to-one in the snapshot, I don't think it will hurt anything
     // even though a database snapshot does not have to-one key-values.  It simply
     // is not used.
+    //
+    // All these problems could be avoided if the snapshot was restricted to not include
+    // relationships and the to-many snapshots were stored separately.  something to think
+    // about.
     /*
 	// aclark @ ghoti.org 2005-08-08
 	// This was incorrectly sending objectForKey: to snapshot instead of snapshots.  Changed to use snapshotForGlobalID: to keep abstracted.
@@ -241,7 +248,8 @@ static BOOL _eoDisableSnapshotRefCounting = NO;
      */
     
     // lets just create a new dictionary, but when recording relationship keys,
-    // we will convert the snapshot type if it is not correct
+    // we will convert the snapshot type if it is not correct.  This SHOULD NOT happen
+    // but we don't always have control over what another programmer might do.
     NSMutableDictionary *newSnapshot;
     EOEntityClassDescription *eoDesc;
 
@@ -284,6 +292,9 @@ static BOOL _eoDisableSnapshotRefCounting = NO;
                         [resultArray release];
                     }
                 }
+                else
+                    // add the empty array anyway
+                    [newSnapshot setObject:obj forKey:key];
             }
             else
                 [newSnapshot setObject:obj forKey:key];
@@ -312,7 +323,14 @@ static BOOL _eoDisableSnapshotRefCounting = NO;
 	// Tom.Martin @ Riemer.com 2011-09=8-22
 	// replace depreciated method call
 	//[snapshots takeValuesFromDictionary:someSnapshots];
-	[snapshots setValuesForKeysWithDictionary:someSnapshots];
+    //[snapshots setValuesForKeysWithDictionary:someSnapshots];
+    // Tom.Martin @ Riemer.com 2012-03-22
+    // we are setting the snapshot here so we need to be careful that
+    // to-manys are handled, we will call recordSnapshot:forGlobalID:
+    [someSnapshots enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop)
+    {
+        [self recordSnapshot:obj forGlobalID:key];
+    }];
 }
 
 // mont_rothstein @ yahoo.com 2005-08-08
