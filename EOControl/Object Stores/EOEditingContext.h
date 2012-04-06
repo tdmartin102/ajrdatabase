@@ -33,33 +33,35 @@ extern NSString *EOEditingContextDidSaveChangesNotification;
 
 @interface EOEditingContext : EOCooperatingObjectStore <EOObserving, NSCoding>
 {
-   NSMutableDictionary	*objects;
-	NSMutableDictionary	*objectGlobalIDs;
-   NSMutableDictionary	*updatedObjects;
+    NSMutableDictionary     *objects;
+    NSMutableDictionary     *objectGlobalIDs;
+    NSMutableDictionary     *updatedObjects;
 	NSMutableArray			*updatedCache;
-   NSMutableDictionary	*insertedObjects;
+    NSMutableDictionary     *insertedObjects;
 	NSMutableArray			*insertedCache;
-   NSMutableDictionary	*deletedObjects;
+    NSMutableDictionary     *deletedObjects;
 	NSMutableArray			*deletedCache;
-   NSMutableDictionary	*updatedQueue;
-   NSMutableDictionary	*insertedQueue;
-   NSMutableDictionary	*deletedQueue;
+    NSMutableDictionary     *updatedQueue;
+    NSMutableDictionary     *insertedQueue;
+    NSMutableDictionary     *deletedQueue;
+    
+    NSMutableDictionary     *toManyUpdatedMembers;
 
-   EOObjectStore			*objectStore;
+    EOObjectStore			*objectStore;
 	int						objectStoreLockCount;
 	
 	NSUndoManager			*undoManager;
-	NSMutableDictionary	*undoObjects;
+	NSMutableDictionary     *undoObjects;
 	NSMutableArray			*editors;
 	
-	id							delegate;
-	id							messageHandler;
+	id						delegate;
+	id						messageHandler;
 	
-   BOOL						isValidating:1;
-	BOOL						isUndoingOrRedoing:1;
-	BOOL						propagatesDeletesAtEndOfEvent:1;
-	BOOL						stopsValidationAfterFirstError:1;
-	BOOL						invalidatesObjectsWhenFreed:1;
+    BOOL					isValidating:1;
+	BOOL					isUndoingOrRedoing:1;
+	BOOL					propagatesDeletesAtEndOfEvent:1;
+	BOOL					stopsValidationAfterFirstError:1;
+	BOOL					invalidatesObjectsWhenFreed:1;
 }
 
 // Initializing an EOEditingContext
@@ -101,6 +103,46 @@ extern NSString *EOEditingContextDidSaveChangesNotification;
 - (id)objectForGlobalID:(EOGlobalID *)globalID;
 - (EOGlobalID *)globalIDForObject:(id)object;
 - (NSArray *)registeredObjects;
+
+// Tom.Martin @ Riemer.com 2012-03-30
+// THis is NOT part of the API.  Sorry. but is used ONLY be EODatabaseContext.
+// This returns structure where information about
+// relationship member object changes.  This is So databaseContext
+// can retrieve this information so
+// that these relationships can be updated correctly.  By storing this in the
+// editingContext we can make ONE PASS through all objects and have the databaseContext
+// simply ask for changes on objects that it owns.  THe OWNER objects may be
+// in a different databaseContext and that is just fine.  Below is an example
+// of the dictionary stucture.  Top level is two arrays 'added' and 'removed'
+// 'added' represents a to-many relationship that this object was added to. 
+// 'removed' represnet a to-many relationship that this object was removed from.
+//  each dictionary in these arrays describe the relationship and is
+//     relationshipName = the to-many relationship name
+//     ownerGID = the actual EOGlobalID of the object with the to-many relationship
+//                for which this object was either added or removed.
+//
+//     <dict>
+//          <key>removed</key>
+//          <array>
+//              <dict>
+//                  <key>relationshipName</key>
+//                  <string>billings</string>
+//                  <key>ownerGID</key>
+//                  <object>@GID</object>
+//              </dict>
+//          </array>
+//          <key>added</key>
+//          <array>
+//              <dict>
+//                  <key>relationshipName</key>
+//                  <string>billings</string>
+//                  <key>ownerGID</key>
+//                  <object>@GID</object>
+//              </dict>
+//          </array>
+//     </dict>
+- (NSDictionary *)toManyChangesForMemberGlobalId:(EOGlobalID *)aGID;
+
 
 // Locking objects
 /*! @todo EOEditingContext: Object level locking. */
