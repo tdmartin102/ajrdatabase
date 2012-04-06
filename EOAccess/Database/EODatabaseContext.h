@@ -56,6 +56,10 @@ extern NSString *EOFailedDatabaseOperationKey;
 	NSMutableSet			*lockedObjects;
 	EOEditingContext		*savingContext;
 	NSMutableArray			*databaseOperations;
+    
+    // Tom.Martin @ Riemer.com 2012-03-30
+    // added the following ivar as grease.
+    EOGlobalID              *_currentGlobalID;
 
 	id							delegate;
 		
@@ -138,7 +142,7 @@ extern NSString *EOFailedDatabaseOperationKey;
 // Managing snapshots
 - (void)forgetSnapshotForGlobalID:(EOGlobalID *)globalID;
 - (void)forgetSnapshotsForGlobalIDs:(NSArray *)globalIDs;
-- (NSDictionary *)localSnapshotForGlobalID:(EOGlobalID *)globalID;
+- (NSMutableDictionary *)localSnapshotForGlobalID:(EOGlobalID *)globalID;
 - (void)recordSnapshot:(NSDictionary *)snapshot forGlobalID:(EOGlobalID *)globalID;
 - (void)recordSnapshots:(NSDictionary *)someSnapshots;
 - (NSDictionary *)snapshotForGlobalID:(EOGlobalID *)globalID;
