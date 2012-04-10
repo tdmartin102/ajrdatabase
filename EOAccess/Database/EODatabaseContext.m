@@ -700,8 +700,13 @@ static Class _eoDatabaseContextClass = Nil;
 //   and then post the EOGlobalIDChangedNotification accordingly
 - (void)_acceptUpdatedGlobalIDs
 {
-    NSMutableDictionary *globalIDMappings = [NSMutableDictionary dictionary];
+    NSMutableDictionary *globalIDMappings;
     id                  object;
+    
+    if (! savingContext)
+        return;
+    
+    globalIDMappings = [NSMutableDictionary dictionary];
     
     for (object in [savingContext updatedObjects])
     {
@@ -738,6 +743,9 @@ static Class _eoDatabaseContextClass = Nil;
 {
 	NSMutableDictionary *globalIDMappings;
     id                  object;
+    
+    if (! savingContext)
+        return;
     
 	globalIDMappings = [NSMutableDictionary dictionary];
 	
@@ -793,6 +801,9 @@ static Class _eoDatabaseContextClass = Nil;
 	NSMutableArray          *globalIDsForDeletedObjects;
 	NSDictionary            *userInfo;
     EODatabaseOperation		*operation;
+    
+    if ([databaseOperations count] == 0)
+        return;
 	
 	globalIDsForInsertedObjects = [[NSMutableArray alloc] init];
 	globalIDsForUpdatedObjects = [[NSMutableArray alloc] init];
@@ -1380,6 +1391,7 @@ static Class _eoDatabaseContextClass = Nil;
 {
     id              object;
     NSDictionary    *aSnapshot;
+    EOGlobalID      *aGlobalID;
 		
 	// For deleted objects we need to forget the snapshot
 	for (object in [savingContext deletedObjects]) 
@@ -1394,15 +1406,19 @@ static Class _eoDatabaseContextClass = Nil;
     {
         if ([self ownsObject:object])
         {
-            [self recordSnapshot:[object snapshot] 
+            [self recordSnapshot:[object contextSnapshotWithDBSnapshot:nil] 
                      forGlobalID:[savingContext globalIDForObject:object]];
         }
     }
     for (object in [savingContext updatedObjects]) 
     {
         if ([self ownsObject:object])
-            [self recordSnapshot:[object snapshot] 
+        {
+            aGlobalID = [savingContext globalIDForObject:object];
+            aSnapshot = [[self database] snapshotForGlobalID:aGlobalID];
+            [self recordSnapshot:[object contextSnapshotWithDBSnapshot:aSnapshot] 
                      forGlobalID:[savingContext globalIDForObject:object]];
+        }
     }
 }
 
@@ -1602,7 +1618,6 @@ static Class _eoDatabaseContextClass = Nil;
     EOGlobalID                  *ownerGID;
     NSString                    *relationshipName;
     EORelationship              *relationship;
-    EOEntityClassDescription    *eoDesc;
     EOEntity                    *entity;
     
     // get the changes for THIS object
@@ -1621,8 +1636,7 @@ static Class _eoDatabaseContextClass = Nil;
         // I think it should be done regardless.
         ownerGID = [memberChanges objectForKey:@"ownerGID"];
         relationshipName = [memberChange objectForKey:@"relationshipName"];
-        eoDesc = (EOEntityClassDescription *)[EOEntityClassDescription classDescriptionForEntityName:[ownerGID entityName]];
-        EOEntity *entity = [eoDesc entity];
+        entity = [database entityNamed:[ownerGID entityName]];
         relationship = [entity relationshipNamed:relationshipName]; 
         [self _recordToManyRelationshipForMember:object 
                                     relationship:relationship 
@@ -1640,8 +1654,8 @@ static Class _eoDatabaseContextClass = Nil;
         // I think it should be done regardless.
         ownerGID = [memberChanges objectForKey:@"ownerGID"];
         relationshipName = [memberChange objectForKey:@"relationshipName"];
-        eoDesc = (EOEntityClassDescription *)[EOEntityClassDescription classDescriptionForEntityName:[ownerGID entityName]];
-        EOEntity *entity = [eoDesc entity];
+        entity = [database entityNamed:[ownerGID entityName]];
+        
         relationship = [entity relationshipNamed:relationshipName]; 
         [self _recordToManyRelationshipForMember:object 
                                     relationship:relationship 
