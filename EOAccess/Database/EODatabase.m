@@ -251,8 +251,19 @@ static BOOL _eoDisableSnapshotRefCounting = NO;
     // we will convert the snapshot type if it is not correct.  This SHOULD NOT happen
     // but we don't always have control over what another programmer might do.
     NSMutableDictionary *newSnapshot;
+    
+    
+    // Tom.Martin @ Riemer.com 2012-04-10
+    // After more thought I decided that it should be safe not to check the snapshot
+    // at least if everyting is being used correctly, and if not it is a programming
+    // error.
+    /*
     EOEntityClassDescription *eoDesc;
 
+    
+    [snapshots setObject:snapshot forKey:globalID];
+    [newSnapshot release];
+    
     newSnapshot = [[NSMutableDictionary alloc] initWithCapacity:30];    
     // get the entity
     eoDesc = (EOEntityClassDescription *)[EOEntityClassDescription classDescriptionForEntityName:
@@ -299,6 +310,8 @@ static BOOL _eoDisableSnapshotRefCounting = NO;
             else
                 [newSnapshot setObject:obj forKey:key];
     }];
+    */
+    newSnapshot = [snapshot mutableCopy];
     [snapshots setObject:newSnapshot forKey:globalID];
     [newSnapshot release];
 }
