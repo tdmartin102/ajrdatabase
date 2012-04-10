@@ -973,7 +973,7 @@ static NSMutableDictionary *_classDescriptionCache = nil;
     if (dbSnapshot)
     {
         // Lets check the to-one relationships
-        for (key in [self toOneRelationshipKeys]);
+        for (key in [self toOneRelationshipKeys])
         {
             relationship = [entity relationshipNamed:key];    
             // we only need to be concerned with to-one relationships where we
@@ -1046,7 +1046,7 @@ static NSMutableDictionary *_classDescriptionCache = nil;
     // wern't there before, and for any objects that have been removed.
     // Further, if an object has been removed, if the object is OWNED we
     // need to delete it,  otherwise it goes into the updated array	
-    for (key in [self toManyRelationshipKeys]);
+    for (key in [self toManyRelationshipKeys])
 	{
         NSArray         *toManyArray;
         NSMutableArray  *newToManyArray;
@@ -1084,9 +1084,6 @@ static NSMutableDictionary *_classDescriptionCache = nil;
             {
                 // toMany WAS fired.  look for removed objects
                 id                      value;
-
-
-                      
                 for (member in toManyArray)
                 {
                     if (! [newToManyArray containsObject:member])
