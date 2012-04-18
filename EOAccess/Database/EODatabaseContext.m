@@ -166,9 +166,14 @@ extern int objc_sizeof_type(const char* type);
 	
 	[self setUpdateStrategy:EOUpdateWithOptimisticLocking];
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_adaptorContextDidBeginTransaction:) name:EOAdaptorContextBeginTransactionNotification object:adaptorContext];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_adaptorContextDidCommitTransaction:) name:EOAdaptorContextCommitTransactionNotification object:adaptorContext];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_adaptorContextDidRollbackTransaction:) name:EOAdaptorContextRollbackTransactionNotification object:adaptorContext];
+    // Tom.Martin @ Riemer.com  2012-04-17
+    // We only need snapshots when we are doing a save operation.  Therefore
+    // there is no need to capture when the adaptor level is doing a transaction.
+    // we are controlling that level from this object while doing a save.
+    // because of that we do not need to capture the commit/rollback either.
+	//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_adaptorContextDidBeginTransaction:) name:EOAdaptorContextBeginTransactionNotification object:adaptorContext];
+	//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_adaptorContextDidCommitTransaction:) name:EOAdaptorContextCommitTransactionNotification object:adaptorContext];
+	//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_adaptorContextDidRollbackTransaction:) name:EOAdaptorContextRollbackTransactionNotification object:adaptorContext];
 
 	return self;
 }
@@ -677,22 +682,65 @@ static Class _eoDatabaseContextClass = Nil;
 	return NO;
 }
 
+// Tom.Martin @ Riemer.com 2012-03-21
+// create our snapshots for all objects in one pass.  Called from 
+// prepareForSaveWithCoordinator:edtingContext this method creates
+// the local snapshot store and sets all the snapshots from the
+// current objects.  This means that when recordChangesInEditingContext is called there
+// should be a snapshot in all databaseContexts available for query.
+- (void)_recordSnapshotsInEditingContext
+{
+    id              object;
+    NSDictionary    *aSnapshot;
+    EOGlobalID      *aGlobalID;
+
+    // create our snapshots
+    // we need these BEFORE we begin the actual transaction, so we do it here.
+    if (snapshots) {
+		[NSException raise:EODatabaseException format:@"Nesting transactions are not supported."];
+	}
+	snapshots = [[NSMutableDictionary allocWithZone:[self zone]] init];
+	forgetSnapshots = [[NSMutableSet allocWithZone:[self zone]] init];
+
+    
+	// For deleted objects we need to forget the snapshot
+	for (object in [savingContext deletedObjects]) 
+    {
+        if ([self ownsObject:object])
+        {
+            [self forgetSnapshotForGlobalID:[savingContext globalIDForObject:object]];
+        }
+    }
+    
+    for (object in [savingContext insertedObjects]) 
+    {
+        if ([self ownsObject:object])
+        {
+            [self recordSnapshot:[object contextSnapshotWithDBSnapshot:nil] 
+                     forGlobalID:[savingContext globalIDForObject:object]];
+        }
+    }
+    for (object in [savingContext updatedObjects]) 
+    {
+        if ([self ownsObject:object])
+        {
+            aGlobalID = [savingContext globalIDForObject:object];
+            aSnapshot = [[self database] snapshotForGlobalID:aGlobalID];
+            [self recordSnapshot:[object contextSnapshotWithDBSnapshot:aSnapshot] 
+                     forGlobalID:[savingContext globalIDForObject:object]];
+        }
+    }
+}
+
 - (void)_cleanUpTransactions
 {
 	[self forgetAllLocks];
 	[snapshots release]; snapshots = nil;
 	[forgetSnapshots release]; forgetSnapshots = nil;
-	// Anything to clean in the database?
-}
+    [savingContext release]; savingContext = nil;
+	[databaseOperations release]; databaseOperations = nil;
 
-- (void)_adaptorContextDidBeginTransaction:(NSNotification *)notification
-{
-	[self _assertLock];
-	if (snapshots) {
-		[NSException raise:EODatabaseException format:@"Nesting transactions are not supported."];
-	}
-	snapshots = [[NSMutableDictionary allocWithZone:[self zone]] init];
-	forgetSnapshots = [[NSMutableSet allocWithZone:[self zone]] init];
+	// Anything to clean in the database?
 }
 
 // lon.varscsak @ gmail.com 10/03/2006:
@@ -702,10 +750,7 @@ static Class _eoDatabaseContextClass = Nil;
 {
     NSMutableDictionary *globalIDMappings;
     id                  object;
-    
-    if (! savingContext)
-        return;
-    
+        
     globalIDMappings = [NSMutableDictionary dictionary];
     
     for (object in [savingContext updatedObjects])
@@ -743,10 +788,7 @@ static Class _eoDatabaseContextClass = Nil;
 {
 	NSMutableDictionary *globalIDMappings;
     id                  object;
-    
-    if (! savingContext)
-        return;
-    
+        
 	globalIDMappings = [NSMutableDictionary dictionary];
 	
         
@@ -831,14 +873,14 @@ static Class _eoDatabaseContextClass = Nil;
 				// 2005-05-18 AJR Note that record code in the database is now more intelligent. If the snapshot already exists, it's values are simply replaced with the newly provided values. If it doesn't exist, then the actualy snapshot provided is recorded.
                 // Tom.Martin @ Riemer.com 2012-04-03
                 // no longer need to record the snapshot here as we already did it in
-                // _adaptorContextDidCommiTansaction:
+                // commitChanges
 				//[aDatabase recordSnapshot:[[operation object] snapshot] forGlobalID:[operation globalID]];
 				[globalIDsForUpdatedObjects addObject: [operation globalID]];
 				break;
 			case EODatabaseDeleteOperator:
                 // Tom.Martin @ Riemer.com 2012-04-03
-                // no longer need to forget the snapshot here as we already did it in
-                // _adaptorContextDidCommiTansaction:
+                // no longer need to forget the snapshot here as
+                // this now happens in commitChanges 
 				//[aDatabase forgetSnapshotForGlobalID:[operation globalID]];
 				[globalIDsForDeletedObjects addObject: [operation globalID]];
 				break;
@@ -851,43 +893,6 @@ static Class _eoDatabaseContextClass = Nil;
 	[globalIDsForUpdatedObjects release];
 	[globalIDsForDeletedObjects release];
 	[userInfo release];
-}
-
-- (void)_adaptorContextDidCommitTransaction:(NSNotification *)notification
-{
-	[self _assertLock];
-	if (snapshots != nil) 
-    {
-		NSEnumerator		*enumerator = [forgetSnapshots objectEnumerator];
-		EOGlobalID			*globalID;
-        
-		while ((globalID = [enumerator nextObject]) != nil) {
-			[database forgetSnapshotForGlobalID:globalID];
-		}
-		
-		[database recordSnapshots:snapshots];
-        
-        // Tom.Martin @ Riemer.com 2012-03-30
-        // these were in commit changes but since these need access to
-        // the context snapshots which go away here, I moved these 
-        // methods here.  Now these methods access the context snapshots
-        // and still update the some EODatabase snapshots directly.  
-        // Namely when the globalID changes.  This is
-        // not particulary effecient, but becuase of the global id 
-        // change notifications, this works well.  It COULD be made
-        // more effecient by breaking the notifications into a separate step
-        // perhaps.
-        [self _acceptNewGlobalIDs];
-        [self _acceptUpdatedGlobalIDs];
-        [self _acceptDatabaseOperations];        
-	}
-	[self _cleanUpTransactions];
-}
-
-- (void)_adaptorContextDidRollbackTransaction:(NSNotification *)notification
-{
-	[self _assertLock];
-	[self _cleanUpTransactions];
 }
 
 #define ASSERT_SNAPSHOTS() { \
@@ -1381,47 +1386,6 @@ static Class _eoDatabaseContextClass = Nil;
 	}
 }
 
-
-// Tom.Martin @ Riemer.com 2012-03-21
-// create our snapshots for all objects in one pass.  Called from 
-// prepareForSaveWithCoordinator:editingContext: this method sets all the snapshots from the
-// current objects.  This means that when recordChangesInEditingContext is called there
-// should be a snapshot in all databaseContexts available for query.
-- (void)_recordSnapshotsInEditingContext
-{
-    id              object;
-    NSDictionary    *aSnapshot;
-    EOGlobalID      *aGlobalID;
-		
-	// For deleted objects we need to forget the snapshot
-	for (object in [savingContext deletedObjects]) 
-    {
-        if ([self ownsObject:object])
-        {
-            [self forgetSnapshotForGlobalID:[savingContext globalIDForObject:object]];
-        }
-    }
-
-    for (object in [savingContext insertedObjects]) 
-    {
-        if ([self ownsObject:object])
-        {
-            [self recordSnapshot:[object contextSnapshotWithDBSnapshot:nil] 
-                     forGlobalID:[savingContext globalIDForObject:object]];
-        }
-    }
-    for (object in [savingContext updatedObjects]) 
-    {
-        if ([self ownsObject:object])
-        {
-            aGlobalID = [savingContext globalIDForObject:object];
-            aSnapshot = [[self database] snapshotForGlobalID:aGlobalID];
-            [self recordSnapshot:[object contextSnapshotWithDBSnapshot:aSnapshot] 
-                     forGlobalID:[savingContext globalIDForObject:object]];
-        }
-    }
-}
-
 - (void)prepareForSaveWithCoordinator:(EOObjectStoreCoordinator *)aCoordinator editingContext:(EOEditingContext *)anEditingContext
 {
 	NSArray				*insertedObjects;
@@ -1509,8 +1473,7 @@ static Class _eoDatabaseContextClass = Nil;
 	[self _generatePrimaryKeysForObjects:pkCache];
 	[pkCache release];
     
-    // create context snapshots for all our objects now so that we can give out that info
-    // during recordChangesInEditingContext
+    // Now that we have primary keys, create our local snapshots
     [self _recordSnapshotsInEditingContext];
 }
 
@@ -1622,6 +1585,10 @@ static Class _eoDatabaseContextClass = Nil;
     
     // get the changes for THIS object
     memberChanges = [savingContext toManyChangesForMemberGlobalId:_currentGlobalID];
+    
+    // if there were no changes, then just return now.
+    if (! memberChanges)
+        return;
     
     // processed removed changes FIRST because the same relationship may have an add
     // if add were processed frist the add might get undone if a remove exists for the
@@ -2267,7 +2234,9 @@ static Class _eoDatabaseContextClass = Nil;
 - (void)commitChanges
 {
 	NSException		*exception = nil;
-	
+    NSEnumerator	*enumerator;
+    EOGlobalID		*globalID;
+
 	[self _assertSaving:_cmd];
 
 	if ([adaptorContext hasOpenTransaction]) {
@@ -2287,14 +2256,19 @@ static Class _eoDatabaseContextClass = Nil;
 		[exception raise];
 	}
     
-    // Tom.Martin @ Riemer.com 2012-03-30
-	// The following were MOVED to _adaptorDidCommit
-	// [self _acceptNewGlobalIDs];
-	// [self _acceptUpdatedGlobalIDs];
-	// [self _acceptDatabaseOperations];
-	
-	[savingContext release]; savingContext = nil;
-	[databaseOperations release]; databaseOperations = nil;
+    // forget/record snapshots in database
+    enumerator = [forgetSnapshots objectEnumerator];
+    while ((globalID = [enumerator nextObject]) != nil) {
+        [database forgetSnapshotForGlobalID:globalID];
+    }
+    [database recordSnapshots:snapshots];
+
+    // deal with changed global ID's
+	[self _acceptNewGlobalIDs];
+	[self _acceptUpdatedGlobalIDs];
+	[self _acceptDatabaseOperations];
+    
+    [self _cleanUpTransactions];
 	
 	// mont_rothstein @ yahoo.com 2004-12-19
 	// Added code to clear out the temporary global IDs of join table objects
@@ -2325,16 +2299,11 @@ static Class _eoDatabaseContextClass = Nil;
 			exception = [localException retain];
 		NS_ENDHANDLER
 	}
-	
-	// mont_rothstein @ yahoo.com 2005-06-23
-	// Added call to forget all locks
-	[self forgetAllLocks];
 
 	[self _clearNewGlobalIDs];
 	
-	[savingContext release]; savingContext = nil;
-	[databaseOperations release]; databaseOperations = nil;
-	
+    [self _cleanUpTransactions];
+
 	// mont_rothstein @ yahoo.com 2004-12-19
 	// Added code to clear out the temporary global IDs of join table objects
 	[tempJoinIDs removeAllObjects];
