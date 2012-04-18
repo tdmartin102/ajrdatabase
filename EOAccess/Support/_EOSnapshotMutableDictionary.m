@@ -169,7 +169,14 @@
 		[container release];
 	}
 	else
+    {
+        // Tom.Martin @ Riemer.com 2012-04-18
+        // The documentation is clear, setObject:forKey: is supposed to REPLACE the object
+        // if it exists.  This was not doing that, leading to unexpected behaviour.
+        [container->object autorelease];
+        container->object = [object retain];
 		container->timestamp = [NSDate timeIntervalSinceReferenceDate];
+    }
 }
 
 - (void)removeObjectForKey:(id)key
