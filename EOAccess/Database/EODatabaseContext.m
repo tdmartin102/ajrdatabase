@@ -746,6 +746,8 @@ static Class _eoDatabaseContextClass = Nil;
 // lon.varscsak @ gmail.com 10/03/2006:
 //   added _acceptUpdatedGlobalIDs to determine if PK values have been changed on updatedObjects 
 //   and then post the EOGlobalIDChangedNotification accordingly
+// Tom.Martin @ Riemer.com 2012-04-18
+// This goes beyond the EOF spec which says it does not support altering the primary key.  Nice addition.
 - (void)_acceptUpdatedGlobalIDs
 {
     NSMutableDictionary *globalIDMappings;
@@ -1389,9 +1391,6 @@ static Class _eoDatabaseContextClass = Nil;
 - (void)prepareForSaveWithCoordinator:(EOObjectStoreCoordinator *)aCoordinator editingContext:(EOEditingContext *)anEditingContext
 {
 	NSArray				*insertedObjects;
-	NSMutableDictionary *pkCache;
-	int					x;
-	int					numInsertedObjects;
 	
 	// 0. Make sure we've been locked.
 	[self _assertLock];
@@ -1418,60 +1417,63 @@ static Class _eoDatabaseContextClass = Nil;
 	//    a lot of round trips to the database.  However the delegate may give us primary keys
 	//    so we will not include those in our cache.
 	insertedObjects = [savingContext insertedObjects];
-	pkCache = [[NSMutableDictionary allocWithZone:[self zone]] init];
-	numInsertedObjects = [insertedObjects count];
-	for (x = 0; x < numInsertedObjects; x++) 
-	{
-		id				object = [insertedObjects objectAtIndex:x];
-		EOGlobalID		*globalID = [[object editingContext] globalIDForObject:object];
-		
-		if ([globalID isTemporary] && [self ownsGlobalID:globalID]) 
-		{
-			NSString		*entityName = [globalID entityName];
-			NSMutableArray	*cache = [pkCache objectForKey:entityName];
-			EOEntity		*entity = [database entityNamed:entityName];
-			NSDictionary	*pk;
+    if ([insertedObjects count])
+    {
+        id                  object;
+        NSMutableDictionary *pkCache = [[NSMutableDictionary allocWithZone:[self zone]] init];
+        
+        for (object in insertedObjects)
+        {
+            EOGlobalID		*globalID = [[object editingContext] globalIDForObject:object];
+            
+            if ([globalID isTemporary] && [self ownsGlobalID:globalID]) 
+            {
+                NSString		*entityName = [globalID entityName];
+                NSMutableArray	*cache = [pkCache objectForKey:entityName];
+                EOEntity		*entity = [database entityNamed:entityName];
+                NSDictionary	*pk;
 
-			// Tom.Martin @ Riemer.com 11/17/2011
-			// First check to see if the delegate is going to hand us a primary Key
-			pk = nil;
-			if (delegateRespondsToNewPrimaryKeyForObjectEntity)
-				pk = [delegate databaseContext:self newPrimaryKeyForObject:object entity:entity];
+                // Tom.Martin @ Riemer.com 11/17/2011
+                // First check to see if the delegate is going to hand us a primary Key
+                pk = nil;
+                if (delegateRespondsToNewPrimaryKeyForObjectEntity)
+                    pk = [delegate databaseContext:self newPrimaryKeyForObject:object entity:entity];
 
-			if (pk)
-				[(EOTemporaryGlobalID *)globalID setNewGlobalID:[entity globalIDForRow:pk]];
-			else
-			{
-				// Tom.Martin @ Riemer.com 11/17/11
-				// ONLY add objects to the pkCache if we truly need to.
-				// We don't want to ask the database to build keys that
-				// we don't need.
-				// We only need adaptor keys IF the primary key has only one element,
-				// AND that element is private.
-				// The mechanisim for assiging a 12 byte unique id by this framework for
-				// the datatype NSData is not implemented yet. So we are not going to deal with that.
-				NSArray *pkAttributes = [entity primaryKeyAttributes];
-				if (([pkAttributes count] == 1)  && [entity _primaryKeyIsPrivate])
-				{
-					cache = [pkCache objectForKey:entityName];
-					if (cache == nil) 
-					{
-						cache = [[NSMutableArray allocWithZone:[self zone]] init];
-						[pkCache setObject:cache forKey:entityName];
-						[cache release];
-					}
-					[cache addObject:object];
-				}
-				else
-					// we assume it is already set
-					[(EOTemporaryGlobalID *)globalID setNewGlobalID:[entity globalIDForRow:[object primaryKey]]];
-			}			
-		}
-	}
-	
-	// 5. Creating the primary keys as a single batch.
-	[self _generatePrimaryKeysForObjects:pkCache];
-	[pkCache release];
+                if (pk)
+                    [(EOTemporaryGlobalID *)globalID setNewGlobalID:[entity globalIDForRow:pk]];
+                else
+                {
+                    // Tom.Martin @ Riemer.com 11/17/11
+                    // ONLY add objects to the pkCache if we truly need to.
+                    // We don't want to ask the database to build keys that
+                    // we don't need.
+                    // We only need adaptor keys IF the primary key has only one element,
+                    // AND that element is private.
+                    // The mechanisim for assiging a 12 byte unique id by this framework for
+                    // the datatype NSData is not implemented yet. So we are not going to deal with that.
+                    NSArray *pkAttributes = [entity primaryKeyAttributes];
+                    if (([pkAttributes count] == 1)  && [entity _primaryKeyIsPrivate])
+                    {
+                        cache = [pkCache objectForKey:entityName];
+                        if (cache == nil) 
+                        {
+                            cache = [[NSMutableArray allocWithZone:[self zone]] init];
+                            [pkCache setObject:cache forKey:entityName];
+                            [cache release];
+                        }
+                        [cache addObject:object];
+                    }
+                    else
+                        // we assume it is already set
+                        [(EOTemporaryGlobalID *)globalID setNewGlobalID:[entity globalIDForRow:[object primaryKey]]];
+                }			
+            }
+        }
+        
+        // 5. Creating the primary keys as a single batch.
+        [self _generatePrimaryKeysForObjects:pkCache];
+        [pkCache release];
+    }
     
     // Now that we have primary keys, create our local snapshots
     [self _recordSnapshotsInEditingContext];
