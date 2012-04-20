@@ -6,6 +6,7 @@
 #import "EOEnterpriseObject.h"
 #import "EOEditingContext.h"
 #import "EOFault.h"
+#import "NSObject-EOEnterpriseObject.h"
 
 #import <Foundation/Foundation.h>
 
@@ -177,21 +178,19 @@
 - (NSDictionary *)snapshotForObject:(id)object
 {
 	NSMutableDictionary	*snapshot = [[NSMutableDictionary allocWithZone:[self zone]] init];
-	int						x;
-	int numKeys;
-	NSArray					*keys;
-	id							value;
-	
-	keys = [self attributeKeys];
-	numKeys = [keys count];
-	
-	for (x = 0; x < numKeys; x++) {
-		NSString		*key = [keys objectAtIndex:x];
+	id						value;
+    NSString                *key;
+		
+    for (key in [self attributeKeys])
+    {
 		// tom.martin @ riemer.com - 2011-09-16
 		// replace depreciated method.  This should be tested, behavior is different.
 		// It may be acceptable, and then again maybe not. 
 		//value = [self storedValueForKey:key];
-		value = [self valueForKey:key];
+		//value = [self valueForKey:key];
+        // tom.martin @ riemer.com - 2012-04-19
+        // and so we did change it yet again.
+        value = [self primitiveValueForKey:key];
         // tom.martin @ riemer.com - 2012-02-15
         // NSStrings need special handling becuase empty strings should
         // be treated as nulls.  An EONull string read by the database
@@ -206,29 +205,31 @@
 		[snapshot setObject:value == nil ? [NSNull null] : value forKey:key];
 	}
 	
-	keys = [self toOneRelationshipKeys];
-	numKeys = [keys count];
-	
-	for (x = 0; x < numKeys; x++) {
-		NSString		*key = [keys objectAtIndex:x];
+    for (key in [self toOneRelationshipKeys])
+    {
 		// tom.martin @ riemer.com - 2011-09-16
 		// replace depreciated method.  This should be tested, behavior is different.
 		// It may be acceptable, and then again maybe not. 
 		//value = [self storedValueForKey:key];
-		value = [self valueForKey:key];
+        // tom.martin @ riemer.com - 2012-04-19
+        // and so we did change it yet again. This would cause a fault to fire
+        // when the EO was designed to do that.
+		// value = [self valueForKey:key];
+        value = [self primitiveValueForKey:key];
 		[snapshot setObject:value == nil ? [NSNull null] : value forKey:key];
 	}
 	
-	keys = [self toManyRelationshipKeys];
-	numKeys = [keys count];
-	
-	for (x = 0; x < numKeys; x++) {
-		NSString		*key = [keys objectAtIndex:x];
+    for (key in [self toManyRelationshipKeys])
+    {
 		// tom.martin @ riemer.com - 2011-09-16
 		// replace depreciated method.  This should be tested, behavior is different.
 		// It may be acceptable, and then again maybe not.
 		//value = [[self storedValueForKey:key] shallowCopy];
-		value = [[self valueForKey:key] shallowCopy];
+        // tom.martin @ riemer.com - 2012-04-19
+        // and so we did change it yet again. This would cause a fault to fire
+        // when the EO was designed to do that.
+		// value = [[self valueForKey:key] shallowCopy];
+        value = [[self primitiveValueForKey:key] shallowCopy];
 		[snapshot setObject:value == nil ? [NSNull null] : value forKey:key];
 		[value release];
 	}
@@ -263,7 +264,7 @@
     
     for (key in [self attributeKeys])
     {
-        value = [self valueForKey:key];
+        value = [self primitiveValueForKey:key];
         // NSStrings need special handling becuase empty strings should
         // be treated as nulls.  An EONull string read by the database
         // may get changed to an empty string.  If we try to do an update
@@ -287,7 +288,7 @@
         NSArray         *anArray;
         id              anObject;
         NSMutableArray  *result = nil;
-		anArray = [self valueForKey:key];
+		anArray = [self primitiveValueForKey:key];
         if (anArray)
         {
             id aGID;
