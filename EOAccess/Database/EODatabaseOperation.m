@@ -318,22 +318,33 @@
         // not just the class attributes.
         // value2 = [object valueForKey:key];
         value2 = [newRow objectForKey:key];
-        // tom.martin @ riemer.com 2011-08-16
-        // valueForKey returns a string with no length when the object value is a string, and is nil;
-        // The snapshot would be nil or NSNull.  strange.
-        if ([value2 isKindOfClass:[NSString class]]) 
+        if (value2)
         {
-            if ([(NSString *)value2 length] == 0)
-             value2 = nil;
-        
+            // Tom.martin @ riemer.com 2012-04-20
+            // since we converted valu1 to nil if it is NSNull, we need to
+            // do that here as well.
+            if (value2 == [NSNull null])
+                value2 = nil;
+            // tom.martin @ riemer.com 2011-08-16
+            // valueForKey returns a string with no length when the object value is a string, and is nil;
+            // The snapshot would be nil or NSNull.  strange.
+            else if ([value2 isKindOfClass:[NSString class]]) 
+            {
+                if ([(NSString *)value2 length] == 0)
+                    value2 = nil;
+                
+            }
         }
+        
         if (value1 == value2) continue;
         // tom.martin @ riemer.com 2011-08-16
         // got rid of redundant test
-        //if (value1 == nil && value2 == nil) continue;
+        // if (value1 == nil && value2 == nil) continue;
+        
         if ((value1 != nil && value2 == nil) ||
             (value1 == nil && value2 != nil) ||
-            (![value1 isEqual:value2])) {
+            (![value1 isEqual:value2])) 
+        {
             // aclark @ ghoti.org 2005-08-11
             // This was setting the value to nil fixed it to use NSNull.
             // tom.martin @ riemer.com - 2011-09-16
@@ -342,7 +353,6 @@
             [updated setValue:value2 == nil ? [NSNull null] : value2 forKey:key];
         }
     
-        
         /*  
          Tom.Martin @ Riemer.com 2012-04-05
          The folloing code is no longer needed.  The attributes for foriegn keys
@@ -382,11 +392,8 @@
                 }
             }
         }
-
         */
 
-        
-        
     }
 	
     return updated;
