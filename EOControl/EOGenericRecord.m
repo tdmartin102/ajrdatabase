@@ -36,6 +36,7 @@ http://www.raftis.net/~alex/
 #import "EOKeyGlobalID.h"
 #import "_EOSelectorTable.h"
 #import "NSClassDescription-EO.h"
+#import "NSObject-EOEnterpriseObject.h"
 #import "NSObject-EOEnterpriseObjectP.h"
 #import "NSString-EO.h"
 
@@ -289,7 +290,6 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
 	[self setValue: value forUndefinedKey: key];
 }
 
-
 // tom.martin @ riemer.com 2011-09-16
 // unableToSetNilForKey: is the depreciated method. 
 - (void)unableToSetNilForKey:(NSString *)key
@@ -300,7 +300,6 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
 {
 	[_values setValue:nil forKey:key];
 }
-
 
 // tom.martin @ riemer.com 2011-09-16
 // takeStoredValue:forKey is a depreciated method. 
@@ -318,10 +317,11 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
 {
 	[self setPrimitiveValue:value forkey:key];
 }
+
 - (void)setPrimitiveValue:(id)value forkey:(NSString *)key
 {
-	//void		*variable;
-	//Ivar		ivar;
+	void		*variable;
+	Ivar		ivar;
 	
 	// mont_rothstein @ yahoo.com 2005-02-17
 	// As per the WO 4.5.1 docs call to willChange added
@@ -330,17 +330,52 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
 	// and feel that it does not imply that willChange should be called.
 	// further since the WHOLE POINT seems to be to avoid calling willChange
 	// then I am just going to call setValue here as willChange is NOT going
-	// to be called.
+	// to be called.  Finally setValue:forKey: is not implemented here and it
+    // SHOULD be calling will change!
 	//[self willChange];
-	[_values setValue:value forKey:key];
+	//[_values setValue:value forKey:key];
 
 	// If the key exists as a ivar in the object, then use super's implementation.
-	//ivar = object_getInstanceVariable(self, [key UTF8String], &variable);
-	//if (ivar) {
-	//	[super takeStoredValue:value forKey:key];
-	//} else {
-	//	[_values takeValue:value forKey:key];
-	//}
+	ivar = object_getInstanceVariable(self, [key UTF8String], &variable);
+	if (ivar) {
+		//[super takeStoredValue:value forKey:key];
+        [super setPrimitiveValue:value forKey:key];
+	} else {
+		[_values setValue:value forKey:key];
+	}
+}
+
+// tom.Martin @ riemer.com 2012-04-19
+// Added missing implementation of setValue:forKey, which calls
+// willChange as the documentation states
+- (void)setValue:(id)value forKey:(NSString *)key
+{
+    void		*variable;
+	Ivar		ivar;
+	
+	[self willChange];    
+	// If the key exists as a ivar in the object, then use super's implementation.
+	ivar = object_getInstanceVariable(self, [key UTF8String], &variable);
+	if (ivar) {
+        [self setValue:value forKey:key];
+	} else {
+		[_values setValue:value forKey:key];
+	}
+}
+
+- (id)valueForKey:(NSString *)key
+{
+    void		*variable;
+	Ivar		ivar;
+    id			value;
+	
+	// If the key exists as a ivar in the object, then use super's implementation.
+	ivar = object_getInstanceVariable(self, [key UTF8String], &variable);
+	if (ivar)
+        value = [self valueForKey:key];
+    else
+        value = [_values valueForKey:key];
+    return value;
 }
 
 // tom.martin @ riemer.com 2011-09-16
@@ -350,23 +385,26 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
 // I am just going to comment this out for now and if this comes back to
 // haunt me, then perhaps we could implement primitiveValueForKey: or
 // something like that.
+// tom.martin @ riemer.com 2012-04-18
+// which I did.
 - (id)storedValueForKey:(NSString *)key
 {
-//	void		*variable;
-//	id			value;
-//	Ivar		ivar;
+    return [self primitiveValueForKey:key];
+}
 
-	return [_values valueForKey:key];
-	
+- (id)primitiveValueForKey:(NSString *)key
+{
+    void		*variable;
+    id			value;
+    Ivar		ivar;
+    
 	// If the key exists as a ivar in the object, then use super's implementation.
-//	ivar = object_getInstanceVariable(self, [key UTF8String], &variable);
-//	if (ivar) {
-//		value = [super storedValueForKey:key];
-//	} else {
-//		value = [_values valueForKey:key];
-//	}
-	
-//   return value;
+	ivar = object_getInstanceVariable(self, [key UTF8String], &variable);
+	if (ivar)
+        value = [self primitiveValueForKey:key];
+    else
+        value = [_values valueForKey:key];
+    return value;	
 }
 
 // mont_rothstein @ yahoo.com 2004-12-05
