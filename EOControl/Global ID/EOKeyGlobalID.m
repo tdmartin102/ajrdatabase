@@ -142,14 +142,17 @@ http://www.raftis.net/~alex/
 
 - (NSString *)description
 {
-   NSMutableString	*buffer = [@"[EOKeyGlobalID:" mutableCopyWithZone:[self zone]];
-   int					x;
+    NSMutableString	*buffer = [@"[EOKeyGlobalID: entity=" mutableCopyWithZone:[self zone]];
+    int					x;
+    
+    [buffer appendString:entityName];
+    [buffer appendString:@" key(s): "];
 
-   for (x = 0; x < count; x++) {
-      if (x != 0) [buffer appendString:@", "];
-      [buffer appendString:keys[x]];
-      [buffer appendString:@"="];
-      [buffer appendString:[values[x] description]];
+    for (x = 0; x < count; x++) {
+        if (x != 0) [buffer appendString:@", "];
+        [buffer appendString:keys[x]];
+        [buffer appendString:@"="];
+        [buffer appendString:[values[x] description]];
    }
 
    [buffer appendString:@"]"];

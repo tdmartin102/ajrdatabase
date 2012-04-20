@@ -110,7 +110,7 @@ http://www.raftis.net/~alex/
 
 - (NSString *)description
 {
-    NSMutableString	*buffer = [[@"[" mutableCopyWithZone:[self zone]] autorelease];
+    NSMutableString	*buffer = [[@"[EOTemporaryGlobalID entity=" mutableCopyWithZone:[self zone]] autorelease];
 	
 	[buffer appendString: entityName!= nil ? entityName : @"Null"];
     [buffer appendString:@":"];

@@ -115,19 +115,22 @@ http://www.raftis.net/~alex/
 
 - (NSString *)description
 {
-   NSMutableString	*buffer = [@"[EONumericKeyGlobalID:" mutableCopyWithZone:[self zone]];
-   int					x;
+    NSMutableString	*buffer = [@"[EONumericKeyGlobalID: entity=" mutableCopyWithZone:[self zone]];
+    int					x;
+    
+    [buffer appendString:entityName];
+    [buffer appendString:@" key(s): "];
 	
-   for (x = 0; x < count; x++) {
-      if (x != 0) [buffer appendString:@", "];
-      [buffer appendString:keys[x]];
-      [buffer appendString:@"="];
-      [buffer appendString:EOFormat(@"%qu", values[x])];
-   }
+    for (x = 0; x < count; x++) {
+        if (x != 0) [buffer appendString:@", "];
+        [buffer appendString:keys[x]];
+        [buffer appendString:@"="];
+        [buffer appendString:EOFormat(@"%qu", values[x])];
+    }
 	
-   [buffer appendString:@"]"];
+    [buffer appendString:@"]"];
 	
-   return [buffer autorelease];
+    return [buffer autorelease];
 }
 
 - (NSString **)keys
