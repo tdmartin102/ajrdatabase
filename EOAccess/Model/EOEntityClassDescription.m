@@ -257,7 +257,11 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 			// replace depreciated method.  This should be tested, behavior is different.
 			// It may be acceptable, and then again maybe not. 
 			// && (![object storedValueForKey: [relationship name]]) 
-			&& (![object valueForKey: [relationship name]]) 
+            // Tom.Martin @ riemer.com 2012-05-19
+            // I substituted the new method primitiveValueForKey:  for
+            // valueForKey: to avoid hitting EO accessor method logic and 
+            // possibly firing a fault
+			&& (![object primitiveValueForKey: [relationship name]]) 
 			#endif
 		  ) 
 		{
@@ -335,28 +339,27 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 	return exception;
 }
 
-
 - (NSException *)validateObjectForSave:(id)object
 {
-	NSArray			*array;
-	int				x;
-	int numAttributes;
-	int numKeys;
 	NSException		*exception = nil;
+    EOAttribute		*attribute;
+    NSString        *key;
+    id              value;
 	
 	// Validate class properties.
-	array = [entity attributes];
-	numAttributes = [array count];
-	for (x = 0; x < numAttributes; x++) {
-		EOAttribute		*attribute = [array objectAtIndex:x];
-		
-		if ([attribute _isClassProperty]) {
-			NSString			*key = [attribute name];
+    for (attribute in [entity attributes])
+    {
+		if ([attribute _isClassProperty]) 
+        {
+			key = [attribute name];
 			// tom.martin @ riemer.com - 2011-09-16
 			// replace depreciated method.  This should be tested, behavior is different.
 			// It may be acceptable, and then again maybe not. 
 			//id					value = [object storedValueForKey:key];
-			id					value = [object valueForKey:key];
+            // Tom.Martin @ Riemer.com 2012-04-19
+            // AND we now set it back to the new method primitiveValueForKey:
+            // so that we will bypass accessor logic
+			value = [object primitiveValueForKey:key];
 			exception = [self _mergeException:[self validateValue:&value forKey:key] with:exception];
 		}
 	}
@@ -377,30 +380,34 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 //		}
 //	}
 	
-	// Validate to one relationships (also indirectly validates the foreign key).
-	array = [self toOneRelationshipKeys];
-	numKeys = [array count];
-	for (x = 0; x < numKeys; x++) {
-		NSString			*key = [array objectAtIndex:x];
+	// Validate to one relationships (also indirectly validates the foreign key).    
+    for (key in [self toOneRelationshipKeys])
+    {
 		// tom.martin @ riemer.com - 2011-09-16
 		// replace depreciated method.  This should be tested, behavior is different.
 		// It may be acceptable, and then again maybe not. 
 		//id					value = [object storedValueForKey:key];
-		id					value = [object valueForKey:key];
-		exception = [self _mergeException:[self validateValue:&value forKey:key] with:exception];
+        // Tom.Martin @ Riemer.com 2012-04-19
+        // AND we now set it back to the new method primitiveValueForKey:
+        // so that we will bypass accessor logic and possibly fire a fault
+		value = [object primitiveValueForKey:key];
+        if (! [EOFault isFault:value])
+            exception = [self _mergeException:[self validateValue:&value forKey:key] with:exception];
 	}
 	
 	// Validate to many relationships.
-	array = [self toManyRelationshipKeys];
-	numKeys = [array count];
-	for (x = 0; x < numKeys; x++) {
-		NSString			*key = [array objectAtIndex:x];
+    for (key in [self toManyRelationshipKeys])
+    {
 		// tom.martin @ riemer.com - 2011-09-16
 		// replace depreciated method.  This should be tested, behavior is different.
 		// It may be acceptable, and then again maybe not. 
 		//id					value = [object storedValueForKey:key];
-		id					value = [object valueForKey:key];
-		exception = [self _mergeException:[self validateValue:&value forKey:key] with:exception];
+        // Tom.Martin @ Riemer.com 2012-04-19
+        // AND we now set it back to the new method primitiveValueForKey:
+        // so that we will bypass accessor logic and possibly fire a fault
+		value = [object primitiveValueForKey:key];
+        if (! [EOFault isFault:value])
+            exception = [self _mergeException:[self validateValue:&value forKey:key] with:exception];
 	}
 	
 	return exception;
@@ -451,7 +458,10 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 	// mont_rothstein @ yahoo.com 2004-12-05
 	// I am fairly certain this is supposed to send valueForKey: to object, not to self.
 	//   dstObject = [self valueForKey:[relationship name]];
-	dstObject = [object valueForKey:[relationship name]];
+    // Tom.Martin @ Riemer.com 2012-04-20
+    // user stored value to avoid firing a fault due to EO logic.
+	//dstObject = [object valueForKey:[relationship name]];
+    dstObject = [object primitiveValueForKey:[relationship name]];
 	if ([dst _isClassProperty]) {
 		return [dstObject valueForKey:[dst name]];
 	} else {
@@ -510,7 +520,10 @@ static NSMutableDictionary *_classDescriptionCache = nil;
         if ([attribute _isClassProperty])
         {
             name = [attribute name];
-            value = [object valueForKey:name];
+            // Tom.Martin @ Riemer.com 2012-05-20
+            // we sholud be getting the stored value to bypass EO logic
+            //value = [object valueForKey:name];
+            value = [object primitiveValueForKey:name];
             // Tom.Martin @ riemer.com - 2012-02-16
             // blank strings are written to the database as nulls, we need the 
             // snapshot to match the database value
@@ -531,7 +544,9 @@ static NSMutableDictionary *_classDescriptionCache = nil;
         // Only if we didn't get them previously
         if (! [attribute _isClassProperty])
         {
-            value = [object valueForKey:name];
+            // Tom.Martin @ Riemer.com 2012-05-20
+            // The following line was doing nothing since it is overwritten below ..
+            //value = [object valueForKey:name];
             // mont_rothstein @ yahoo.com 2004-12-05
 			// In rare cases we won't have an editing context, and therefore it won't have
 			// been able to give us our globalID.  This happens for many-to-many join objects
@@ -563,8 +578,8 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 			// OK, the change noted above was wrong.  What we need to do here is check to see if the to-many relationship is still a fault and only if it is do we skip it.
             // tom.martin @ riemer.com 2012-03-27
             // And I am thinking we DO want the relationship even if it IS a fault, just take care
-            // not to FIRE the fault.
-			value = [object valueForKey:name];
+            // not to FIRE the fault. So we need to use stored value so there is no chance EO logic will fire the fault
+            value = [object primitiveValueForKey:name];
             if (value)
             {
                 if (! [EOFault isFault: value]) 
@@ -606,7 +621,10 @@ static NSMutableDictionary *_classDescriptionCache = nil;
             {
                 if ([relationship _isClassProperty])
                 {
-                    value = [object valueForKey:name];
+                    // Tom.Martin @ Riemer.com 2012-04-20
+                    // use stored value as to avoid firing a fault because of EO logic
+                    //value = [object valueForKey:name];
+                    value = [object primitiveValueForKey:name];
                     [snapshot setObject:value == nil ? [NSNull null] : value forKey:name];
                 }
             }
@@ -1024,7 +1042,10 @@ static NSMutableDictionary *_classDescriptionCache = nil;
                 // You can't delete something if you never had anything
                 if (dstGlobalID)
                 {
-                    id	left = [object valueForKey:key];
+                    // Tom.Martin @ Riemer.com 2012-04-20
+                    // use stored value to avoid firing a fault due to EO logic
+                    //id	left = [object valueForKey:key];
+                    id	left = [object primitiveValueForKey:key];
                     newDstGlobalID = nil;
                     if (left && left != [NSNull null])
                     {
@@ -1058,7 +1079,10 @@ static NSMutableDictionary *_classDescriptionCache = nil;
         // convert the exiting to-many array of objects into an array of GID's so 
         // we can do the compare
         newToManyArray = [[NSMutableArray alloc] initWithCapacity:100];
-        toManyArray = [object valueForKey:key];
+        // Tom.Martin @ Riemer.com 2012-04-20
+        // user stored value to avoid firing a fault due to EO logic
+        //toManyArray = [object valueForKey:key];
+        toManyArray = [object primitiveValueForKey:key];
         if (toManyArray && ((id)toManyArray != [EONull null]) && (! [EOFault isFault:toManyArray]))
         {
             EOGlobalID  *gid;
