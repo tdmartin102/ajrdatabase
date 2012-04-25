@@ -260,7 +260,6 @@
     
     eoContext = [object editingContext];
 	keys = [self attributeKeys];
-	numKeys = [keys count];
     
     for (key in [self attributeKeys])
     {
@@ -301,7 +300,7 @@
                     [result addObject:aGID];
             }
         }
-        [snapshot setObject:result == nil ? [NSNull null] : result forKey:key];
+        [snapshot setObject:(result == nil) ? [NSNull null] : result forKey:key];
 		[result release];
 	}
 	
