@@ -924,10 +924,13 @@ static Class _eoDatabaseContextClass = Nil;
 	// Removed the assert for snapshots.  Instead we pass the call on to the database
 	// if there aren't any snapshots in this database context.
     //	ASSERT_SNAPSHOTS();
-    // Tom.Martin 2012-04-03
-    // Comment:  Perhaps this should remove the snapshot from the database IF
-    // the snapshot does not exist in the context ...
-	if ([snapshots count]) 
+    // Tom.Martin @ riemer.com 2012-04-23
+    // I am putting the ASSERT back in it makes sense to me that this should
+    // be working with the LOCAL snapshots ONLY durning a transaction context
+    // not that the documentation says this, but the docuementation is not specific either.
+    ASSERT_SNAPSHOTS();
+    
+	if ([globalIDs count]) 
 	{
 		[forgetSnapshots addObjectsFromArray:globalIDs];
 		// mont_rothstein @ yahoo.com 2005-08-08
@@ -936,10 +939,13 @@ static Class _eoDatabaseContextClass = Nil;
         // Tom.Martin @ riemer.com 2012-03-30
         // AND remove it from our snapshots so that it is not just added back in.
         [snapshots removeObjectsForKeys:globalIDs];
-		[[NSNotificationCenter defaultCenter] postNotificationName:EOObjectsChangedInStoreNotification object:self userInfo:[NSDictionary dictionaryWithObject:globalIDs forKey:EOInvalidatedKey]];
+        
+        // Tom.Martin @ riemer.com 2012-03-30
+        // AND no, do nothing now, as this notification will be posted when the snapshot is 
+        // removed at the database level.  Posting it here would result in it begin forgotten prematurely.
+		//[[NSNotificationCenter defaultCenter] postNotificationName:EOObjectsChangedInStoreNotification 
+        //    object:self userInfo:[NSDictionary dictionaryWithObject:globalIDs forKey:EOInvalidatedKey]];
 	}
-	else 
-        [database forgetSnapshotsForGlobalIDs: globalIDs];
 }
 
 // Tom.Martin @ Riemer.com 2012-03-22
@@ -1116,7 +1122,7 @@ static Class _eoDatabaseContextClass = Nil;
 	EOQualifier *qualifier;
 	
 	lockingAttributes = [[entity attributesUsedForLocking] objectEnumerator];
-	qualifier = [NSMutableArray array];
+	qualifiers = [NSMutableArray array];
 
 	while (lockingAttribute = [lockingAttributes nextObject])
 	{
@@ -1236,7 +1242,8 @@ static Class _eoDatabaseContextClass = Nil;
 {
 	[self _assertLock];
 	
-	if (delegateRespondsToShouldInvalidateObjectWithGlobalIDSnapshot) {
+	if (delegateRespondsToShouldInvalidateObjectWithGlobalIDSnapshot) 
+    {
 		NSMutableArray		*newGlobalIDs = [[NSMutableArray allocWithZone:[self zone]] init];
 		int					x;
 		int numGlobalIDs;
@@ -1252,8 +1259,12 @@ static Class _eoDatabaseContextClass = Nil;
 			}
 		}
 		
-		if ([newGlobalIDs count]) {
-			[self forgetSnapshotsForGlobalIDs:newGlobalIDs];
+		if ([newGlobalIDs count]) 
+        {
+            // Tom.Martin @ riemer.com 2012-04-23
+            // Don't forget snapshots at the local level, this should be
+            // the database level.
+			[[self database]forgetSnapshotsForGlobalIDs:newGlobalIDs];
 			[self forgetLocksForObjectsWithGlobalIDs:newGlobalIDs];
 			// mont_rothstein @ yahoo.com 2005-08-08
 			// Moved this notification to the forgetSnapshotsForGlobalIDs method
@@ -1261,8 +1272,13 @@ static Class _eoDatabaseContextClass = Nil;
 		}
 		
 		[newGlobalIDs release];
-	} else {
-		[self forgetSnapshotsForGlobalIDs:globalIDs];
+	} 
+    else 
+    {
+        // Tom.Martin @ riemer.com 2012-04-23
+        // Don't forget snapshots at the local level, this should be
+        // the database level.
+		[[self database] forgetSnapshotsForGlobalIDs:globalIDs];
 		[self forgetLocksForObjectsWithGlobalIDs:globalIDs];
 		// mont_rothstein @ yahoo.com 2005-08-08
 		// Moved this notification to the forgetSnapshotsForGlobalIDs method
@@ -1429,7 +1445,7 @@ static Class _eoDatabaseContextClass = Nil;
             if ([globalID isTemporary] && [self ownsGlobalID:globalID]) 
             {
                 NSString		*entityName = [globalID entityName];
-                NSMutableArray	*cache = [pkCache objectForKey:entityName];
+                NSMutableArray	*cache;
                 EOEntity		*entity = [database entityNamed:entityName];
                 NSDictionary	*pk;
 
@@ -1550,7 +1566,6 @@ static Class _eoDatabaseContextClass = Nil;
     if ([relationship definition] == nil)
     {
         // cycle through joins member values and set them to null (this object)
-        NSArray			*joins = [relationship joins];
         for (join in [relationship joins])
         {
             memberAttribute = [join destinationAttribute];
@@ -1621,7 +1636,7 @@ static Class _eoDatabaseContextClass = Nil;
         // you could argue that this should be done ONLY if
         // thoss attributes are not class properties, but
         // I think it should be done regardless.
-        ownerGID = [memberChanges objectForKey:@"ownerGID"];
+        ownerGID = [memberChange objectForKey:@"ownerGID"];
         relationshipName = [memberChange objectForKey:@"relationshipName"];
         entity = [database entityNamed:[ownerGID entityName]];
         
@@ -1749,7 +1764,9 @@ static Class _eoDatabaseContextClass = Nil;
 		{
 			if ([sourceAttribute _isClassProperty])
 			{
-				value = [existingObject valueForKey: [sourceAttribute name]];
+                // Tom.Martin @ Riemer.com 2012-04-23
+                // use stored value here to bypass accessor logic
+				value = [existingObject primitiveValueForKey: [sourceAttribute name]];
 			}
 			else
 			{
@@ -1757,7 +1774,9 @@ static Class _eoDatabaseContextClass = Nil;
 				value = [globalID valueForKey: [sourceAttribute name]];
 			}
 			
-			[object setValue: value forKey: [destinationAttribute name]];
+            // Tom.Martin @ Riemer.com 2012-04-23
+            // use stored value here to bypass accessor logic
+			[object setPrimitiveValue: value forKey: [destinationAttribute name]];
 		}
 		// The existing object's entity must match the destination attributes
 		// entity.  Therefore we want to read the destination attribute and
@@ -1766,15 +1785,18 @@ static Class _eoDatabaseContextClass = Nil;
 		{
 			if ([destinationAttribute _isClassProperty])
 			{
-				value = [existingObject valueForKey: [destinationAttribute name]];
+                // Tom.Martin @ Riemer.com 2012-04-23
+                // use stored value here to bypass accessor logic
+				value = [existingObject primitiveValueForKey: [destinationAttribute name]];
 			}
 			else
 			{
 				globalID = [existingObject globalID];
 				value = [globalID valueForKey: [destinationAttribute name]];
 			}
-			
-			[object setValue: value forKey: [sourceAttribute name]];
+            // Tom.Martin @ Riemer.com 2012-04-23
+            // use stored value here to bypass accessor logic
+			[object setPrimitiveValue: value forKey: [sourceAttribute name]];
 		}
 	}
 }
@@ -1897,8 +1919,12 @@ static Class _eoDatabaseContextClass = Nil;
 		{
 			relationship = [entity relationshipNamed: 
 				[classRelationships objectAtIndex: index]];
-			relatedObjects = [object valueForKey: [relationship name]];
-			
+            // Tom.Martin @ Riemer.com 2012-04-23
+            // use storedValue to bypass EO accessor logic
+            // this will decrease the likelyhood that a fault will fire.
+			// relatedObjects = [object valueForKey: [relationship name]];
+            relatedObjects = [object primitiveValueForKey: [relationship name]];
+
 			if ((![EOFault isFault: relatedObjects]) && 
 				([relationship isFlattened]))
 			{
@@ -1954,7 +1980,8 @@ static Class _eoDatabaseContextClass = Nil;
 						{
 							adaptorOperation = [[EOAdaptorOperation allocWithZone:[self zone]] initWithEntity: [(EOEntityClassDescription *)[joinObject classDescription] entity]];
 							[adaptorOperation setAdaptorOperator: EOAdaptorInsertOperator];
-#warning I'm not sure about this.  We might want to get a context snapshot here
+                            // The below is using object snapshot.  This is okay as the adaptor operation
+                            // will ignore the joinObject relationships
 							[adaptorOperation setChangedValues: [joinObject snapshot]];
 							[operation addAdaptorOperation: adaptorOperation];
 							[adaptorOperation release];
