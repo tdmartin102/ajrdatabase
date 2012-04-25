@@ -1120,25 +1120,29 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 
 - (void)_initializeFetchSpecifications
 {
-	if (fetchSpecifications == nil) {
+	if (fetchSpecifications == nil) 
+    {
 		NSDictionary		*properties;
 		
 		fetchSpecifications = [[NSMutableDictionary allocWithZone:[self zone]] init];
 		
 		properties = [model _propertiesForFetchSpecificationForEntityNamed:[self name]];
 
-		if ([properties count]) {
+        if ([properties count]) 
+        {
 			NSEnumerator	*enumerator	= [properties keyEnumerator];
 			NSString			*fetchName;
 			
-			while ((fetchName = [enumerator nextObject])) {
-				NSDictionary			*fetchProperties = [properties objectForKey:fetchName];
+			while ((fetchName = [enumerator nextObject])) 
+            {
+                NSDictionary			*fetchProperties = [properties objectForKey:fetchName];
 				EOFetchSpecification	*fetch;
 				
 				fetch = [[EOFetchSpecification allocWithZone:[self zone]] initWithPropertyList:fetchProperties owner:self];
 				if (fetch) {
 					[fetchSpecifications setObject:fetch forKey:fetchName];
 				}
+                [fetch release];
 			}
 		}
 	}
