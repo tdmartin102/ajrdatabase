@@ -112,9 +112,10 @@ http://www.raftis.net/~alex/
 	if ([[r destinationEntity] restrictingQualifier])
 	{
 		qualifier = [[EOAndQualifier allocWithZone:[self zone]] initWithArray:[NSArray arrayWithObjects:qualifier, [[r destinationEntity] restrictingQualifier], nil]];
+        [qualifier autorelease];
 	}
 	
-   return [qualifier sqlStringForSQLExpression:expression];
+    return [qualifier sqlStringForSQLExpression:expression];
 }
 
 // This produces the actual join. This is separate from above since join expression are often associative, so we can often simplify our expressions by bubbling the join clauses up to the top level.
