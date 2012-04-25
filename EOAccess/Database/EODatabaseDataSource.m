@@ -106,7 +106,7 @@
 		newFetch = [fetchSpecification copyWithZone:[self zone]];
 		[newFetch setQualifier:newQualifier];
 		
-		return newFetch;
+		return [newFetch autorelease];
 	}
 	
 	return fetchSpecification;
