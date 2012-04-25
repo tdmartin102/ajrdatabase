@@ -81,6 +81,7 @@ static NSMutableDictionary *_eoExpressionClasses = nil;
 				[_eoAdaptorNames addObject:adaptorName];
 			}
 		}
+        [files release];
 		
 		_eoConnectionPanes = [[NSMutableDictionary alloc] init];
 	}
