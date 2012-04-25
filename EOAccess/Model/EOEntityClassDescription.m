@@ -921,7 +921,9 @@ static NSMutableDictionary *_classDescriptionCache = nil;
                 <key>relationshipName</key>
                 <string>aRelationshipName</string>// This is the relationship name for OwnerGID >> MemberGID        
             </dict>
-            <key>added</key>
+        </dict>
+        <key>added</key>
+        <dict>
             <key>@MemberGID</key>  // This is the object that was added from the to-many
             <dict>
                 <key>ownerGID</key>
@@ -1028,7 +1030,8 @@ static NSMutableDictionary *_classDescriptionCache = nil;
                 
                 for (index = 0; index < numAttributes; index++)
                 {
-                    value = [dbSnapshot objectForKey:[[sourceAttributes objectAtIndex:index] name]];
+                    attrib = [sourceAttributes objectAtIndex:index];
+                    value = [dbSnapshot objectForKey:[attrib name]];
                     
                     if (value)
                     {
@@ -1138,6 +1141,7 @@ static NSMutableDictionary *_classDescriptionCache = nil;
                 dstChangeDict = [[NSDictionary alloc] initWithObjectsAndKeys:
                                  srcGlobalID, @"ownerGID", 
                                  [relationship name], @"relationshipName", nil];
+                [added setObject:dstChangeDict forKey:member];
                 [dstChangeDict release];
             }
         }
