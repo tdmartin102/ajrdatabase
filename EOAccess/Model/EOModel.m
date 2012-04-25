@@ -254,7 +254,8 @@ static NSCharacterSet		*validNameSet = nil;
 	while ((entity = [enumerator nextObject]) != nil) {
 		model = [entity model];
 		if (model != self) {
-			if (models == nil) [[NSMutableArray allocWithZone:[self zone]] init];
+			if (models == nil) 
+                models = [[NSMutableArray allocWithZone:[self zone]] init];
 			[models addObject:model];
 		}
 	}
@@ -412,6 +413,7 @@ static NSCharacterSet		*validNameSet = nil;
 		NSString		*key = [keys objectAtIndex:x];
 		[self removeEntity:[self entityNamed:key]];
 	}
+    [keys release];
 	
 	keys = [[storedProcedureCache allKeys] copy];
 	numKeys = [keys count];
@@ -419,8 +421,10 @@ static NSCharacterSet		*validNameSet = nil;
 		NSString		*key = [keys objectAtIndex:x];
 		[self removeStoredProcedure:[self storedProcedureNamed:key]];
 	}
+    [keys release];
 	
 	[self _setupEntities];
+    
 	
 	[undoManager removeAllActions];
 	
