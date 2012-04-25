@@ -478,8 +478,12 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 
 - (void)objectWillChange:(id)object
 {
-   EOGlobalID	*globalID = [self globalIDForObject:object];
-
+    EOGlobalID	*globalID = [self globalIDForObject:object];
+    
+    // Tom.Martin @ Riemer.com 2012-04-25
+    // I think we only want to add this object to the updated cache IF
+    // it is not already in the inserted, deleted, or updated Queue
+    //if (
    if (![updatedQueue objectForKey:globalID]) {
        [updatedQueue setObject:object forKey:globalID];
        [updatedCache removeAllObjects]; // Invalidate cache.
@@ -527,15 +531,91 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
     // THIS dictionary does not need to be mutable
     change = [NSDictionary dictionaryWithObjectsAndKeys:[ownerGid entityName], @"ownerEntityName",
               relationshipName, @"relationshipName",
-              ownerGid, @"ownderGID", nil];
+              ownerGid, @"ownerGID", nil];
     if (added)
         anArray = [memberInfo objectForKey:@"added"];
     else
         anArray = [memberInfo objectForKey:@"removed"];
     [anArray addObject:change];
-    [change release];
 }
 
+- (NSDictionary *)toManyChangesForMemberGlobalId:(EOGlobalID *)aGID
+{
+    return [toManyUpdatedMembers objectForKey:aGID];
+}
+
+-(void)_processRecentChanges
+{
+    NSEnumerator	*iterator;
+    EOGlobalID	*globalID;
+    
+    iterator = [insertedQueue keyEnumerator];
+    while ((globalID = [iterator nextObject]))
+        [insertedObjects setObject:[insertedQueue objectForKey:globalID] forKey:globalID];
+    [insertedQueue removeAllObjects];
+	[insertedCache removeAllObjects];
+    
+    iterator = [deletedQueue keyEnumerator];
+    while ((globalID = [iterator nextObject]))
+        [deletedObjects setObject:[deletedQueue objectForKey:globalID] forKey:globalID];
+    [deletedQueue removeAllObjects];
+	[deletedCache removeAllObjects];
+    
+    iterator = [updatedQueue keyEnumerator];
+    while ((globalID = [iterator nextObject]))
+    {
+        if (![insertedObjects objectForKey:globalID] &&
+            ![deletedObjects objectForKey:globalID] &&
+            ![updatedObjects objectForKey:globalID]) 
+        {
+            [updatedObjects setObject:[updatedQueue objectForKey:globalID] forKey:globalID];
+        }
+    }
+    [updatedQueue removeAllObjects];
+	[updatedCache removeAllObjects]; // Invalidate the cache.
+}
+
+
+- (void)processRecentChanges
+{
+    NSDictionary *userInfo;
+
+    [self _processRecentChanges];
+    
+	// mont_rothstein @ yahoo.com 2005-09-19
+	// Added post of notification as per API.  This is needed particularly for changes that aren't saved (like adding objects to a to-many relationship).  However the WO docs do not make it clear what happens if the save fails.  When this notification is posted for changes actually saved to the DB it happens after the save has succeeded.
+    userInfo = [[NSDictionary alloc] initWithObjectsAndKeys: [insertedObjects allKeys], EOInsertedKey, [updatedObjects allKeys], EOUpdatedKey, [deletedObjects allKeys], EODeletedKey, nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName: EOObjectsChangedInStoreNotification object: self userInfo: userInfo];
+    [userInfo autorelease];
+
+	// Reset the undos, if necessary.
+	if (undoManager) 
+    {
+        EOGlobalID			*key;
+		NSArray				*keys = [undoObjects allKeys];
+		NSEnumerator		*enumerator = [keys objectEnumerator];
+
+		while ((key = [enumerator nextObject])) 
+        {
+			id				object = [self objectForGlobalID:key];
+			NSDictionary	*snapshot = [undoObjects objectForKey:key];
+
+			[undoManager registerUndoWithTarget:object 
+                selector:@selector(reapplyChangesFromDictionary:) 
+                object:[object changesFromSnapshot:snapshot]];
+		}
+		
+		// mont_rothstein @ yahoo.com 2005-10-23
+		// This previously called levelsOfUndo which was incorrect and meant that the undoObjects were never cleared.  Chanced to call groupingLevel.
+		// mont_rothstein @ yahoo.com 2005-09-10
+		// If save has been called with no changes then there is no undo grouping to end 
+		if ([undoManager groupingLevel] == 0) return;
+		
+		[undoManager endUndoGrouping];	// End the previous grouping.
+		[undoObjects removeAllObjects];	// Remove the coallescing cache.
+		[undoManager beginUndoGrouping];	// And start a new grouping.
+	}
+}
 
 // We need to check to-one and to-many relationships against the current objet graph.
 // we do this for all objects in the updated and in inserted (only for added to-manys)
@@ -603,6 +683,8 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
     EOGlobalID          *aGid;
     NSObject            *object;
     NSDictionary        *aDict;
+    NSArray             *localInsertedObjects;
+    NSArray             *localUpdatedObjects;
     
     added =     [[NSMutableArray alloc] init];
     removed =   [[NSMutableArray alloc] init];
@@ -616,68 +698,88 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
     }
     if (! toManyUpdatedMembers)
         toManyUpdatedMembers = [[NSMutableDictionary alloc] init];
-        
+    
+    // store Inersted and updated objects so we don't have to call that more than once.
+    // This should ONLY be called after processRecentChanges!!
+    [self _processRecentChanges];
+    localInsertedObjects = [[self insertedObjects] retain];
+    localUpdatedObjects = [[self updatedObjects] retain];
+    
     // build arrays of all added, removed and deleted objects
-    [[self updatedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop)
-    {
-        NSClassDescription  *classDescription = [obj classDescription];
-        NSDictionary        *changes;
-        NSDictionary        *dict;
-        id                  keyEnum;
-        EOGlobalID          *gid;
-
-        changes = [classDescription relationshipChangesForObject:obj withEditingContext:self];
-        for (dict in [changes objectForKey:@"added"])
-        {   
-            [dict enumerateKeysAndObjectsUsingBlock:^(id member, id memberDict, BOOL *stop)
-            {
-                [added addObject:member];
-                EOGlobalID *ownerGid = [memberDict objectForKey:@"ownerGID"];
-                NSString *relationshipName = [memberDict objectForKey:@"relationshipName"];
-                [self _recordToManyMemberAdded:YES member:member 
-                                        owner:ownerGid 
-                             relationshipName:relationshipName];
-                
-            }];
-        }
-        for (dict in [changes objectForKey:@"removed"])
-        {   
-            [dict enumerateKeysAndObjectsUsingBlock:^(id member, id memberDict, BOOL *stop)
-            {
-                 [removed addObject:member];
-                 EOGlobalID *ownerGid = [memberDict objectForKey:@"ownerGID"];
-                 NSString *relationshipName = [memberDict objectForKey:@"relationshipName"];
-                 [self _recordToManyMemberAdded:NO member:member 
-                                          owner:ownerGid 
-                               relationshipName:relationshipName];
-                 
-            }];
-        }
-        for (gid in [changes objectForKey:@"deleted"])
-        {   
-            [deleted addObject:gid];
-        }
-
-    }];
+    // updatedObjects
+    [localUpdatedObjects enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop)
+     {
+         NSClassDescription  *classDescription = [obj classDescription];
+         NSDictionary        *changes;
+         NSDictionary        *dict;
+         id                  keyEnum;
+         EOGlobalID          *gid;
+         
+         changes = [[classDescription relationshipChangesForObject:obj withEditingContext:self] retain];
+         dict = [changes objectForKey:@"added"];
+         // added is a dictionary of keys (globalIDs) and value = dict with keys ownerGID, relationshipName
+         if (dict)
+         {   
+             [dict enumerateKeysAndObjectsUsingBlock:^(id member, id memberDict, BOOL *stop)
+              {
+                  [added addObject:member];
+                  EOGlobalID *ownerGid = [memberDict objectForKey:@"ownerGID"];
+                  NSString *relationshipName = [memberDict objectForKey:@"relationshipName"];
+                  [self _recordToManyMemberAdded:YES member:member 
+                                           owner:ownerGid 
+                                relationshipName:relationshipName];
+              }];
+         }
+         dict = [changes objectForKey:@"removed"];
+         if (dict)        
+         {   
+             [dict enumerateKeysAndObjectsUsingBlock:^(id member, id memberDict, BOOL *stop)
+              {
+                  [removed addObject:member];
+                  EOGlobalID *ownerGid = [memberDict objectForKey:@"ownerGID"];
+                  NSString *relationshipName = [memberDict objectForKey:@"relationshipName"];
+                  [self _recordToManyMemberAdded:NO member:member 
+                                           owner:ownerGid 
+                                relationshipName:relationshipName];
+                  
+              }];
+         }
+         
+         for (gid in [changes objectForKey:@"deleted"])
+         {   
+             [deleted addObject:gid];
+         }
+         [changes release];
+     }];
     
     // do the same for inserted objects but only for added
-    [[self insertedObjects] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop)
-    {
-        NSClassDescription  *classDescription = [obj classDescription];
-        NSDictionary        *changes;
-        NSDictionary        *dict;
-        id                  keyEnum;
-        EOGlobalID          *gid;
+    [localInsertedObjects enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop)
+     {
+         NSClassDescription  *classDescription = [obj classDescription];
+         NSDictionary        *changes;
+         NSDictionary        *dict;
+         id                  keyEnum;
+         EOGlobalID          *gid;
          
-        changes = [classDescription relationshipChangesForObject:obj withEditingContext:self];
-        for (dict in [changes objectForKey:@"added"])
-        {   
-            keyEnum = [dict keyEnumerator];
-            while ((gid = [keyEnum nextObject]) != nil)
-                [added addObject:gid];
-        }
-    }];
+         changes = [classDescription relationshipChangesForObject:obj withEditingContext:self];
+         dict = [changes objectForKey:@"added"];
+         // added is a dictionary of keys (globalIDs) and value = dict with keys ownerGID, relationshipName
+         if (dict)
+         {   
+             [dict enumerateKeysAndObjectsUsingBlock:^(id member, id memberDict, BOOL *stop)
+              {
+                  [added addObject:member];
+                  EOGlobalID *ownerGid = [memberDict objectForKey:@"ownerGID"];
+                  NSString *relationshipName = [memberDict objectForKey:@"relationshipName"];
+                  [self _recordToManyMemberAdded:YES member:member 
+                                           owner:ownerGid 
+                                relationshipName:relationshipName];
+              }];
+         }
+     }];
     
+    [localInsertedObjects release];
+    [localUpdatedObjects release];
     // now we want to place these objects into our editing context if we can
     // deleted
     //    check in added, if they are not there then send to self delete.
@@ -686,29 +788,35 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
     // added
     //    check in insertedObjects, if not there, then touch object (willChange)
     //    on second thought why bother, just touch object
-    for (aGid in deleted)
+    if ([deleted count])
     {
-        if (! [added containsObject:aGid])
+        id iterator;
+        
+        for (aGid in deleted)
         {
-            object = [self objectForGlobalID:aGid];
-            if (! object)
+            if (! [added containsObject:aGid])
             {
-                // looks like this object has left the scene.
-                // lets try to get it back.
-                object = [self faultForGlobalID:aGid editingContext:self];
-                // and fire the fault, but if the object is REALY gone, then thats just fine
-                NS_DURING
-                [object self];
-                NS_HANDLER
-                NSLog(@"WARNING(%s), Deleted relationship member %@ no longer in context, failed to refetch.", __PRETTY_FUNCTION__, aGid);
-                object = nil;
-                NS_ENDHANDLER
+                object = [self objectForGlobalID:aGid];
+                if (! object)
+                {
+                    // looks like this object has left the scene.
+                    // lets try to get it back.
+                    object = [self faultForGlobalID:aGid editingContext:self];
+                    // and fire the fault, but if the object is REALY gone, then thats just fine
+                    NS_DURING
+                    [object self];
+                    NS_HANDLER
+                    NSLog(@"WARNING(%s), Deleted relationship member %@ no longer in context, failed to refetch.", __PRETTY_FUNCTION__, aGid);
+                    object = nil;
+                    NS_ENDHANDLER
+                }
+                if (object)
+                    [self deleteObject:object];
             }
-            if (object)
-                [self deleteObject:object];
         }
-    }
-
+     }
+    
+    
     for (aGid in removed)
     {
         if (! [added containsObject:aGid])
@@ -728,91 +836,24 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
                 NS_ENDHANDLER
             }
             if (object)
+            {
+                // put object into updated
                 [object willChange];
+            }
         }
     }
-
+    
     for (aGid in added)
     {
         object = [self objectForGlobalID:aGid];
         if (object)
+            // put object into updated
             [object willChange];
     }
     
     [added release];
     [removed release];
     [deleted release];
-}
-
-- (NSDictionary *)toManyChangesForMemberGlobalId:(EOGlobalID *)aGID
-{
-    return [toManyUpdatedMembers objectForKey:aGID];
-}
-
-- (void)processRecentChanges
-{
-    NSEnumerator	*iterator;
-    EOGlobalID	*globalID;
-    NSDictionary *userInfo;
-        
-    iterator = [insertedQueue keyEnumerator];
-    while ((globalID = [iterator nextObject]))
-        [insertedObjects setObject:[insertedQueue objectForKey:globalID] forKey:globalID];
-    [insertedQueue removeAllObjects];
-	[insertedCache removeAllObjects];
-
-    iterator = [deletedQueue keyEnumerator];
-    while ((globalID = [iterator nextObject]))
-        [deletedObjects setObject:[deletedQueue objectForKey:globalID] forKey:globalID];
-    [deletedQueue removeAllObjects];
-	[deletedCache removeAllObjects];
-
-    iterator = [updatedQueue keyEnumerator];
-    while ((globalID = [iterator nextObject]))
-    {
-        if (![insertedObjects objectForKey:globalID] &&
-            ![deletedObjects objectForKey:globalID] &&
-            ![updatedObjects objectForKey:globalID]) 
-        {
-            [updatedObjects setObject:[updatedQueue objectForKey:globalID] forKey:globalID];
-        }
-    }
-    [updatedQueue removeAllObjects];
-	[updatedCache removeAllObjects]; // Invalidate the cache.
-
-	// mont_rothstein @ yahoo.com 2005-09-19
-	// Added post of notification as per API.  This is needed particularly for changes that aren't saved (like adding objects to a to-many relationship).  However the WO docs do not make it clear what happens if the save fails.  When this notification is posted for changes actually saved to the DB it happens after the save has succeeded.
-    userInfo = [[NSDictionary alloc] initWithObjectsAndKeys: [insertedObjects allKeys], EOInsertedKey, [updatedObjects allKeys], EOUpdatedKey, [deletedObjects allKeys], EODeletedKey, nil];
-	[[NSNotificationCenter defaultCenter] postNotificationName: EOObjectsChangedInStoreNotification object: self userInfo: userInfo];
-    [userInfo autorelease];
-
-	// Reset the undos, if necessary.
-	if (undoManager) 
-    {
-        EOGlobalID			*key;
-		NSArray				*keys = [undoObjects allKeys];
-		NSEnumerator		*enumerator = [keys objectEnumerator];
-
-		while ((key = [enumerator nextObject])) 
-        {
-			id				object = [self objectForGlobalID:key];
-			NSDictionary	*snapshot = [undoObjects objectForKey:key];
-
-			[undoManager registerUndoWithTarget:object 
-                selector:@selector(reapplyChangesFromDictionary:) 
-                object:[object changesFromSnapshot:snapshot]];
-		}
-		
-		// mont_rothstein @ yahoo.com 2005-10-23
-		// This previously called levelsOfUndo which was incorrect and meant that the undoObjects were never cleared.  Chanced to call groupingLevel.
-		// mont_rothstein @ yahoo.com 2005-09-10
-		// If save has been called with no changes then there is no undo grouping to end 
-		if ([undoManager groupingLevel] == 0) return;
-		
-		[undoManager endUndoGrouping];	// End the previous grouping.
-		[undoObjects removeAllObjects];	// Remove the coallescing cache.
-		[undoManager beginUndoGrouping];	// And start a new grouping.
-	}
 }
 
 - (void)_sendSelector:(SEL)selector toObjects:(NSMutableDictionary *)someObjects moveTo:(NSMutableDictionary *)other
@@ -1004,9 +1045,10 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
     toManyUpdatedMembers = [[NSMutableDictionary alloc] init];
     [self _processRelationships];
     
+    // we need to run this again as object may have been marked as updated by _processRelationships
     [self processRecentChanges];
     [self sendPrepareMessages];
-   // The above should be written such that a second call to processRecentChanges() isn't necessary.
+   // The above should be written such that a second call to gRecentChanges() isn't necessary.
 	
     // Tom.Martin @ Riemer.com 2012-2-14
     // Logic error is here with if statement.  Fixed it up.
@@ -1256,6 +1298,7 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 		wasInserted = YES;
 		// Note that we don't unregister the object. That'll happen after the save, since we're still concerned about the object up to the point where it will no longer exist in the database.
 	}
+    
 	[deletedQueue setObject:object forKey:globalID];
 	[deletedCache removeAllObjects]; // Invalidate cache.
 	
@@ -1552,7 +1595,13 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 		id			destination;
 		
 		// Yep, we do, so see if we have a fault or not.
-		destination = [object valueForKey:name];
+        // Tom.Martin @ Riemer.com 2012-04-24
+        // This can be called from EOArrayFaultHandler when an array fault is fired.
+        // If the EO accessor does not simply return the array but, for instance, SORTS it first, 
+        // thereby firing the fault, then this will go into an infinite loop.  We need to get the 
+        // STORED value here to prevent that from happening.
+		//destination = [object valueForKey:name];
+        destination = [object primitiveValueForKey:name];
 		if (![EOFault isFault:destination]) {
 			NSMutableArray		*copy;
 			int					x;
@@ -1571,7 +1620,9 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 					[copy addObject:copiedObject];
 				}
 			}
-			return copy;
+            // Tom.Martin @ Riemer.com 2012-04-24
+            // add autorelease
+			return [copy autorelease];
 		}
 		
 		// It is a fault, so fall through and let the parent object store fetch the objects.
@@ -1774,10 +1825,10 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 
 - (void)initializeObject:(id)object withGlobalID:(EOGlobalID *)globalID editingContext:(EOEditingContext *)anEditingContext
 {
-	id							localObject = [objects objectForKey:globalID];
+	id					localObject = [objects objectForKey:globalID];
 	NSClassDescription	*description;
-	NSArray					*array;
-	int						x;
+	NSArray				*array;
+	int					x;
 	int max;
 	
 	// Check and see if we're the appropriate object store for the object. If we are, then our job is easy and we just initialize the object. 
