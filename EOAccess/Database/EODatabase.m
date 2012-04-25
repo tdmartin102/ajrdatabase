@@ -197,121 +197,13 @@ static BOOL _eoDisableSnapshotRefCounting = NO;
 
 - (void)recordSnapshot:(NSDictionary *)snapshot forGlobalID:(EOGlobalID *)globalID
 {
-    // Tom.Marti @ Riemer.com 2012-3-2
-    // First, I really don't think we want to incrementally update the snapshot
-    // I think we really want to replace it.  The chance of leaving a value there
-    // which should NOT be there is just too high
-    //
-    // Second:  Because we later update the snapshot to include to-many snapshots, the
-    //          snapshot dictionary must be a NSMutableDictionary.
-    //
-    // Third:  The to-many snapshoting is not consistant between undo snapshoting and
-    // database snapshotting.  For undo the to-many array of ojbects itslef is captured
-    // in the snapshot.  For the database snapshot only an array of GID's is captured.
-    // this is a problem when the snapshot needs to be updated from the object itself
-    // which happens when a refetch occurs and after a save occurs.  in each instance the
-    // snapshot in the datase is updated to match the OBJECT using the objects snapshot
-    // in this case we need to translate the to-many array.
-    //
-    // If there is a to-one in the snapshot, I don't think it will hurt anything
-    // even though a database snapshot does not have to-one key-values.  It simply
-    // is not used.
-    //
-    // All these problems could be avoided if the snapshot was restricted to not include
-    // relationships and the to-many snapshots were stored separately.  something to think
-    // about.
-    /*
-	// aclark @ ghoti.org 2005-08-08
-	// This was incorrectly sending objectForKey: to snapshot instead of snapshots.  Changed to use snapshotForGlobalID: to keep abstracted.
-	NSDictionary		*oldSnapshot = [self snapshotForGlobalID:globalID];
-	
-	if (oldSnapshot == nil) {
-		// We don't already know about the snapshot, so go ahead and just set it. Note that it'll have an initial reference count of 0, until something external increments it.
-		[snapshots setObject:snapshot forKey:globalID];
-	// Tom.Martin @ Riemer.com 2011-08-30
-	// check to see if the snapshot is the same as the stored one.
-	// this can happen if recordSnapshot is called more than once on the same snapshot, which should not happen, but it could.
-	} else if (snapshot != oldSnapshot) {
-		// Tom.Martin @ Riemer.com 2011-09=8-22
-		// replace depreciated method call
-		//[oldSnapshot takeValuesFromDictionary:snapshot];
-		if ([oldSnapshot isKindOfClass:[NSMutableDictionary class]])
-			[(NSMutableDictionary *)oldSnapshot setValuesForKeysWithDictionary:snapshot];
-		else
-		{
-			// I can't see how this can happen, but there is nothing to prevent it.
-			// yank the old snapshot and replace it with the new.
-			[snapshots removeObjectsForKeys:[NSArray arrayWithObject:globalID]];
-			[snapshots setObject:snapshot forKey:globalID];
-		}
-	}
-     */
-    
     // lets just create a new dictionary, but when recording relationship keys,
     // we will convert the snapshot type if it is not correct.  This SHOULD NOT happen
     // but we don't always have control over what another programmer might do.
     NSMutableDictionary *newSnapshot;
     
     
-    // Tom.Martin @ Riemer.com 2012-04-10
-    // After more thought I decided that it should be safe not to check the snapshot
-    // at least if everyting is being used correctly, and if not it is a programming
-    // error.
-    /*
-    EOEntityClassDescription *eoDesc;
-
-    
-    [snapshots setObject:snapshot forKey:globalID];
-    [newSnapshot release];
-    
-    newSnapshot = [[NSMutableDictionary alloc] initWithCapacity:30];    
-    // get the entity
-    eoDesc = (EOEntityClassDescription *)[EOEntityClassDescription classDescriptionForEntityName:
-                                        [globalID entityName]];
-    [snapshot enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop){
-            if ([[eoDesc toManyRelationshipKeys] containsObject:key])
-            {
-                // this is a to-many
-                // if the elements in the array are GID's then we are good.
-                // if NOT then we need to translate them
-                NSArray         *anArray = (NSArray *)obj;
-               
-                if ([anArray count])
-                {
-                    // test an object
-                    if ([[anArray objectAtIndex:0] isKindOfClass:[EOGlobalID class]])
-                    {
-                       [newSnapshot setObject:obj forKey:key]; 
-                    }
-                    else
-                    {
-                        // we need to convert the to-many snapshot from 
-                        // an array of EO's to an array of GID's
-                        NSObject            *v;
-                        EOEditingContext    *eoContext;
-                        EOGlobalID          *gid;
-                        NSMutableArray      *resultArray;
-                        resultArray = [[NSMutableArray alloc] initWithCapacity:[anArray count]];
-                        eoContext = [[anArray objectAtIndex:0] editingContext];
-                        for (v in anArray)
-                        {
-                            gid = [eoContext globalIDForObject:v];
-                            if (gid)
-                                [resultArray addObject:gid];
-                        }
-                        [newSnapshot setObject:resultArray forKey:key];
-                        [resultArray release];
-                    }
-                }
-                else
-                    // add the empty array anyway
-                    [newSnapshot setObject:obj forKey:key];
-            }
-            else
-                [newSnapshot setObject:obj forKey:key];
-    }];
-    */
-    newSnapshot = [snapshot mutableCopy];
+     newSnapshot = [snapshot mutableCopy];
     [snapshots setObject:newSnapshot forKey:globalID];
     [newSnapshot release];
 }
@@ -328,6 +220,20 @@ static BOOL _eoDisableSnapshotRefCounting = NO;
 - (void)forgetSnapshotsForGlobalIDs:(NSArray *)globalIDs
 {
 	[snapshots removeObjectsForKeys:globalIDs];
+    // Tom.Martin @ Riemer.com 2012-04-24
+    // There are three reasons to call forget snapshots
+    // 1) the object was updated  (EOUpdatedKey)
+    // 2) the object was deleted  (EODeletedKey)
+    // 3) the object needs to be invalidated (EOInvalidateKey)
+    // The problem is from this method there is no easy way to know the object status is that I can think of.
+    // For EOUpdateKey and EOInvalidateKey, the object should be refaulted.  For EODeletedKey the Apple EOF did NOT refault the object
+    // and this seems appropriate.  However I just cant think of any way to pull that off from here.
+    // I am leaving this be.  It DOES make some sense that a deleted object should NOT be used after it is deleted.
+    // HOWEVER.  If it IS used the fault will fire to a database row that does not exist and an exception will be raised.
+    // not nice.  IF the programmer needs to access the object after it is deleted I would suggest making a copy
+    // before it is deleted ....  SO..  there IS a workaround.
+    // Frankly I think the documentation may be wrong and it is up to the CALLER to post the notification ...
+    // but I admit that seems like a bit much.  
 	[[NSNotificationCenter defaultCenter] postNotificationName:EOObjectsChangedInStoreNotification object:self userInfo:[NSDictionary dictionaryWithObject:globalIDs forKey:EOInvalidatedKey]];
 }
 
