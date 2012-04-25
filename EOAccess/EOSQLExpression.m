@@ -618,6 +618,7 @@ static NSCharacterSet	*literalSet;
 		[sqlString appendString:value];
 		
 	[self appendItem:sqlString toListString:listString];
+    [sqlString release];
 }
 
 /*
@@ -1277,7 +1278,7 @@ static NSCharacterSet	*literalSet;
 	// first convert the value into a standard type
 	primitiveValue = [attribute adaptorValueByConvertingAttributeValue:value];
 	// convert primitive type to SQL
-	return 	[attribute adaptorSqlStringForStandardValue:value];
+	return 	[attribute adaptorSqlStringForStandardValue:primitiveValue];
 }
 
 - (NSMutableDictionary *)bindVariableDictionaryForAttribute:(EOAttribute *)attribute value:value
@@ -1365,7 +1366,6 @@ static NSCharacterSet	*literalSet;
 	NSString			*t;
 		
 	relationshipPath = [[NSMutableString allocWithZone:[self zone]] initWithCapacity:[path count] * 20];
-	index = 0;
 	nextTableNumber = [aliasesByRelationshipPath count];
 	lastRelationship = [path count];
 	
@@ -1651,7 +1651,7 @@ static NSInteger joinAliasSort(id a, id b, void *context)
 	}
 
 	[self appendItem:string toListString:orderByString];
-
+    [string release];
 }
 
 - (NSMutableString *)orderByString { return orderByString; }
