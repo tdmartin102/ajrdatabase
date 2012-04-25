@@ -304,6 +304,7 @@
 	while ((row = [channel fetchRowWithZone:zone]) != nil) {
 		[rows addObject:row];
 	}
+    [expression release];
 
 	return rows;
 }
