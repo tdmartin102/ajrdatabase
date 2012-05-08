@@ -66,11 +66,12 @@
 
 - (id)initWithObject:(id)anObject
 {
-    [super init];
-	object = [anObject retain];
-	referenceCount = 0;
-	timestamp = [NSDate timeIntervalSinceReferenceDate];
-	
+    if (self = [super init])
+    {
+        object = [anObject retain];
+        referenceCount = 0;
+        timestamp = [NSDate timeIntervalSinceReferenceDate];
+	}
 	return self;
 }
 
