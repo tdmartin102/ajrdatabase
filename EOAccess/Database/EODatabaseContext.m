@@ -701,7 +701,6 @@ static Class _eoDatabaseContextClass = Nil;
 	}
 	snapshots = [[NSMutableDictionary allocWithZone:[self zone]] init];
 	forgetSnapshots = [[NSMutableSet allocWithZone:[self zone]] init];
-
     
 	// For deleted objects we need to forget the snapshot
 	for (object in [savingContext deletedObjects]) 
@@ -743,12 +742,55 @@ static Class _eoDatabaseContextClass = Nil;
 	// Anything to clean in the database?
 }
 
+// Tom.Martin @ Riemer.com 2012-05-02
+// When updating a temporary or updated GID we need to correct our snapshot GID
+- (void)_replaceSnapshotGlobalID:(EOGlobalID *)oldGlobalID withNewGlobalID:(EOGlobalID *)newGlobalID
+{
+    NSMutableDictionary	*snapshot;
+ 	
+	[self _assertLock];
+	snapshot = [[snapshots objectForKey:oldGlobalID] retain];
+    
+    if (snapshot)
+    {
+        [snapshots removeObjectForKey:oldGlobalID];
+        [snapshots setObject:snapshot forKey:newGlobalID];
+    }
+    [snapshot release];
+    
+    // ahh but we are not done.  We ALSO need to update any GID stored in relationship snapshots.
+    // As painful as this is, we must look through all our snapshots
+    [snapshots enumerateKeysAndObjectsUsingBlock:^(id ownerGID, id obj, BOOL *stop) 
+     {
+         // get relationship keys
+         NSString *key;
+         NSUInteger index;
+         NSMutableArray  *relationshipGIDs;
+         EOEntity *entity= [database entityNamed:[(EOGlobalID *)ownerGID entityName]];
+         NSArray *relationshipKeys = [entity _toManyRelationshipKeys];
+         for (key in relationshipKeys)
+         {
+             relationshipGIDs = [(NSDictionary *)obj objectForKey:key];
+             if (relationshipGIDs)
+             {
+                 index = [relationshipGIDs indexOfObject:oldGlobalID];
+                 if (index != NSNotFound)
+                 {
+                     // we should probably check to see if relationshipGIDs is
+                     // a mutableArray, but darn it, it SHOULD be.
+                     [relationshipGIDs replaceObjectAtIndex:index withObject:newGlobalID];
+                 }
+             }
+         }    
+     }];
+}
+
 // lon.varscsak @ gmail.com 10/03/2006:
 //   added _acceptUpdatedGlobalIDs to determine if PK values have been changed on updatedObjects 
 //   and then post the EOGlobalIDChangedNotification accordingly
 // Tom.Martin @ Riemer.com 2012-04-18
 // This goes beyond the EOF spec which says it does not support altering the primary key.  Nice addition.
-- (void)_acceptUpdatedGlobalIDs
+- (NSMutableDictionary *)_acceptUpdatedGlobalIDs
 {
     NSMutableDictionary *globalIDMappings;
     id                  object;
@@ -775,18 +817,18 @@ static Class _eoDatabaseContextClass = Nil;
             { 
                 [globalIDMappings setObject:newGlobalID forKey:oldGlobalID];                
                 [[self database] recordSnapshot:snapshot forGlobalID:newGlobalID];
+                // Tom.Martin @ Riemer.com 2012-05-03
+                // We set this up to happen all at once so we UPDATE our snapshot so that the new one will be
+                // recorded.  We also need to forget the original EODatabase snapshot.
+                [self _replaceSnapshotGlobalID:oldGlobalID withNewGlobalID:newGlobalID];
+                [self forgetSnapshotForGlobalID:oldGlobalID];
             }
         }
     }
-    
-    if ([globalIDMappings count]) 
-    {
-        [[NSNotificationCenter defaultCenter] postNotificationName:EOGlobalIDChangedNotification object:nil userInfo:globalIDMappings];
-        [[self database] forgetSnapshotsForGlobalIDs:[globalIDMappings allKeys]];
-    }
+    return globalIDMappings;
 }
 
-- (void)_acceptNewGlobalIDs
+- (NSMutableDictionary *)_acceptNewGlobalIDs
 {
 	NSMutableDictionary *globalIDMappings;
     id                  object;
@@ -800,12 +842,6 @@ static Class _eoDatabaseContextClass = Nil;
 		
 		if ([globalID isTemporary] && [self ownsGlobalID:globalID]) 
         {
-            // Tom.Martin @ Riemer.com 2012-02-16
-            // get the snapshot from the context do not re-create the snapshot from
-            // the object.  Previously there WAS no context snapshot so this
-            // was necessary.  no more.
-            NSDictionary    *snapshot= [self snapshotForGlobalID:globalID];
-
 			// mont_rothstein @ yahoo.com 2005-09-11
 			// The below code was only adding an entry for the object with its new global ID, not replacing it, and it was only do it on the primary editing context.  Corrected to use gather the old and new global IDs and then post to proper notification at the end.
             //			// mont_rothstein @ yahoo.com 2004-12-06
@@ -821,17 +857,16 @@ static Class _eoDatabaseContextClass = Nil;
 			// We need to record snapshots for any newly inserted objects in the EODatabase.  This is so that things like deletes on newly save objects work.  This is not the right way/place to do this, but it should get us by for now.  It has to be done after the temp globalID has been replaced with a real globalID.
 			// mont_rothstein @ yahoo.com 2005-09-11
 			// Modified this to get the new globalID from the temp one.  Previously it got it from the object's editing context, but that required the editing context to have already swapped the old for the new, and we've delated that until the end of this method so they can all be done at once.
-			[[self database] recordSnapshot:snapshot 
-                                forGlobalID:[(EOTemporaryGlobalID *)globalID newGlobalID]];
+			//[[self database] recordSnapshot:snapshot 
+            //                    forGlobalID:[(EOTemporaryGlobalID *)globalID newGlobalID]];
+            // Tom.Martin @ Riemer.com 2012-05-03
+            // We set this up to happen all at once so we UPDATE our snapshot so that the new one will be
+            // recorded.  There IS no snapshot for this object in EODatabase as it is newly inserted
+            [self _replaceSnapshotGlobalID:globalID withNewGlobalID:[(EOTemporaryGlobalID *)globalID newGlobalID]];
 		}
 	}
-	// mont_rothstein @ yahoo.com 2005-09-11
-	// Added post of notification so anyone holding a pointer to the old global ID can change it.  Also, removed snapshots held under temp global IDs.
-    if ([globalIDMappings count]) 
-    {
-        [[NSNotificationCenter defaultCenter] postNotificationName:EOGlobalIDChangedNotification object:nil userInfo: globalIDMappings];
-        [[self database] forgetSnapshotsForGlobalIDs: [globalIDMappings allKeys]];
-    }
+    
+    return globalIDMappings;
 }
 
 // mont_rothstein @ yahoo.com 2005-08-08
@@ -1268,7 +1303,9 @@ static Class _eoDatabaseContextClass = Nil;
 			[self forgetLocksForObjectsWithGlobalIDs:newGlobalIDs];
 			// mont_rothstein @ yahoo.com 2005-08-08
 			// Moved this notification to the forgetSnapshotsForGlobalIDs method
-//			[[NSNotificationCenter defaultCenter] postNotificationName:EOObjectsChangedInStoreNotification object:self userInfo:[NSDictionary dictionaryWithObject:newGlobalIDs forKey:@"globalIDs"]];
+            // Tom.Martin @ Riemer.com 2012-05-08
+            // moved it back to here as we lose our REASON granulatity by sticking it into forgetSnapshot
+			[[NSNotificationCenter defaultCenter] postNotificationName:EOObjectsChangedInStoreNotification object:self userInfo:[NSDictionary dictionaryWithObject:newGlobalIDs forKey:EOInvalidatedKey]];
 		}
 		
 		[newGlobalIDs release];
@@ -1282,7 +1319,9 @@ static Class _eoDatabaseContextClass = Nil;
 		[self forgetLocksForObjectsWithGlobalIDs:globalIDs];
 		// mont_rothstein @ yahoo.com 2005-08-08
 		// Moved this notification to the forgetSnapshotsForGlobalIDs method
-//		[[NSNotificationCenter defaultCenter] postNotificationName:EOObjectsChangedInStoreNotification object:self userInfo:[NSDictionary dictionaryWithObject:globalIDs forKey:@"globalIDs"]];
+        // Tom.Martin @ Riemer.com 2012-05-08
+        // moved it back to here as we lose our REASON granulatity by sticking it into forgetSnapshot
+		[[NSNotificationCenter defaultCenter] postNotificationName:EOObjectsChangedInStoreNotification object:self userInfo:[NSDictionary dictionaryWithObject:globalIDs forKey:EOInvalidatedKey]];
 	}
 }
 
@@ -1559,6 +1598,7 @@ static Class _eoDatabaseContextClass = Nil;
     EOAttribute         *memberAttribute; 
     NSMutableDictionary *newRow;
     NSDictionary        *ownerSnapshot;
+    NSMutableArray      *ownerArray;
     id                  ownerValue;
 
     // Don't mess with many to many relationships right now.
@@ -1583,7 +1623,7 @@ static Class _eoDatabaseContextClass = Nil;
                 ownerValue = [NSNull null];
             [newRow setValue:ownerValue forKey:[memberAttribute name]];
         }
-    }
+     }
 }
 
 // Tom.Martin @ Riemer.com 2012-03-30
@@ -1772,11 +1812,8 @@ static Class _eoDatabaseContextClass = Nil;
 			{
 				globalID = [existingObject globalID];
 				value = [globalID valueForKey: [sourceAttribute name]];
-			}
-			
-            // Tom.Martin @ Riemer.com 2012-04-23
-            // use stored value here to bypass accessor logic
-			[object setPrimitiveValue: value forKey: [destinationAttribute name]];
+			}			
+            [object setValue: value forKey: [destinationAttribute name]];
 		}
 		// The existing object's entity must match the destination attributes
 		// entity.  Therefore we want to read the destination attribute and
@@ -1794,9 +1831,7 @@ static Class _eoDatabaseContextClass = Nil;
 				globalID = [existingObject globalID];
 				value = [globalID valueForKey: [destinationAttribute name]];
 			}
-            // Tom.Martin @ Riemer.com 2012-04-23
-            // use stored value here to bypass accessor logic
-			[object setPrimitiveValue: value forKey: [sourceAttribute name]];
+			[object setValue: value forKey: [sourceAttribute name]];
 		}
 	}
 }
@@ -2052,6 +2087,7 @@ static Class _eoDatabaseContextClass = Nil;
 							}
 							
 							qualifier = [[EOAndQualifier allocWithZone: zone] initWithArray: newQualifiers];
+                            [newQualifiers release];
 							
 							adaptorOperation = [[EOAdaptorOperation allocWithZone: zone] initWithEntity: destinationEntity];
 							[adaptorOperation setAdaptorOperator: EOAdaptorDeleteOperator];
@@ -2062,8 +2098,8 @@ static Class _eoDatabaseContextClass = Nil;
 							[tempJoinIDs addObject: newGlobalID];
 							[adaptorOperation release];
 							[qualifier release];
-							[dictionary release];
 						}
+                        [dictionary release];
 					}
 				}
 			}
@@ -2262,9 +2298,10 @@ static Class _eoDatabaseContextClass = Nil;
 
 - (void)commitChanges
 {
-	NSException		*exception = nil;
-    NSEnumerator	*enumerator;
-    EOGlobalID		*globalID;
+	NSException         *exception = nil;
+    NSEnumerator        *enumerator;
+    EOGlobalID          *globalID;
+    NSMutableDictionary *gidChanges;
 
 	[self _assertSaving:_cmd];
 
@@ -2285,6 +2322,10 @@ static Class _eoDatabaseContextClass = Nil;
 		[exception raise];
 	}
     
+    // deal with changed global ID's which updates our snapshot gids
+	gidChanges = [[self _acceptNewGlobalIDs] retain];
+	[gidChanges addEntriesFromDictionary:[self _acceptUpdatedGlobalIDs]];
+
     // forget/record snapshots in database
     enumerator = [forgetSnapshots objectEnumerator];
     while ((globalID = [enumerator nextObject]) != nil) {
@@ -2292,10 +2333,16 @@ static Class _eoDatabaseContextClass = Nil;
     }
     [database recordSnapshots:snapshots];
 
-    // deal with changed global ID's
-	[self _acceptNewGlobalIDs];
-	[self _acceptUpdatedGlobalIDs];
 	[self _acceptDatabaseOperations];
+    
+    // mont_rothstein @ yahoo.com 2005-09-11
+	// Added post of notification so anyone holding a pointer to the old global ID can change it.
+    // Tom.Martin @ riemer.com 2012-05-03
+    // moved this notification from the _acceptNewGlobalIDs and _acceptUpdatedGlobalIDs as the Database 
+    // snapshots are not updated until AFTER those methods are called. 
+    if ([gidChanges count])
+        [[NSNotificationCenter defaultCenter] postNotificationName:EOGlobalIDChangedNotification object:nil userInfo:gidChanges];
+    [gidChanges release];
     
     [self _cleanUpTransactions];
 	
