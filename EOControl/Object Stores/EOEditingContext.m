@@ -152,7 +152,9 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 
 
 // mont_rothstein @ yahoo.com 2005-08-08
-// Renamed this method to better reflect what it does.  Modified to correctly re-apply changes made in this context to those made in the notifying context.  Added handling of invalidated objects.
+// Renamed this method to better reflect what it does.  Modified to correctly re-apply changes made in 
+// this context to those made in the notifying context.  Added handling of invalidated objects.
+// This is called as a result of the EOObjectsChangedInStoreNotification notification 
 - (void)_processChangedObjects:(NSNotification *)notification
 {
 	NSEnumerator *globalIDs;
@@ -699,7 +701,7 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
     if (! toManyUpdatedMembers)
         toManyUpdatedMembers = [[NSMutableDictionary alloc] init];
     
-    // store Inersted and updated objects so we don't have to call that more than once.
+    // store inserted and updated objects so we don't have to call that more than once.
     // This should ONLY be called after processRecentChanges!!
     [self _processRecentChanges];
     localInsertedObjects = [[self insertedObjects] retain];
@@ -780,7 +782,8 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
     
     [localInsertedObjects release];
     [localUpdatedObjects release];
-    // now we want to place these objects into our editing context if we can
+    // now we want flag these objects as updated or deleted in our editing context
+    // if we that is what is called for.
     // deleted
     //    check in added, if they are not there then send to self delete.
     // removed
@@ -1045,10 +1048,10 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
     toManyUpdatedMembers = [[NSMutableDictionary alloc] init];
     [self _processRelationships];
     
-    // we need to run this again as object may have been marked as updated by _processRelationships
+    // object may have been marked as updated by _processRelationships
     [self processRecentChanges];
     [self sendPrepareMessages];
-   // The above should be written such that a second call to gRecentChanges() isn't necessary.
+   // The above should be written such that a second call to processRecentChanges isn't necessary.
 	
     // Tom.Martin @ Riemer.com 2012-2-14
     // Logic error is here with if statement.  Fixed it up.
