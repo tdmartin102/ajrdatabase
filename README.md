@@ -21,8 +21,6 @@ SQLLite.
 
 Status
 ------
-* Most of the core functionality seems to work, but MUCH more
-  testing is needed.
 * Much of the low level EOSQLExpression code has been re-worked
   and very likely may have broken the existing adaptors for
   Postgress, OpenBase and SQLLite.  These need to be tested
@@ -49,6 +47,16 @@ Status
   is going on, there are many issues with inefficiencies .  These
   could be overcome somewhat by the use of caching and various 
   other techniques.
+* To-many relationships now are snapshoted as they are supposed to
+  be.  Removing an object from a to-many EO relationship will
+  result in that objects foriegn key being nulled or the object
+  deleted as it should. Adding an object in a to-many does what
+  it should even when there is no reverse relationships and all
+  foreign key attributes are hidden.
+* As of 5/8/2012 I am considering this framework to be beta as
+  it is passing all my tests.  This is not to say it is free of
+  bugs but at this point it needs real world testing to reveal
+  problems.
 
 
 Why?
@@ -92,7 +100,7 @@ new environment under active administration.
 
 DISCLAIMER
 ==========
-This is rough.  There are many, many things that are only
+There are many, many things that are only
 partially implemented, or not implemented at all.  There are
 API elements that do not conform to the published API.  The
 functionality of EOF is huge and much of this code has not been
@@ -106,7 +114,7 @@ Any/all help would be greatly appreciated; If anyone out there
 is brave enough to give it a try, I'd be happy to help out.
 I would love constructive criticism and welcome any help that
 anyone would want to throw my way!  It needs a lot of work; clean-up,
-optimization, etc. etc.
+optimization, I would love to see a MySQL adaptor, etc. etc.
 
 
--tm Sep 2011
+-tm May 2012
