@@ -40,6 +40,16 @@
 - (NSDictionary *)snapshot;
 - (void)updateFromSnapshot:(NSDictionary *)snapshot;
 
+// Tom.Martin @ Riemer.com 2012-03-26
+// Add non API method to produce a snapshot that is destined to become a database snapshot.
+// The difference between this and what 'snapshot' returns is that the to-many relationship is
+// an array of GID's not a shallow copy,  also it does not contain a copy of the to-one objects
+// Finally we build the snapshot from the ORIGINAL database snapshot just in case there are values 
+// that in the snapshot THAT CAN NOT BE SET.  This is Extremely unlikely, but easy to do, so why not.
+// this mehod is called from the database context when it creates its snapshots.
+// This is called from enterprise object EOControl contextSnapshotWithDBSnapshot:
+- (NSMutableDictionary *)contextSnapshotWithDBSnapshot:(NSDictionary *)dbsnapshot;
+
 // Merging values
 - (NSDictionary *)changesFromSnapshot:(NSDictionary *)snapshot;
 - (void)reapplyChangesFromDictionary:(NSDictionary *)changes;
@@ -60,5 +70,16 @@
 // avoid calling the accessor method so that willChange will NOT be called
 // I have implemented setPrimitiveValue:forKey here to replace takeStoredValue:forKey:
 - (void)setPrimitiveValue:(id)value forKey:(NSString *)key;
+
+// tom.martin @ riemer.com 2012-04-19
+// calling storedValueForKey bypasses EO logic to access the same values set by
+// setPrimitiveValue:forKey:  This is what we want to do when we are working with
+// database and context snapshots.  It also will prevent an object from firing a 
+// fault for a relationship when there is EO code that would case that to happen
+// with the normal accessor methods.  To replace that depreciated method I have
+// supplied the following which will do the same thing as storedValueForKey.
+// not as fast I am sure, but at least it gets the job done.
+- (id)primitiveValueForKey:(NSString *)key;
+
 
 @end

@@ -3,6 +3,10 @@
 
 #import "EOFormat.h"
 #import "NSArray-EO.h"
+#import "EOEnterpriseObject.h"
+#import "EOEditingContext.h"
+#import "EOFault.h"
+#import "NSObject-EOEnterpriseObject.h"
 
 #import <Foundation/Foundation.h>
 
@@ -174,21 +178,19 @@
 - (NSDictionary *)snapshotForObject:(id)object
 {
 	NSMutableDictionary	*snapshot = [[NSMutableDictionary allocWithZone:[self zone]] init];
-	int						x;
-	int numKeys;
-	NSArray					*keys;
-	id							value;
-	
-	keys = [self attributeKeys];
-	numKeys = [keys count];
-	
-	for (x = 0; x < numKeys; x++) {
-		NSString		*key = [keys objectAtIndex:x];
+	id						value;
+    NSString                *key;
+		
+    for (key in [self attributeKeys])
+    {
 		// tom.martin @ riemer.com - 2011-09-16
 		// replace depreciated method.  This should be tested, behavior is different.
 		// It may be acceptable, and then again maybe not. 
 		//value = [self storedValueForKey:key];
-		value = [self valueForKey:key];
+		//value = [self valueForKey:key];
+        // tom.martin @ riemer.com - 2012-04-19
+        // and so we did change it yet again.
+        value = [self primitiveValueForKey:key];
         // tom.martin @ riemer.com - 2012-02-15
         // NSStrings need special handling becuase empty strings should
         // be treated as nulls.  An EONull string read by the database
@@ -203,29 +205,31 @@
 		[snapshot setObject:value == nil ? [NSNull null] : value forKey:key];
 	}
 	
-	keys = [self toOneRelationshipKeys];
-	numKeys = [keys count];
-	
-	for (x = 0; x < numKeys; x++) {
-		NSString		*key = [keys objectAtIndex:x];
+    for (key in [self toOneRelationshipKeys])
+    {
 		// tom.martin @ riemer.com - 2011-09-16
 		// replace depreciated method.  This should be tested, behavior is different.
 		// It may be acceptable, and then again maybe not. 
 		//value = [self storedValueForKey:key];
-		value = [self valueForKey:key];
+        // tom.martin @ riemer.com - 2012-04-19
+        // and so we did change it yet again. This would cause a fault to fire
+        // when the EO was designed to do that.
+		// value = [self valueForKey:key];
+        value = [self primitiveValueForKey:key];
 		[snapshot setObject:value == nil ? [NSNull null] : value forKey:key];
 	}
 	
-	keys = [self toManyRelationshipKeys];
-	numKeys = [keys count];
-	
-	for (x = 0; x < numKeys; x++) {
-		NSString		*key = [keys objectAtIndex:x];
+    for (key in [self toManyRelationshipKeys])
+    {
 		// tom.martin @ riemer.com - 2011-09-16
 		// replace depreciated method.  This should be tested, behavior is different.
 		// It may be acceptable, and then again maybe not.
 		//value = [[self storedValueForKey:key] shallowCopy];
-		value = [[self valueForKey:key] shallowCopy];
+        // tom.martin @ riemer.com - 2012-04-19
+        // and so we did change it yet again. This would cause a fault to fire
+        // when the EO was designed to do that.
+		// value = [[self valueForKey:key] shallowCopy];
+        value = [[self primitiveValueForKey:key] shallowCopy];
 		[snapshot setObject:value == nil ? [NSNull null] : value forKey:key];
 		[value release];
 	}
@@ -233,14 +237,151 @@
 	return [snapshot autorelease];
 }
 
+// Tom.Martin @ Riemer.com 2012-03-26
+// Add non API method to produce a snapshot that is destined to become a database snapshot.
+// The difference between this and what 'snapshotForObject:' returns is that the to-many relationship is
+// an array of GID's not a shallow copy,  also it does not contain a copy of the to-one objects
+// Finally we build the snapshot from the ORIGINAL database snapshot just in case there are values 
+// that in the snapshot THAT CAN NOT BE SET.  This is Extremely unlikely, but easy to do, so why not.
+// this mehod is called from the database context when it creates its snapshots.
+// This is called from enterprise object EOControl contextSnapshotWithDBSnapshot:
+- (NSMutableDictionary *)contextSnapshotWithDBSnapshot:(NSDictionary *)dbsnapshot forObject:(id)object
+{
+    // unfortunatly there is realy no way to do this here, but... we will return SOMETHING.
+    // this is overridden in EOAccess and this code here would never be called unless there is
+    // not a model.
+	NSMutableDictionary	*snapshot = [dbsnapshot mutableCopy];
+    EOEditingContext    *eoContext;
+	int                 x;
+	int                 numKeys;
+	NSArray				*keys;
+	id					value;
+	NSString            *key;
+    
+    eoContext = [object editingContext];
+	keys = [self attributeKeys];
+    
+    for (key in [self attributeKeys])
+    {
+        value = [self primitiveValueForKey:key];
+        // NSStrings need special handling becuase empty strings should
+        // be treated as nulls.  An EONull string read by the database
+        // may get changed to an empty string.  If we try to do an update
+        // with optimistic locking and the database string is null yet the
+        // snapshot is an empty string, then the row will not be updated.
+        if ([value isKindOfClass:[NSString class]])
+        {
+            if ([(NSString *)value length] == 0)
+                value = [NSNull null];
+        }
+		[snapshot setObject:value == nil ? [NSNull null] : value forKey:key];
+	}
+	
+    // we do NOT include toOne objects
+    // but we also have no way of setting foriegn keys to the to-ones either
+    // that is too bad, but nothing can be done.
+    
+    // handle the toMany relationships
+    for (key in [self toManyRelationshipKeys])
+    {
+        NSArray         *anArray;
+        id              anObject;
+        NSMutableArray  *result = nil;
+		anArray = [self primitiveValueForKey:key];
+        if (anArray)
+        {
+            id aGID;
+            NSMutableArray *result = [[NSMutableArray allocWithZone:[anArray zone]] 
+                                      initWithCapacity:[anArray count]];
+            for (anObject in anArray)
+            {
+                aGID = [eoContext globalIDForObject:anObject];
+                if (aGID)
+                    [result addObject:aGID];
+            }
+        }
+        [snapshot setObject:(result == nil) ? [NSNull null] : result forKey:key];
+		[result release];
+	}
+	
+	return [snapshot autorelease];
+}
+
+- (NSDictionary *)snapshotFromDBSnapshot:(NSDictionary *)dbSnapshot forObject:(id)object
+{
+    // This must be overriden in EOAccess
+    // but we will give it a stab here just in case there is no model.
+    // this will not work well since we can to nothing about the to-one relationships
+    NSMutableDictionary *snapshot;
+    NSString            *name;
+    id                  value;
+    EOEditingContext    *eoContext;
+    EOGlobalID          *globalID;
+    EOGlobalID          *aGID;
+    id                  anObject;
+    
+    eoContext = [object editingContext];
+    globalID = [eoContext globalIDForObject:object];
+    snapshot = [dbSnapshot copyWithZone:[dbSnapshot zone]];
+    for (name in [self toManyRelationshipKeys])
+    {
+        {
+            value = [dbSnapshot objectForKey:name];
+            if (! value)
+            {
+                // replace with a fault
+                value = [EOFault createArrayFaultWithSourceGlobalID:globalID 
+                                                   relationshipName:name inEditingContext:eoContext];
+            }
+            else
+            {
+                // we have a snapshot, so use that
+                NSMutableArray  *toManyArray;
+                // convert an array of GIDs to an array of objects
+                toManyArray = [[NSMutableArray allocWithZone:[value zone]] 
+                               initWithCapacity:[value count]];
+                for (aGID in value)
+                {
+                    anObject = [eoContext objectForGlobalID:aGID];
+                    if (! anObject)
+                    {
+                        // The object is no longer in the editingContext
+                        // it was probably released.  Just create a fault.
+                        anObject = [eoContext faultForGlobalID:aGID editingContext:eoContext];
+                    }
+                    [toManyArray addObject:anObject];
+                }
+                value = [toManyArray autorelease];
+            }
+            [snapshot setObject:value forKey:name];
+        }
+     }
+    return [snapshot autorelease];
+}
+
 @end
 
 @implementation NSClassDescription (EOPrivate)
+
 // mont_rothstein @ yahoo.com 2005-09-29
 // Needed to add this method so that it can be overridden in EOAccess, so that the updateFromSnapshot: method in EOEnterpriseObject can be completed.
+// Tom.Martin @ Riemer.com 2012-03-28
+// This method is no longer needed becuase the to-many snapshots WILL be in the snapshot.
+// However we still needed a special non API method to pull that off. 
+// snapshotFromDBSnapshot:forObject: is doing this for us.  This method is potentialy useful
+// so I made it public.
+/*
 - (void)completeUpdateForObject:(NSObject *)object fromSnapshot:(NSDictionary *)snapshot;
 {
 	
+}
+*/
+
+// Tom.Martin @ Riemer.com 2012-3-6
+// This is here so that it can be overridden in EOAccess.
+- (NSDictionary *)relationshipChangesForObject:(id)object withEditingContext:(EOEditingContext *)anEditingContext
+{
+    return nil;
 }
 
 @end

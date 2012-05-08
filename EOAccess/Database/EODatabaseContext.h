@@ -42,10 +42,10 @@ extern NSString *EOFailedDatabaseOperationKey;
 
 @interface EODatabaseContext : EOCooperatingObjectStore
 {
-   EODatabase        	*database;
-   EOAdaptorContext		*adaptorContext;
+    EODatabase              *database;
+    EOAdaptorContext		*adaptorContext;
 	NSMutableArray			*databaseChannels;
-   NSMutableDictionary	*snapshots;
+    NSMutableDictionary     *snapshots;
 	NSMutableSet			*forgetSnapshots;
 // mont_rothstein @ yahoo.com 2005-1-2
 // The objects instance variable was removed because it was unnecessary and generally bad
@@ -56,29 +56,33 @@ extern NSString *EOFailedDatabaseOperationKey;
 	NSMutableSet			*lockedObjects;
 	EOEditingContext		*savingContext;
 	NSMutableArray			*databaseOperations;
+    
+    // Tom.Martin @ Riemer.com 2012-03-30
+    // added the following ivar as grease.
+    EOGlobalID              *_currentGlobalID;
 
-	id							delegate;
+	id						delegate;
 		
-	BOOL						delegateRespondsToDidFetchObjectsFetchSpecificationEditingContext:1;
-	BOOL						delegateRespondsToDidSelectObjectsWithFetchSpecificationDatabaseChannel:1;
-	BOOL						delegateRespondsToFailedToFetchObjectGlobalID:1;
-	BOOL						delegateRespondsToNewPrimaryKeyForObjectEntity:1;
-	BOOL						delegateRespondsToShouldFetchArrayFault:1;
-	BOOL						delegateRespondsToShouldFetchObjectFault:1;
-	BOOL						delegateRespondsToShouldFetchObjectsWithFetchSpecificationEditingContext:1;
-	BOOL						delegateRespondsToShouldInvalidateObjectWithGlobalIDSnapshot:1;
-	BOOL						delegateRespondsToShouldLockObjectWithGlobalIDSnapshot:1;
-	BOOL						delegateRespondsToShouldRaiseExceptionForLockFailure:1;
-	BOOL						delegateRespondsToShouldSelectObjectsWithFetchSpecificationDatabaseChannel:1;
-	BOOL						delegateRespondsToShouldUpdateCurrentSnapshotNewSnapshotGlobalIDDatabaseChannel:1;
-	BOOL						delegateRespondsToShouldUsePessimisticLockWithFetchSpecificationDatabaseChannel:1;
-	BOOL						delegateRespondsToWillOrderAdaptorOperationsFromDatabaseOperations:1;
-	BOOL						delegateRespondsToWillPerformAdaptorOperationsAdaptorChannel:1;
-	BOOL						delegateRespondsToWillRunLoginPanelToOpenDatabaseChannel:1;
+	BOOL					delegateRespondsToDidFetchObjectsFetchSpecificationEditingContext:1;
+	BOOL					delegateRespondsToDidSelectObjectsWithFetchSpecificationDatabaseChannel:1;
+	BOOL					delegateRespondsToFailedToFetchObjectGlobalID:1;
+	BOOL					delegateRespondsToNewPrimaryKeyForObjectEntity:1;
+	BOOL					delegateRespondsToShouldFetchArrayFault:1;
+	BOOL					delegateRespondsToShouldFetchObjectFault:1;
+	BOOL					delegateRespondsToShouldFetchObjectsWithFetchSpecificationEditingContext:1;
+	BOOL					delegateRespondsToShouldInvalidateObjectWithGlobalIDSnapshot:1;
+	BOOL					delegateRespondsToShouldLockObjectWithGlobalIDSnapshot:1;
+	BOOL					delegateRespondsToShouldRaiseExceptionForLockFailure:1;
+	BOOL					delegateRespondsToShouldSelectObjectsWithFetchSpecificationDatabaseChannel:1;
+	BOOL					delegateRespondsToShouldUpdateCurrentSnapshotNewSnapshotGlobalIDDatabaseChannel:1;
+	BOOL					delegateRespondsToShouldUsePessimisticLockWithFetchSpecificationDatabaseChannel:1;
+	BOOL					delegateRespondsToWillOrderAdaptorOperationsFromDatabaseOperations:1;
+	BOOL					delegateRespondsToWillPerformAdaptorOperationsAdaptorChannel:1;
+	BOOL					delegateRespondsToWillRunLoginPanelToOpenDatabaseChannel:1;
 	
 	// mont_rothstein @ yahoo.com 2004-12-19
 	// Added new instance variable
-	NSMutableSet				*tempJoinIDs; // Holds global IDs of many-to-many join table objects created during the save process for inserts or deletes.
+	NSMutableSet			*tempJoinIDs; // Holds global IDs of many-to-many join table objects created during the save process for inserts or deletes.
 }
 
 // Initializing instances
@@ -138,7 +142,7 @@ extern NSString *EOFailedDatabaseOperationKey;
 // Managing snapshots
 - (void)forgetSnapshotForGlobalID:(EOGlobalID *)globalID;
 - (void)forgetSnapshotsForGlobalIDs:(NSArray *)globalIDs;
-- (NSDictionary *)localSnapshotForGlobalID:(EOGlobalID *)globalID;
+- (NSMutableDictionary *)localSnapshotForGlobalID:(EOGlobalID *)globalID;
 - (void)recordSnapshot:(NSDictionary *)snapshot forGlobalID:(EOGlobalID *)globalID;
 - (void)recordSnapshots:(NSDictionary *)someSnapshots;
 - (NSDictionary *)snapshotForGlobalID:(EOGlobalID *)globalID;

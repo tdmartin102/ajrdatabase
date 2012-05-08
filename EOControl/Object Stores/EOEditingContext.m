@@ -152,7 +152,9 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 
 
 // mont_rothstein @ yahoo.com 2005-08-08
-// Renamed this method to better reflect what it does.  Modified to correctly re-apply changes made in this context to those made in the notifying context.  Added handling of invalidated objects.
+// Renamed this method to better reflect what it does.  Modified to correctly re-apply changes made in 
+// this context to those made in the notifying context.  Added handling of invalidated objects.
+// This is called as a result of the EOObjectsChangedInStoreNotification notification 
 - (void)_processChangedObjects:(NSNotification *)notification
 {
 	NSEnumerator *globalIDs;
@@ -478,8 +480,12 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 
 - (void)objectWillChange:(id)object
 {
-   EOGlobalID	*globalID = [self globalIDForObject:object];
-
+    EOGlobalID	*globalID = [self globalIDForObject:object];
+    
+    // Tom.Martin @ Riemer.com 2012-04-25
+    // I think we only want to add this object to the updated cache IF
+    // it is not already in the inserted, deleted, or updated Queue
+    //if (
    if (![updatedQueue objectForKey:globalID]) {
        [updatedQueue setObject:object forKey:globalID];
        [updatedCache removeAllObjects]; // Invalidate cache.
@@ -495,24 +501,68 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 	}
 }
 
-- (void)processRecentChanges
+// add information to our toManyUpdatedMembers store, the status can only be added or removed
+// so if added is NO then it is a removed member
+- (void)_recordToManyMemberAdded:(BOOL)added member:(EOGlobalID *)memberGid 
+                  owner:(EOGlobalID *)ownerGid 
+        relationshipName:(NSString *)relationshipName
+{
+    NSMutableDictionary *memberInfo;
+    NSMutableDictionary *change;
+    NSMutableArray *anArray;
+    
+    // first check to see if the member is already in there
+    memberInfo = [toManyUpdatedMembers objectForKey:memberGid];
+    if (! memberInfo)
+    {
+        // it wasn't there, add it
+        // structure is MutableDictionary with two keys.
+        // (removed, added) the values for these are NSMutableArrays
+        memberInfo = [[NSMutableDictionary alloc] initWithCapacity:2];
+        [memberInfo setObject:[NSMutableArray arrayWithCapacity:5] forKey:@"removed"];
+        [memberInfo setObject:[NSMutableArray arrayWithCapacity:5] forKey:@"added"];
+        [toManyUpdatedMembers setObject:memberInfo forKey:memberGid];
+        [memberInfo release];
+    }
+    
+    // create the dictionary describing the change
+    // structure is:
+    // key: ownerEntityName
+    // key: relationshipName
+    // key: ownerGID (string key not object)
+    // THIS dictionary does not need to be mutable
+    change = [NSDictionary dictionaryWithObjectsAndKeys:[ownerGid entityName], @"ownerEntityName",
+              relationshipName, @"relationshipName",
+              ownerGid, @"ownerGID", nil];
+    if (added)
+        anArray = [memberInfo objectForKey:@"added"];
+    else
+        anArray = [memberInfo objectForKey:@"removed"];
+    [anArray addObject:change];
+}
+
+- (NSDictionary *)toManyChangesForMemberGlobalId:(EOGlobalID *)aGID
+{
+    return [toManyUpdatedMembers objectForKey:aGID];
+}
+
+-(void)_processRecentChanges
 {
     NSEnumerator	*iterator;
     EOGlobalID	*globalID;
-    NSDictionary *userInfo;
     
     iterator = [insertedQueue keyEnumerator];
     while ((globalID = [iterator nextObject]))
         [insertedObjects setObject:[insertedQueue objectForKey:globalID] forKey:globalID];
     [insertedQueue removeAllObjects];
 	[insertedCache removeAllObjects];
-
+    
     iterator = [deletedQueue keyEnumerator];
     while ((globalID = [iterator nextObject]))
         [deletedObjects setObject:[deletedQueue objectForKey:globalID] forKey:globalID];
     [deletedQueue removeAllObjects];
 	[deletedCache removeAllObjects];
-
+    
     iterator = [updatedQueue keyEnumerator];
     while ((globalID = [iterator nextObject]))
     {
@@ -525,7 +575,15 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
     }
     [updatedQueue removeAllObjects];
 	[updatedCache removeAllObjects]; // Invalidate the cache.
+}
 
+
+- (void)processRecentChanges
+{
+    NSDictionary *userInfo;
+
+    [self _processRecentChanges];
+    
 	// mont_rothstein @ yahoo.com 2005-09-19
 	// Added post of notification as per API.  This is needed particularly for changes that aren't saved (like adding objects to a to-many relationship).  However the WO docs do not make it clear what happens if the save fails.  When this notification is posted for changes actually saved to the DB it happens after the save has succeeded.
     userInfo = [[NSDictionary alloc] initWithObjectsAndKeys: [insertedObjects allKeys], EOInsertedKey, [updatedObjects allKeys], EOUpdatedKey, [deletedObjects allKeys], EODeletedKey, nil];
@@ -559,6 +617,246 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 		[undoObjects removeAllObjects];	// Remove the coallescing cache.
 		[undoManager beginUndoGrouping];	// And start a new grouping.
 	}
+}
+
+// We need to check to-one and to-many relationships against the current objet graph.
+// we do this for all objects in the updated and in inserted (only for added to-manys)
+// 1) If a to-one has bee nulled and it is owned, then the object needs to be deleted.
+// 2) if there are new objects in a to-many, and they are not newly inserted then they 
+//    go into added.
+// 3) if there are objects MISSING from a to-many, then if they are owned they need to
+//    be deleted, if not, they go into removed.
+//
+// we will also build the added,removed array in EOEditingContext and
+// ACCESS it from the database context.  the database context could then check each 
+// member to see if it owns it, before updating values based upon the releationship join
+//
+// I think we want to create the following structure where information about
+// relationship member object changes can be stored.  So that in databaseContext
+// when the new row is created databaseContext can retrieve this information so
+// that these relationships can be updated correctly.  By storing this in the
+// editingContext we can make ONE PASS through all objects and have the databaseContext
+// simply ask for changes on objects that it owns.  THe OWNER objects may be
+// in a different databaseContext and that is just fine.
+//
+//  <dict>
+//     <key>@BillingGID</key>
+//     <dict>
+//          <key>removed</key>
+//          <array>
+//              <dict>
+//                  <key>ownerEntityName</key>
+//                  <string>INVOICE</string>
+//                  <key>relationshipName</key>
+//                  <string>billings</string>
+//                  <key>ownerGID</key>
+//                  <object>@GID</object>
+//              </dict>
+//          </array>
+//          <key>added</key>
+//          <array>
+//              <dict>
+//                  <key>ownerEntityName</key>
+//                  <string>INVOICE</string>
+//                  <key>relationshipName</key>
+//                  <string>billings</string>
+//                  <key>ownerGID</key>
+//                  <object>@GID</object>
+//              </dict>
+//          </array>
+//     </dict>
+//     <key>@AccountGID</key>
+//     <dict>
+//          <key>removed</key>
+//          .....
+//      </dict>
+//  </dict>
+//
+// The above example may happen if a member was removed from one owner and added to another for the
+// same relationship.  We would need to do another pass and look through added for each updated
+// object and see if the same entity/relationship exists in removed.  if so, entry in removed 
+// needs to be err removed.  THis is because depending upon the order of operations you could
+// end up nulifying a relationship that should be an add.
+- (void)_processRelationships
+{
+    NSMutableArray      *added;
+    NSMutableArray      *removed;
+    NSMutableArray      *deleted;
+    EOGlobalID          *aGid;
+    NSObject            *object;
+    NSDictionary        *aDict;
+    NSArray             *localInsertedObjects;
+    NSArray             *localUpdatedObjects;
+    
+    added =     [[NSMutableArray alloc] init];
+    removed =   [[NSMutableArray alloc] init];
+    deleted =   [[NSMutableArray alloc] init];
+    
+    // make sure our information store is okay, which it SHOULD be but, we will check
+    if ([toManyUpdatedMembers count])
+    {
+        [toManyUpdatedMembers release];
+        toManyUpdatedMembers = nil;
+    }
+    if (! toManyUpdatedMembers)
+        toManyUpdatedMembers = [[NSMutableDictionary alloc] init];
+    
+    // store inserted and updated objects so we don't have to call that more than once.
+    // This should ONLY be called after processRecentChanges!!
+    [self _processRecentChanges];
+    localInsertedObjects = [[self insertedObjects] retain];
+    localUpdatedObjects = [[self updatedObjects] retain];
+    
+    // build arrays of all added, removed and deleted objects
+    // updatedObjects
+    [localUpdatedObjects enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop)
+     {
+         NSClassDescription  *classDescription = [obj classDescription];
+         NSDictionary        *changes;
+         NSDictionary        *dict;
+         id                  keyEnum;
+         EOGlobalID          *gid;
+         
+         changes = [[classDescription relationshipChangesForObject:obj withEditingContext:self] retain];
+         dict = [changes objectForKey:@"added"];
+         // added is a dictionary of keys (globalIDs) and value = dict with keys ownerGID, relationshipName
+         if (dict)
+         {   
+             [dict enumerateKeysAndObjectsUsingBlock:^(id member, id memberDict, BOOL *stop)
+              {
+                  [added addObject:member];
+                  EOGlobalID *ownerGid = [memberDict objectForKey:@"ownerGID"];
+                  NSString *relationshipName = [memberDict objectForKey:@"relationshipName"];
+                  [self _recordToManyMemberAdded:YES member:member 
+                                           owner:ownerGid 
+                                relationshipName:relationshipName];
+              }];
+         }
+         dict = [changes objectForKey:@"removed"];
+         if (dict)        
+         {   
+             [dict enumerateKeysAndObjectsUsingBlock:^(id member, id memberDict, BOOL *stop)
+              {
+                  [removed addObject:member];
+                  EOGlobalID *ownerGid = [memberDict objectForKey:@"ownerGID"];
+                  NSString *relationshipName = [memberDict objectForKey:@"relationshipName"];
+                  [self _recordToManyMemberAdded:NO member:member 
+                                           owner:ownerGid 
+                                relationshipName:relationshipName];
+                  
+              }];
+         }
+         
+         for (gid in [changes objectForKey:@"deleted"])
+         {   
+             [deleted addObject:gid];
+         }
+         [changes release];
+     }];
+    
+    // do the same for inserted objects but only for added
+    [localInsertedObjects enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop)
+     {
+         NSClassDescription  *classDescription = [obj classDescription];
+         NSDictionary        *changes;
+         NSDictionary        *dict;
+         id                  keyEnum;
+         EOGlobalID          *gid;
+         
+         changes = [classDescription relationshipChangesForObject:obj withEditingContext:self];
+         dict = [changes objectForKey:@"added"];
+         // added is a dictionary of keys (globalIDs) and value = dict with keys ownerGID, relationshipName
+         if (dict)
+         {   
+             [dict enumerateKeysAndObjectsUsingBlock:^(id member, id memberDict, BOOL *stop)
+              {
+                  [added addObject:member];
+                  EOGlobalID *ownerGid = [memberDict objectForKey:@"ownerGID"];
+                  NSString *relationshipName = [memberDict objectForKey:@"relationshipName"];
+                  [self _recordToManyMemberAdded:YES member:member 
+                                           owner:ownerGid 
+                                relationshipName:relationshipName];
+              }];
+         }
+     }];
+    
+    [localInsertedObjects release];
+    [localUpdatedObjects release];
+    // now we want flag these objects as updated or deleted in our editing context
+    // if we that is what is called for.
+    // deleted
+    //    check in added, if they are not there then send to self delete.
+    // removed
+    //    check in added, if not there then touch object (willChange)
+    // added
+    //    check in insertedObjects, if not there, then touch object (willChange)
+    //    on second thought why bother, just touch object
+    if ([deleted count])
+    {
+        id iterator;
+        
+        for (aGid in deleted)
+        {
+            if (! [added containsObject:aGid])
+            {
+                object = [self objectForGlobalID:aGid];
+                if (! object)
+                {
+                    // looks like this object has left the scene.
+                    // lets try to get it back.
+                    object = [self faultForGlobalID:aGid editingContext:self];
+                    // and fire the fault, but if the object is REALY gone, then thats just fine
+                    NS_DURING
+                    [object self];
+                    NS_HANDLER
+                    NSLog(@"WARNING(%s), Deleted relationship member %@ no longer in context, failed to refetch.", __PRETTY_FUNCTION__, aGid);
+                    object = nil;
+                    NS_ENDHANDLER
+                }
+                if (object)
+                    [self deleteObject:object];
+            }
+        }
+     }
+    
+    
+    for (aGid in removed)
+    {
+        if (! [added containsObject:aGid])
+        {
+            object = [self objectForGlobalID:aGid];
+            if (! object)
+            {
+                // looks like this object has left the scene.
+                // lets try to get it back.
+                object = [self faultForGlobalID:aGid editingContext:self];
+                // and fire the fault, but if the object is REALY gone, then thats just fine
+                NS_DURING
+                [object self];
+                NS_HANDLER
+                NSLog(@"WARNING(%s), Removed relationship member %@ no longer in context, failed to refetch.", __PRETTY_FUNCTION__, aGid);
+                object = nil;
+                NS_ENDHANDLER
+            }
+            if (object)
+            {
+                // put object into updated
+                [object willChange];
+            }
+        }
+    }
+    
+    for (aGid in added)
+    {
+        object = [self objectForGlobalID:aGid];
+        if (object)
+            // put object into updated
+            [object willChange];
+    }
+    
+    [added release];
+    [removed release];
+    [deleted release];
 }
 
 - (void)_sendSelector:(SEL)selector toObjects:(NSMutableDictionary *)someObjects moveTo:(NSMutableDictionary *)other
@@ -741,9 +1039,19 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 	// Notify our editors of a pending save.
 	[self _notifyEditorsOfSave];
 	
-   [self processRecentChanges];
-   [self sendPrepareMessages];
-   // The above should be written such that a second call to processRecentChanges() isn't necessary.
+    // Tom.Martin @ Riemer.com
+    // put any objects in relationships that may need to be updated into our editing context
+    // this does not actually modify anything just looks at relationships that have changed and 
+    // puts the member objects that have been added or removed into the editing context.
+    // it also builds the toManyUpdatedMembers dictionary
+    [toManyUpdatedMembers release];
+    toManyUpdatedMembers = [[NSMutableDictionary alloc] init];
+    [self _processRelationships];
+    
+    // object may have been marked as updated by _processRelationships
+    [self processRecentChanges];
+    [self sendPrepareMessages];
+   // The above should be written such that a second call to processRecentChanges isn't necessary.
 	
     // Tom.Martin @ Riemer.com 2012-2-14
     // Logic error is here with if statement.  Fixed it up.
@@ -779,6 +1087,9 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 	[updatedCache removeAllObjects];
 	[insertedCache removeAllObjects];
 	[deletedCache removeAllObjects];
+    
+    [toManyUpdatedMembers release];
+    toManyUpdatedMembers = nil;
     
 	// And clear out the undo stack. It's possible to maintain this over saves, but somewhat difficult (I think), so I'm not going to worry about it for the time being.
 	if (undoManager) {
@@ -828,17 +1139,24 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 		// mont_rothstein @ yahoo.com 2005-07-11
 		// This is specifically not supposed to call invalidateAllObjects, it is supposed
 		// to revert updated objects back to there last committed values.
-//		[objectStore invalidateAllObjects];
+        //	[objectStore invalidateAllObjects];
 		NSEnumerator *updatedObjectsEnumerator;
 		NSObject *nextUpdatedObject;
 		NSDictionary *committedSnapshot;
-		
+        NSDictionary *snapshot;
+
 		updatedObjectsEnumerator = [updatedObjects objectEnumerator];
 		
 		while (nextUpdatedObject = [updatedObjectsEnumerator nextObject])
 		{
 			committedSnapshot = [self committedSnapshotForObject: nextUpdatedObject];
-			[nextUpdatedObject updateFromSnapshot: committedSnapshot];
+            // Tom.Martin @ Riemer.com 2012-3--27
+            // This WAS using commited snapshot which is a database snapshot.  This snapshot
+            // does not have enough information to revert an object.  I added the folowing
+            // class description method to convert a database snapshot into a full
+            // undo snapshot.
+            snapshot = [[self classDescription] snapshotFromDBSnapshot:committedSnapshot forObject:nextUpdatedObject];
+			[nextUpdatedObject updateFromSnapshot: snapshot];
 		}
 		
 		[updatedObjects removeAllObjects];
@@ -983,6 +1301,7 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 		wasInserted = YES;
 		// Note that we don't unregister the object. That'll happen after the save, since we're still concerned about the object up to the point where it will no longer exist in the database.
 	}
+    
 	[deletedQueue setObject:object forKey:globalID];
 	[deletedCache removeAllObjects]; // Invalidate cache.
 	
@@ -1279,7 +1598,13 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 		id			destination;
 		
 		// Yep, we do, so see if we have a fault or not.
-		destination = [object valueForKey:name];
+        // Tom.Martin @ Riemer.com 2012-04-24
+        // This can be called from EOArrayFaultHandler when an array fault is fired.
+        // If the EO accessor does not simply return the array but, for instance, SORTS it first, 
+        // thereby firing the fault, then this will go into an infinite loop.  We need to get the 
+        // STORED value here to prevent that from happening.
+		//destination = [object valueForKey:name];
+        destination = [object primitiveValueForKey:name];
 		if (![EOFault isFault:destination]) {
 			NSMutableArray		*copy;
 			int					x;
@@ -1298,7 +1623,9 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 					[copy addObject:copiedObject];
 				}
 			}
-			return copy;
+            // Tom.Martin @ Riemer.com 2012-04-24
+            // add autorelease
+			return [copy autorelease];
 		}
 		
 		// It is a fault, so fall through and let the parent object store fetch the objects.
@@ -1501,10 +1828,10 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 
 - (void)initializeObject:(id)object withGlobalID:(EOGlobalID *)globalID editingContext:(EOEditingContext *)anEditingContext
 {
-	id							localObject = [objects objectForKey:globalID];
+	id					localObject = [objects objectForKey:globalID];
 	NSClassDescription	*description;
-	NSArray					*array;
-	int						x;
+	NSArray				*array;
+	int					x;
 	int max;
 	
 	// Check and see if we're the appropriate object store for the object. If we are, then our job is easy and we just initialize the object. 

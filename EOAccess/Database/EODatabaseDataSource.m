@@ -106,7 +106,7 @@
 		newFetch = [fetchSpecification copyWithZone:[self zone]];
 		[newFetch setQualifier:newQualifier];
 		
-		return newFetch;
+		return [newFetch autorelease];
 	}
 	
 	return fetchSpecification;
@@ -227,26 +227,26 @@
 
 - (id)initWithCoder:(NSCoder *)coder
 {
-	[self init];
-	
-	if ([coder allowsKeyedCoding]) {
-		editingContext = [[coder decodeObjectForKey:@"editingContext"] retain];
-		fetchSpecificationName = [[coder decodeObjectForKey:@"fetchSpecificationName"] retain];
-		fetchSpecification = [[coder decodeObjectForKey:@"fetchSpecification"] retain];
-		qualifierBindings = [[coder decodeObjectForKey:@"qualifierBindings"] retain];
-		auxiliaryQualifier = [[coder decodeObjectForKey:@"auxiliaryQualifier"] retain];
-		fetchEnabled = [coder decodeBoolForKey:@"fetchEnabled"];
-	} else {
-		BOOL tempBool;
-		
-		editingContext = [[coder decodeObject] retain];
-		fetchSpecificationName = [[coder decodeObject] retain];
-		fetchSpecification = [[coder decodeObject] retain];
-		qualifierBindings = [[coder decodeObject] retain];
-		auxiliaryQualifier = [[coder decodeObject] retain];
-		[coder decodeValueOfObjCType:@encode(BOOL) at:&tempBool]; fetchEnabled = tempBool;
-	}
-	
+	if (self = [self init])
+    {
+        if ([coder allowsKeyedCoding]) {
+            editingContext = [[coder decodeObjectForKey:@"editingContext"] retain];
+            fetchSpecificationName = [[coder decodeObjectForKey:@"fetchSpecificationName"] retain];
+            fetchSpecification = [[coder decodeObjectForKey:@"fetchSpecification"] retain];
+            qualifierBindings = [[coder decodeObjectForKey:@"qualifierBindings"] retain];
+            auxiliaryQualifier = [[coder decodeObjectForKey:@"auxiliaryQualifier"] retain];
+            fetchEnabled = [coder decodeBoolForKey:@"fetchEnabled"];
+        } else {
+            BOOL tempBool;
+            
+            editingContext = [[coder decodeObject] retain];
+            fetchSpecificationName = [[coder decodeObject] retain];
+            fetchSpecification = [[coder decodeObject] retain];
+            qualifierBindings = [[coder decodeObject] retain];
+            auxiliaryQualifier = [[coder decodeObject] retain];
+            [coder decodeValueOfObjCType:@encode(BOOL) at:&tempBool]; fetchEnabled = tempBool;
+        }
+    }
 	return self;	
 }
 

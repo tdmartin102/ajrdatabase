@@ -18,20 +18,21 @@ NSString *EOStoredProcedureDidChangeNameNotification = @"EOStoredProcedureDidCha
 
 - (id)initWithPropertyList:(NSDictionary *)properties owner:(id)owner
 {
-	[self initWithName:[properties objectForKey:@"name"]];
-	
-	model = owner; // Not retained, because owner/model retains storedProcedure
-		
+	if (self = [self initWithName:[properties objectForKey:@"name"]])
+    {
+        model = owner; // Not retained, because owner/model retains storedProcedure
+    }
 	return self;
 }
 
 - (id)initWithName:(NSString *)aName
 {
-    [super init];
-	name = [aName retain];
+    if (self = [super init])
+    {
+        name = [aName retain];
 	
-	arguments = [[NSMutableArray allocWithZone:[self zone]] init];
-	
+        arguments = [[NSMutableArray allocWithZone:[self zone]] init];
+	}
 	return self;
 }
 

@@ -74,6 +74,7 @@ NSString *EORelationshipDidChangeNameNotification = @"EORelationshipDidChangeNam
       if (destinationEntity == nil) {
 			[EOLog logWarningWithFormat:@"No destination entity named \"%@\"\n", destinationName];
       }
+       [destinationName release];
 
       someJoins = [[properties objectForKey:@"joins"] retain];
       max = [someJoins count];
@@ -91,6 +92,7 @@ NSString *EORelationshipDidChangeNameNotification = @"EORelationshipDidChangeNam
 			[EOObserverCenter addObserver:self forObject:join];
          [join release];
       }
+       [someJoins release];
 
       isToMany = [[properties objectForKey:@"isToMany"] hasPrefix:@"Y"];
       ownsDestination = [[properties objectForKey:@"ownsDestination"] hasPrefix:@"Y"];
@@ -658,6 +660,7 @@ NSString *EORelationshipDidChangeNameNotification = @"EORelationshipDidChangeNam
 	if ([[self destinationEntity] restrictingQualifier])
 	{
 		qualifier = [[EOAndQualifier allocWithZone:[self zone]] initWithArray:[NSArray arrayWithObjects:qualifier, [[self destinationEntity] restrictingQualifier], nil]];
+        [qualifier autorelease];
 	}
 	
 	return qualifier;

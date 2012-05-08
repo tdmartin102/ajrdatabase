@@ -82,17 +82,18 @@ static NSCharacterSet		*validNameSet = nil;
 
 - (id)init
 {
-	[super init];
-	
-	index = [[NSMutableDictionary allocWithZone:[self zone]] init];
-	connectionProperties = [[NSMutableDictionary allocWithZone:[self zone]] init];
-	entityCache = [[NSMutableDictionary allocWithZone:[self zone]] init];
-   entityCacheByClass = [[NSMutableDictionary allocWithZone:[self zone]] init];
-	storedProcedures = [[NSMutableArray allocWithZone:[self zone]] init];
-	storedProcedureCache = [[NSMutableDictionary allocWithZone:[self zone]] init];
-	name = @"Untitled";
-	
-	[[EOModelGroup defaultModelGroup] addModel:self];
+	if (self = [super init])
+    {
+        index = [[NSMutableDictionary allocWithZone:[self zone]] init];
+        connectionProperties = [[NSMutableDictionary allocWithZone:[self zone]] init];
+        entityCache = [[NSMutableDictionary allocWithZone:[self zone]] init];
+        entityCacheByClass = [[NSMutableDictionary allocWithZone:[self zone]] init];
+        storedProcedures = [[NSMutableArray allocWithZone:[self zone]] init];
+        storedProcedureCache = [[NSMutableDictionary allocWithZone:[self zone]] init];
+        name = @"Untitled";
+        
+        [[EOModelGroup defaultModelGroup] addModel:self];
+    }
 	
 	return self;
 }
@@ -152,6 +153,7 @@ static NSCharacterSet		*validNameSet = nil;
 		
 		description = [[EOEntityClassDescription allocWithZone:[self zone]] initWithEntity:entity];
 		[EOEntityClassDescription registerClassDescription:description forClass:[entity _objectClass]];
+        [description release];
 	}
 }
 
@@ -254,7 +256,8 @@ static NSCharacterSet		*validNameSet = nil;
 	while ((entity = [enumerator nextObject]) != nil) {
 		model = [entity model];
 		if (model != self) {
-			if (models == nil) [[NSMutableArray allocWithZone:[self zone]] init];
+			if (models == nil) 
+                models = [[NSMutableArray allocWithZone:[self zone]] init];
 			[models addObject:model];
 		}
 	}
@@ -412,6 +415,7 @@ static NSCharacterSet		*validNameSet = nil;
 		NSString		*key = [keys objectAtIndex:x];
 		[self removeEntity:[self entityNamed:key]];
 	}
+    [keys release];
 	
 	keys = [[storedProcedureCache allKeys] copy];
 	numKeys = [keys count];
@@ -419,8 +423,10 @@ static NSCharacterSet		*validNameSet = nil;
 		NSString		*key = [keys objectAtIndex:x];
 		[self removeStoredProcedure:[self storedProcedureNamed:key]];
 	}
+    [keys release];
 	
 	[self _setupEntities];
+    
 	
 	[undoManager removeAllActions];
 	

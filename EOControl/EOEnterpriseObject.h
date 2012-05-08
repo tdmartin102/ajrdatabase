@@ -44,6 +44,16 @@
 - (NSDictionary *)snapshot;
 - (void)updateFromSnapshot:(NSDictionary *)snapshot;
 
+// Tom.Martin @ Riemer.com 2012-03-26
+// Add non API method to produce a snapshot that is destined to become a database snapshot.
+// The difference between this and what 'snapshot' returns is that the to-many relationship is
+// an array of GID's not a shallow copy,  also it does not contain a copy of the to-one objects
+// Finally we build the snapshot from the ORIGINAL database snapshot just in case there are values 
+// that in the snapshot THAT CAN NOT BE SET.  This is Extremely unlikely, but easy to do, so why not.
+// this mehod is called from the database context when it creates its snapshots.
+// This is called from enterprise object EOControl contextSnapshotWithDBSnapshot:
+- (NSMutableDictionary *)contextSnapshotWithDBSnapshot:(NSDictionary *)dbsnapshot;
+
 // Merging values
 - (NSDictionary *)changesFromSnapshot:(NSDictionary *)snapshot;
 - (void)reapplyChangesFromDictionary:(NSDictionary *)changes;

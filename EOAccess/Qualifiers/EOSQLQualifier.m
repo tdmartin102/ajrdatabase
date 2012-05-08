@@ -69,12 +69,13 @@ static NSCharacterSet	*singleQSet;
 	id					attribEnum;
 	EOAttribute			*attrib;
 	
-	[super init];
+	if (self = [super init])
+    {
+        _entity = [entity retain];
 	
-	_entity = [entity retain];
-	
-	// just go ahead and create the expression now I guess.  This does not create binds but...
-	expression = [[NSString allocWithZone:[self zone]] initWithFormat:format arguments:args];
+        // just go ahead and create the expression now I guess.  This does not create binds but...
+        expression = [[NSString allocWithZone:[self zone]] initWithFormat:format arguments:args];
+    }
 
 	return self;
 }
@@ -100,10 +101,10 @@ static NSCharacterSet	*singleQSet;
 // This is NOT the EOF 4.5 API, but I'm going to leave it here.
 - (id)initWithExpression:(NSString *)anExpression
 {
-   [super init];
-   
-   expression = [anExpression copy];
-
+   if (self = [super init])
+   {
+       expression = [anExpression copy];
+   }
    return self;
 }
 

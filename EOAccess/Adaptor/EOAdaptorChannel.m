@@ -195,7 +195,7 @@ NSString *EOGenericAdaptorException = @"EOGenericAdaptorException";
 		[dictionary setValue:objects[x] forKey:[[attributes objectAtIndex:x] name]];
 	}
 	
-	return dictionary;
+	return [dictionary autorelease];
 }
 
 - (void)cancelFetch

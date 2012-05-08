@@ -28,6 +28,7 @@ http://www.raftis.net/~alex/
 
 #import "EOFaultHandler.h"
 #import "EOGlobalID.h"
+#import "NSObject-EOEnterpriseObject.h"
 
 #import <objc/objc.h>
 #import <objc/objc-api.h>
@@ -211,10 +212,20 @@ http://www.raftis.net/~alex/
 {
     [handler faultObject:self];
 	// tom.martin @ riemer.com - 2011-09-16
-	// replace depreciated method.  This should be tested, behavior is different.
-	// It may be acceptable, and then again maybe not. 
+	// replace depreciated method.  Updated to the new
+    // primitiveValueForKey: which should be doing the same thing as
+    // storedValueForKey:
 	// [self storedValueForKey:key];    
-	[self valueForKey:key];
+    [self primitiveValueForKey:key];
+}
+
+// Tom.Martin @ Riemer.com 2012-04-19
+// Added this to cover for the newly added primitiveValueForKey: which
+// replaces storedValueForKey:
+- (id)primitiveValueForKey:(NSString *)key
+{
+    [handler faultObject:self];
+	[self primitiveValueForKey:key];
 }
 
 // tom.martin @ riemer.com 2011-11-16
@@ -225,7 +236,7 @@ http://www.raftis.net/~alex/
 - (void)setPrimitiveValue:(id)value forkey:(NSString *)key
 {
 	[handler faultObject:self];
-	[self  setPrimitiveValue:value forkey:key];
+	[self setPrimitiveValue:value forkey:key];
 }
 
 // (ja @ sente.ch) was missing

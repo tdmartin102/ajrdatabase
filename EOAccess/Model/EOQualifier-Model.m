@@ -49,19 +49,20 @@
 	int			x;
 	int numParts;
 	
-	[super init];
+	if (self = [super init])
+    {
+        parts = [properties objectForKey:@"qualifiers"];
+        qualifiers = [[NSMutableArray allocWithZone:[self zone]] init];
 	
-	parts = [properties objectForKey:@"qualifiers"];
-	qualifiers = [[NSMutableArray allocWithZone:[self zone]] init];
-	
-	numParts = [parts count];
-	for (x = 0; x < numParts; x++) {
-		EOQualifier	*qualifier;
-		
-		qualifier = [[EOQualifier allocWithZone:[self zone]] initWithPropertyList:[parts objectAtIndex:x] owner:owner];
-		[(NSMutableArray *)qualifiers addObject:qualifier];
-		[qualifier release];
-	}
+        numParts = [parts count];
+        for (x = 0; x < numParts; x++) {
+            EOQualifier	*qualifier;
+            
+            qualifier = [[EOQualifier allocWithZone:[self zone]] initWithPropertyList:[parts objectAtIndex:x] owner:owner];
+            [(NSMutableArray *)qualifiers addObject:qualifier];
+            [qualifier release];
+        }
+    }
 	
 	return self;
 }
@@ -98,20 +99,21 @@
 	int			x;
 	int numParts;
 	
-	[super init];
+	if (self = [super init])
+    {
 	
-	parts = [properties objectForKey:@"qualifiers"];
-	qualifiers = [[NSMutableArray allocWithZone:[self zone]] init];
-	
-	numParts = [parts count];
-	for (x = 0; x < numParts; x++) {
-		EOQualifier	*qualifier;
-		
-		qualifier = [[EOQualifier allocWithZone:[self zone]] initWithPropertyList:[parts objectAtIndex:x] owner:owner];
-		[(NSMutableArray *)qualifiers addObject:qualifier];
-		[qualifier release];
-	}
-	
+        parts = [properties objectForKey:@"qualifiers"];
+        qualifiers = [[NSMutableArray allocWithZone:[self zone]] init];
+        
+        numParts = [parts count];
+        for (x = 0; x < numParts; x++) {
+            EOQualifier	*qualifier;
+            
+            qualifier = [[EOQualifier allocWithZone:[self zone]] initWithPropertyList:[parts objectAtIndex:x] owner:owner];
+            [(NSMutableArray *)qualifiers addObject:qualifier];
+            [qualifier release];
+        }
+    }	
 	return self;
 }
 
@@ -168,12 +170,12 @@
 
 - (id)initWithPropertyList:(NSDictionary *)properties owner:(id)owner
 {
-	[super init];
-	
-	key = [[properties objectForKey:@"key"] retain];
-	value = [[EOQualifierVariable qualifierVariableWithProperty:[properties objectForKey:@"value"]] retain];
-	operation = NSSelectorFromString([properties objectForKey:@"selectorName"]);
-	
+	if (self = [super init])
+    {
+        key = [[properties objectForKey:@"key"] retain];
+        value = [[EOQualifierVariable qualifierVariableWithProperty:[properties objectForKey:@"value"]] retain];
+        operation = NSSelectorFromString([properties objectForKey:@"selectorName"]);
+	}
 	return self;
 }
 
@@ -191,8 +193,7 @@
 
 - (id)initWithPropertyList:(NSDictionary *)properties owner:(id)owner
 {
-	[super init];
-	
+	self = [super init];
 	return self;
 }
 

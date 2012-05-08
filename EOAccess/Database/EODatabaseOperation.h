@@ -20,13 +20,13 @@ typedef enum _eoDatabaseOperator {
 @interface EODatabaseOperation : NSObject
 {
 	EOGlobalID				*globalID;
-	id							object;
-	EOEntity					*entity;
-	EODatabaseOperator	databaseOperator;
+	id						object;
+	EOEntity				*entity;
+	EODatabaseOperator      databaseOperator;
 	NSDictionary			*snapshot;
-	NSMutableDictionary  *newRow;
+	NSMutableDictionary     *newRow;
 	NSMutableArray			*adaptorOperations;
-	NSMutableDictionary  *toManySnapshots;
+	NSMutableDictionary     *toManySnapshots;
 }
 
 // Creating a new EODatabaseOperation

@@ -87,19 +87,19 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 
 - (id)initWithPropertyList:(NSDictionary *)properties owner:(id)owner
 {
-	[self init];
-	
-	initialized = NO;
-	// Tom Martin 5/11/11
-	// we don't juar set the model = owner.  We need to fully add the entity to the model
-	// I removed the addEntity call from EOModel._setupEntities as well.  This means that
-	// this method will FULLY init the entity.
-	// model = owner; // Not retained. 
-	name = [[properties objectForKey:@"name"] retain];
-	className = [[properties objectForKey:@"className"] retain];
-	if ([owner isKindOfClass:[EOModel class]])
-		[owner addEntity:self];
-
+	if (self = [self init])
+    {
+        initialized = NO;
+        // Tom Martin 5/11/11
+        // we don't juar set the model = owner.  We need to fully add the entity to the model
+        // I removed the addEntity call from EOModel._setupEntities as well.  This means that
+        // this method will FULLY init the entity.
+        // model = owner; // Not retained. 
+        name = [[properties objectForKey:@"name"] retain];
+        className = [[properties objectForKey:@"className"] retain];
+        if ([owner isKindOfClass:[EOModel class]])
+            [owner addEntity:self];
+        }
    return self;
 }
 
@@ -1120,25 +1120,29 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 
 - (void)_initializeFetchSpecifications
 {
-	if (fetchSpecifications == nil) {
+	if (fetchSpecifications == nil) 
+    {
 		NSDictionary		*properties;
 		
 		fetchSpecifications = [[NSMutableDictionary allocWithZone:[self zone]] init];
 		
 		properties = [model _propertiesForFetchSpecificationForEntityNamed:[self name]];
 
-		if ([properties count]) {
+        if ([properties count]) 
+        {
 			NSEnumerator	*enumerator	= [properties keyEnumerator];
 			NSString			*fetchName;
 			
-			while ((fetchName = [enumerator nextObject])) {
-				NSDictionary			*fetchProperties = [properties objectForKey:fetchName];
+			while ((fetchName = [enumerator nextObject])) 
+            {
+                NSDictionary			*fetchProperties = [properties objectForKey:fetchName];
 				EOFetchSpecification	*fetch;
 				
 				fetch = [[EOFetchSpecification allocWithZone:[self zone]] initWithPropertyList:fetchProperties owner:self];
 				if (fetch) {
 					[fetchSpecifications setObject:fetch forKey:fetchName];
 				}
+                [fetch release];
 			}
 		}
 	}

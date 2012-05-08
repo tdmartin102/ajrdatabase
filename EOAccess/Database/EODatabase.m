@@ -30,13 +30,16 @@ http://www.raftis.net/~alex/
 #import "EOAdaptor.h"
 #import "EOAdaptorChannel.h"
 #import "EOEntity.h"
+#import "EOEntityClassDescription.h"
 #import "EOModel.h"
 #import "EOModelGroup.h"
 
+#import <EOControl/EOEditingContext.h>
 #import <EOControl/EOGenericRecord.h>
 #import <EOControl/NSObject-EOEnterpriseObject.h>
 // mont_rothstein @ yahoo.com 2005-08-08
 #import <EOControl/EOObjectStore.h>
+#import <EOControl/EOGlobalID.h>
 
 NSString *EODatabaseException = @"EODatabaseException";
 
@@ -66,38 +69,39 @@ static BOOL _eoDisableSnapshotRefCounting = NO;
 
 - (id)initWithModel:(EOModel *)aModel
 {
-	[self init];
+	if (self = [self init])
+    {
+        [self addModelIfCompatible:aModel];
 	
-	[self addModelIfCompatible:aModel];
+        adaptor = [[EOAdaptor adaptorWithModel:aModel] retain];
+        if (!adaptor) {
+            [self release];
+            [NSException raise:EODatabaseException format:@"Unable to create an adaptor for model \"%@\".", aModel];
+        }
+    }
 	
-   adaptor = [[EOAdaptor adaptorWithModel:aModel] retain];
-   if (!adaptor) {
-		[self release];
-      [NSException raise:EODatabaseException format:@"Unable to create an adaptor for model \"%@\".", aModel];
-   }
-	
-   return self;
+    return self;
 }
 
 - (id)initWithAdaptor:(EOAdaptor *)anAdaptor
 {
-	[self init];
-	
-	adaptor = [anAdaptor retain];
-	
+	if (self = [self init])
+    {
+        adaptor = [anAdaptor retain];
+	}
 	return self;
 }
 
 - (void)dealloc
 {
 	[models release];
-   [adaptor release];
+    [adaptor release];
 	[resultCache release];
 	[snapshots release];
 	[entityCache release];
 	[databaseContexts release];
-
-   [super dealloc];
+    
+    [super dealloc];
 }
 
 - (void)addModel:(EOModel *)aModel
@@ -194,30 +198,15 @@ static BOOL _eoDisableSnapshotRefCounting = NO;
 
 - (void)recordSnapshot:(NSDictionary *)snapshot forGlobalID:(EOGlobalID *)globalID
 {
-	// aclark @ ghoti.org 2005-08-08
-	// This was incorrectly sending objectForKey: to snapshot instead of snapshots.  Changed to use snapshotForGlobalID: to keep abstracted.
-	NSDictionary		*oldSnapshot = [self snapshotForGlobalID:globalID];
-	
-	if (oldSnapshot == nil) {
-		// We don't already know about the snapshot, so go ahead and just set it. Note that it'll have an initial reference count of 0, until something external increments it.
-		[snapshots setObject:snapshot forKey:globalID];
-	// Tom.Martin @ Riemer.com 2011-08-30
-	// check to see if the snapshot is the same as the stored one.
-	// this can happen if recordSnapshot is called more than once on the same snapshot, which should not happen, but it could.
-	} else if (snapshot != oldSnapshot) {
-		// Tom.Martin @ Riemer.com 2011-09=8-22
-		// replace depreciated method call
-		//[oldSnapshot takeValuesFromDictionary:snapshot];
-		if ([oldSnapshot isKindOfClass:[NSMutableDictionary class]])
-			[(NSMutableDictionary *)oldSnapshot setValuesForKeysWithDictionary:snapshot];
-		else
-		{
-			// I can't see how this can happen, but there is nothing to prevent it.
-			// yank the old snapshot and replace it with the new.
-			[snapshots removeObjectsForKeys:[NSArray arrayWithObject:globalID]];
-			[snapshots setObject:snapshot forKey:globalID];
-		}
-	}
+    // lets just create a new dictionary, but when recording relationship keys,
+    // we will convert the snapshot type if it is not correct.  This SHOULD NOT happen
+    // but we don't always have control over what another programmer might do.
+    NSMutableDictionary *newSnapshot;
+    
+    
+     newSnapshot = [snapshot mutableCopy];
+    [snapshots setObject:newSnapshot forKey:globalID];
+    [newSnapshot release];
 }
 
 // mont_rothstein @ yahoo.com 2005-08-08
@@ -232,7 +221,24 @@ static BOOL _eoDisableSnapshotRefCounting = NO;
 - (void)forgetSnapshotsForGlobalIDs:(NSArray *)globalIDs
 {
 	[snapshots removeObjectsForKeys:globalIDs];
-	[[NSNotificationCenter defaultCenter] postNotificationName:EOObjectsChangedInStoreNotification object:self userInfo:[NSDictionary dictionaryWithObject:globalIDs forKey:EOInvalidatedKey]];
+    // Tom.Martin @ Riemer.com 2012-04-24
+    // There are three reasons to call forget snapshots
+    // 1) the objects GID was updated  (No defined key for that)
+    // 2) the object was deleted  (EODeletedKey)
+    // 3) the object needs to be invalidated (EOInvalidateKey)
+    // The problem is from this method there is no easy way to know the object status is that I can think of.
+    // For EOUpdateKey and EOInvalidateKey, the object should be refaulted.  For EODeletedKey the Apple EOF did NOT refault the object
+    // and this seems appropriate.  It DOES make some sense that a deleted object should NOT be used after it is deleted.
+    // HOWEVER.  If it IS used the fault will fire to a database row that does not exist and an exception will be raised.
+    // not nice.      
+    // Frankly I think the documentation may be wrong and it is up to the CALLER to post the notification ...
+    // but I admit that seems like a bit much.  I am changing this to use the EODeletedKey which... for invalidate does not hurt
+    // the problem is in the invalidate method we now need to send this notification AGAIN. but that seems okay to me.
+    // bottom line EODeleteKey will work for deleted objects and for updated GIDs as EOEditingContext will ignore EODeleteKey
+    // and NOT invalidate the object.  
+	//[[NSNotificationCenter defaultCenter] postNotificationName:EOObjectsChangedInStoreNotification object:self userInfo:[NSDictionary 
+    //dictionaryWithObject:globalIDs forKey:EOInvalidatedKey]];
+	[[NSNotificationCenter defaultCenter] postNotificationName:EOObjectsChangedInStoreNotification object:self userInfo:[NSDictionary dictionaryWithObject:globalIDs forKey:EODeletedKey]];
 }
 
 - (void)recordSnapshots:(NSDictionary *)someSnapshots
@@ -240,7 +246,14 @@ static BOOL _eoDisableSnapshotRefCounting = NO;
 	// Tom.Martin @ Riemer.com 2011-09=8-22
 	// replace depreciated method call
 	//[snapshots takeValuesFromDictionary:someSnapshots];
-	[snapshots setValuesForKeysWithDictionary:someSnapshots];
+    //[snapshots setValuesForKeysWithDictionary:someSnapshots];
+    // Tom.Martin @ Riemer.com 2012-03-22
+    // we are setting the snapshot here so we need to be careful that
+    // to-manys are handled, we will call recordSnapshot:forGlobalID:
+    [someSnapshots enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop)
+    {
+        [self recordSnapshot:obj forGlobalID:key];
+    }];
 }
 
 // mont_rothstein @ yahoo.com 2005-08-08
@@ -282,6 +295,26 @@ static BOOL _eoDisableSnapshotRefCounting = NO;
 
 - (void)recordToManySnapshots:(NSDictionary *)someSnapshots
 {
+    // Tom.Martin @ Riemer.com  2012-2-29
+    // structure of to many snapshots should be:
+    //   (Dictionary) 
+    //       (any number of) Key (SourceEO GlobalId) Value (Dictionary) 
+    //           (any number of) Key (Relationship Name) Value (Array)
+    //                Array is GlobalIds of EO at the destination of the relationship
+    // NO CHECKING is performed to assure the structure of the pased in dictionary is correct
+    [someSnapshots enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop)
+    {
+        id keyEnum;
+        NSString *rname;
+        NSArray  *gidArray;
+        
+        keyEnum = [(NSDictionary *)obj keyEnumerator];
+        while ((rname = [keyEnum nextObject]) != nil)
+        {
+            gidArray = [obj objectForKey:rname];
+            [self recordSnapshot:gidArray forSourceGlobalID:key relationshipName:rname];
+        }
+    }];
 }
 
 - (NSArray *)snapshotForSourceGlobalID:(EOGlobalID *)globalID relationshipName:(NSString *)name

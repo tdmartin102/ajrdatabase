@@ -344,7 +344,10 @@ static NSCharacterSet	*literalSet;
 		// if there is a restricting qualifier we add that now.
 		aQualifier = [rootEntity restrictingQualifier];
 		if (aQualifier)
-			qualifier = [[EOAndQualifier allocWithZone:[self zone]] initWithQualifiers:[fetch qualifier], aQualifier, nil];		
+        {
+            [qualifier release];
+			qualifier = [[EOAndQualifier allocWithZone:[self zone]] initWithQualifiers:[fetch qualifier], aQualifier, nil];
+        }
 	}
 	else
 		qualifier = [[rootEntity restrictingQualifier] retain];
@@ -618,6 +621,7 @@ static NSCharacterSet	*literalSet;
 		[sqlString appendString:value];
 		
 	[self appendItem:sqlString toListString:listString];
+    [sqlString release];
 }
 
 /*
@@ -1053,7 +1057,7 @@ static NSCharacterSet	*literalSet;
 				relationshipEntity = anEntity;
 			if ([tableClause length])
 				[tableClause appendString:@", "];
-			[tableClause appendString:[anEntity externalName]];
+			[tableClause appendString:[relationshipEntity externalName]];
 			if (usesAliases)
 				[tableClause appendString:tableAlias];
 		}
@@ -1277,7 +1281,7 @@ static NSCharacterSet	*literalSet;
 	// first convert the value into a standard type
 	primitiveValue = [attribute adaptorValueByConvertingAttributeValue:value];
 	// convert primitive type to SQL
-	return 	[attribute adaptorSqlStringForStandardValue:value];
+	return 	[attribute adaptorSqlStringForStandardValue:primitiveValue];
 }
 
 - (NSMutableDictionary *)bindVariableDictionaryForAttribute:(EOAttribute *)attribute value:value
@@ -1365,7 +1369,6 @@ static NSCharacterSet	*literalSet;
 	NSString			*t;
 		
 	relationshipPath = [[NSMutableString allocWithZone:[self zone]] initWithCapacity:[path count] * 20];
-	index = 0;
 	nextTableNumber = [aliasesByRelationshipPath count];
 	lastRelationship = [path count];
 	
@@ -1651,7 +1654,7 @@ static NSInteger joinAliasSort(id a, id b, void *context)
 	}
 
 	[self appendItem:string toListString:orderByString];
-
+    [string release];
 }
 
 - (NSMutableString *)orderByString { return orderByString; }

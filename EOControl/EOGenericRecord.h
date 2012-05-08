@@ -54,7 +54,6 @@ extern NSString *EOObjectDidUpdateGlobalIDNotification;
 
 //=========== Methods deprecated ==========
 - (void)takeStoredValue:(id)value forKey:(NSString *)key;
-- (void)setPrimitiveValue:(id)value forkey:(NSString *)key;
 - (id)storedValueForKey:(NSString *)key;
 //========== The Old methods ===============
 - (id)handleQueryWithUnboundKey:(NSString *)key;
@@ -64,6 +63,10 @@ extern NSString *EOObjectDidUpdateGlobalIDNotification;
 - (id)valueForUndefinedKey:(NSString *)key;
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key;
 - (void)setNilValueForKey:(NSString *)key;
+- (void)setPrimitiveValue:(id)value forkey:(NSString *)key;
+- (id)primitiveValueForKey:(NSString *)key;
+- (id)valueForKey:(NSString *)key;
+- (void)setValue:(id)value forKey:(NSString *)key;
 
 - (BOOL)isNull:(NSString *)key;
 - (NSDictionary *)values;

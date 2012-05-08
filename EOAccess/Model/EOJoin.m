@@ -35,11 +35,12 @@ http://www.raftis.net/~alex/
 
 - (id)initWithSourceAttribute:(EOAttribute *)source destinationAttribute:(EOAttribute *)destination
 {
-    [super init];
-   sourceAttribute = [source retain];
-   destinationAttribute = [destination retain];
-
-   return self;
+    if (self = [super init])
+    {
+        sourceAttribute = [source retain];
+        destinationAttribute = [destination retain];
+    }
+    return self;
 }
 
 - (void) dealloc
