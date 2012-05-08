@@ -69,38 +69,39 @@ static BOOL _eoDisableSnapshotRefCounting = NO;
 
 - (id)initWithModel:(EOModel *)aModel
 {
-	[self init];
+	if (self = [self init])
+    {
+        [self addModelIfCompatible:aModel];
 	
-	[self addModelIfCompatible:aModel];
+        adaptor = [[EOAdaptor adaptorWithModel:aModel] retain];
+        if (!adaptor) {
+            [self release];
+            [NSException raise:EODatabaseException format:@"Unable to create an adaptor for model \"%@\".", aModel];
+        }
+    }
 	
-   adaptor = [[EOAdaptor adaptorWithModel:aModel] retain];
-   if (!adaptor) {
-		[self release];
-      [NSException raise:EODatabaseException format:@"Unable to create an adaptor for model \"%@\".", aModel];
-   }
-	
-   return self;
+    return self;
 }
 
 - (id)initWithAdaptor:(EOAdaptor *)anAdaptor
 {
-	[self init];
-	
-	adaptor = [anAdaptor retain];
-	
+	if (self = [self init])
+    {
+        adaptor = [anAdaptor retain];
+	}
 	return self;
 }
 
 - (void)dealloc
 {
 	[models release];
-   [adaptor release];
+    [adaptor release];
 	[resultCache release];
 	[snapshots release];
 	[entityCache release];
 	[databaseContexts release];
-
-   [super dealloc];
+    
+    [super dealloc];
 }
 
 - (void)addModel:(EOModel *)aModel
@@ -222,19 +223,22 @@ static BOOL _eoDisableSnapshotRefCounting = NO;
 	[snapshots removeObjectsForKeys:globalIDs];
     // Tom.Martin @ Riemer.com 2012-04-24
     // There are three reasons to call forget snapshots
-    // 1) the object was updated  (EOUpdatedKey)
+    // 1) the objects GID was updated  (No defined key for that)
     // 2) the object was deleted  (EODeletedKey)
     // 3) the object needs to be invalidated (EOInvalidateKey)
     // The problem is from this method there is no easy way to know the object status is that I can think of.
     // For EOUpdateKey and EOInvalidateKey, the object should be refaulted.  For EODeletedKey the Apple EOF did NOT refault the object
-    // and this seems appropriate.  However I just cant think of any way to pull that off from here.
-    // I am leaving this be.  It DOES make some sense that a deleted object should NOT be used after it is deleted.
+    // and this seems appropriate.  It DOES make some sense that a deleted object should NOT be used after it is deleted.
     // HOWEVER.  If it IS used the fault will fire to a database row that does not exist and an exception will be raised.
-    // not nice.  IF the programmer needs to access the object after it is deleted I would suggest making a copy
-    // before it is deleted ....  SO..  there IS a workaround.
+    // not nice.      
     // Frankly I think the documentation may be wrong and it is up to the CALLER to post the notification ...
-    // but I admit that seems like a bit much.  
-	[[NSNotificationCenter defaultCenter] postNotificationName:EOObjectsChangedInStoreNotification object:self userInfo:[NSDictionary dictionaryWithObject:globalIDs forKey:EOInvalidatedKey]];
+    // but I admit that seems like a bit much.  I am changing this to use the EODeletedKey which... for invalidate does not hurt
+    // the problem is in the invalidate method we now need to send this notification AGAIN. but that seems okay to me.
+    // bottom line EODeleteKey will work for deleted objects and for updated GIDs as EOEditingContext will ignore EODeleteKey
+    // and NOT invalidate the object.  
+	//[[NSNotificationCenter defaultCenter] postNotificationName:EOObjectsChangedInStoreNotification object:self userInfo:[NSDictionary 
+    //dictionaryWithObject:globalIDs forKey:EOInvalidatedKey]];
+	[[NSNotificationCenter defaultCenter] postNotificationName:EOObjectsChangedInStoreNotification object:self userInfo:[NSDictionary dictionaryWithObject:globalIDs forKey:EODeletedKey]];
 }
 
 - (void)recordSnapshots:(NSDictionary *)someSnapshots
