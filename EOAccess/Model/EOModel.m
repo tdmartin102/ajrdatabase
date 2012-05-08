@@ -82,17 +82,18 @@ static NSCharacterSet		*validNameSet = nil;
 
 - (id)init
 {
-	[super init];
-	
-	index = [[NSMutableDictionary allocWithZone:[self zone]] init];
-	connectionProperties = [[NSMutableDictionary allocWithZone:[self zone]] init];
-	entityCache = [[NSMutableDictionary allocWithZone:[self zone]] init];
-   entityCacheByClass = [[NSMutableDictionary allocWithZone:[self zone]] init];
-	storedProcedures = [[NSMutableArray allocWithZone:[self zone]] init];
-	storedProcedureCache = [[NSMutableDictionary allocWithZone:[self zone]] init];
-	name = @"Untitled";
-	
-	[[EOModelGroup defaultModelGroup] addModel:self];
+	if (self = [super init])
+    {
+        index = [[NSMutableDictionary allocWithZone:[self zone]] init];
+        connectionProperties = [[NSMutableDictionary allocWithZone:[self zone]] init];
+        entityCache = [[NSMutableDictionary allocWithZone:[self zone]] init];
+        entityCacheByClass = [[NSMutableDictionary allocWithZone:[self zone]] init];
+        storedProcedures = [[NSMutableArray allocWithZone:[self zone]] init];
+        storedProcedureCache = [[NSMutableDictionary allocWithZone:[self zone]] init];
+        name = @"Untitled";
+        
+        [[EOModelGroup defaultModelGroup] addModel:self];
+    }
 	
 	return self;
 }
@@ -152,6 +153,7 @@ static NSCharacterSet		*validNameSet = nil;
 		
 		description = [[EOEntityClassDescription allocWithZone:[self zone]] initWithEntity:entity];
 		[EOEntityClassDescription registerClassDescription:description forClass:[entity _objectClass]];
+        [description release];
 	}
 }
 
