@@ -344,7 +344,10 @@ static NSCharacterSet	*literalSet;
 		// if there is a restricting qualifier we add that now.
 		aQualifier = [rootEntity restrictingQualifier];
 		if (aQualifier)
-			qualifier = [[EOAndQualifier allocWithZone:[self zone]] initWithQualifiers:[fetch qualifier], aQualifier, nil];		
+        {
+            [qualifier release];
+			qualifier = [[EOAndQualifier allocWithZone:[self zone]] initWithQualifiers:[fetch qualifier], aQualifier, nil];
+        }
 	}
 	else
 		qualifier = [[rootEntity restrictingQualifier] retain];
@@ -1054,7 +1057,7 @@ static NSCharacterSet	*literalSet;
 				relationshipEntity = anEntity;
 			if ([tableClause length])
 				[tableClause appendString:@", "];
-			[tableClause appendString:[anEntity externalName]];
+			[tableClause appendString:[relationshipEntity externalName]];
 			if (usesAliases)
 				[tableClause appendString:tableAlias];
 		}
