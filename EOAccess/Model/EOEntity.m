@@ -87,19 +87,19 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 
 - (id)initWithPropertyList:(NSDictionary *)properties owner:(id)owner
 {
-	[self init];
-	
-	initialized = NO;
-	// Tom Martin 5/11/11
-	// we don't juar set the model = owner.  We need to fully add the entity to the model
-	// I removed the addEntity call from EOModel._setupEntities as well.  This means that
-	// this method will FULLY init the entity.
-	// model = owner; // Not retained. 
-	name = [[properties objectForKey:@"name"] retain];
-	className = [[properties objectForKey:@"className"] retain];
-	if ([owner isKindOfClass:[EOModel class]])
-		[owner addEntity:self];
-
+	if (self = [self init])
+    {
+        initialized = NO;
+        // Tom Martin 5/11/11
+        // we don't juar set the model = owner.  We need to fully add the entity to the model
+        // I removed the addEntity call from EOModel._setupEntities as well.  This means that
+        // this method will FULLY init the entity.
+        // model = owner; // Not retained. 
+        name = [[properties objectForKey:@"name"] retain];
+        className = [[properties objectForKey:@"className"] retain];
+        if ([owner isKindOfClass:[EOModel class]])
+            [owner addEntity:self];
+        }
    return self;
 }
 
