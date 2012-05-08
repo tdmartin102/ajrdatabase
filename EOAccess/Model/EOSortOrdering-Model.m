@@ -14,14 +14,14 @@
 {
 	NSString		*temp;
 	
-	[super init];
-	
-	key = [[properties objectForKey:@"key"] retain];
-	temp = [properties objectForKey:@"selectorName"];
-	if (temp) {
-		selector = NSSelectorFromString(temp);
+	if (self = [super init])
+    {
+        key = [[properties objectForKey:@"key"] retain];
+        temp = [properties objectForKey:@"selectorName"];
+        if (temp) {
+            selector = NSSelectorFromString(temp);
+        }
 	}
-	
 	return self;
 }
 
