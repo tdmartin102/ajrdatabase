@@ -232,13 +232,8 @@ static BOOL _eoDisableSnapshotRefCounting = NO;
     // HOWEVER.  If it IS used the fault will fire to a database row that does not exist and an exception will be raised.
     // not nice.      
     // Frankly I think the documentation may be wrong and it is up to the CALLER to post the notification ...
-    // but I admit that seems like a bit much.  I am changing this to use the EODeletedKey which... for invalidate does not hurt
-    // the problem is in the invalidate method we now need to send this notification AGAIN. but that seems okay to me.
-    // bottom line EODeleteKey will work for deleted objects and for updated GIDs as EOEditingContext will ignore EODeleteKey
-    // and NOT invalidate the object.  
 	//[[NSNotificationCenter defaultCenter] postNotificationName:EOObjectsChangedInStoreNotification object:self userInfo:[NSDictionary 
     //dictionaryWithObject:globalIDs forKey:EOInvalidatedKey]];
-	[[NSNotificationCenter defaultCenter] postNotificationName:EOObjectsChangedInStoreNotification object:self userInfo:[NSDictionary dictionaryWithObject:globalIDs forKey:EODeletedKey]];
 }
 
 - (void)recordSnapshots:(NSDictionary *)someSnapshots
