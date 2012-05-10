@@ -705,6 +705,10 @@ static Class _eoDatabaseContextClass = Nil;
 	// For deleted objects we need to forget the snapshot
 	for (object in [savingContext deletedObjects]) 
     {
+        // frankly, we don't realy need to do this as when the object is forgoten, the
+        // the snapshot will be removed.  But if snapshot reference counting is turned
+        // off then it won't be.  So this is an extra measure to make sure the snapshot
+        // is actually removed.
         if ([self ownsObject:object])
         {
             [self forgetSnapshotForGlobalID:[savingContext globalIDForObject:object]];
@@ -920,6 +924,9 @@ static Class _eoDatabaseContextClass = Nil;
                 // this now happens in commitChanges 
 				//[aDatabase forgetSnapshotForGlobalID:[operation globalID]];
 				[globalIDsForDeletedObjects addObject: [operation globalID]];
+                // Tom.Martin @ Riemer.com 2012-05-11
+                // and remove the object from this edting context
+                [savingContext forgetObject:[operation object]];
 				break;
 		}
 	}
