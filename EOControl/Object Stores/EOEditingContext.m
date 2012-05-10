@@ -157,41 +157,53 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 // This is called as a result of the EOObjectsChangedInStoreNotification notification 
 - (void)_processChangedObjects:(NSNotification *)notification
 {
-	NSEnumerator *globalIDs;
+	NSArray *globalIDs;
 	EOGlobalID *globalID;
-	id objectToRefault;
+	id object;
 	NSDictionary *localChanges;
 	
 	// mont_rothstein @ yahoo.com 2005-09-19
 	// Added skip if this editing context sent the notification.  Otherwise we re-fault our own objects and loose the changes.
 	if ([notification object] == self) return;
-	
-	globalIDs = [[[notification userInfo] objectForKey: EOUpdatedKey] objectEnumerator];
-	
-	while (globalID = [globalIDs nextObject])
+	    
+    // Tom.Martin @ Riemer.com 2012-05-10
+    // on a delete
+    // on a ddelete we need to remove the snapshot and also the object itself.  Removing
+    // the object will have the side effect of removing the snapshot so ..
+    globalIDs = [[notification userInfo] objectForKey: EODeletedKey];
+    for (globalID in globalIDs)
 	{
-		objectToRefault = [self objectForGlobalID: globalID];
+		object = [self objectForGlobalID: globalID];		
+		if (object)
+            [self forgetObject:object];
+	}
+
+	globalIDs = [[notification userInfo] objectForKey: EOUpdatedKey];
+	
+	for (globalID in globalIDs)
+	{
+		object = [self objectForGlobalID: globalID];
 		
-		if (!objectToRefault) continue;
+		if (!object) continue;
 		
-		localChanges = [objectToRefault changesFromSnapshot: [objectToRefault snapshot]];
+		localChanges = [object changesFromSnapshot: [object snapshot]];
 		
-		[self refaultObject: objectToRefault
+		[self refaultObject: object
 			   withGlobalID: globalID
 			 editingContext: self];
 		
-		if ([localChanges count]) [objectToRefault reapplyChangesFromDictionary: localChanges];
+		if ([localChanges count]) [object reapplyChangesFromDictionary: localChanges];
 	}
 
-	globalIDs = [[[notification userInfo] objectForKey: EOInvalidatedKey] objectEnumerator];
+	globalIDs = [[notification userInfo] objectForKey: EOInvalidatedKey];
 	
-	while (globalID = [globalIDs nextObject])
+	for (globalID in globalIDs)
 	{
-		objectToRefault = [self objectForGlobalID: globalID];
+		object = [self objectForGlobalID: globalID];
 		
-		if (!objectToRefault) continue;
+		if (!object) continue;
 
-		[self refaultObject: objectToRefault
+		[self refaultObject: object
 			   withGlobalID: globalID
 			 editingContext: self];
 	}
