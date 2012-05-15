@@ -48,8 +48,8 @@ static NSCharacterSet	*singleQSet;
 		literalSet = [[NSCharacterSet characterSetWithCharactersInString:
 			@"_"
 			@"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-			@"abcdefghijklmnopqrstuvwxyz"
-			@"0123456789.\"'"] retain];
+			@"abcdefghijklmnopqrstuvwxyz\"'"
+			@"0123456789."] retain];
 		doubleQSet = [[NSCharacterSet characterSetWithCharactersInString:
 			@"\""] retain];
 		singleQSet = [[NSCharacterSet characterSetWithCharactersInString:
@@ -134,6 +134,9 @@ static NSCharacterSet	*singleQSet;
 	NSString		*token;
 	NSCharacterSet	*qSet;
 	NSScanner		*scanner;
+    NSString        *singleQ = @"'";
+    NSString        *doubleQ = @"\"";
+    NSString        *q;
 		
 	// scan, skipping all characters until we encounter a-zA-Z"' (literal start character)
 	// scan in characters from set a-zA-Z0-9."'  This would be a token of interest
@@ -165,21 +168,33 @@ static NSCharacterSet	*singleQSet;
 			{
 				// this should work for escaped quotes as well
 				qSet = nil;
-				if ([token hasPrefix:@"\""])
+                q = nil;
+				if ([token hasPrefix:doubleQ])
+                {
 					qSet = doubleQSet;
-				if ([token hasPrefix:@"'"])
+                    q = doubleQ;
+                }
+				if ([token hasPrefix:singleQ])
+                {
 					qSet = singleQSet;
+                    q = singleQ;
+                }
 				if (qSet)
 				{
-					// scan up to a matching qoute
-					[scanner scanUpToCharactersFromSet:qSet intoString:&token];
+					// if the last character is NOT the matching quote then 
+                    // scan up to a matching quote.
+                    if (! (([token length] > 1) && [token hasSuffix:q]))
+                    {
+                        [sqlString appendString:token];
+                        [scanner scanUpToCharactersFromSet:qSet intoString:&token];
+                    }
 					if ([token length])
 						[sqlString appendString:token];
 				}
 				else
 				{
 					// this literal does NOT start with a quote
-					attribSQLName = [otherExpression sqlStringForAttributeNamed:token];
+                    attribSQLName = [otherExpression sqlStringForAttributeNamed:token];
 					if (attribSQLName)
 						[sqlString appendString:attribSQLName];
 					else
