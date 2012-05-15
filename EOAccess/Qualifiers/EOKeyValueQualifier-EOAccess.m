@@ -126,7 +126,7 @@ http://www.raftis.net/~alex/
 	
 		// if this is a like operation we need to append the escape clause
 		if (isLike)
-			[sql appendString:@" ESCAPE '\'"];
+			[sql appendString:@" ESCAPE '\\'"];
 	}
 	else
 	{
