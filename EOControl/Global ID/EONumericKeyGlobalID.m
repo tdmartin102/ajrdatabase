@@ -118,7 +118,7 @@ http://www.raftis.net/~alex/
     NSMutableString	*buffer = [@"[EONumericKeyGlobalID: entity=" mutableCopyWithZone:[self zone]];
     int					x;
     
-    [buffer appendString:entityName];
+    [buffer appendString:(entityName) ? entityName : @"No Entity Set"];
     [buffer appendString:@" key(s): "];
 	
     for (x = 0; x < count; x++) {
