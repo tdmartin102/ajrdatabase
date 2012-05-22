@@ -153,48 +153,56 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 // mont_rothstein @ yahoo.com 10/26/04
 // Modified this to only use the class relationships, not all relationships.  Accessing all relationships was including the multi-entity relationships used to create flattened relationships.
 - (void)awakeObjectFromFetch:(id)object inEditingContext:(EOEditingContext *)anEditingContext
-{
-   NSArray			*relationships;
-   int				x, max;
+{   
+    NSArray			*relationships;
+    int				x, max;
 	EOGlobalID		*globalID = [anEditingContext globalIDForObject:object];
+    NSString        *relationshipName;
 	
-   [object _setEditingContext:anEditingContext];
+    [object _setEditingContext:anEditingContext];
 	
 	//relationships = [entity relationships];
-   relationships = [entity _classRelationships];
-   for (x = 0, max = [relationships count]; x < max; x++) {
-		//EORelationship  *relationship = [relationships objectAtIndex:x];
-	   EORelationship		*relationship = [entity relationshipNamed:[relationships objectAtIndex:x]];
+    relationships = [entity _classRelationships];
+    for (relationshipName in relationships)
+    {
+        //EORelationship  *relationship = [relationships objectAtIndex:x];
+        EORelationship		*relationship = [entity relationshipNamed:relationshipName];
 		
-      if ([relationship isToMany]) {
-		// tom.martin @ riemer.com - 2011-09-16
-		// replace depreciated method.  This should be tested, behavior is different.
-		// It may be acceptable, and then again maybe not. 
-		//[object takeStoredValue:[anEditingContext arrayFaultWithSourceGlobalID:globalID relationshipName:[relationship name] editingContext:anEditingContext] forKey:[relationship name]];
-		// tom.martin @ riemer.com 2011-11-16
-		// it turns out that the purpose of takeStoredValue is basically to 
-		// avoid calling the accessor method so that willChange will NOT be called
-		// I have implemented setPrimitiveValue:forKey to replace takeStoredValue:forKey:
-		// So this method is replaced here.      
-		//[object setValue:[anEditingContext arrayFaultWithSourceGlobalID:globalID relationshipName:[relationship name] editingContext:anEditingContext] forKey:[relationship name]];
-		[object setPrimitiveValue:[anEditingContext arrayFaultWithSourceGlobalID:globalID relationshipName:[relationship name] editingContext:anEditingContext] forKey:[relationship name]];
-      } else if ([relationship definition] != nil) {
-         /*! @todo Create many to many relationship. This may actually be nothing, since it may be handled by the above block. */
-      } else {
-			EODatabaseContext	*EOContext;
-         EOGlobalID			*dstGlobalID;
-		 NSDictionary *snapshot;
-		 NSArray *sourceAttributes;
-		 NSArray *destinationAttributes;
-		 NSMutableDictionary *row;
-		 int index, numAttributes;
-		 id value;
+        if ([relationship isToMany]) 
+        {
+            // tom.martin @ riemer.com - 2011-09-16
+            // replace depreciated method.  This should be tested, behavior is different.
+            // It may be acceptable, and then again maybe not. 
+            //[object takeStoredValue:[anEditingContext arrayFaultWithSourceGlobalID:globalID relationshipName:[relationship name] editingContext:anEditingContext] forKey:[relationship name]];
+            // tom.martin @ riemer.com 2011-11-16
+            // it turns out that the purpose of takeStoredValue is basically to 
+            // avoid calling the accessor method so that willChange will NOT be called
+            // I have implemented setPrimitiveValue:forKey to replace takeStoredValue:forKey:
+            // So this method is replaced here.      
+            //[object setValue:[anEditingContext arrayFaultWithSourceGlobalID:globalID relationshipName:[relationship name] editingContext:anEditingContext] forKey:[relationship name]];
+            [object setPrimitiveValue:[anEditingContext arrayFaultWithSourceGlobalID:globalID relationshipName:relationshipName 
+                                                                      editingContext:anEditingContext] forKey:relationshipName];
+        } 
+        else if ([relationship definition] != nil) 
+        {
+            /*! @todo Create many to many relationship. This may actually be nothing, since it may be handled by the above block. */
+        } 
+        else 
+        {
+            EODatabaseContext	*EOContext;
+            EOGlobalID			*dstGlobalID;
+            NSDictionary        *snapshot;
+            NSArray             *sourceAttributes;
+            NSArray             *destinationAttributes;
+            NSMutableDictionary *row;
+            int                 index, numAttributes;
+            id                  value;
 			
 			EOContext = [EODatabaseContext registeredDatabaseContextForModel:[entity model] editingContext:anEditingContext];
 			// mont_rothstein @ yahoo.com 2005-05-06
 			// This was assuming that the source and destination attrribute names were the same.
 			// Corrected to handle source and destination attributes separately
-//			dstGlobalID = [[relationship destinationEntity] globalIDForRow:[EOContext snapshotForGlobalID:globalID]];
+            //dstGlobalID = [[relationship destinationEntity] globalIDForRow:[EOContext snapshotForGlobalID:globalID]];
 			snapshot = [EOContext snapshotForGlobalID:globalID];
 			row = [NSMutableDictionary dictionary];
 			sourceAttributes = [relationship sourceAttributes];
@@ -204,27 +212,45 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 			for (index = 0; index < numAttributes; index++)
 			{
 				value = [snapshot objectForKey: [[sourceAttributes objectAtIndex: index] name]];
-				
+                // Tom.Martin @ Riemer.com 2012-5-22
+                // test for null foreign key, if there is one then DO NOT create a fault but instead
+                // set the relationship to nil.
+                if (value == [NSNull null])
+                    value = nil;
 				if (value)
 				{
 					[row setObject: value
 							forKey: [[destinationAttributes objectAtIndex: index] name]];
 				}
+                else
+                {
+                    // we have a null foreign key, return nil
+                    row = nil;
+                    break;
+                }
 			}
 
-			dstGlobalID = [[relationship destinationEntity] globalIDForRow: row];
-			// tom.martin @ riemer.com - 2011-09-16
-			// replace depreciated method.  This should be tested, behavior is different.
-			// It may be acceptable, and then again maybe not. 
-			//[object takeStoredValue:[anEditingContext faultForGlobalID:dstGlobalID editingContext:anEditingContext] forKey:[relationship name]];
-			// tom.martin @ riemer.com 2011-11-16
-			// it turns out that the purpose of takeStoredValue is basically to 
-			// avoid calling the accessor method so that willChange will NOT be called
-			// I have implemented setPrimitiveValue:forKey to replace takeStoredValue:forKey:
-			// So this method is replaced here.  
-			//[object setValue:[anEditingContext faultForGlobalID:dstGlobalID editingContext:anEditingContext] forKey:[relationship name]];
-			[object setPrimitiveValue:[anEditingContext faultForGlobalID:dstGlobalID editingContext:anEditingContext] forKey:[relationship name]];
-      }
+            if (row)
+            {
+                dstGlobalID = [[relationship destinationEntity] globalIDForRow: row];
+                // tom.martin @ riemer.com - 2011-09-16
+                // replace depreciated method.  This should be tested, behavior is different.
+                // It may be acceptable, and then again maybe not. 
+                //[object takeStoredValue:[anEditingContext faultForGlobalID:dstGlobalID editingContext:anEditingContext] forKey:[relationship name]];
+                // tom.martin @ riemer.com 2011-11-16
+                // it turns out that the purpose of takeStoredValue is basically to 
+                // avoid calling the accessor method so that willChange will NOT be called
+                // I have implemented setPrimitiveValue:forKey to replace takeStoredValue:forKey:
+                // So this method is replaced here.  
+                //[object setValue:[anEditingContext faultForGlobalID:dstGlobalID editingContext:anEditingContext] forKey:[relationship name]];
+                [object setPrimitiveValue:[anEditingContext faultForGlobalID:dstGlobalID editingContext:anEditingContext] forKey:relationshipName];
+            }
+            else
+            {
+                // we need to set the relationship in if this is a refresh.
+                [object setPrimitiveValue:nil forKey:relationshipName];
+            }
+        }
    }
 }
 
