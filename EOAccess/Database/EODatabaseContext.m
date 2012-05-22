@@ -603,7 +603,13 @@ static Class _eoDatabaseContextClass = Nil;
 		// I have implemented setPrimitiveValue:forKey to replace takeStoredValue:forKey:
 		// So this method is replaced here.  
 		//if (value != [NSNull null])	[object setValue:value forKey:key];
-		if (value != [NSNull null])	[object setPrimitiveValue:value forKey:key];
+        // Tom.Martin @ Riemer.com 2012-05-22
+        // I can't believe I'm changing this AGAIN.  In the case of a REFRESH you will
+        // most defenetly need to set nulls, not just skip them
+		//if (value != [NSNull null])	[object setPrimitiveValue:value forKey:key];
+        if (value == [NSNull null])
+            value = nil;
+        [object setPrimitiveValue:value forKey:key];
 	}
 }
 
