@@ -29,7 +29,7 @@ http://www.raftis.net/~alex/
 #import "NSString-SQLite.h"
 
 #import <fcntl.h>
-#import <sqlite.h>
+#import <sqlite3.h>
 
 @implementation SQLiteChannel
 
