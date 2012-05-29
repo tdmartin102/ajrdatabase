@@ -32,7 +32,11 @@
 		1E45D52113FD8AAC0043B572 /* OracleSchemaGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E45D52013FD8AAC0043B572 /* OracleSchemaGeneration.m */; };
 		1E7958C714642CD100FB2ACF /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C3E14572B67008E8514 /* EOAccess.framework */; };
 		1E7958FC14642CD700FB2ACF /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
+		1E8203CD15753E6F00F9663C /* libpq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E8203CC15753E6F00F9663C /* libpq.a */; };
+		1E8203CE15753E6F00F9663C /* libpq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E8203CC15753E6F00F9663C /* libpq.a */; };
 		1E86A7F51312D63C00FA5FDA /* OracleDefineInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E86A7F41312D63C00FA5FDA /* OracleDefineInfo.m */; };
+		1E8E60D11574F0DC00179CCB /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E8E60D01574F0DC00179CCB /* libsqlite3.dylib */; };
+		1E8E60D21574F0DC00179CCB /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E8E60D01574F0DC00179CCB /* libsqlite3.dylib */; };
 		1E91D55C13EB0AC600C0B4F1 /* OracleLogo.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1E91D55B13EB0AC600C0B4F1 /* OracleLogo.tiff */; };
 		1E91D56313EB0BAC00C0B4F1 /* OracleConnectionPane.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E91D56213EB0BAC00C0B4F1 /* OracleConnectionPane.m */; };
 		1E9889131296F41B00F17A39 /* OracleAdaptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E98890D1296F41B00F17A39 /* OracleAdaptor.m */; };
@@ -45,6 +49,10 @@
 		1E9889A71296F75100F17A39 /* OracleContext.h in Resources */ = {isa = PBXBuildFile; fileRef = 1E9889101296F41B00F17A39 /* OracleContext.h */; };
 		1E9889A81296F77300F17A39 /* copyright in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF4F0742783D00AB5036 /* copyright */; };
 		1E9889A91296F77900F17A39 /* license in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF510742783D00AB5036 /* license */; };
+		1EEDA4E71575334E00F67085 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C3E14572B67008E8514 /* EOAccess.framework */; };
+		1EEDA4E81575335400F67085 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
+		1EEDA4E9157533B200F67085 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
+		1EEDA4EA157533B700F67085 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C3E14572B67008E8514 /* EOAccess.framework */; };
 		1EF391FA12A9307300FDC676 /* OracleDataTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1EF391F912A9307300FDC676 /* OracleDataTypes.plist */; };
 		1EF3923812A9567100FDC676 /* OracleSQLExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EF3923712A9567100FDC676 /* OracleSQLExpression.m */; };
 		707F2B91075E977900AEB39E /* PostgreSQLSchemaGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DCB40742730700AB5036 /* PostgreSQLSchemaGeneration.m */; };
@@ -78,7 +86,6 @@
 		FA63DCE30742734F00AB5036 /* PostgresDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DCA60742730700AB5036 /* PostgresDateFormatter.m */; };
 		FA63DCE40742735000AB5036 /* PostgresDateFormatter.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DCA50742730700AB5036 /* PostgresDateFormatter.h */; };
 		FA63DCE60742736000AB5036 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DAC20742715100AB5036 /* Foundation.framework */; };
-		FA63DDA8074273E700AB5036 /* libpq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DDA7074273E700AB5036 /* libpq.a */; };
 		FA63DDD00742754500AB5036 /* PostgreSQLConnectionPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FA63DCCB0742731600AB5036 /* PostgreSQLConnectionPane.nib */; };
 		FA63DDD10742754600AB5036 /* PostgreSQLConnectionPane.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DCAE0742730700AB5036 /* PostgreSQLConnectionPane.m */; };
 		FA63DDD20742754600AB5036 /* PostgreSQLConnectionPane.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DCAD0742730700AB5036 /* PostgreSQLConnectionPane.h */; };
@@ -94,7 +101,6 @@
 		FA63DE28074276A100AB5036 /* SQLiteConnectionPane.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DE150742768500AB5036 /* SQLiteConnectionPane.h */; };
 		FA63DE29074276A200AB5036 /* SQLiteConnectionPane.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DE160742768500AB5036 /* SQLiteConnectionPane.m */; };
 		FA63DE2A074276A200AB5036 /* SQLiteConnectionPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FA63DE250742769600AB5036 /* SQLiteConnectionPane.nib */; };
-		FA63DEFC074276D300AB5036 /* libsqlite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DEFB074276D300AB5036 /* libsqlite.a */; };
 		FA63DF2A074277A600AB5036 /* SQLiteInterface.interface in Resources */ = {isa = PBXBuildFile; fileRef = FA63DE0F0742766600AB5036 /* SQLiteInterface.interface */; };
 		FA63DF530742783D00AB5036 /* copyright in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF4F0742783D00AB5036 /* copyright */; };
 		FA63DF540742783D00AB5036 /* license in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF510742783D00AB5036 /* license */; };
@@ -154,8 +160,10 @@
 		1E34465012E4D06B007574F2 /* oracle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = oracle; path = /usr/local/include/oracle; sourceTree = "<absolute>"; };
 		1E45D51F13FD8AAC0043B572 /* OracleSchemaGeneration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleSchemaGeneration.h; sourceTree = "<group>"; };
 		1E45D52013FD8AAC0043B572 /* OracleSchemaGeneration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleSchemaGeneration.m; sourceTree = "<group>"; };
+		1E8203CC15753E6F00F9663C /* libpq.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpq.a; path = ../../../../../../../../../../../../usr/lib/libpq.a; sourceTree = "<group>"; };
 		1E86A7F31312D63C00FA5FDA /* OracleDefineInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleDefineInfo.h; sourceTree = "<group>"; };
 		1E86A7F41312D63C00FA5FDA /* OracleDefineInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleDefineInfo.m; sourceTree = "<group>"; };
+		1E8E60D01574F0DC00179CCB /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = ../../../../../../../../../../../../usr/lib/libsqlite3.dylib; sourceTree = "<group>"; };
 		1E91D55713EB0A9B00C0B4F1 /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = English.lproj/OracleConnectionPane.nib; sourceTree = "<group>"; };
 		1E91D55B13EB0AC600C0B4F1 /* OracleLogo.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = OracleLogo.tiff; sourceTree = "<group>"; };
 		1E91D56113EB0BAC00C0B4F1 /* OracleConnectionPane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleConnectionPane.h; sourceTree = "<group>"; };
@@ -211,7 +219,6 @@
 		FA63DCB60742730700AB5036 /* PostgresStringFormatter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PostgresStringFormatter.m; sourceTree = "<group>"; };
 		FA63DCB70742730700AB5036 /* PSQLDataTypes.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist; path = PSQLDataTypes.plist; sourceTree = "<group>"; };
 		FA63DCCC0742731600AB5036 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PostgreSQLConnectionPane.nib; sourceTree = "<group>"; };
-		FA63DDA7074273E700AB5036 /* libpq.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpq.a; path = /usr/local/pgsql/lib/libpq.a; sourceTree = "<absolute>"; };
 		FA63DDCE074274FA00AB5036 /* PostgreSQLInterface.interface */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PostgreSQLInterface.interface; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA63DDCF074274FA00AB5036 /* PostgreSQLInterface-Info.plist */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text.plist.xml; path = "PostgreSQLInterface-Info.plist"; sourceTree = SOURCE_ROOT; };
 		FA63DE070742765300AB5036 /* SQLite.eoadaptor */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SQLite.eoadaptor; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -229,7 +236,6 @@
 		FA63DE190742768500AB5036 /* SQLiteExpression.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SQLiteExpression.h; sourceTree = "<group>"; };
 		FA63DE1A0742768500AB5036 /* SQLiteExpression.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SQLiteExpression.m; sourceTree = "<group>"; };
 		FA63DE260742769600AB5036 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SQLiteConnectionPane.nib; sourceTree = "<group>"; };
-		FA63DEFB074276D300AB5036 /* libsqlite.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlite.a; path = /Volumes/Local/local/lib/libsqlite.a; sourceTree = "<absolute>"; };
 		FA63DF500742783D00AB5036 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = English; path = English.lproj/copyright; sourceTree = "<group>"; };
 		FA63DF520742783D00AB5036 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = English; path = English.lproj/license; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -239,8 +245,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1E7958C714642CD100FB2ACF /* EOAccess.framework in Frameworks */,
 				1E7958FC14642CD700FB2ACF /* EOControl.framework in Frameworks */,
+				1E7958C714642CD100FB2ACF /* EOAccess.framework in Frameworks */,
 				1E98891D1296F56400F17A39 /* libocci.dylib in Frameworks */,
 				1E98891F1296F57C00F17A39 /* libclntsh.dylib in Frameworks */,
 			);
@@ -260,8 +266,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E8203CD15753E6F00F9663C /* libpq.a in Frameworks */,
 				FA63DCE60742736000AB5036 /* Foundation.framework in Frameworks */,
-				FA63DDA8074273E700AB5036 /* libpq.a in Frameworks */,
 				14001D3414572BEB008E8514 /* EOAccess.framework in Frameworks */,
 				14001D3514572BF7008E8514 /* EOControl.framework in Frameworks */,
 			);
@@ -271,6 +277,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E8203CE15753E6F00F9663C /* libpq.a in Frameworks */,
 				14001D4614572C2C008E8514 /* EOAccess.framework in Frameworks */,
 				14001D4914572C44008E8514 /* EOControl.framework in Frameworks */,
 			);
@@ -280,7 +287,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA63DEFC074276D300AB5036 /* libsqlite.a in Frameworks */,
+				1E8E60D11574F0DC00179CCB /* libsqlite3.dylib in Frameworks */,
+				1EEDA4E9157533B200F67085 /* EOControl.framework in Frameworks */,
+				1EEDA4EA157533B700F67085 /* EOAccess.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,6 +297,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1EEDA4E81575335400F67085 /* EOControl.framework in Frameworks */,
+				1EEDA4E71575334E00F67085 /* EOAccess.framework in Frameworks */,
+				1E8E60D21574F0DC00179CCB /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,8 +388,8 @@
 				FA63DAC20742715100AB5036 /* Foundation.framework */,
 				FA63DC780742726500AB5036 /* OpenBaseAPI.framework */,
 				FA63DC790742726500AB5036 /* OpenBaseNet.framework */,
-				FA63DDA7074273E700AB5036 /* libpq.a */,
-				FA63DEFB074276D300AB5036 /* libsqlite.a */,
+				1E8203CC15753E6F00F9663C /* libpq.a */,
+				1E8E60D01574F0DC00179CCB /* libsqlite3.dylib */,
 				1E98891C1296F56400F17A39 /* libocci.dylib */,
 				1E98891E1296F57C00F17A39 /* libclntsh.dylib */,
 				14001C3E14572B67008E8514 /* EOAccess.framework */,
@@ -844,13 +856,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../EOAccess/build/Development\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../EOControl/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../EOControl/build/Development\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -864,7 +873,6 @@
 					"-framework",
 					AppKit,
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = Oracle;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
 				WARNING_CFLAGS = (
@@ -885,12 +893,9 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../EOAccess/build/Development\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../EOControl/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../EOControl/build/Development\"";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -905,7 +910,6 @@
 					"-framework",
 					AppKit,
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = Oracle;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -923,12 +927,9 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../EOAccess/build/Development\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../EOControl/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../EOControl/build/Development\"";
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -942,7 +943,6 @@
 					"-framework",
 					AppKit,
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = Oracle;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -1047,19 +1047,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(HOME)/Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../EOAccess/build/Development\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../EOControl/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				HEADER_SEARCH_PATHS = /usr/include;
 				INFOPLIST_FILE = "PostgreSQLInterface-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_SEARCH_PATHS = /usr/lib;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1067,7 +1062,6 @@
 					"-framework",
 					AppKit,
 				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = PostgreSQLInterface;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -1084,19 +1078,14 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(HOME)/Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../EOAccess/build/Development\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../EOControl/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				HEADER_SEARCH_PATHS = /usr/include;
 				INFOPLIST_FILE = "PostgreSQLInterface-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_SEARCH_PATHS = /usr/lib;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1104,7 +1093,6 @@
 					"-framework",
 					AppKit,
 				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = PostgreSQLInterface;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -1119,19 +1107,14 @@
 		70B72DEA0956026E005162B9 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(HOME)/Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../EOAccess/build/Development\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../EOControl/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				HEADER_SEARCH_PATHS = /usr/include;
 				INFOPLIST_FILE = "PostgreSQLInterface-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_SEARCH_PATHS = /usr/lib;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1139,7 +1122,6 @@
 					"-framework",
 					AppKit,
 				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = PostgreSQLInterface;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -1154,23 +1136,19 @@
 		70B72DEC0956026E005162B9 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(HOME)/Library/Frameworks",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-				);
+				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../EOAccess/build/Development\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../EOControl/build/Development\"";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				HEADER_SEARCH_PATHS = /usr/local/pgsql/include;
+				HEADER_SEARCH_PATHS = /usr/include;
 				INFOPLIST_FILE = "PostgreSQL-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				LIBRARY_SEARCH_PATHS = /usr/local/pgsql/lib;
+				LIBRARY_SEARCH_PATHS = /usr/lib;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1182,7 +1160,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = PostgreSQL;
 				SECTORDER_FLAGS = "";
-				VALID_ARCHS = i386;
+				VALID_ARCHS = "i386 x86_64";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -1197,21 +1175,17 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(HOME)/Library/Frameworks",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-				);
+				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../EOAccess/build/Development\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../EOControl/build/Development\"";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				HEADER_SEARCH_PATHS = /usr/local/pgsql/include;
+				HEADER_SEARCH_PATHS = /usr/include;
 				INFOPLIST_FILE = "PostgreSQL-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				LIBRARY_SEARCH_PATHS = /usr/local/pgsql/lib;
+				LIBRARY_SEARCH_PATHS = /usr/lib;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1223,6 +1197,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = PostgreSQL;
 				SECTORDER_FLAGS = "";
+				VALID_ARCHS = "i386 x86_64";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -1235,20 +1210,16 @@
 		70B72DEE0956026E005162B9 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(HOME)/Library/Frameworks",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-				);
+				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../EOAccess/build/Development\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../EOControl/build/Development\"";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				HEADER_SEARCH_PATHS = /usr/local/pgsql/include;
+				HEADER_SEARCH_PATHS = /usr/include;
 				INFOPLIST_FILE = "PostgreSQL-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				LIBRARY_SEARCH_PATHS = /usr/local/pgsql/lib;
+				LIBRARY_SEARCH_PATHS = /usr/lib;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1260,6 +1231,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = PostgreSQL;
 				SECTORDER_FLAGS = "";
+				VALID_ARCHS = "i386 x86_64";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -1273,7 +1245,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/BuildOutput";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Library/Frameworks,
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../EOAccess/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../EOControl/build/Development\"";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1286,7 +1265,6 @@
 					"-framework",
 					AppKit,
 				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = SQLiteInterface;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -1303,7 +1281,14 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/BuildOutput";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Library/Frameworks,
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../EOAccess/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../EOControl/build/Development\"";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1316,7 +1301,6 @@
 					"-framework",
 					AppKit,
 				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = SQLiteInterface;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -1331,7 +1315,14 @@
 		70B72DF20956026E005162B9 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/BuildOutput";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Library/Frameworks,
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../EOAccess/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../EOControl/build/Development\"";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1344,7 +1335,6 @@
 					"-framework",
 					AppKit,
 				);
-				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = SQLiteInterface;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -1360,7 +1350,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/BuildOutput";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(HOME)/Library/BuildOutput",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../EOControl/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../EOAccess/build/Development\"";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1391,7 +1387,13 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/BuildOutput";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(HOME)/Library/BuildOutput",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../EOControl/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../EOAccess/build/Development\"";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1420,7 +1422,13 @@
 		70B72DF60956026E005162B9 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/BuildOutput";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(HOME)/Library/BuildOutput",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../EOControl/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../EOAccess/build/Development\"";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -1503,15 +1511,17 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
 				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				CURRENT_PROJECT_VERSION = 0.85;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.7.sdk";
 			};
 			name = Development;
 		};
 		70B72DFD0956026E005162B9 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				CURRENT_PROJECT_VERSION = 0.85;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.7.sdk";
 			};
 			name = Deployment;
 		};
@@ -1519,7 +1529,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 0.85;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.7.sdk";
 			};
 			name = Default;
 		};

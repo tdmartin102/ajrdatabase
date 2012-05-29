@@ -26,7 +26,7 @@ http://www.raftis.net/~alex/
 
 #import <EOAccess/EOAccess.h>
 
-#import <sqlite.h>
+#import <sqlite3.h>
 
 @interface SQLiteChannel : EOAdaptorChannel
 {
