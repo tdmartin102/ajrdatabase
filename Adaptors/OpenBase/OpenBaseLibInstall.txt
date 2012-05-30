@@ -1,0 +1,3 @@
+OpenBase
+
+OpenBase uses Frameworks which are installed when you install the OpenBase database engine.  OpenBase is a proprietary not for free product, but you can do the install then abort the install when it asks for a license key.  THe frameworks will be installed just fine after this.

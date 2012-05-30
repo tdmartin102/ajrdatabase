@@ -1,0 +1,4 @@
+SQLite
+
+The SQLite library and includes are pre installed with OSX 10.6 and 10.7 there is nothing that need be done.
+

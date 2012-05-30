@@ -1,0 +1,119 @@
+
+Installing Oracle Libraries
+======================================
+Download the Oracle Instant Client libraries from Oracle.
+Search Google for "Oracle Instant Client"  That is easier that trying to find them on the Oracle Web site. I got the following link which may or may not still be good.
+
+http://www.oracle.com/technetwork/database/features/instant-client/index-097480.html
+
+You will have accept the Oracle agreement, AND get a Oracle Web Account. which is why I can not supply the libraries to you directly.  The account is free.
+
+Download the Intel libraries for both 32bit and 64 bit architectures. Specifically you want:
+
+ instantclient-basic-10.2.0.4.0-macosx-x86.zip (34,109,360 bytes)
+ instantclient-basic-10.2.0.4.0-macosx-x64.zip (35,013,419 bytes)
+
+You do not need the other Java libraries or the lite version, although you could use the lite version instead of the basic version if you wish.  You will also need the header files.
+
+ instantclient-sdk-10.2.0.4.0-macosx-x86.zip
+
+There is another version of the header files listed under the 64 bit version but they are the same.
+
+Put all the distribution files into a folder and then extract them.  As you do, rename the folders for the libraries to match the architecture.  I named them lib32 and lib64 so that they would be nice and short.  Name the header folder 'headers' and finally create a new empty folder named lib.  So you should end up with
+
+lib
+lib32
+lib64
+headers
+
+Create fat versions of the Oracle libraries
+--------------------------------------------
+Use the command line tool lipo to create fat versions for the libraries we use.  Change the current working directory to the folder than contains the lib folders and execute the following.
+
+lipo lib32/libclntsh.dylib.10.1 lib64/libclntsh.dylib.10.1 -create -output lib/libclntsh.dylib.10.1
+lipo lib32/libnnz10.dylib lib64/libnnz10.dylib -create -output lib/libnnz10.dylib
+lipo lib32/libocci.dylib.10.1 lib64/libocci.dylib.10.1 -create -output lib/libocci.dylib.10.1
+lipo lib32/libociei.dylib lib64/libociei.dylib -create -output lib/libociei.dylib
+lipo lib32/libocijdbc10.dylib lib64/libocijdbc10.dylib -create -output lib/libocijdbc10.dylib
+lipo lib32/libocijdbc10.jnilib lib64/libocijdbc10.jnilib -create -output lib/libocijdbc10.jnilib
+
+To verify everything went as planed execute
+
+lipo -info lib/*
+
+you should get
+
+Architectures in the fat file: libclntsh.dylib.10.1 are: i386 x86_64 
+Architectures in the fat file: libnnz10.dylib are: i386 x86_64 
+Architectures in the fat file: libocci.dylib.10.1 are: i386 x86_64 
+Architectures in the fat file: libociei.dylib are: i386 x86_64 
+Architectures in the fat file: libocijdbc10.dylib are: i386 x86_64 
+Architectures in the fat file: libocijdbc10.jnilib are: i386 x86_64 
+
+While we are at it copy over the jar files.  We don't need them but for the sake of completeness they should be there,
+
+cp lip64/*.jar lib
+
+Create symbolic links
+---------------------
+You now need to create the standard symbolic links.  Change your current working directory to the library where the fat libraries exist in lib.
+
+We only need two symbolic links so this is easy.
+
+ln -s libclntsh.dylib.10.1 libclntsh.dylib
+ln -s libocci.dylib.10.1 libocci.dylib
+
+Copy files to their destination
+-------------------------------
+The install location of these libraries is not all that obvious.  Oracle uses the environment variable DYLD_LIBRARY_PATH to load the libraries.  In OSX this is not set. It will fall back to DYLD_FALLBACK_FRAMEWORK_PATH then DYLD_FALLBACK_LIBRARY_PATH.  The last is set to $(HOME)/lib:/usr/local/lib:/lib:/usr/lib  So I decided on /usr/local/lib.   I found it will not recurse the library path, so the libraries must be in the root of the search path.
+
+Change your working directory to your folder where all your fat libraries now exist.  Make user the /usr/local/lib exists and then copy everything to /usr/local/lib
+
+cp * /usr/local/lib
+
+Create /usr/local/include if it does not already exists.  Now create /usr/local/include/oracle.  Copy all the header files here
+
+From your Oracle build root
+
+cp headers/* /usr/local/include/oracle
+
+Set up the TNS files
+-------------------------------
+You thought your were done didn't you.  Nope.  Oracle has several ways of connecting.  One of the most straight forward is TNS and that is what this adaptor uses by default, However the adaptor CAN connect in other ways.
+
+The TNS method uses a file named tnsnames.ora that defines a connection to a server by a name.  The file may have any number of names.  So connection is simplified by specifying a tns name and then user credentials.
+
+The following is a sample of the contents of tnsnaems.ora
+#-----------------------------------------------------------
+# This is only a placeholder
+
+oracle =
+  (DESCRIPTION = 
+    (ADDRESS = (PROTOCOL = TCP)(Host=yourhost)(Port = 1521))
+    (CONNECT_DATA = (SID = oracle))
+  )
+
+For more information on the contents of this file and the options available, consult the appropriate Oracle documentation, but in general in the above example, the name 'oracle' identifies a connection to 'your host' on port 1521 to the oracle instance ID of 'oracle'.  This is an extremely simple example and the options can get extremely complex.
+
+The location of the tnsnames.ora file is determined by the Adaptor in the following manner:
+
+ The following will be checked in the following order
+ 1) Check to see if a default is set for TNS_ADMIN
+     The user defaults key is com.ajr.OracleAdaptor.TNS_ADMIN
+     the value would be the directory in which to find tnsnames.ora
+ 2) Check to see if the environment var TNS_ADMIN is already set,
+     If so, the value would be the directory in which to find
+     tnsnames.ora  This is the normal behavior of OCI
+ 3) Check to see if the environment variable ORACLE_HOME is already
+     set.  If so, the value would be the directory for ORACLE_HOME
+     and the location for tnsnames.ora is assumed to be
+     ORACLE_HOME/network/admin/.  This is the normal behavior of
+     OCI.
+ 4) If all of the above fail then the fall back is to look for
+    tnsnames.ora in /Library/Oracle/network/admin which is the
+    location that was used for the Apple distribution of EOF.
+
+
+
+
+
