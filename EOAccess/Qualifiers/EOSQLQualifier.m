@@ -187,8 +187,15 @@ static NSCharacterSet	*singleQSet;
                     {
                         [sqlString appendString:token];
                         [scanner scanUpToCharactersFromSet:qSet intoString:&token];
+                        if ([token length])
+                            [sqlString appendString:token];
+                        // store the ending quote and set the scan location to the next
+                        // character AFTER the ending quote which COULD be another quote
+                        // if it is escaped, and that is OKAY.
+                        [sqlString appendString:q];
+                        [scanner setScanLocation:[scanner scanLocation] + 1];
                     }
-					if ([token length])
+					else if ([token length])
 						[sqlString appendString:token];
 				}
 				else
