@@ -1405,7 +1405,7 @@ static NSCharacterSet	*literalSet;
 	}
 	[relationshipPath release];
 	if (! attrib)
-		return @"";
+		return nil;
 	
 	// get the columnName.  WE WILL NOT deal with a flattened path to a flattened path.
 	// If someone tries to do that it will fail, and guess what, there is a work around
