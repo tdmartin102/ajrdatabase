@@ -88,11 +88,13 @@ http://www.raftis.net/~alex/
 	EODatabaseChannel				*databaseChannel;
 	EOAdaptorChannel				*adaptorChannel;
 	NSDictionary					*row = nil;
+    EOEditingContext                *ec;
 	
 	// Tom.Martin @ Riemer.com 2011-08-31
 	// We need to lock the context, added lock, unlock and unlock on thrown exception
 	// Tom.Martin @ Riemer.com 2011-12-1
 	// moved this to beore accessing the database context.
+    ec = editingContext;
 	[editingContext lockObjectStore];
 
 	classDescription = (EOEntityClassDescription *)[EOEntityClassDescription classDescriptionForEntityName:[globalID entityName]];
@@ -146,10 +148,10 @@ http://www.raftis.net/~alex/
 			[self faultObject:object withRawRow:row databaseContext:aDatabaseContext];
 		}
 	NS_HANDLER
-		[editingContext unlockObjectStore];
+		[ec unlockObjectStore];
 		[localException raise];
 	NS_ENDHANDLER
-	[editingContext unlockObjectStore];
+	[ec unlockObjectStore];
 }
 
 - (void)faultObject:(id)object withRawRow:(NSDictionary *)row databaseContext:(EODatabaseContext *)aDatabaseContext
