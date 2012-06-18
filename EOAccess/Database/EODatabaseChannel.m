@@ -189,7 +189,7 @@ http://www.raftis.net/~alex/
 				// Rebind the new values... Use the private method to avoid increment the snapshot's reference count.
 				[databaseContext _initializeObject:object withGlobalID:globalID editingContext:editingContext];
 				// The above code will increment the snapshot count, but we're not actually added a "new" object, so decrement the snapshot back down.
-				[[NSNotificationCenter defaultCenter] postNotificationName:EOObjectsChangedInStoreNotification object:databaseContext userInfo:[NSDictionary dictionaryWithObject:[NSArray arrayWithObject:globalID] forKey:EOUpdatedKey]];
+				[[NSNotificationCenter defaultCenter] postNotificationName:EOObjectsChangedInStoreNotification object:editingContext userInfo:[NSDictionary dictionaryWithObject:[NSArray arrayWithObject:globalID] forKey:EOUpdatedKey]];
 			}
 		}
 	} 
