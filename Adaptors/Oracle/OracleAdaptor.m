@@ -394,6 +394,27 @@ static NSMutableDictionary 	*dataTypes = nil;
 	return dataType;
 }
 
+#if MAC_OS_X_VERSION_MAX_ALLOWED < 1070
++ (NSCalendarDate *)calendarDateFromDate:(NSDate *)aDate
+{
+    NSCalendarDate  *result;
+    NSCalendar *localCalendar = [NSCalendar currentCalendar];
+    NSDateComponents *comp = [localCalendar components:(NSYearCalendarUnit |  NSMonthCalendarUnit
+                                                    | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | 
+                                                    NSSecondCalendarUnit) fromDate:aDate];
+   
+    result = [[NSCalendarDate alloc] initWithYear:[comp year]
+                                            month:[comp month]
+                                              day:[comp day]
+                                             hour:[comp hour]
+                                           minute:[comp minute]
+                                           second:[comp second] 
+                                         timeZone:[localCalendar timeZone]];
+    
+    return [result autorelease];
+}
+#endif
+
 + (id)valueForClassNamed:(NSString *)vcn forNSString:(NSString *)value
 {	
 	if ([vcn isEqualToString:@"NSString"]) 
@@ -417,15 +438,16 @@ static NSMutableDictionary 	*dataTypes = nil;
 		return [result autorelease];
 	}
 	
-	#ifdef MAC_OS_X_VERSION_MAX_ALLOWED
-		#if MAC_OS_X_VERSION_MAX_ALLOWED > 1060   
-			if ([vcn isEqualToString:@"NSDate"] || [vcn isEqualToString:@"NSCalendarDate"])
-				return [NSDate dateWithString:value];
-		#else
-			if ([vcn isEqualToString:@"NSCalendarDate"])
-				return [NSCalendarDate dateWithString:value];
-		#endif
-	#endif
+    #if MAC_OS_X_VERSION_MAX_ALLOWED > 1060   
+        if ([vcn isEqualToString:@"NSDate"] || [vcn isEqualToString:@"NSCalendarDate"])
+            return [NSDate dateWithString:value];
+    #else
+        if ([vcn isEqualToString:@"NSCalendarDate"])
+            return [NSCalendarDate dateWithString:value];
+        if ([vcn isEqualToString:@"NSDate"])
+            return [NSDate dateWithString:value];
+    #endif
+    
 	return nil;
 }
 
@@ -491,29 +513,48 @@ static NSMutableDictionary 	*dataTypes = nil;
 	return nil;
 }
 
-#ifdef MAC_OS_X_VERSION_MAX_ALLOWED
-	#if MAC_OS_X_VERSION_MAX_ALLOWED > 1060   
-		+ (id)valueForClassNamed:(NSString *)vcn forNSDate:(NSDate *)value
-	#else
-		+ (id)valueForClassNamed:(NSString *)vcn forNSCalendarDate:(NSCalendarDate *)value
-	#endif
-#else
-	#error Max Version not defined and it HAS TO BE
-#endif  
+#if MAC_OS_X_VERSION_MAX_ALLOWED < 1070   
++ (id)valueForClassNamed:(NSString *)vcn forNSCalendarDate:(NSCalendarDate *)value
 {
 	if ([vcn isEqualToString:@"NSCalendarDate"])
 		return value;
 	if ([vcn isEqualToString:@"NSDate"])
 		return value;	
-		
+    
 	if ([vcn isEqualToString:@"NSString"])
 		return [value description];
-		
+    
 	if ([vcn isEqualToString:@"NSData"])
 	{
 		NSString *str = [value description];
 		id result = [[NSData alloc] initWithBytes:[str UTF8String] 
-			length:[str lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
+                                           length:[str lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
+		return [result autorelease];
+	}
+	
+	// NSNumber
+	// NSDecimalNumber	
+	return nil;
+}
+#endif
+
++ (id)valueForClassNamed:(NSString *)vcn forNSDate:(NSDate *)value
+{
+    #if MAC_OS_X_VERSION_MAX_ALLOWED < 1070   
+	if ([vcn isEqualToString:@"NSCalendarDate"])
+		return [self calendarDateFromDate:value];
+    #endif
+	if ([vcn isEqualToString:@"NSDate"])
+		return value;	
+    
+	if ([vcn isEqualToString:@"NSString"])
+		return [value description];
+    
+	if ([vcn isEqualToString:@"NSData"])
+	{
+		NSString *str = [value description];
+		id result = [[NSData alloc] initWithBytes:[str UTF8String] 
+                                           length:[str lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
 		return [result autorelease];
 	}
 	
@@ -535,17 +576,12 @@ static NSMutableDictionary 	*dataTypes = nil;
 		result = [self valueForClassNamed:aClassName forNSDecimalNumber:(NSDecimalNumber *)value];
 	else if ([value isKindOfClass:[NSNumber class]])
 		result = [self valueForClassNamed:aClassName forNSNumber:(NSNumber *)value];
-	#ifdef MAC_OS_X_VERSION_MAX_ALLOWED
-		#if MAC_OS_X_VERSION_MAX_ALLOWED > 1060   
-			else if ([value isKindOfClass:[NSDate class]])
-				result = [self valueForClassNamed:aClassName forNSDate:(NSDate *)value];
-		#else
-			else if ([value isKindOfClass:[NSCalendarDate class]])
-				result = [self valueForClassNamed:aClassName forNSCalendarDate:(NSCalendarDate *)value];
-		#endif
-	#else
-		#error Max Version not defined and it HAS TO BE
-	#endif
+    else if ([value isKindOfClass:[NSDate class]])
+        result = [self valueForClassNamed:aClassName forNSDate:(NSDate *)value];
+    #if MAC_OS_X_VERSION_MAX_ALLOWED < 1070   
+        else if ([value isKindOfClass:[NSCalendarDate class]])
+            result = [self valueForClassNamed:aClassName forNSCalendarDate:(NSCalendarDate *)value];
+    #endif
 	else if ([value isKindOfClass:[NSData class]])
 		result = [self valueForClassNamed:aClassName forNSData:(NSData *)value];
 		
