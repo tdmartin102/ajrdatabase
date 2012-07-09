@@ -92,7 +92,7 @@ mailto:tom.martin@riemer.com
 	// code and also most likely streamlining the process.  win win.
 	//
 	// SOOOO bottom line it really dosen't matter WHAT character set the database is using
-	// except if we were going to try to figure out is a string will FIT into a 
+	// except if we we're going to try to figure out if a string will FIT into a 
 	// Oracle Column given the Oracle database character set and the source data.
 	// I decieded not to bother checking, I will simply let Oracle throw an error if
 	// it does not fit.
@@ -350,6 +350,8 @@ mailto:tom.martin@riemer.com
 	OCIHandleFree((dvoid *) errhp, OCI_HTYPE_ERROR);
 	OCIHandleFree((dvoid *) sessionhp, OCI_HTYPE_SESSION);
 	
+    connected = NO;
+
 	// if there are no more open channels for this context then discounect the
 	// context from the server
 	if (! [adaptorContext hasOpenChannels])
@@ -358,8 +360,6 @@ mailto:tom.martin@riemer.com
     if ([self isDebugEnabled]) 
 		[EOLog logDebugWithFormat:@"%@ Disconnected from database.\n", 
 		 [self description]];
-		
-    connected = NO;
 }
 
 - (BOOL)isFetchInProgress { return fetchInProgress; }
