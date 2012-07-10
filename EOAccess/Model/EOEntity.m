@@ -1241,20 +1241,26 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 {
 	NSArray			*names = [self primaryKeyAttributeNames];
 	NSMutableArray	*parts;
-	int				x;
-	int numNames;
 	EOQualifier		*qualifier;
 	
-	if ([names count] == 1) {
+	if ([names count] == 1) 
+    {
 		return [EOKeyValueQualifier qualifierWithKey:[names objectAtIndex:0] value:[pk valueForKey:[names objectAtIndex:0]]];
 	}
 	
-	parts = [[NSMutableArray allocWithZone:[self zone]] init];
-	numNames = [names count];
-	for (x = 0; x < numNames; x++) {
-		[parts addObject:[EOKeyValueQualifier qualifierWithKey:[names objectAtIndex:0] value:[pk valueForKey:[names objectAtIndex:0]]]];
-	}
-	
+    // Tom.Martin @ Riemer.com 2012-07-10
+    // There was a bug where where it was the key,value was always the first kv pair of the 
+    // dictionary.  I refactored the code to use enumarateUsingBlock, which is better than
+    // a for-next loop which was what was there before.
+	parts = [[NSMutableArray allocWithZone:[self zone]] initWithCapacity:[names count]];
+    [pk enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) 
+    {
+        EOQualifier		*kvQualifier;
+        
+        kvQualifier = [EOKeyValueQualifier qualifierWithKey:key value:obj];
+        [parts addObject:kvQualifier];
+    }];
+    	
 	qualifier = [EOAndQualifier qualifierWithArray:parts];
 	[parts release];
 	
