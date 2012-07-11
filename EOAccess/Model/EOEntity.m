@@ -1242,25 +1242,25 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 	NSArray			*names = [self primaryKeyAttributeNames];
 	NSMutableArray	*parts;
 	EOQualifier		*qualifier;
-	
+    NSString        *aName;
+    EOQualifier		*kvQualifier;
+    
 	if ([names count] == 1) 
     {
-		return [EOKeyValueQualifier qualifierWithKey:[names objectAtIndex:0] value:[pk valueForKey:[names objectAtIndex:0]]];
+        aName = [names objectAtIndex:0];
+		return [EOKeyValueQualifier qualifierWithKey:aName value:[pk valueForKey:aName]];
 	}
 	
     // Tom.Martin @ Riemer.com 2012-07-10
     // There was a bug where where it was the key,value was always the first kv pair of the 
-    // dictionary.  I refactored the code to use enumarateUsingBlock, which is better than
-    // a for-next loop which was what was there before.
+    // dictionary. 
 	parts = [[NSMutableArray allocWithZone:[self zone]] initWithCapacity:[names count]];
-    [pk enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) 
+    for (aName in names)
     {
-        EOQualifier		*kvQualifier;
-        
-        kvQualifier = [EOKeyValueQualifier qualifierWithKey:key value:obj];
+        kvQualifier = [EOKeyValueQualifier qualifierWithKey:aName value:[pk valueForKey:aName]];
         [parts addObject:kvQualifier];
-    }];
-    	
+    }
+     	
 	qualifier = [EOAndQualifier qualifierWithArray:parts];
 	[parts release];
 	
