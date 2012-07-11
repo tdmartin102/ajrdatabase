@@ -129,7 +129,7 @@ mailto:tom.martin@riemer.com
 
 - (NSArray *)dropPrimaryKeySupportStatementsForEntityGroup:(NSArray *)entityGroup
 {
-	NSMutableArray		*statements;
+	NSArray             *statements;
 	EOSQLExpression		*expression;
 	EOEntity			*entity;
 	NSMutableString		*sql;
@@ -153,7 +153,7 @@ mailto:tom.martin@riemer.com
 
 - (NSArray *)primaryKeySupportStatementsForEntityGroup:(NSArray *)entityGroup
 {
-	NSMutableArray		*statements;
+	NSArray         *statements;
 	EOSQLExpression	*expression;
 	EOEntity			*entity;
 	NSMutableString		*sql;
