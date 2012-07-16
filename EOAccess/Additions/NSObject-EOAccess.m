@@ -110,7 +110,7 @@
 	if (editingContext != nil && [editingContext globalIDForObject:self] != nil) {
 		if (EOMemoryDebug) [EOLog logDebugWithFormat:@"- [%@ (%p) dealloc]\n", [(id)self entityName], self];
 		
-		[[self editingContext] forgetObject:self];
+		[editingContext forgetObject:self];
 		
 		// Clear the EO's pointer to it's editing context
 		[self _clearInstanceObjects];

@@ -44,6 +44,7 @@ http://www.raftis.net/~alex/
 		[aFaultHandler setSavedClass: ((EOFault *)anObject)->isa];
 		[aFaultHandler setSavedIvars: ((EOFault *)anObject)->handler];
 		
+        //object_setClass(anObject, faultClass);
 		((EOFault *)anObject)->isa = faultClass;
 		((EOFault *)anObject)->handler = [aFaultHandler retain];
 	} else {
@@ -91,7 +92,9 @@ http://www.raftis.net/~alex/
 		EOFaultHandler *theHandler = aFault->handler;
 		Class savedClass = [theHandler savedClass];
 		if (savedClass != NULL) {
-			aFault->isa = [theHandler savedClass];
+            object_setClass(aFault, savedClass);
+			// restore memory overwritten when object was converted 
+            // to fault.
 			aFault->handler = [theHandler savedIvars];
 		} else {
 			aFault->handler = nil;

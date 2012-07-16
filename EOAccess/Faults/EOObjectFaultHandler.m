@@ -1,4 +1,4 @@
-/*%*%*%*%*
+  /*%*%*%*%*
 Copyright (C) 1995-2004 Alex J. Raftis
 
 This library is free software; you can redistribute it and/or
@@ -173,6 +173,13 @@ http://www.raftis.net/~alex/
 	// Added initialization of object.  We allocated it, so we have to initialize it.
 	// jean_alexis @ sourceforge.net 2005-11-22
 	// do not initialize the object twice (or we should have deallocated it first)
+    // Tom.Martin @ riemer.com 2012-07-12
+    // Just a note here.  If the fault is a result of an object being converted
+    // to a fault then savedClass would be and clearFault will handle converting
+    // that fault back into an object.  If the fault was created because it was 
+    // a relationship then clear fault has no effect other than releasing self 
+    // and we need to convert the fault here.
+    //
 	if ([EOFault isFault: object]) 
 	{
 		//object->isa = [self faultedClass];

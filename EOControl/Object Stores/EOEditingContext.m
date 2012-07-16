@@ -202,6 +202,10 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 		object = [self objectForGlobalID: globalID];
 		
 		if (!object) continue;
+        
+        // if it is already a fault I see no point in attempting to re-fault
+        if ([EOFault isFault:object])
+            continue;
 
 		[self refaultObject: object
 			   withGlobalID: globalID
