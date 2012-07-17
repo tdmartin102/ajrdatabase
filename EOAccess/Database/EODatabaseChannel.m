@@ -143,6 +143,9 @@ http://www.raftis.net/~alex/
    
 	if (object) 
 	{
+        // make sure we do not lose this object while building it.
+        [object retain];
+        
 		// Check the object, since we need to do special handling if it's a fault...
 		if ([EOFault isFault:object]) 
 		{
@@ -197,6 +200,9 @@ http://www.raftis.net/~alex/
 	{
 		// Create the object.
 		object = [(EOEntityClassDescription *)[fetchEntity classDescriptionForInstances] createInstanceWithEditingContext:editingContext globalID:globalID zone:NULL];
+        
+        // hold onto this object.
+        [object retain];
 		
 		// And register the snapshot with the recordSnapshot context.
 		[[databaseContext database] recordSnapshot:fetchedRow forGlobalID:globalID];
@@ -209,7 +215,6 @@ http://www.raftis.net/~alex/
 		// Moved the call to awakeFromFetchInEditingContext: from recordObject:globalID:
 		[object awakeFromFetchInEditingContext: editingContext];
    }
-   [object retain];
    
    [pool release];
 
