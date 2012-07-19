@@ -108,7 +108,7 @@
 	// 2005-05-13 AJR Changed this to check against a nil editingContext, because the attempt at getting the class description was causing IB to dead lock on start up. Also, this should be a faster check than looking up the class description for all objects. On top of that, it should be a sufficient check, since, after all, we're just cleaning ourself out of our editing context, so we only need to do this is we are an editing context.
 	EOEditingContext *editingContext = [self editingContext];
 	if (editingContext != nil && [editingContext globalIDForObject:self] != nil) {
-		if (EOMemoryDebug) [EOLog logDebugWithFormat:@"- [%@ (%p) dealloc]\n", [(id)self entityName], self];
+		if (EOMemoryDebug) [EOLog logDebugWithFormat:@"- [%@ (%p) dealloc]\n", [(id)self className], self];
 		
 		[editingContext forgetObject:self];
 		

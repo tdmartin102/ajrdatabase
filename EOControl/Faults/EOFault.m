@@ -40,17 +40,44 @@ http://www.raftis.net/~alex/
 + (void)makeObjectIntoFault:(id)anObject withHandler:(EOFaultHandler *)aFaultHandler;
 {
 	Class faultClass = [EOFault class];
-	if (((EOFault *)anObject)->isa != faultClass) {
+    
+    if (! anObject)
+        return;
+    
+    [anObject retain];
+	if (((EOFault *)anObject)->isa != faultClass) 
+    {
+        // Tom.Martin @ Riemer.com 2012-07-19
+        // In order to break the potential retain cycles that exist we
+        // must release all relationships
+        // this can result in the object being released while we are doing this
+        // so the object must be retained/autoreleased
+        NSClassDescription *classDescr;
+        NSString    *key;
+        
+        classDescr = [NSClassDescription classDescriptionForClass:[anObject class]];
+        for (key in [classDescr toManyRelationshipKeys])
+        {
+            [anObject setPrimitiveValue:nil forKey:key];
+        }
+        for (key in [classDescr toOneRelationshipKeys])
+        {
+            [anObject setPrimitiveValue:nil forKey:key];
+        }
+        
 		[aFaultHandler setSavedClass: ((EOFault *)anObject)->isa];
 		[aFaultHandler setSavedIvars: ((EOFault *)anObject)->handler];
 		
         //object_setClass(anObject, faultClass);
 		((EOFault *)anObject)->isa = faultClass;
 		((EOFault *)anObject)->handler = [aFaultHandler retain];
-	} else {
+	} 
+    else 
+    {
 		// jean_alexis @ sourceforge.net 2005-12-09 maybe we should raise
 		[self setFaultHandler: aFaultHandler forFault: anObject];
 	}
+    [anObject autorelease];
 }
 
 

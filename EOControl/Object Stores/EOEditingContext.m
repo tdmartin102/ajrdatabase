@@ -186,6 +186,7 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 		
 		if (!object) continue;
 		
+        [object retain];
 		localChanges = [object changesFromSnapshot: [object snapshot]];
 		
 		[self refaultObject: object
@@ -193,6 +194,7 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 			 editingContext: self];
 		
 		if ([localChanges count]) [object reapplyChangesFromDictionary: localChanges];
+        [object autorelease];
 	}
 
 	globalIDs = [[notification userInfo] objectForKey: EOInvalidatedKey];
