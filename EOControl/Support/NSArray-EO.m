@@ -116,7 +116,7 @@ static NSComparisonResult _eoSorter(id one, id two, void *context)
 	numObjects = [self count];
 	
 	for (x = 0; x < numObjects; x++) {
-		id		value = [[self objectAtIndex:x] valueForKey:key];
+		id		value = [[self objectAtIndex:x] valueForKeyPath:key];
 		
 		if (max == nil) max = value;
 		else if ([(NSNumber *)value compare:max] > 0) max = value;
@@ -134,7 +134,7 @@ static NSComparisonResult _eoSorter(id one, id two, void *context)
 	max = [self count];
 	
 	for (x = 0; x < max; x++) {
-		id		value = [[self objectAtIndex:x] valueForKey:key];
+		id		value = [[self objectAtIndex:x] valueForKeyPath:key];
 		
 		if (min == nil) min = value;
 		else if ([(NSNumber *)value compare:min] < 0) min = value;
@@ -154,7 +154,7 @@ static NSComparisonResult _eoSorter(id one, id two, void *context)
 	max = [self count];
 	
 	for (x = 0; x < max; x++) {
-		id		value = [[self objectAtIndex:x] valueForKey:key];
+		id		value = [[self objectAtIndex:x] valueForKeyPath:key];
 		
 		number = [number decimalNumberByAdding:(NSDecimalNumber *)[NSDecimalNumber numberWithDouble:[value floatValue]]];
 	}
