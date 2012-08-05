@@ -22,7 +22,7 @@
 + (void)load
 {
 	// [self poseAsClass:[NSWindow class]];
-	#warning We need to swizzel this class
+	#warning We need to swizzel this class or better yet set up windows in IB to BE this class.  right now this code is not used
 }
 
 - (void)sendEvent:(NSEvent *)event

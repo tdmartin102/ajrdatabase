@@ -16,7 +16,7 @@
 {
 	//[[AJRTableView class] poseAsClass:[NSTableView class]];
 	//[self poseAsClass:[NSTableView class]];
-	#warning We need to swizzel this class
+	#warning We need to swizzel this class or better yet set NSTableViews in IB to be this class.  RIght now this is not used.
 
 }
 

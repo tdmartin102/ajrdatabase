@@ -164,7 +164,7 @@ static AJRObjectBroker *broker = nil;
 }
 
 
-- (void)release
+- (oneway void)release
 {
     // do nothing as we DO NOT whish to release
     // we are a singleton

@@ -14,12 +14,12 @@
 
 + (void)load
 {
-	#warning We need to swizzel this class
 	Method		originalMethod;
 	Method		ourMethod;
 
 	//[self poseAsClass:[NSComboBoxCell class]];
-	
+    // we will instead swizzel the one method we need.
+
 	originalMethod = class_getInstanceMethod([NSTextField class], @selector(setStringValue:));
 	ourMethod = class_getInstanceMethod([NSTextField class], @selector(_ajrSetStringValue:));
 	method_exchangeImplementations(originalMethod, ourMethod);
