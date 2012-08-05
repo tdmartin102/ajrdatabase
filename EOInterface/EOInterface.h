@@ -9,4 +9,4 @@
 #import <EOInterface/EOQualifier-EOInterface.h>
 #import <EOInterface/NSPredicate-EOInterface.h>
 
-#endif __EO_INTERFACE_H__
+#endif
