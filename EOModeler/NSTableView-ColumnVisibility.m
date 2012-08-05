@@ -212,16 +212,20 @@ static void (*_ajrPersistentWrite)(id, SEL);
 
 - (void)_toggleColumnVisibility:(id)sender
 {
-	NSTableColumn	*column = [[[sender selectedItem] title] instanceObjectForKey:@"column"];
-	
-	[self setColumn:column visible:![self isColumnVisible:column]];
+	if ([sender isKindOfClass:[NSTableView class]])
+    {
+        NSTableColumn	*column = [[[sender selectedItem] title] instanceObjectForKey:@"column"];
+        [self setColumn:column visible:![self isColumnVisible:column]];
+    }
 }
 
 - (BOOL)validateUserInterfaceItem:(id < NSValidatedUserInterfaceItem >)item
 {
-	NSTableColumn	*column = [[(NSMenuItem *)item title] instanceObjectForKey:@"column"];
-	
-	[(NSMenuItem *)item setState:[self isColumnVisible:column] ? NSOnState : NSOffState];
+    if ([(NSObject *)item isKindOfClass:[NSMenuItem class]])
+    {
+        NSTableColumn	*column = [[(NSMenuItem *)item title] instanceObjectForKey:@"column"];	
+        [(NSMenuItem *)item setState:[self isColumnVisible:column] ? NSOnState : NSOffState];
+    }
 	
 	return YES;
 }

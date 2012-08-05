@@ -163,6 +163,19 @@ static AJRObjectBroker *broker = nil;
 	return self;
 }
 
+
+- (void)release
+{
+    // do nothing as we DO NOT whish to release
+    // we are a singleton
+}
+
+- (id)autorelease
+{
+    // do nothing
+    return self;
+}
+
 @end
 
 void AJRPrintf(NSString *format, ...)
