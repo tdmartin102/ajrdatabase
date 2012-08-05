@@ -82,4 +82,4 @@ http://www.raftis.net/~alex/
 #import <EOAccess/NSObject-EOAccess.h>
 #import <EOAccess/NSString-EOAccess.h>
 
-#endif __EOAccess__
+#endif
