@@ -138,6 +138,8 @@ static AJRObjectBroker *broker = nil;
 		classes = malloc(sizeof(Class) * numClasses);
 		numClasses = objc_getClassList(classes, numClasses);
 	}
+    else
+        self = broker;
 	
 	// we COULD cache things.  save the subclasses of (aClass) then if
 	// aClass were asked for again, we would already have the result at hand.
