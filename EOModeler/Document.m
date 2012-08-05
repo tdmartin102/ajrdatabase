@@ -373,7 +373,7 @@ NSString *StoredProcedures = @"Stored Procedures";
 		
 		[[NSNotificationCenter defaultCenter] postNotificationName:DocumentSelectionDidChangeNotification object:self userInfo:[NSDictionary dictionaryWithObject:selectedObject forKey:@"object"]];
 		
-		//[[window toolbar] validateVisibleItems];
+		[[window toolbar] validateVisibleItems];
 	}
 }
 
