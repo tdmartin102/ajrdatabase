@@ -273,8 +273,7 @@ static NSMutableDictionary 	*dataTypes = nil;
 
 + (Class)connectionPaneClass
 {
-	NSClassFromString(@"OracleConnectionPane");
-	return nil; 
+	return NSClassFromString(@"OracleConnectionPane");
 }
 
 - (EOSchemaGeneration *)synchronizationFactory

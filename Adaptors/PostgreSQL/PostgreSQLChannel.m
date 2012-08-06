@@ -39,9 +39,8 @@ http://www.raftis.net/~alex/
 
 - (id)initWithAdaptorContext:(EOAdaptorContext *)aContext
 {
-   [super initWithAdaptorContext:aContext];
-
-   databaseEncoding = -1;
+   if (self = [super initWithAdaptorContext:aContext])
+       databaseEncoding = -1;
 
    return self;
 }
@@ -469,9 +468,11 @@ http://www.raftis.net/~alex/
                case 'c':
                   number = [NSNumber numberWithChar:strtol(where, &where, 10)]; break;
                default:
-                  [EOLog logWarningWithFormat:@"Unknown valueType '%c', which may result in incorrect database values\n", valueType];
-                  where = NULL;
-                  break;
+                    [EOLog logWarningWithFormat:@"Unknown valueType '%c', which may result in incorrect database values\n", valueType];
+                    where = NULL;
+                    // will well assume int
+                    number = [NSNumber numberWithInt:strtol(where, &where, 10)];
+                    break;
             }
             [p2 addObject:number];
          } while (where && *where != '\0');
@@ -641,7 +642,7 @@ http://www.raftis.net/~alex/
 
    expression = [[[[adaptorContext adaptor] expressionClass] allocWithZone:[self zone]] initWithRootEntity:entity];
    [expression setUseAliases:NO];
-   [expression prepareDeleteExpressionWithQualifier:qualifier];
+   [expression prepareDeleteExpressionForQualifier:qualifier];
    
    // mont_rothstein @ yahoo.com 2005-06-26
    // Modified to use evaluateExpression.
@@ -902,6 +903,7 @@ http://www.raftis.net/~alex/
 		
 		return [entity autorelease];
 	}
+    [expression release];
 	
 	return nil;
 }
@@ -967,6 +969,7 @@ http://www.raftis.net/~alex/
 				}
 				
 				[storedProcedureResults setValue:results forKey: @"returnValue"];
+                [results release];
 			}
 			else
 			{

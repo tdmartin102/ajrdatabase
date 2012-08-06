@@ -45,7 +45,7 @@ static NSMutableDictionary 	*dataTypes = nil;
       path = [bundle pathForResource:@"PSQLDataTypes" ofType:@"plist"];
 		
       if (path) {
-         dataTypes = [[[NSString stringWithContentsOfFile:path] propertyList] retain];
+         dataTypes = [[[NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:NULL] propertyList] retain];
          if (!dataTypes) {
             [NSException raise:NSInternalInconsistencyException format:@"Unable to load PSQL data types."];
          }

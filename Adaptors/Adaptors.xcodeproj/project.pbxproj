@@ -28,7 +28,8 @@
 		14001D4614572C2C008E8514 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C3E14572B67008E8514 /* EOAccess.framework */; };
 		14001D4914572C44008E8514 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
 		1E0EACAA13B3B54C00EDEC95 /* OracleBindInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E0EACA913B3B54C00EDEC95 /* OracleBindInfo.m */; };
-		1E22343B141117CD00F1C663 /* OracleConnectionPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1E22343A141117CD00F1C663 /* OracleConnectionPane.nib */; };
+		1E16EB5D15D044BD002D5E8D /* PostgreSQLConnectionPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E16EB5B15D044BD002D5E8D /* PostgreSQLConnectionPane.xib */; };
+		1E16EB6015D044D7002D5E8D /* SQLiteConnectionPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E16EB5E15D044D7002D5E8D /* SQLiteConnectionPane.xib */; };
 		1E45D52113FD8AAC0043B572 /* OracleSchemaGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E45D52013FD8AAC0043B572 /* OracleSchemaGeneration.m */; };
 		1E7958C714642CD100FB2ACF /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C3E14572B67008E8514 /* EOAccess.framework */; };
 		1E7958FC14642CD700FB2ACF /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
@@ -39,8 +40,6 @@
 		1E86A7F51312D63C00FA5FDA /* OracleDefineInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E86A7F41312D63C00FA5FDA /* OracleDefineInfo.m */; };
 		1E8E60D11574F0DC00179CCB /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E8E60D01574F0DC00179CCB /* libsqlite3.dylib */; };
 		1E8E60D21574F0DC00179CCB /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E8E60D01574F0DC00179CCB /* libsqlite3.dylib */; };
-		1E91D55C13EB0AC600C0B4F1 /* OracleLogo.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1E91D55B13EB0AC600C0B4F1 /* OracleLogo.tiff */; };
-		1E91D56313EB0BAC00C0B4F1 /* OracleConnectionPane.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E91D56213EB0BAC00C0B4F1 /* OracleConnectionPane.m */; };
 		1E9889131296F41B00F17A39 /* OracleAdaptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E98890D1296F41B00F17A39 /* OracleAdaptor.m */; };
 		1E9889141296F41B00F17A39 /* OracleChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E98890F1296F41B00F17A39 /* OracleChannel.m */; };
 		1E9889151296F41B00F17A39 /* OracleContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E9889111296F41B00F17A39 /* OracleContext.m */; };
@@ -49,8 +48,30 @@
 		1E9889A51296F74600F17A39 /* OracleAdaptor.h in Resources */ = {isa = PBXBuildFile; fileRef = 1E98890C1296F41B00F17A39 /* OracleAdaptor.h */; };
 		1E9889A61296F74B00F17A39 /* OracleChannel.h in Resources */ = {isa = PBXBuildFile; fileRef = 1E98890E1296F41B00F17A39 /* OracleChannel.h */; };
 		1E9889A71296F75100F17A39 /* OracleContext.h in Resources */ = {isa = PBXBuildFile; fileRef = 1E9889101296F41B00F17A39 /* OracleContext.h */; };
-		1E9889A81296F77300F17A39 /* copyright in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF4F0742783D00AB5036 /* copyright */; };
-		1E9889A91296F77900F17A39 /* license in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF510742783D00AB5036 /* license */; };
+		1EDEA30515D0128A0045292C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EDEA30415D0128A0045292C /* Cocoa.framework */; };
+		1EDEA31815D01E1B0045292C /* libclntsh.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E98891E1296F57C00F17A39 /* libclntsh.dylib */; };
+		1EDEA31915D01E200045292C /* libocci.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E98891C1296F56400F17A39 /* libocci.dylib */; };
+		1EDEA31A15D01E240045292C /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C3E14572B67008E8514 /* EOAccess.framework */; };
+		1EDEA31B15D01E280045292C /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
+		1EDEA31C15D01E4B0045292C /* OracleConnectionPane.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E91D56213EB0BAC00C0B4F1 /* OracleConnectionPane.m */; };
+		1EDEA31E15D01EDC0045292C /* OracleLogo.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1E91D55B13EB0AC600C0B4F1 /* OracleLogo.tiff */; };
+		1EDEA32315D01F420045292C /* Oraclenterface.interface in Resources */ = {isa = PBXBuildFile; fileRef = 1EDEA30315D0128A0045292C /* Oraclenterface.interface */; };
+		1EDEA32C15D023DE0045292C /* OracleConnectionPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EDEA32A15D023DE0045292C /* OracleConnectionPane.xib */; };
+		1EDEA33715D0268D0045292C /* copyright in Resources */ = {isa = PBXBuildFile; fileRef = 1EDEA33315D026830045292C /* copyright */; };
+		1EDEA33815D0268E0045292C /* copyright in Resources */ = {isa = PBXBuildFile; fileRef = 1EDEA33315D026830045292C /* copyright */; };
+		1EDEA33915D0268E0045292C /* copyright in Resources */ = {isa = PBXBuildFile; fileRef = 1EDEA33315D026830045292C /* copyright */; };
+		1EDEA33A15D0268F0045292C /* copyright in Resources */ = {isa = PBXBuildFile; fileRef = 1EDEA33315D026830045292C /* copyright */; };
+		1EDEA33B15D0268F0045292C /* copyright in Resources */ = {isa = PBXBuildFile; fileRef = 1EDEA33315D026830045292C /* copyright */; };
+		1EDEA33C15D026900045292C /* copyright in Resources */ = {isa = PBXBuildFile; fileRef = 1EDEA33315D026830045292C /* copyright */; };
+		1EDEA33D15D026910045292C /* copyright in Resources */ = {isa = PBXBuildFile; fileRef = 1EDEA33315D026830045292C /* copyright */; };
+		1EDEA33E15D026960045292C /* license in Resources */ = {isa = PBXBuildFile; fileRef = 1EDEA33515D026830045292C /* license */; };
+		1EDEA33F15D026970045292C /* license in Resources */ = {isa = PBXBuildFile; fileRef = 1EDEA33515D026830045292C /* license */; };
+		1EDEA34015D026970045292C /* license in Resources */ = {isa = PBXBuildFile; fileRef = 1EDEA33515D026830045292C /* license */; };
+		1EDEA34115D026980045292C /* license in Resources */ = {isa = PBXBuildFile; fileRef = 1EDEA33515D026830045292C /* license */; };
+		1EDEA34215D026990045292C /* license in Resources */ = {isa = PBXBuildFile; fileRef = 1EDEA33515D026830045292C /* license */; };
+		1EDEA34315D026990045292C /* license in Resources */ = {isa = PBXBuildFile; fileRef = 1EDEA33515D026830045292C /* license */; };
+		1EDEA34415D0269A0045292C /* license in Resources */ = {isa = PBXBuildFile; fileRef = 1EDEA33515D026830045292C /* license */; };
+		1EDEA34815D029AE0045292C /* OracleConnectionPane.h in Resources */ = {isa = PBXBuildFile; fileRef = 1E91D56113EB0BAC00C0B4F1 /* OracleConnectionPane.h */; };
 		1EEDA4E71575334E00F67085 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C3E14572B67008E8514 /* EOAccess.framework */; };
 		1EEDA4E81575335400F67085 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
 		1EEDA4E9157533B200F67085 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
@@ -88,7 +109,6 @@
 		FA63DCE30742734F00AB5036 /* PostgresDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DCA60742730700AB5036 /* PostgresDateFormatter.m */; };
 		FA63DCE40742735000AB5036 /* PostgresDateFormatter.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DCA50742730700AB5036 /* PostgresDateFormatter.h */; };
 		FA63DCE60742736000AB5036 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DAC20742715100AB5036 /* Foundation.framework */; };
-		FA63DDD00742754500AB5036 /* PostgreSQLConnectionPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FA63DCCB0742731600AB5036 /* PostgreSQLConnectionPane.nib */; };
 		FA63DDD10742754600AB5036 /* PostgreSQLConnectionPane.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DCAE0742730700AB5036 /* PostgreSQLConnectionPane.m */; };
 		FA63DDD20742754600AB5036 /* PostgreSQLConnectionPane.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DCAD0742730700AB5036 /* PostgreSQLConnectionPane.h */; };
 		FA63DDDA074275E300AB5036 /* PostgreSQLInterface.interface in Resources */ = {isa = PBXBuildFile; fileRef = FA63DDCE074274FA00AB5036 /* PostgreSQLInterface.interface */; };
@@ -102,21 +122,17 @@
 		FA63DE240742768500AB5036 /* SQLiteExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DE1A0742768500AB5036 /* SQLiteExpression.m */; };
 		FA63DE28074276A100AB5036 /* SQLiteConnectionPane.h in Resources */ = {isa = PBXBuildFile; fileRef = FA63DE150742768500AB5036 /* SQLiteConnectionPane.h */; };
 		FA63DE29074276A200AB5036 /* SQLiteConnectionPane.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DE160742768500AB5036 /* SQLiteConnectionPane.m */; };
-		FA63DE2A074276A200AB5036 /* SQLiteConnectionPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FA63DE250742769600AB5036 /* SQLiteConnectionPane.nib */; };
 		FA63DF2A074277A600AB5036 /* SQLiteInterface.interface in Resources */ = {isa = PBXBuildFile; fileRef = FA63DE0F0742766600AB5036 /* SQLiteInterface.interface */; };
-		FA63DF530742783D00AB5036 /* copyright in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF4F0742783D00AB5036 /* copyright */; };
-		FA63DF540742783D00AB5036 /* license in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF510742783D00AB5036 /* license */; };
-		FA63DF550742783D00AB5036 /* copyright in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF4F0742783D00AB5036 /* copyright */; };
-		FA63DF560742783D00AB5036 /* license in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF510742783D00AB5036 /* license */; };
-		FA63DF570742783D00AB5036 /* copyright in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF4F0742783D00AB5036 /* copyright */; };
-		FA63DF580742783D00AB5036 /* license in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF510742783D00AB5036 /* license */; };
-		FA63DF590742783D00AB5036 /* copyright in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF4F0742783D00AB5036 /* copyright */; };
-		FA63DF5A0742783D00AB5036 /* license in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF510742783D00AB5036 /* license */; };
-		FA63DF5B0742783D00AB5036 /* copyright in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF4F0742783D00AB5036 /* copyright */; };
-		FA63DF5C0742783D00AB5036 /* license in Resources */ = {isa = PBXBuildFile; fileRef = FA63DF510742783D00AB5036 /* license */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1EDEA32115D01F1B0045292C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA63DA930742707200AB5036 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1EDEA30215D0128A0045292C;
+			remoteInfo = OralceInterface;
+		};
 		FA63DDD8074275D100AB5036 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FA63DA930742707200AB5036 /* Project object */;
@@ -159,6 +175,9 @@
 		14001C7714572B7B008E8514 /* EOControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOControl.framework; path = ../EOControl/build/Development/EOControl.framework; sourceTree = SOURCE_ROOT; };
 		1E0EACA813B3B54C00EDEC95 /* OracleBindInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleBindInfo.h; sourceTree = "<group>"; };
 		1E0EACA913B3B54C00EDEC95 /* OracleBindInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleBindInfo.m; sourceTree = "<group>"; };
+		1E16EB5115D0364B002D5E8D /* OracleInterface-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OracleInterface-Info.plist"; sourceTree = "<group>"; };
+		1E16EB5C15D044BD002D5E8D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PostgreSQLConnectionPane.xib; sourceTree = "<group>"; };
+		1E16EB5F15D044D7002D5E8D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SQLiteConnectionPane.xib; sourceTree = "<group>"; };
 		1E34465012E4D06B007574F2 /* oracle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = oracle; path = /usr/local/include/oracle; sourceTree = "<absolute>"; };
 		1E45D51F13FD8AAC0043B572 /* OracleSchemaGeneration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleSchemaGeneration.h; sourceTree = "<group>"; };
 		1E45D52013FD8AAC0043B572 /* OracleSchemaGeneration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleSchemaGeneration.m; sourceTree = "<group>"; };
@@ -166,7 +185,6 @@
 		1E86A7F31312D63C00FA5FDA /* OracleDefineInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleDefineInfo.h; sourceTree = "<group>"; };
 		1E86A7F41312D63C00FA5FDA /* OracleDefineInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleDefineInfo.m; sourceTree = "<group>"; };
 		1E8E60D01574F0DC00179CCB /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = ../../../../../../../../../../../../usr/lib/libsqlite3.dylib; sourceTree = "<group>"; };
-		1E91D55713EB0A9B00C0B4F1 /* English */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = English; path = English.lproj/OracleConnectionPane.nib; sourceTree = "<group>"; };
 		1E91D55B13EB0AC600C0B4F1 /* OracleLogo.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = OracleLogo.tiff; sourceTree = "<group>"; };
 		1E91D56113EB0BAC00C0B4F1 /* OracleConnectionPane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleConnectionPane.h; sourceTree = "<group>"; };
 		1E91D56213EB0BAC00C0B4F1 /* OracleConnectionPane.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleConnectionPane.m; sourceTree = "<group>"; };
@@ -180,6 +198,14 @@
 		1E9889111296F41B00F17A39 /* OracleContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleContext.m; sourceTree = "<group>"; };
 		1E98891C1296F56400F17A39 /* libocci.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libocci.dylib; path = /usr/local/lib/libocci.dylib; sourceTree = "<absolute>"; };
 		1E98891E1296F57C00F17A39 /* libclntsh.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libclntsh.dylib; path = /usr/local/lib/libclntsh.dylib; sourceTree = "<absolute>"; };
+		1EDEA30315D0128A0045292C /* Oraclenterface.interface */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Oraclenterface.interface; sourceTree = BUILT_PRODUCTS_DIR; };
+		1EDEA30415D0128A0045292C /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		1EDEA30715D0128A0045292C /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		1EDEA30815D0128A0045292C /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		1EDEA30915D0128A0045292C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1EDEA32B15D023DE0045292C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OracleConnectionPane.xib; sourceTree = "<group>"; };
+		1EDEA33415D026830045292C /* en */ = {isa = PBXFileReference; lastKnownFileType = text; name = en; path = en.lproj/copyright; sourceTree = "<group>"; };
+		1EDEA33615D026830045292C /* en */ = {isa = PBXFileReference; lastKnownFileType = text; name = en; path = en.lproj/license; sourceTree = "<group>"; };
 		1EF391F912A9307300FDC676 /* OracleDataTypes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = OracleDataTypes.plist; sourceTree = "<group>"; };
 		1EF3923612A9567100FDC676 /* OracleSQLExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleSQLExpression.h; sourceTree = "<group>"; };
 		1EF3923712A9567100FDC676 /* OracleSQLExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleSQLExpression.m; sourceTree = "<group>"; };
@@ -220,7 +246,6 @@
 		FA63DCB50742730700AB5036 /* PostgresStringFormatter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PostgresStringFormatter.h; sourceTree = "<group>"; };
 		FA63DCB60742730700AB5036 /* PostgresStringFormatter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PostgresStringFormatter.m; sourceTree = "<group>"; };
 		FA63DCB70742730700AB5036 /* PSQLDataTypes.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist; path = PSQLDataTypes.plist; sourceTree = "<group>"; };
-		FA63DCCC0742731600AB5036 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PostgreSQLConnectionPane.nib; sourceTree = "<group>"; };
 		FA63DDCE074274FA00AB5036 /* PostgreSQLInterface.interface */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PostgreSQLInterface.interface; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA63DDCF074274FA00AB5036 /* PostgreSQLInterface-Info.plist */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text.plist.xml; path = "PostgreSQLInterface-Info.plist"; sourceTree = SOURCE_ROOT; };
 		FA63DE070742765300AB5036 /* SQLite.eoadaptor */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SQLite.eoadaptor; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -237,9 +262,6 @@
 		FA63DE180742768500AB5036 /* SQLiteContext.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SQLiteContext.m; sourceTree = "<group>"; };
 		FA63DE190742768500AB5036 /* SQLiteExpression.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SQLiteExpression.h; sourceTree = "<group>"; };
 		FA63DE1A0742768500AB5036 /* SQLiteExpression.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SQLiteExpression.m; sourceTree = "<group>"; };
-		FA63DE260742769600AB5036 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SQLiteConnectionPane.nib; sourceTree = "<group>"; };
-		FA63DF500742783D00AB5036 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = English; path = English.lproj/copyright; sourceTree = "<group>"; };
-		FA63DF520742783D00AB5036 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = English; path = English.lproj/license; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -251,6 +273,18 @@
 				1E7958C714642CD100FB2ACF /* EOAccess.framework in Frameworks */,
 				1E98891D1296F56400F17A39 /* libocci.dylib in Frameworks */,
 				1E98891F1296F57C00F17A39 /* libclntsh.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1EDEA30015D0128A0045292C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1EDEA30515D0128A0045292C /* Cocoa.framework in Frameworks */,
+				1EDEA31815D01E1B0045292C /* libclntsh.dylib in Frameworks */,
+				1EDEA31915D01E200045292C /* libocci.dylib in Frameworks */,
+				1EDEA31A15D01E240045292C /* EOAccess.framework in Frameworks */,
+				1EDEA31B15D01E280045292C /* EOControl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,8 +347,8 @@
 		1E91D55413EB0A6900C0B4F1 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1EDEA32A15D023DE0045292C /* OracleConnectionPane.xib */,
 				1E91D55B13EB0AC600C0B4F1 /* OracleLogo.tiff */,
-				1E22343A141117CD00F1C663 /* OracleConnectionPane.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -345,6 +379,16 @@
 			path = Oracle;
 			sourceTree = "<group>";
 		};
+		1EDEA30615D0128A0045292C /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1EDEA30715D0128A0045292C /* AppKit.framework */,
+				1EDEA30815D0128A0045292C /* CoreData.framework */,
+				1EDEA30915D0128A0045292C /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
 		FA63DA8F0742707200AB5036 = {
 			isa = PBXGroup;
 			children = (
@@ -368,6 +412,7 @@
 				FA63DE070742765300AB5036 /* SQLite.eoadaptor */,
 				FA63DE0F0742766600AB5036 /* SQLiteInterface.interface */,
 				1E9889011296F31D00F17A39 /* Oracle.eoadaptor */,
+				1EDEA30315D0128A0045292C /* Oraclenterface.interface */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -398,6 +443,8 @@
 				1E98891E1296F57C00F17A39 /* libclntsh.dylib */,
 				14001C3E14572B67008E8514 /* EOAccess.framework */,
 				14001C7714572B7B008E8514 /* EOControl.framework */,
+				1EDEA30415D0128A0045292C /* Cocoa.framework */,
+				1EDEA30615D0128A0045292C /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -405,6 +452,7 @@
 		FA63DC980742728700AB5036 /* PostgreSQL */ = {
 			isa = PBXGroup;
 			children = (
+				1E16EB5B15D044BD002D5E8D /* PostgreSQLConnectionPane.xib */,
 				FA63DCD00742732500AB5036 /* Formatters */,
 				FA63DCA90742730700AB5036 /* PostgreSQLAdaptor.h */,
 				FA63DCAA0742730700AB5036 /* PostgreSQLAdaptor.m */,
@@ -412,7 +460,6 @@
 				FA63DCAC0742730700AB5036 /* PostgreSQLChannel.m */,
 				FA63DCAD0742730700AB5036 /* PostgreSQLConnectionPane.h */,
 				FA63DCAE0742730700AB5036 /* PostgreSQLConnectionPane.m */,
-				FA63DCCB0742731600AB5036 /* PostgreSQLConnectionPane.nib */,
 				FA63DCAF0742730700AB5036 /* PostgreSQLContext.h */,
 				FA63DCB00742730700AB5036 /* PostgreSQLContext.m */,
 				FA63DCB10742730700AB5036 /* PostgreSQLExpression.h */,
@@ -440,6 +487,7 @@
 		FA63DDFB0742760800AB5036 /* SQLite */ = {
 			isa = PBXGroup;
 			children = (
+				1E16EB5E15D044D7002D5E8D /* SQLiteConnectionPane.xib */,
 				FA0DC5B0082FAF7C00C22582 /* NSMutableString-SQLite.h */,
 				FA0DC5B1082FAF7C00C22582 /* NSMutableString-SQLite.m */,
 				FA0DC5A1082FAE1900C22582 /* NSString-SQLite.h */,
@@ -450,7 +498,6 @@
 				FA63DE140742768500AB5036 /* SQLiteChannel.m */,
 				FA63DE150742768500AB5036 /* SQLiteConnectionPane.h */,
 				FA63DE160742768500AB5036 /* SQLiteConnectionPane.m */,
-				FA63DE250742769600AB5036 /* SQLiteConnectionPane.nib */,
 				FA63DE170742768500AB5036 /* SQLiteContext.h */,
 				FA63DE180742768500AB5036 /* SQLiteContext.m */,
 				FA63DE190742768500AB5036 /* SQLiteExpression.h */,
@@ -462,6 +509,7 @@
 		FA63DF43074277EC00AB5036 /* Info */ = {
 			isa = PBXGroup;
 			children = (
+				1E16EB5115D0364B002D5E8D /* OracleInterface-Info.plist */,
 				FA63DA9F0742709200AB5036 /* OpenBase-Info.plist */,
 				FA63DCA4074272BE00AB5036 /* PostgreSQL-Info.plist */,
 				FA63DDCF074274FA00AB5036 /* PostgreSQLInterface-Info.plist */,
@@ -475,8 +523,8 @@
 		FA63DF460742780D00AB5036 /* Shared Resources */ = {
 			isa = PBXGroup;
 			children = (
-				FA63DF4F0742783D00AB5036 /* copyright */,
-				FA63DF510742783D00AB5036 /* license */,
+				1EDEA33315D026830045292C /* copyright */,
+				1EDEA33515D026830045292C /* license */,
 			);
 			name = "Shared Resources";
 			sourceTree = "<group>";
@@ -495,10 +543,28 @@
 			buildRules = (
 			);
 			dependencies = (
+				1EDEA32215D01F1B0045292C /* PBXTargetDependency */,
 			);
 			name = Oracle;
 			productName = Oracle;
 			productReference = 1E9889011296F31D00F17A39 /* Oracle.eoadaptor */;
+			productType = "com.apple.product-type.bundle";
+		};
+		1EDEA30215D0128A0045292C /* Oraclenterface */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1EDEA31415D0128A0045292C /* Build configuration list for PBXNativeTarget "Oraclenterface" */;
+			buildPhases = (
+				1EDEA30115D0128A0045292C /* Resources */,
+				1EDEA2FF15D0128A0045292C /* Sources */,
+				1EDEA30015D0128A0045292C /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Oraclenterface;
+			productName = OralceInterface;
+			productReference = 1EDEA30315D0128A0045292C /* Oraclenterface.interface */;
 			productType = "com.apple.product-type.bundle";
 		};
 		FA63DA9C0742709200AB5036 /* OpenBase */ = {
@@ -605,6 +671,7 @@
 				Japanese,
 				French,
 				German,
+				en,
 			);
 			mainGroup = FA63DA8F0742707200AB5036;
 			productRefGroup = FA63DA9E0742709200AB5036 /* Products */;
@@ -618,6 +685,7 @@
 				FA63DE060742765300AB5036 /* SQLite */,
 				FA63DE0E0742766600AB5036 /* SQLiteInterface */,
 				1E9889001296F31D00F17A39 /* Oracle */,
+				1EDEA30215D0128A0045292C /* Oraclenterface */,
 			);
 		};
 /* End PBXProject section */
@@ -627,14 +695,25 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1EDEA32315D01F420045292C /* Oraclenterface.interface in Resources */,
 				1E9889A51296F74600F17A39 /* OracleAdaptor.h in Resources */,
 				1E9889A61296F74B00F17A39 /* OracleChannel.h in Resources */,
 				1E9889A71296F75100F17A39 /* OracleContext.h in Resources */,
-				1E9889A81296F77300F17A39 /* copyright in Resources */,
-				1E9889A91296F77900F17A39 /* license in Resources */,
 				1EF391FA12A9307300FDC676 /* OracleDataTypes.plist in Resources */,
-				1E22343B141117CD00F1C663 /* OracleConnectionPane.nib in Resources */,
-				1E91D55C13EB0AC600C0B4F1 /* OracleLogo.tiff in Resources */,
+				1EDEA33C15D026900045292C /* copyright in Resources */,
+				1EDEA34315D026990045292C /* license in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1EDEA30115D0128A0045292C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1EDEA34815D029AE0045292C /* OracleConnectionPane.h in Resources */,
+				1EDEA31E15D01EDC0045292C /* OracleLogo.tiff in Resources */,
+				1EDEA32C15D023DE0045292C /* OracleConnectionPane.xib in Resources */,
+				1EDEA33D15D026910045292C /* copyright in Resources */,
+				1EDEA34415D0269A0045292C /* license in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -645,8 +724,8 @@
 				FA63DAB2074270D600AB5036 /* OpenBaseAdaptor.h in Resources */,
 				FA63DAB4074270D600AB5036 /* OpenBaseChannel.h in Resources */,
 				FA63DAB6074270D600AB5036 /* OpenBaseContext.h in Resources */,
-				FA63DF5B0742783D00AB5036 /* copyright in Resources */,
-				FA63DF5C0742783D00AB5036 /* license in Resources */,
+				1EDEA33715D0268D0045292C /* copyright in Resources */,
+				1EDEA33E15D026960045292C /* license in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -664,8 +743,8 @@
 				FA63DCE20742734F00AB5036 /* PostgresNumberFormatter.h in Resources */,
 				FA63DCE40742735000AB5036 /* PostgresDateFormatter.h in Resources */,
 				FA63DDDA074275E300AB5036 /* PostgreSQLInterface.interface in Resources */,
-				FA63DF590742783D00AB5036 /* copyright in Resources */,
-				FA63DF5A0742783D00AB5036 /* license in Resources */,
+				1EDEA33815D0268E0045292C /* copyright in Resources */,
+				1EDEA33F15D026970045292C /* license in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -673,10 +752,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA63DDD00742754500AB5036 /* PostgreSQLConnectionPane.nib in Resources */,
 				FA63DDD20742754600AB5036 /* PostgreSQLConnectionPane.h in Resources */,
-				FA63DF570742783D00AB5036 /* copyright in Resources */,
-				FA63DF580742783D00AB5036 /* license in Resources */,
+				1EDEA33915D0268E0045292C /* copyright in Resources */,
+				1EDEA34015D026970045292C /* license in Resources */,
+				1E16EB5D15D044BD002D5E8D /* PostgreSQLConnectionPane.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -691,8 +770,8 @@
 				FA63DE230742768500AB5036 /* SQLiteExpression.h in Resources */,
 				FA0DC5B2082FAF7C00C22582 /* NSMutableString-SQLite.h in Resources */,
 				FA63DF2A074277A600AB5036 /* SQLiteInterface.interface in Resources */,
-				FA63DF530742783D00AB5036 /* copyright in Resources */,
-				FA63DF540742783D00AB5036 /* license in Resources */,
+				1EDEA33A15D0268F0045292C /* copyright in Resources */,
+				1EDEA34115D026980045292C /* license in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -701,9 +780,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA63DE28074276A100AB5036 /* SQLiteConnectionPane.h in Resources */,
-				FA63DE2A074276A200AB5036 /* SQLiteConnectionPane.nib in Resources */,
-				FA63DF550742783D00AB5036 /* copyright in Resources */,
-				FA63DF560742783D00AB5036 /* license in Resources */,
+				1EDEA33B15D0268F0045292C /* copyright in Resources */,
+				1EDEA34215D026990045292C /* license in Resources */,
+				1E16EB6015D044D7002D5E8D /* SQLiteConnectionPane.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -720,8 +799,15 @@
 				1EF3923812A9567100FDC676 /* OracleSQLExpression.m in Sources */,
 				1E86A7F51312D63C00FA5FDA /* OracleDefineInfo.m in Sources */,
 				1E0EACAA13B3B54C00EDEC95 /* OracleBindInfo.m in Sources */,
-				1E91D56313EB0BAC00C0B4F1 /* OracleConnectionPane.m in Sources */,
 				1E45D52113FD8AAC0043B572 /* OracleSchemaGeneration.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1EDEA2FF15D0128A0045292C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1EDEA31C15D01E4B0045292C /* OracleConnectionPane.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -782,6 +868,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1EDEA32215D01F1B0045292C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1EDEA30215D0128A0045292C /* Oraclenterface */;
+			targetProxy = 1EDEA32115D01F1B0045292C /* PBXContainerItemProxy */;
+		};
 		FA63DDD9074275D100AB5036 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = FA63DDCD074274FA00AB5036 /* PostgreSQLInterface */;
@@ -810,42 +901,42 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		1E22343A141117CD00F1C663 /* OracleConnectionPane.nib */ = {
+		1E16EB5B15D044BD002D5E8D /* PostgreSQLConnectionPane.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1E91D55713EB0A9B00C0B4F1 /* English */,
+				1E16EB5C15D044BD002D5E8D /* en */,
 			);
-			name = OracleConnectionPane.nib;
+			name = PostgreSQLConnectionPane.xib;
 			sourceTree = "<group>";
 		};
-		FA63DCCB0742731600AB5036 /* PostgreSQLConnectionPane.nib */ = {
+		1E16EB5E15D044D7002D5E8D /* SQLiteConnectionPane.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FA63DCCC0742731600AB5036 /* English */,
+				1E16EB5F15D044D7002D5E8D /* en */,
 			);
-			name = PostgreSQLConnectionPane.nib;
+			name = SQLiteConnectionPane.xib;
 			sourceTree = "<group>";
 		};
-		FA63DE250742769600AB5036 /* SQLiteConnectionPane.nib */ = {
+		1EDEA32A15D023DE0045292C /* OracleConnectionPane.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FA63DE260742769600AB5036 /* English */,
+				1EDEA32B15D023DE0045292C /* en */,
 			);
-			name = SQLiteConnectionPane.nib;
+			name = OracleConnectionPane.xib;
 			sourceTree = "<group>";
 		};
-		FA63DF4F0742783D00AB5036 /* copyright */ = {
+		1EDEA33315D026830045292C /* copyright */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FA63DF500742783D00AB5036 /* English */,
+				1EDEA33415D026830045292C /* en */,
 			);
 			name = copyright;
 			sourceTree = "<group>";
 		};
-		FA63DF510742783D00AB5036 /* license */ = {
+		1EDEA33515D026830045292C /* license */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FA63DF520742783D00AB5036 /* English */,
+				1EDEA33615D026830045292C /* en */,
 			);
 			name = license;
 			sourceTree = "<group>";
@@ -955,6 +1046,109 @@
 					"-Wno-unknown-pragmas",
 				);
 				WRAPPER_EXTENSION = eoadaptor;
+			};
+			name = Default;
+		};
+		1EDEA31115D0128A0045292C /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../EOAccess/build/Development\"",
+					"\"$(SRCROOT)/../EOControl/build/Development\"",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "/usr/local/include/**";
+				INFOPLIST_FILE = "OracleInterface-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.6;
+				WRAPPER_EXTENSION = interface;
+			};
+			name = Development;
+		};
+		1EDEA31215D0128A0045292C /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../EOAccess/build/Development\"",
+					"\"$(SRCROOT)/../EOControl/build/Development\"",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "/usr/local/include/**";
+				INFOPLIST_FILE = "OracleInterface-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.6;
+				WRAPPER_EXTENSION = interface;
+			};
+			name = Deployment;
+		};
+		1EDEA31315D0128A0045292C /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../EOAccess/build/Development\"",
+					"\"$(SRCROOT)/../EOControl/build/Development\"",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "/usr/local/include/**";
+				INFOPLIST_FILE = "OracleInterface-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.6;
+				WRAPPER_EXTENSION = interface;
 			};
 			name = Default;
 		};
@@ -1532,6 +1726,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CURRENT_PROJECT_VERSION = 0.85;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx10.7;
 			};
 			name = Development;
@@ -1541,6 +1736,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CURRENT_PROJECT_VERSION = 0.85;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx10.7;
 			};
 			name = Deployment;
@@ -1549,6 +1745,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 0.85;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx10.7;
 			};
 			name = Default;
@@ -1562,6 +1759,16 @@
 				1E9889031296F31E00F17A39 /* Development */,
 				1E9889041296F31E00F17A39 /* Deployment */,
 				1E9889051296F31E00F17A39 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		1EDEA31415D0128A0045292C /* Build configuration list for PBXNativeTarget "Oraclenterface" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1EDEA31115D0128A0045292C /* Development */,
+				1EDEA31215D0128A0045292C /* Deployment */,
+				1EDEA31315D0128A0045292C /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Default;

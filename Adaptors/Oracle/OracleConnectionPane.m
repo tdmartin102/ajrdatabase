@@ -54,13 +54,23 @@ mailto:tom.martin@riemer.com
 		{
 			[serverIdField setStringValue:[connection objectForKey:ServerIdKey]];
 			[smallServerIdField setStringValue:[connection objectForKey:ServerIdKey]];
-		} 
+		}
+        else
+        {
+            [[serverIdField cell] setPlaceholderString:@"tnsname"];
+            [[smallServerIdField cell] setPlaceholderString:@"tnsname"];
+        }
 		
 		if ([connection objectForKey:UserNameKey])
 		{
 			[userNameField setStringValue:[connection objectForKey:UserNameKey]];
 			[smallUserNameField setStringValue:[connection objectForKey:UserNameKey]];
-		} 
+		}
+        else
+        {
+            [[userNameField cell] setPlaceholderString:@"username"];
+            [[smallUserNameField cell] setPlaceholderString:@"username"];
+        }
 
 		if ([connection objectForKey:PasswordKey])
 		{
@@ -81,7 +91,7 @@ mailto:tom.martin@riemer.com
 
 - (IBAction)setUserName:(id)sender
 {
-	if ([sender intValue] == 0) {
+	if ([sender stringValue] == 0) {
 		[self setConnectionValue:nil forKey:UserNameKey];
 	} else {
 		[self setConnectionValue:[sender stringValue] forKey:UserNameKey];
