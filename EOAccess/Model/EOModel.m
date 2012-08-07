@@ -483,6 +483,7 @@ static NSCharacterSet		*validNameSet = nil;
 		
 		[entity retain]; // Make sure the entity doesn't get freed until we're done with it.
 		[entityCache removeObjectForKey:[entity name]];
+        [entity _setModel:nil];
 		[[NSNotificationCenter defaultCenter] removeObserver:self name:EOEntityDidChangeNameNotification object:entity];
 		[EOObserverCenter removeObserver:self forObject:entity];
 		[[NSNotificationCenter defaultCenter] postNotificationName:EOModelDidRemoveEntityNotification object:self userInfo:[NSDictionary dictionaryWithObject:entity forKey:@"entity"]];
