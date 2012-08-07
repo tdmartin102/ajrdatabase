@@ -86,7 +86,8 @@
 		tempModel = [channel describeModelWithTableNames:names];
 		
 		entities = [[tempModel entities] copy];
-		for (x = 0; x < (const int)[entities count]; x++) {
+		for (x = 0; x < (const int)[entities count]; x++) 
+        {
 			EOEntity		*entity = [entities objectAtIndex:x];
 			[tempModel removeEntity:entity];
 			if ([modelWizard assignCustomObjects]) {
