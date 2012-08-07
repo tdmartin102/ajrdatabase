@@ -1041,4 +1041,210 @@ mailto:tom.martin@riemer.com
    return fetchAttributes;
 }
 
+- (NSArray *)describeTableNames
+{
+	NSMutableArray		*tableNames = [[[NSMutableArray allocWithZone:[self zone]] init] autorelease];
+	NSDictionary		*row;
+	EOSQLExpression     *expression;
+    NSString            *table;
+	
+	expression = [[[[[self adaptorContext] adaptor] expressionClass] alloc] init];
+	[expression setStatement:@"SELECT TABLE_NAME FROM USER_TABLES"];
+	
+	NS_DURING
+    [self evaluateExpression:expression];
+	NS_HANDLER
+    [expression release];
+    [localException raise];
+	NS_ENDHANDLER
+	[expression release];
+    
+	[self setAttributesToFetch:[self describeResults]];
+	while ((row = [self fetchRowWithZone:NULL]) != nil) 
+    {
+		table = [[row allValues] objectAtIndex:0];
+        [tableNames addObject:table];
+	}
+	
+	return tableNames;
+}
+
+- (EOAttribute *)_newAttributeFoName:(NSString *)colName type:(NSString *)colType 
+                                len:(int)dataLen scale:(int)dataScale precision:(int)dataPrecision
+                                allowNull:(BOOL)allowNull
+{
+    NSDictionary    *dataTypes;
+    NSDictionary    *dataTypeDict;
+    NSString        *aString;
+    EOAttribute		*attribute = [[EOAttribute allocWithZone:[self zone]] init];
+    
+    [attribute setName:colName];
+    [attribute beautifyName];
+    [attribute setColumnName:colName];
+    [attribute setAllowsNull:allowNull];
+    [attribute setExternalType:colType];
+    
+    dataTypes = [OracleAdaptor dataTypes];
+    dataTypeDict = [dataTypes objectForKey:colType];
+    if (dataTypeDict)
+    {
+        [attribute setValueClassName:[dataTypeDict objectForKey:@"valueClassName"]];
+        if ([dataTypeDict objectForKey:@"useWidth"])
+            [attribute setWidth:dataLen];
+        else if ([dataTypeDict objectForKey:@"isNumber"])
+        {
+            if ([dataTypeDict objectForKey:@"hasPrecision"])
+            {
+                // This is the NUMBER type. The value class
+                // is dependent upon the precision which may
+                // not be set at all.  Also the type is dependednt
+                // upon precission and scale
+                // first check is precission is set at all
+                // if not use NSDecimalNumber and we are done
+                if (dataPrecision == 0)
+                {
+                    [attribute setValueClassName:@"NSDecimalNumber"];
+                }
+                else
+                {
+                    // if precision is less than 10 use NSNumber
+                    // which it is already set to.  if we HAVE scale
+                    // set type to double otherwise integer
+                    if (dataPrecision < 10)
+                    {
+                        // use NSNumber
+                        [attribute setValueClassName:@"NSNumber"];
+                        if (dataScale)
+                            [attribute setValueType:@"d"];
+                        else
+                            [attribute setValueType:@"i"];
+                    }
+                    else
+                    {
+                        // use NSDecimalNumber
+                        [attribute setValueClassName:@"NSDecimalNumber"];
+                    }
+                    [attribute setScale:dataScale];
+                    [attribute setPrecision:dataPrecision];
+                }
+            }
+            else
+            {
+                aString = [dataTypeDict objectForKey:@"valueType"];
+                if (aString)
+                    [attribute setValueType:aString];
+                else
+                    [attribute setValueType:@"i"];
+            }
+        }
+        else if ([dataTypeDict objectForKey:@"isDate"])
+        {
+            #ifdef MAC_OS_X_VERSION_MAX_ALLOWED
+                #if MAC_OS_X_VERSION_MAX_ALLOWED > 1060 
+                    // translate NSCalendarDate to NSDate if this is Lion or latter
+                    [attribute setValueClassName:@"NSDate"];
+                #else
+                    [attribute setValueClassName:@"NSCalendarDate"];
+                #endif
+            #else
+                #error Max Version not defined and it HAS TO BE
+            #endif                   
+        }  
+    }
+    else
+    {
+        [EOLog logWarningWithFormat:@"Unknown type: %@\n", colType];
+        [attribute setValueClassName:@"NSString"];
+    }
+    
+    return [attribute autorelease];
+}
+
+- (EOEntity *)_createEntityForTableNamed:(NSString *)name
+{
+	NSDictionary		*row;
+	EOSQLExpression     *expression;
+    EOEntity            *entity;
+	
+	expression = [[[[[self adaptorContext] adaptor] expressionClass] alloc] init];
+	[expression setStatement:EOFormat(@"SELECT COLUMN_NAME, DATA_TYPE, DATA_LENGTH, DATA_PRECISION, DATA_SCALE, NULLABLE FROM USER_TAB_COLUMNS WHERE TABLE_NAME = '%@'", name)];
+    
+    NS_DURING
+	[self evaluateExpression:expression];
+    NS_HANDLER
+    [expression release];
+    [localException raise];
+	NS_ENDHANDLER
+    [expression release];
+
+    entity = [[EOEntity allocWithZone:[self zone]] init];
+    [entity setName:name];
+    [entity beautifyName];
+    [entity setExternalName:name];
+    [entity setClassName:@"EOGenericRecord"];
+
+    [self setAttributesToFetch:[self describeResults]];
+	
+    while ((row = [self fetchRowWithZone:NULL]) != nil) 
+    {
+        EOAttribute		*attribute = [[EOAttribute allocWithZone:[self zone]] init];
+        NSString		*colType;
+        int             dataLen, dataScale, dataPrecision;
+        NSString        *colName;
+        BOOL            nullable;
+        id              value;
+        
+        colName = [row objectForKey:@"Attribute0"];
+        colType = [row objectForKey:@"Attribute1"];
+        dataLen = [[row objectForKey:@"Attribute2"] intValue];
+        nullable = [[row objectForKey:@"Attribute5"] isEqualToString:@"Y"];
+
+        // the following two attributes may be null, so we
+        // need to deal with that.  if one is null they both are null
+        dataPrecision = 0;
+        dataScale = 0;
+        value = [row objectForKey:@"Attribute3"];
+        if ([EONull null] != value)
+        {
+            dataPrecision = [value intValue];
+            dataScale = [[row objectForKey:@"Attribute4"] intValue];
+        }
+        
+        attribute = [self _newAttributeFoName:colName type:colType 
+                                len:dataLen scale:dataScale precision:dataPrecision
+                                allowNull:nullable];  				
+        [entity addAttribute:attribute];
+        [attribute release];
+    }
+		
+    [entity setClassProperties:[entity attributes]];
+    [entity setAttributesUsedForLocking:[entity attributes]];
+	
+	return [entity autorelease];
+}
+
+- (EOModel *)describeModelWithTableNames:(NSArray *)tableNames
+{
+	EOModel		*model;
+    NSString	*tableName;
+	NSString	*EOName;
+	
+	model = [[EOModel allocWithZone:[self zone]] init];
+	EOName = [[[[self adaptorContext] adaptor] connectionDictionary] objectForKey:@"databaseName"];
+	if (EOName == nil) 
+        EOName = NSUserName();
+	[model setName:EOName];
+	[model setAdaptorName:[[[self adaptorContext] adaptor] name]];
+	[model setConnectionDictionary:[[[self adaptorContext] adaptor] connectionDictionary]];
+	    
+    for (tableName in tableNames)
+	{		
+		EOEntity *entity = [self _createEntityForTableNamed:tableName];
+		if (entity)
+			[model addEntity:entity];
+	}
+	
+	return [model autorelease];
+}
+
 @end
