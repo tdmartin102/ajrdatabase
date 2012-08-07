@@ -75,68 +75,101 @@
 	VARCHAR2 = {
 		ociDataType = 9;
 		useWidth = 1;
+		valueClassName = NSString;
 	};
 	NVARCHAR2 = {
 		ociDataType = 9;
 		useWidth = 1;
 		nationalCharSet = 1;
+		valueClassName = NSString;
 	};
 	NUMBER = {
 		ociDataType = 97;
+		valueClassName = NSDecimalNumber;
+		hasPrecision = 1;
+		valueType = i;
+		isNumber = 1;
 	};
 	LONG = {
 		ociDataType = 1;
+		valueClassName = NSString;
 	};
 	DATE = {
 		ociDataType = 12;
+		valueClassName = NSCalendarDate;
+		isDate = 1;
 	};
 	RAW = {
 		ociDataType = 15;
+		valueClassName = NSData;
 	};
 	"LONG RAW" = {
 		ociDataType = 24;
+		valueClassName = NSData;
 	};
 	ROWID = {
 		ociDataType = 1;
+		valueClassName = NSData;
 	};
 	CHAR = {
 		ociDataType = 9;
 		useWidth = 1;
+		valueClassName = NSString;
 	};
 	NCHAR = {
 		ociDataType = 9;
-		useWidth = 1; 
+		useWidth = 1;
 		nationalCharSet = 1;
+		valueClassName = NSString;
 	};
 	FLOAT = {
 		ociDataType = 21;
+		valueClassName = NSNumber;
+		valueType = f;
+		isNumber = 1;
 	};
 	"BINARY_FLOAT" = {
 		ociDataType = 21;
+		valueClassName = NSNumber;
+		valueType = f;
+		isNumber = 1;
 	};
 	"BINARY_DOUBLE" = {
 		ociDataType = 22;
+		valueClassName = NSNumber;
+		valueType = d;
+		isNumber = 1;
 	};
 	CLOB = {
 		ociDataType = 1;
+		valueClassName = NSString;
 	};
 	NCLOB = {
 		ociDataType = 1;
 		nationalCharSet = 1;
+		valueClassName = NSString;
 	};
 	BLOB = {
 		ociDataType = 24;
+		valueClassName = NSData;
 	};
 	TIMESTAMP = {
 		ociDataType = 9;
+		valueClassName = NSCalendarDate;
+		isDate = 1;
 	};
 	"TIMESTAMP WITH TIME ZONE" = {
 		ociDataType = 9;
+		valueClassName = NSCalendarDate;
+		isDate = 1;
 	};
 	UROWID = {
 		ociDataType = 1;
+		valueClassName = NSData;
 	};
 	"TIMESTAMP WITH LOCAL TIME ZONE" = {
 		ociDataType = 9;
+		valueClassName = NSCalendarDate;
+		isDate = 1;
 	};
 }
