@@ -150,6 +150,8 @@ static NSMutableDictionary *_eoRemoveMethodCache = nil;
 - (void)removeObject:(id)object fromBothSidesOfRelationshipWithKey:(NSString *)key
 {
 	NSString		*inverseKey;
+    
+    [object retain];
 	
 	// mont_rothstein @ yahoo.com 2005-08-14
 	// If a relationship is empty we can get null for an object here.  In which case we just return
@@ -163,12 +165,16 @@ static NSMutableDictionary *_eoRemoveMethodCache = nil;
 	if (inverseKey) {
 		[object removeObject:self fromPropertyWithKey:inverseKey];
 	}
+    
+    [object autorelease];
 }
 
 - (void)removeObject:(id)object fromPropertyWithKey:(NSString *)key
 {
 	SEL			selector = [self _removeMethodForKey:key];
 	BOOL ownsDestination = [[self classDescription] ownsDestinationObjectsForRelationshipKey:key];
+    
+    [object retain];
 	
 	if (selector) {
 		[self performSelector:selector withObject:object];
@@ -190,6 +196,7 @@ static NSMutableDictionary *_eoRemoveMethodCache = nil;
 	if (ownsDestination  && ([object editingContext] != nil)) {
 		[[self editingContext] deleteObject: object];
 	}
+    [object autorelease];
 }
 
 @end

@@ -84,35 +84,44 @@ static EOHashObject	*_eofKey = NULL;
 	}
 	
 	_eofKey->key = (NSUInteger)self;
-	element = NSHashGet(eofInstanceObjects, _eofKey);
-	if (!element) {
-		element = (EOHashObject *)NSZoneMalloc([self zone], sizeof(EOHashObject));
-		element->key = (NSUInteger)self;
-		element->objects = [[NSMutableDictionary alloc] init];
-		NSHashInsert(eofInstanceObjects, element);
-		[element->objects release];
-	}
-	
-	if (object == nil) {
-		[element->objects removeObjectForKey:aKey];
-	} else {
-		[element->objects setObject:object forKey:aKey];
-	}
+    @synchronized(eofInstanceObjects)
+    {
+        element = NSHashGet(eofInstanceObjects, _eofKey);
+        if (!element) 
+        {
+            element = (EOHashObject *)NSZoneMalloc([self zone], sizeof(EOHashObject));
+            element->key = (NSUInteger)self;
+            element->objects = [[NSMutableDictionary alloc] init];
+            NSHashInsert(eofInstanceObjects, element);
+            [element->objects release];
+        }
+        
+        
+        if (object == nil) 
+            [element->objects removeObjectForKey:aKey];
+        else 
+            [element->objects setObject:object forKey:aKey];
+    }
 }
 
 - (id)_eofInstanceObjectForKey:(id)aKey
 {
-	if (eofInstanceObjects) {
+    id anObject = nil;
+    
+	if (eofInstanceObjects) 
+    {
 		EOHashObject	*element;
 		
 		_eofKey->key = (NSUInteger)self;
-		element = NSHashGet(eofInstanceObjects, _eofKey);
-		if (element) {
-			return [element->objects objectForKey:aKey];
-		}
+        @synchronized(eofInstanceObjects)
+        {
+            element = NSHashGet(eofInstanceObjects, _eofKey);
+            if (element)
+                anObject = [element->objects objectForKey:aKey];
+        }
 	}
 	
-	return nil;
+	return anObject;
 }
 
 // Remove this EO's pointer to its editing context.  This is called in EOAccess
@@ -123,10 +132,12 @@ static EOHashObject	*_eofKey = NULL;
 		EOHashObject	*element;
 		
 		_eofKey->key = (NSUInteger)self;
-		element = NSHashGet(eofInstanceObjects, _eofKey);
-		if (element) {
-			NSHashRemove(eofInstanceObjects, _eofKey);
-		}
+        @synchronized(eofInstanceObjects)
+        {
+            element = NSHashGet(eofInstanceObjects, _eofKey);
+            if (element) 
+                NSHashRemove(eofInstanceObjects, _eofKey);
+        }
     }
 }
 

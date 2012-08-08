@@ -88,38 +88,50 @@ static int			suppressionCount;
 {
    NSMutableSet	*observers;
 
-   if (object == nil) {
-      NSMapEnumerator	enumerator;
+    if (object == nil) 
+    {
+        NSMapEnumerator	enumerator;
 
-      enumerator = NSEnumerateMapTable(observed);
-      while (NSNextMapEnumeratorPair(&enumerator, (void **)&object, (void **)&observers)) {
-         if ([observers count] <= 1) {
-             NSMapRemove(observed, object);
-         } else {
-            [observers removeObject:observer];
-         }
-      }
-      NSEndMapTableEnumeration(&enumerator);
-   } else {
-      observers = NSMapGet(observed, object);
-      if (observers != nil) {
-         if ([observers count] <= 1) {
-             NSMapRemove(observed, object);
-         } else {
-             [observers removeObject:observer];
-         }
-      }
-   }
+        @synchronized(observed)
+        {
+            enumerator = NSEnumerateMapTable(observed);
+            while (NSNextMapEnumeratorPair(&enumerator, (void **)&object, (void **)&observers)) 
+            {
+                if ([observers count] <= 1) 
+                    NSMapRemove(observed, object);
+                else 
+                    [observers removeObject:observer];
+            }
+            NSEndMapTableEnumeration(&enumerator);
+        }
+    } 
+    else 
+    {
+        @synchronized(observed)
+        {
+            observers = NSMapGet(observed, object);
+            if (observers != nil) 
+            {
+                if ([observers count] <= 1) 
+                    NSMapRemove(observed, object);
+                else 
+                    [observers removeObject:observer];
+            }
+        }
+    }
 }
 
 + (void)removeObserversForObject:(id)object
 {
 	NSMutableSet	*observers;
 
-	observers = NSMapGet(observed, object);
-	if (observers != nil) {
-		NSMapRemove(observed, object);
-	}
+    @synchronized(observed)
+    {
+        observers = NSMapGet(observed, object);
+        if (observers != nil) {
+            NSMapRemove(observed, object);
+        }
+    }
 }
 
 + (void)notifyObserversObjectWillChange:(id)object
