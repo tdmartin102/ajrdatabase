@@ -53,10 +53,10 @@ Status
   deleted as it should. Adding an object in a to-many does what
   it should even when there is no reverse relationships and all
   foreign key attributes are hidden.
-* As of 5/8/2012 I am considering this framework to be beta as
-  it is passing all my tests.  This is not to say it is free of
-  bugs but at this point it needs real world testing to reveal
-  problems.
+* As of 8/8/2012 This framework has been in beta testing for
+  3 or 4 weeks and at least for the simple case of using only
+  a single editing context, it is working well with bug fixes
+  as we go.  This is using the Oracle adaptor.
 
 
 Why?
