@@ -8,13 +8,12 @@
 
 #import "EOInternalTypePane.h"
 
-@class AJRTimeZoneChooser;
 
 @interface EODatePane : EOInternalTypePane
 {
-	IBOutlet AJRTimeZoneChooser	*timeZoneChooser;
+	IBOutlet NSPopUpButton *timeZoneButton;   
 }
 
-- (void)selectTimeZone:(id)sender;
+- (IBAction)selectTimeZone:(id)sender;
 
 @end

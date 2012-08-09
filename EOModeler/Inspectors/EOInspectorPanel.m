@@ -21,6 +21,18 @@ static EOInspectorPanel		*SELF = nil;
 	return SELF;
 }
 
+- (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)windowStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)deferCreation
+{
+    static BOOL kilroy = NO;
+    if (! kilroy)
+    {
+        kilroy = YES;
+        return [super initWithContentRect:contentRect styleMask:windowStyle backing:bufferingType defer:deferCreation];
+    }
+    else
+        return self;
+}
+            
 - (void)orderFront:(id)sender
 {
 	if (!nothingView) {

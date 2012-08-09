@@ -26,14 +26,21 @@
 
 - (void)awakeFromNib
 {
-	[timeZoneChooser setTitle:@"Server Time Zone:"];
+    NSArray *names;
+    
+    // set the time zone names in the button
+    // and select the local time zone as the default
+    names = [NSTimeZone knownTimeZoneNames];
+    [timeZoneButton removeAllItems];
+    [timeZoneButton addItemsWithTitles:names];    
+    [timeZoneButton selectItemWithTitle:[[NSTimeZone localTimeZone] name]];     
 }
 
 - (void)update
 {
 	EOAttribute		*attribute = [self selectedAttribute];
 	
-	[timeZoneChooser setTimeZone:[attribute serverTimeZone]];
+    [timeZoneButton selectItemWithTitle:[[attribute serverTimeZone] name]]; 
 }
 
 - (void)updateAttribute
@@ -45,7 +52,10 @@
 
 - (void)selectTimeZone:(id)sender
 {
-	[[self selectedAttribute] setServerTimeZone:[sender timeZone]];
+    NSString *name;
+    
+    name = [sender titleOfSelectedItem];
+	[[self selectedAttribute] setServerTimeZone:[NSTimeZone timeZoneWithName:name]];
 }
 
 @end

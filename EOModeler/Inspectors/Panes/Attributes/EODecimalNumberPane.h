@@ -14,7 +14,7 @@
 	IBOutlet NSTextField			*precisionField;
 }
 
-- (void)setScale:(id)sender;
-- (void)setPrecision:(id)sender;
+- (IBAction)setScale:(id)sender;
+- (IBAction)setPrecision:(id)sender;
 
 @end
