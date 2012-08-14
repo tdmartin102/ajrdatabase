@@ -114,7 +114,7 @@ NSString *EOGenericAdaptorException = @"EOGenericAdaptorException";
 	if (rows != 1)
 	{
 		[[NSException exceptionWithName: EOGenericAdaptorException 
-								 reason: [NSString stringWithFormat: @"Update of single row failed.  Instead %d row(s) were updated.", rows]
+								 reason: [NSString stringWithFormat: @"Update of single row failed for entity %@.  Instead %d row(s) were updated.", [entity name], rows]
 							   userInfo: [NSDictionary dictionaryWithObject: EOAdaptorOptimisticLockingFailure forKey: EOAdaptorFailureKey]] raise];
 	}
 }
