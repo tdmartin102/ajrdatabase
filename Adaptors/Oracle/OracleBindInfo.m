@@ -319,14 +319,21 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
 	
 	// if this is a custom class we need to convert it to a standard class
 	value = [attrib adaptorValueByConvertingAttributeValue:value];
+    //
+    // I am taking out the trimming code. In a prefect world this would be fine
+    // but if there are ANY fields in the database that already have whitespace
+    // then updates WILL FAIL when using optimisting locking.
+    //
 	// if the valueClass is NSString AND the External type is VARCHAR or NVARCHAR
 	// we will trim leading and trailing spaces.  Basically we do NOT want to 
 	// trim trailing spaces if the external type is CHAR or NCHAR as that is fixed length
+    /*
 	if (([[attrib valueClassName] isEqualToString:@"NSString"]) &&
 		(([[attrib externalType] hasPrefix:@"VARCHAR"]) || ([[attrib externalType] hasPrefix:@"NVARCHAR"])))
 	{
 		value = [(NSString *)value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	}
+     */
 	[value retain];
 	
 	return self;
