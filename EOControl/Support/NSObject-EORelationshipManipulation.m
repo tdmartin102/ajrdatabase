@@ -155,7 +155,7 @@ static NSMutableDictionary *_eoRemoveMethodCache = nil;
 	
 	// mont_rothstein @ yahoo.com 2005-08-14
 	// If a relationship is empty we can get null for an object here.  In which case we just return
-	if (object == [NSNull null]) return;
+	if (! object || object == [NSNull null]) return;
 	
 	// Remove the object to our side.
 	[self removeObject:object fromPropertyWithKey:key];
