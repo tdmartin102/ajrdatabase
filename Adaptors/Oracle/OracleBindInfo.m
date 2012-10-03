@@ -228,7 +228,7 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
 		return;
 	}
 
-	#if MAC_OS_X_VERSION_MAX_ALLOWED > 1060 
+	//#if MAC_OS_X_VERSION_MAX_ALLOWED > 1060
 		NSDate *aDate = [OracleAdaptor convert:value toValueClassNamed:@"NSDate"];
 		NSDateComponents *dateComponents;
 		NSCalendar *currentCalendar = [NSCalendar currentCalendar];
@@ -244,17 +244,17 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
 		h = [dateComponents hour];
 		mi = [dateComponents minute];
 		s = [dateComponents second];
-	#else
-		NSCalendarDate *aDate = [OracleAdaptor convert:value toValueClassNamed:@"NSCalendarDate"];
-		// write time in server time zone
-		[aDate setTimeZone:[attrib serverTimeZone]];
-		y = [aDate yearOfCommonEra];
-		m = [aDate monthOfYear];
-		d = [aDate dayOfMonth];
-		h = [aDate hourOfDay];
-		mi = [aDate minuteOfHour];
-		s = [aDate secondOfMinute];		
-	#endif
+	//#else
+	//	NSCalendarDate *aDate = [OracleAdaptor convert:value toValueClassNamed:@"NSCalendarDate"];
+	//	// write time in server time zone
+	//	[aDate setTimeZone:[attrib serverTimeZone]];
+	//	y = [aDate yearOfCommonEra];
+	//	m = [aDate monthOfYear];
+	//	d = [aDate dayOfMonth];
+	//	h = [aDate hourOfDay];
+	//	mi = [aDate minuteOfHour];
+	//	s = [aDate secondOfMinute];
+	//#endif
     // year
 	buffer[0] = (y / 100) + 100;    
 	buffer[1] = (y % 100) + 100;
@@ -307,34 +307,36 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
 
 - initWithBindDictionary:(NSDictionary *)aValue
 {
-	[super init];
-	bindHandle = NULL;
-	
-	
-	bindDict = [aValue retain];
-	
-	// get the attribute and value from the dictionary
-	attrib = [[bindDict objectForKey:EOBindVariableAttributeKey] retain];
-	value = [bindDict objectForKey:EOBindVariableValueKey];
-	
-	// if this is a custom class we need to convert it to a standard class
-	value = [attrib adaptorValueByConvertingAttributeValue:value];
-    //
-    // I am taking out the trimming code. In a prefect world this would be fine
-    // but if there are ANY fields in the database that already have whitespace
-    // then updates WILL FAIL when using optimisting locking.
-    //
-	// if the valueClass is NSString AND the External type is VARCHAR or NVARCHAR
-	// we will trim leading and trailing spaces.  Basically we do NOT want to 
-	// trim trailing spaces if the external type is CHAR or NCHAR as that is fixed length
-    /*
-	if (([[attrib valueClassName] isEqualToString:@"NSString"]) &&
-		(([[attrib externalType] hasPrefix:@"VARCHAR"]) || ([[attrib externalType] hasPrefix:@"NVARCHAR"])))
-	{
-		value = [(NSString *)value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-	}
-     */
-	[value retain];
+	if (self = [super init])
+    {
+        bindHandle = NULL;
+        
+        
+        bindDict = [aValue retain];
+        
+        // get the attribute and value from the dictionary
+        attrib = [[bindDict objectForKey:EOBindVariableAttributeKey] retain];
+        value = [bindDict objectForKey:EOBindVariableValueKey];
+        
+        // if this is a custom class we need to convert it to a standard class
+        value = [attrib adaptorValueByConvertingAttributeValue:value];
+        //
+        // I am taking out the trimming code. In a prefect world this would be fine
+        // but if there are ANY fields in the database that already have whitespace
+        // then updates WILL FAIL when using optimisting locking.
+        //
+        // if the valueClass is NSString AND the External type is VARCHAR or NVARCHAR
+        // we will trim leading and trailing spaces.  Basically we do NOT want to 
+        // trim trailing spaces if the external type is CHAR or NCHAR as that is fixed length
+        /*
+        if (([[attrib valueClassName] isEqualToString:@"NSString"]) &&
+            (([[attrib externalType] hasPrefix:@"VARCHAR"]) || ([[attrib externalType] hasPrefix:@"NVARCHAR"])))
+        {
+            value = [(NSString *)value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        }
+         */
+        [value retain];
+    }
 	
 	return self;
 }

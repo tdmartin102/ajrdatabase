@@ -226,24 +226,25 @@ static NSMutableDictionary 	*dataTypes = nil;
 {
 	sword		errcode = 0;
 
-	[super initWithName:aName];
-	
-	// create the Environment handle everything is realative to this.
-	// errcode = OCIEnvCreate((OCIEnv **) &envhp, ociMode,
-	//					   (dvoid *) 0, (dvoid * (*)(dvoid *,size_t)) 0,
-	//					   (dvoid * (*)(dvoid *, dvoid *, size_t)) 0,
-	//					   (void (*)(dvoid *, dvoid *)) 0, (size_t) 0, (dvoid **) 0);
-	
-	// we will do EVERYTHING in unicode
-	errcode = OCIEnvNlsCreate((OCIEnv **)&envhp, ociMode,
-							(void *)0, (void *(*) ()) 0, (void *(*) ()) 0,
-							(void(*) ()) 0, (size_t) 0, (void **)0,
-							(ub2)OCI_UTF16ID, /* Metadata and SQL CHAR character set */
-							(ub2)OCI_UTF16ID /* SQL NCHAR character set */);
-							
-	if (errcode != 0)
-		[NSException raise:@"EOGeneralAdaptorException" 
-					format:@"OCIEnvCreate failed with errcode = %d.", errcode];
+	if (self = [super initWithName:aName])
+    {
+        // create the Environment handle everything is realative to this.
+        // errcode = OCIEnvCreate((OCIEnv **) &envhp, ociMode,
+        //					   (dvoid *) 0, (dvoid * (*)(dvoid *,size_t)) 0,
+        //					   (dvoid * (*)(dvoid *, dvoid *, size_t)) 0,
+        //					   (void (*)(dvoid *, dvoid *)) 0, (size_t) 0, (dvoid **) 0);
+        
+        // we will do EVERYTHING in unicode
+        errcode = OCIEnvNlsCreate((OCIEnv **)&envhp, ociMode,
+                                (void *)0, (void *(*) ()) 0, (void *(*) ()) 0,
+                                (void(*) ()) 0, (size_t) 0, (void **)0,
+                                (ub2)OCI_UTF16ID, /* Metadata and SQL CHAR character set */
+                                (ub2)OCI_UTF16ID /* SQL NCHAR character set */);
+                                
+        if (errcode != 0)
+            [NSException raise:@"EOGeneralAdaptorException" 
+                        format:@"OCIEnvCreate failed with errcode = %d.", errcode];
+    }
 		
 	return self;
 }
@@ -393,27 +394,6 @@ static NSMutableDictionary 	*dataTypes = nil;
 	return dataType;
 }
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED < 1070
-+ (NSCalendarDate *)calendarDateFromDate:(NSDate *)aDate
-{
-    NSCalendarDate  *result;
-    NSCalendar *localCalendar = [NSCalendar currentCalendar];
-    NSDateComponents *comp = [localCalendar components:(NSYearCalendarUnit |  NSMonthCalendarUnit
-                                                    | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | 
-                                                    NSSecondCalendarUnit) fromDate:aDate];
-   
-    result = [[NSCalendarDate alloc] initWithYear:[comp year]
-                                            month:[comp month]
-                                              day:[comp day]
-                                             hour:[comp hour]
-                                           minute:[comp minute]
-                                           second:[comp second] 
-                                         timeZone:[localCalendar timeZone]];
-    
-    return [result autorelease];
-}
-#endif
-
 + (id)valueForClassNamed:(NSString *)vcn forNSString:(NSString *)value
 {	
 	if ([vcn isEqualToString:@"NSString"]) 
@@ -437,15 +417,15 @@ static NSMutableDictionary 	*dataTypes = nil;
 		return [result autorelease];
 	}
 	
-    #if MAC_OS_X_VERSION_MAX_ALLOWED > 1060   
-        if ([vcn isEqualToString:@"NSDate"] || [vcn isEqualToString:@"NSCalendarDate"])
-            return [NSDate dateWithString:value];
-    #else
+    //#if MAC_OS_X_VERSION_MAX_ALLOWED > 1060
+    //    if ([vcn isEqualToString:@"NSDate"] || [vcn isEqualToString:@"NSCalendarDate"])
+    //        return [NSDate dateWithString:value];
+    //#else
         if ([vcn isEqualToString:@"NSCalendarDate"])
             return [NSCalendarDate dateWithString:value];
         if ([vcn isEqualToString:@"NSDate"])
             return [NSDate dateWithString:value];
-    #endif
+    //#endif
     
 	return nil;
 }
@@ -511,8 +491,7 @@ static NSMutableDictionary 	*dataTypes = nil;
 	// NSCalendarDate
 	return nil;
 }
-
-#if MAC_OS_X_VERSION_MAX_ALLOWED < 1070   
+   
 + (id)valueForClassNamed:(NSString *)vcn forNSCalendarDate:(NSCalendarDate *)value
 {
 	if ([vcn isEqualToString:@"NSCalendarDate"])
@@ -535,14 +514,12 @@ static NSMutableDictionary 	*dataTypes = nil;
 	// NSDecimalNumber	
 	return nil;
 }
-#endif
 
 + (id)valueForClassNamed:(NSString *)vcn forNSDate:(NSDate *)value
 {
-    #if MAC_OS_X_VERSION_MAX_ALLOWED < 1070   
 	if ([vcn isEqualToString:@"NSCalendarDate"])
-		return [self calendarDateFromDate:value];
-    #endif
+		return [value  dateWithCalendarFormat:nil timeZone:nil];
+    
 	if ([vcn isEqualToString:@"NSDate"])
 		return value;	
     
@@ -575,19 +552,16 @@ static NSMutableDictionary 	*dataTypes = nil;
 		result = [self valueForClassNamed:aClassName forNSDecimalNumber:(NSDecimalNumber *)value];
 	else if ([value isKindOfClass:[NSNumber class]])
 		result = [self valueForClassNamed:aClassName forNSNumber:(NSNumber *)value];
+    else if ([value isKindOfClass:[NSCalendarDate class]])
+        result = [self valueForClassNamed:aClassName forNSCalendarDate:(NSCalendarDate *)value];
     else if ([value isKindOfClass:[NSDate class]])
-        result = [self valueForClassNamed:aClassName forNSDate:(NSDate *)value];
-    #if MAC_OS_X_VERSION_MAX_ALLOWED < 1070   
-        else if ([value isKindOfClass:[NSCalendarDate class]])
-            result = [self valueForClassNamed:aClassName forNSCalendarDate:(NSCalendarDate *)value];
-    #endif
+        result = [self valueForClassNamed:aClassName forNSDate:(NSDate *)value]; 
 	else if ([value isKindOfClass:[NSData class]])
 		result = [self valueForClassNamed:aClassName forNSData:(NSData *)value];
 		
 	if (! result)
-		[NSException raise:EODatabaseException format:@"OracleAdaptor: Unable to convert object type to or from primitive adaptor object.  Check for mismatch between database data type and object class type in model."];
+		[NSException raise:EODatabaseException format:@"OracleAdaptor: Unable to convert object type to or from primitive adaptor object.  Target class is %@, source object is %@. Check for mismatch between database data type and object class type in model.", aClassName, NSStringFromClass([value class])];
 	return result;
-
 }
 
 @end

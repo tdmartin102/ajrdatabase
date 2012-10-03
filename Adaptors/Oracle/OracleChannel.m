@@ -226,11 +226,12 @@ mailto:tom.martin@riemer.com
 
 - (id)initWithAdaptorContext:(EOAdaptorContext *)aContext
 {	
-	[super initWithAdaptorContext:aContext];
-	
-	(void) OCIHandleAlloc( (dvoid *) [self envhp], (dvoid **) &stmthp,
+	if (self = [super initWithAdaptorContext:aContext])
+    {
+        (void) OCIHandleAlloc( (dvoid *) [self envhp], (dvoid **) &stmthp,
 								   OCI_HTYPE_STMT, (size_t) 0, (dvoid **) 0);
-	databaseEncoding = -1;
+        databaseEncoding = -1;
+    }
 	
 	return self;
 }
@@ -1139,16 +1140,7 @@ mailto:tom.martin@riemer.com
         }
         else if ([dataTypeDict objectForKey:@"isDate"])
         {
-            #ifdef MAC_OS_X_VERSION_MAX_ALLOWED
-                #if MAC_OS_X_VERSION_MAX_ALLOWED > 1060 
-                    // translate NSCalendarDate to NSDate if this is Lion or latter
-                    [attribute setValueClassName:@"NSDate"];
-                #else
-                    [attribute setValueClassName:@"NSCalendarDate"];
-                #endif
-            #else
-                #error Max Version not defined and it HAS TO BE
-            #endif                   
+            [attribute setValueClassName:@"NSDate"];
         }  
     }
     else

@@ -322,7 +322,7 @@ static sb4 ociDefineCallback(dvoid *octxp, OCIDefine *defnp, ub4 iter, dvoid **b
 	
 	y = ((buffer[0] - 100) * 100) + (buffer[1] - 100);
 	
-	#if MAC_OS_X_VERSION_MAX_ALLOWED > 1060   
+	//#if MAC_OS_X_VERSION_MAX_ALLOWED > 1060
 		NSDateComponents *dateComponents;
 		NSCalendar *currentCalendar;
 		
@@ -338,13 +338,13 @@ static sb4 ociDefineCallback(dvoid *octxp, OCIDefine *defnp, ub4 iter, dvoid **b
 		// NSDate is not time zone dependent so we do not need to adjust time zones
 		result = [[currentCalendar dateFromComponents:dateComponents] retain];
 		[dateComponents release];
-	#else
-		result = [[NSCalendarDate allocWithZone:[self zone]] initWithYear:y month:buffer[2] 
-			day:buffer[3] hour:buffer[4] - 1 minute:buffer[5] - 1 second:buffer[6] - 1 
-			timeZone:[attrib serverTimeZone]];
-		// change the server timezone to the local time zone.	
-		[(NSCalendarDate *)result setTimeZone:[NSTimeZone localTimeZone]];
-	#endif
+	//#else
+	//	result = [[NSCalendarDate allocWithZone:[self zone]] initWithYear:y month:buffer[2]
+	//		day:buffer[3] hour:buffer[4] - 1 minute:buffer[5] - 1 second:buffer[6] - 1
+	//		timeZone:[attrib serverTimeZone]];
+	//	// change the server timezone to the local time zone.
+	//	[(NSCalendarDate *)result setTimeZone:[NSTimeZone localTimeZone]];
+	//#endif
                                  
 	return [result autorelease];
 }
@@ -356,9 +356,11 @@ static sb4 ociDefineCallback(dvoid *octxp, OCIDefine *defnp, ub4 iter, dvoid **b
 //--- Designated initializer
 - initWithAttribute:(EOAttribute *)value
 {
-	[super init];
-	attrib = [value retain];
-	pos = -1;
+	if (self = [super init])
+    {
+        attrib = [value retain];
+        pos = -1;
+    }
 	return self;
 }
 
