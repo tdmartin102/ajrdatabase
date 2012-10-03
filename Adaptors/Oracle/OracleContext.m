@@ -57,26 +57,28 @@ mailto:tom.martin@riemer.com
 {
 	OCIEnv			*envhp;	
 
-	[super initWithAdaptor:value];
-	envhp = [(OracleAdaptor *)adaptor envhp];
-	
-	// Create the Error handle
-	(void) OCIHandleAlloc( (dvoid *) envhp, (dvoid **)&errhp, OCI_HTYPE_ERROR,
-						  (size_t) 0, (dvoid **) 0);
-			
-	// create the server handle
-	(void) OCIHandleAlloc( (dvoid *) envhp, (dvoid **)&serverhp, OCI_HTYPE_SERVER,
-						  (size_t) 0, (dvoid **) 0);
-	attached = NO;
-					  			  
-	// create the service context handle
-	(void) OCIHandleAlloc( (dvoid *) envhp, (dvoid **)&serviceContexthp,
-						  OCI_HTYPE_SVCCTX, (size_t) 0, (dvoid **) 0);
-	
-	/* set attribute server context in the service context */
-	status = OCIAttrSet( (dvoid *)serviceContexthp, OCI_HTYPE_SVCCTX, 
-					  (dvoid *)serverhp, (ub4)0, OCI_ATTR_SERVER, errhp);
-	[self checkStatus];
+	if (self = [super initWithAdaptor:value])
+    {
+        envhp = [(OracleAdaptor *)adaptor envhp];
+        
+        // Create the Error handle
+        (void) OCIHandleAlloc( (dvoid *) envhp, (dvoid **)&errhp, OCI_HTYPE_ERROR,
+                              (size_t) 0, (dvoid **) 0);
+                
+        // create the server handle
+        (void) OCIHandleAlloc( (dvoid *) envhp, (dvoid **)&serverhp, OCI_HTYPE_SERVER,
+                              (size_t) 0, (dvoid **) 0);
+        attached = NO;
+                                      
+        // create the service context handle
+        (void) OCIHandleAlloc( (dvoid *) envhp, (dvoid **)&serviceContexthp,
+                              OCI_HTYPE_SVCCTX, (size_t) 0, (dvoid **) 0);
+        
+        /* set attribute server context in the service context */
+        status = OCIAttrSet( (dvoid *)serviceContexthp, OCI_HTYPE_SVCCTX, 
+                          (dvoid *)serverhp, (ub4)0, OCI_ATTR_SERVER, errhp);
+        [self checkStatus];
+    }
 	
 	return self;
 }
