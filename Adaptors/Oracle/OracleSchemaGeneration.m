@@ -114,6 +114,7 @@ mailto:tom.martin@riemer.com
 			if (![attribute allowsNull]) 
 				[statement appendString:@" NOT NULL"];
 		}
+        [pad release];
 		
 		[statement appendString:EOFormat(@"\n)")];
 		
