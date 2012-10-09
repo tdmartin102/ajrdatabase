@@ -60,7 +60,7 @@
 			methodSig = [self methodSignatureForSelector: selector];
 			argumentType = [methodSig getArgumentTypeAtIndex: 2];
 			
-			/*! @todo Coerce Values: This should coerce the object to the appropriate type, object or scalar and call the validation method (ex: NSString -> NSCalendarDate, NSNumber -> int ) */
+			/*! @todo Coerce Values: This should coerce the object to the appropriate type, object or scalar and call the validation method (ex: NSString -> NSDate, NSNumber -> int ) */
 			// jean_alexis 2005-12-18
 			// Corrected below if statement
 //			if (argumentType == "@") 
