@@ -16,7 +16,7 @@
 	};
 	12 = {
 		externalType = DATE;
-		valueClassName = NSCalendarDate;
+		valueClassName = NSDate;
 	};
 	23 = {
 		externalType = RAW;
@@ -96,7 +96,7 @@
 	};
 	DATE = {
 		ociDataType = 12;
-		valueClassName = NSCalendarDate;
+		valueClassName = NSDate;
 		isDate = 1;
 	};
 	RAW = {
@@ -155,12 +155,12 @@
 	};
 	TIMESTAMP = {
 		ociDataType = 9;
-		valueClassName = NSCalendarDate;
+		valueClassName = NSDate;
 		isDate = 1;
 	};
 	"TIMESTAMP WITH TIME ZONE" = {
 		ociDataType = 9;
-		valueClassName = NSCalendarDate;
+		valueClassName = NSDate;
 		isDate = 1;
 	};
 	UROWID = {
@@ -169,7 +169,7 @@
 	};
 	"TIMESTAMP WITH LOCAL TIME ZONE" = {
 		ociDataType = 9;
-		valueClassName = NSCalendarDate;
+		valueClassName = NSDate;
 		isDate = 1;
 	};
 }

@@ -462,16 +462,6 @@ mailto:tom.martin@riemer.com
 			[tempAttribute setValueClassName:[dataTypeDict objectForKey:@"valueClassName"]];
 			[tempAttribute setExternalType:[dataTypeDict objectForKey:@"externalType"]];
 			[tempAttribute setValueType:[dataTypeDict objectForKey:@"valueType"]];
-			
-			#ifdef MAC_OS_X_VERSION_MAX_ALLOWED
-				#if MAC_OS_X_VERSION_MAX_ALLOWED > 1060   
-					// translate NSCalendarDate to NSDate if this is Lion or latter
-					if ([[dataTypeDict objectForKey:@"valueClassName"] isEqualToString:@"NSCalendarDate"])
-						[tempAttribute setValueClassName:@"NSDate"];
-				#endif
-			#else
-				#error Max Version not defined and it HAS TO BE
-			#endif                                         
 
 			if ([[dataTypeDict objectForKey:@"isNumber"] intValue])
 			{

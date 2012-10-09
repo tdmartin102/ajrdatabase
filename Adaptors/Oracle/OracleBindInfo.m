@@ -213,7 +213,7 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
 }
 
 
-//---(Private)-- Convert to a DATE buffer fron a NSCalendarDate or NSData if this is 10.6 or better
+//---(Private)-- Convert to a DATE buffer fron a NSCalendarDate or NSDate if this is 10.6 or better
 //  Currently we are using this for TIMESTAMP datatypes as well, which means we are losing the
 //  fractional seconds part for that type.
 - (void)setDateValueForDateBuffer
@@ -228,33 +228,21 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
 		return;
 	}
 
-	//#if MAC_OS_X_VERSION_MAX_ALLOWED > 1060
-		NSDate *aDate = [OracleAdaptor convert:value toValueClassNamed:@"NSDate"];
-		NSDateComponents *dateComponents;
-		NSCalendar *currentCalendar = [NSCalendar currentCalendar];
-		// write time in server time zone
-		[currentCalendar setTimeZone:[attrib serverTimeZone]];
-		NSUInteger	flags;
-		flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit |
-			NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
-		dateComponents = [currentCalendar components:flags fromDate:aDate];
-		y = [dateComponents year];
-		m = [dateComponents month];
-		d = [dateComponents day];
-		h = [dateComponents hour];
-		mi = [dateComponents minute];
-		s = [dateComponents second];
-	//#else
-	//	NSCalendarDate *aDate = [OracleAdaptor convert:value toValueClassNamed:@"NSCalendarDate"];
-	//	// write time in server time zone
-	//	[aDate setTimeZone:[attrib serverTimeZone]];
-	//	y = [aDate yearOfCommonEra];
-	//	m = [aDate monthOfYear];
-	//	d = [aDate dayOfMonth];
-	//	h = [aDate hourOfDay];
-	//	mi = [aDate minuteOfHour];
-	//	s = [aDate secondOfMinute];
-	//#endif
+    NSDate *aDate = [OracleAdaptor convert:value toValueClassNamed:@"NSDate"];
+    NSDateComponents *dateComponents;
+    NSCalendar *currentCalendar = [NSCalendar currentCalendar];
+    // write time in server time zone
+    [currentCalendar setTimeZone:[attrib serverTimeZone]];
+    NSUInteger	flags;
+    flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit |
+        NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+    dateComponents = [currentCalendar components:flags fromDate:aDate];
+    y = [dateComponents year];
+    m = [dateComponents month];
+    d = [dateComponents day];
+    h = [dateComponents hour];
+    mi = [dateComponents minute];
+    s = [dateComponents second];
     // year
 	buffer[0] = (y / 100) + 100;    
 	buffer[1] = (y % 100) + 100;

@@ -448,9 +448,7 @@ NSString *EOAttributeDidChangeNameNotification = @"EOAttributeDidChangeNameNotif
 	if ([valueClassName isEqualToString:@"NSNumber"]) return EOAdaptorNumberType;
 	if ([valueClassName isEqualToString:@"NSDecimalNumber"]) return EOAdaptorNumberType;
 	if ([valueClassName isEqualToString:@"NSData"]) return EOAdaptorBytesType;
-	#if MAC_OS_X_VERSION_MAX_ALLOWED > 1060
 	if ([valueClassName isEqualToString:@"NSDate"]) return EOAdaptorDateType;
-	#endif
 	if ([valueClassName isEqualToString:@"NSCalendarDate"]) return EOAdaptorDateType;
 
 	return -1;

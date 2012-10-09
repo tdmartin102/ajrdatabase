@@ -126,13 +126,13 @@
 
 @end
 
-@interface NSCalendarDate (EOAccessFormatters)
+@interface NSDate (EOAccessFormatters)
 
 + (NSFormatter *)defaultFormatterForAttribute:(EOAttribute *)attribute;
 
 @end
 
-@implementation NSCalendarDate (EOAccessFormatters)
+@implementation NSDate (EOAccessFormatters)
 
 + (NSFormatter *)defaultFormatterForAttribute:(EOAttribute *)attribute
 {

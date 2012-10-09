@@ -38,7 +38,14 @@ http://www.raftis.net/~alex/
 - (id)format:(id)value inAttribute:(EOAttribute *)attribute
 {
 	// Tom Martin 5/13/11  Use single quotes not double.
-	return EOFormat(@"\'%@\'", [(NSCalendarDate *)value descriptionWithCalendarFormat:@"%Y-%m-%d %H:%M:%S %z"]);
+    // Tom Martin 10/9/12  Replace depreciated NSCalendarDate with NSDate methods.
+    NSDateFormatter *aFormatter;
+    NSString *result;
+    
+    aFormatter = [[NSDateFormatter alloc] initWithDateFormat:@"%Y-%m-%d %H:%M:%S %z" allowNaturalLanguage:NO];
+    result = [aFormatter stringFromDate:(NSDate *)value];
+    [aFormatter release];
+    return EOFormat(@"\'%@\'", result);
 }
 
 @end

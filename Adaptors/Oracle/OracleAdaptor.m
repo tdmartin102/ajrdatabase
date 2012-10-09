@@ -416,16 +416,15 @@ static NSMutableDictionary 	*dataTypes = nil;
 			length:[value lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
 		return [result autorelease];
 	}
-	
-    //#if MAC_OS_X_VERSION_MAX_ALLOWED > 1060
-    //    if ([vcn isEqualToString:@"NSDate"] || [vcn isEqualToString:@"NSCalendarDate"])
-    //        return [NSDate dateWithString:value];
-    //#else
-        if ([vcn isEqualToString:@"NSCalendarDate"])
-            return [NSCalendarDate dateWithString:value];
-        if ([vcn isEqualToString:@"NSDate"])
-            return [NSDate dateWithString:value];
-    //#endif
+    if ([vcn isEqualToString:@"NSCalendarDate"])
+        return [NSCalendarDate dateWithString:value];
+    if ([vcn isEqualToString:@"NSDate"])
+    {
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        NSDate *result = [formatter dateFromString:value];
+        [formatter release];
+        return result;
+    }
     
 	return nil;
 }
