@@ -38,10 +38,6 @@ http://www.raftis.net/~alex/
  */
 + (void)makeObjectIntoFault:(id)anObject withHandler:(EOFaultHandler *)aFaultHandler;
 
-+ (id)createObjectFaultWithGlobalID:(EOGlobalID *)globalID inEditingContext:(EOEditingContext *)editingContext;
-
-+ (id)createArrayFaultWithSourceGlobalID:(EOGlobalID *)sourceGlobalID relationshipName:(NSString *)relationshipName inEditingContext:(EOEditingContext *) editingContext;
-
 // mont_rothstein @ yahoo.com 2005-07-11
 // Added method to support re-faulting objects as per 4.5 API.
 + (void)makeObjectIntoFault:(id)anObject withHandler:(EOFaultHandler *)aFaultHandler;

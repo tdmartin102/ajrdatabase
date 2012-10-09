@@ -48,6 +48,7 @@ http://www.raftis.net/~alex/
 #import "EORelationshipP.h"
 // mont_rothstein @ yahoo.com 2005-07-11
 #import "EOObjectFaultHandler.h"
+#import "EOFault-EOAccess.h"
 
 #import <EOControl/EOControl.h>
 #import <EOControl/EONumericKeyGlobalID.h>

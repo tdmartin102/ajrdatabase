@@ -261,7 +261,7 @@
     eoContext = [object editingContext];
 	keys = [self attributeKeys];
     
-    for (key in [self attributeKeys])
+    for (key in keys)
     {
         value = [self primitiveValueForKey:key];
         // NSStrings need special handling becuase empty strings should
@@ -330,8 +330,8 @@
             if (! value)
             {
                 // replace with a fault
-                value = [EOFault createArrayFaultWithSourceGlobalID:globalID 
-                                                   relationshipName:name inEditingContext:eoContext];
+                value = [eoContext arrayFaultWithSourceGlobalID:globalID
+                        relationshipName:name editingContext:eoContext];
             }
             else
             {

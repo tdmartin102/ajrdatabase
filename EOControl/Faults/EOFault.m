@@ -80,23 +80,6 @@ http://www.raftis.net/~alex/
     [anObject autorelease];
 }
 
-
-
-+ (id)createObjectFaultWithGlobalID:(EOGlobalID *)globalID
-                   inEditingContext:(EOEditingContext *)editingContext
-{
-	// Does nothing. Over ridden by a subclass to do the actual work.
-	return nil; 
-}
-
-+ (id)createArrayFaultWithSourceGlobalID:(EOGlobalID *)sourceGlobalID
-                        relationshipName:(NSString *)relationshipName
-                        inEditingContext:(EOEditingContext *) editingContext
-{
-	// Does nothing. Over ridden by a subclass to do the actual work.
-	return nil; 
-}
-
 + (BOOL)isFault:(id)object
 {
 	if (object == nil) return NO;
