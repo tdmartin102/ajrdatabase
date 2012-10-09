@@ -38,7 +38,12 @@ http://www.raftis.net/~alex/
 
 + (EOFetchSpecification *)fetchSpecificationNamed:(NSString *)name entityNamed:(NSString *)aName
 {
-    return [[NSClassDescription classDescriptionForEntityName:aName] fetchSpecificationNamed:name];
+    // Tom.Martin @ Riemer.com  2012-10-9
+    // by calling the EOClassDescription implementation (EOAccess) we will not need to override this
+    // method in EOAccess.  Further, this will STILL work without EOAccess as EOClassDescription is
+    // defined in EOControl but implemented in EOAccess.
+    //return [[NSClassDescription classDescriptionForEntityName:aName] fetchSpecificationNamed:name];
+    return [[EOClassDescription classDescriptionForEntityName:aName] fetchSpecificationNamed:name];
 }
 
 // jean_alexis @ users.sourceforge.net 2005-09-08

@@ -11,7 +11,11 @@
 @class EOEntity;
 
 @interface EOFetchSpecification (Model)
-+ (EOFetchSpecification*) fetchSpecificationNamed: (NSString*)name entityNamed: (NSString*)entityName;
+
+// Tom.Martin @ Riemer.com  2012-10-9
+// The below as a category override of a class method which is not a good idea.  The class method
+// was tweaked so that it should not need to be overridden here.
+//+ (EOFetchSpecification*) fetchSpecificationNamed: (NSString*)name entityNamed: (NSString*)entityName;
 
 - (id)initWithPropertyList:(NSDictionary *)properties owner:(id)owner;
 - (void)encodeIntoPropertyList:(NSMutableDictionary *)properties;
