@@ -35,6 +35,7 @@ http://www.raftis.net/~alex/
 #import "NSObject-EOAccess.h"
 #import "EOModelGroup.h"
 #import "EOArrayFaultHandler.h"
+#import "EOFault-EOAccess.h"
 
 #import <EOControl/EOControl.h>
 
@@ -456,7 +457,7 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 		return [relationship validateValue:valuePointer];
 	}
 	
-	[NSException raise:NSInternalInconsistencyException format:@"Unknown property key (%@) to enterprise object %@ (0x%x)", key, NSStringFromClass([self class]), self];
+	[NSException raise:NSInternalInconsistencyException format:@"Unknown property key (%@) to enterprise object %@ (0x%x)", key, NSStringFromClass([self class]), (unsigned int)self];
 	
 	return nil;
 }
@@ -691,7 +692,7 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 	NSEnumerator *relationshipKeys;
 	NSString *relationshipKey;
 	EODeleteRule deleteRule;
-	NSEnumerator *relatedObjects;
+	NSArray *relatedObjects;
 	NSObject *relatedObject;
 	
 	relationshipKeys = [[self toOneRelationshipKeys] objectEnumerator];
@@ -729,21 +730,25 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 			case  EODeleteRuleNullify :
 				// mont_rothstein @ yahoo.com 2005-06-12
 				// Changed an incorrect objectForKey: to valueForKey:
-				relatedObjects = [[object valueForKey: relationshipKey] objectEnumerator];
-				
-				while (relatedObject = [relatedObjects nextObject])
+                // Tom.Martin @ Riemer.com make a copy of the array so that
+                // it does not change while objects are being removed.
+				//relatedObjects = [[object valueForKey: relationshipKey] objectEnumerator];
+                relatedObjects = [[object valueForKey: relationshipKey] copy];
+				for (relatedObject in relatedObjects)
 				{
 					[object removeObject: relatedObject fromBothSidesOfRelationshipWithKey: relationshipKey];
 				}
+                [relatedObjects release];
 					
 				break;
 			case EODeleteRuleCascade :
-				relatedObjects = [[object valueForKey: relationshipKey] objectEnumerator];
-				
-				while (relatedObject = [relatedObjects nextObject])
+				//relatedObjects = [[object valueForKey: relationshipKey] objectEnumerator];
+                relatedObjects = [[object valueForKey: relationshipKey] copy];
+				for (relatedObject in relatedObjects)
 				{
 					[editingContext deleteObject: relatedObject];
 				}
+                [relatedObjects release];
 					
 				break;
 			case EODeleteRuleDeny :
