@@ -224,7 +224,7 @@ http://www.raftis.net/~alex/
 
 - (NSString *)descriptionWithLocale:(NSDictionary *)locale indent:(unsigned int)indent
 {
-   return [NSString stringWithFormat:@"[EOObjectFault (0x%x): %@]", self, globalID];
+   return [NSString stringWithFormat:@"[EOObjectFault (0x%x): %@]", (unsigned int)self, globalID];
 }
 
 - (Class)faultedClass

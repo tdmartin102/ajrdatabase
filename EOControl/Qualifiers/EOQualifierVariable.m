@@ -65,8 +65,8 @@
 }
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"<%@[0x%08X]: variable=%@>",
-		NSStringFromClass([self class]), self,
+	return [NSString stringWithFormat:@"<%@[0x%08lX]: variable=%@>",
+		NSStringFromClass([self class]), (unsigned long)self,
 		[self key]];
 }
 

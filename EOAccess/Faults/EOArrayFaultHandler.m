@@ -130,7 +130,8 @@ http://www.raftis.net/~alex/
 
 - (NSString *)descriptionWithLocale:(NSDictionary *)locale indent:(unsigned int)indent
 {
-   return [NSString stringWithFormat:@"[EOArrayFault (0x%x): %@, %@]", self, relationshipName, globalID];
+   return [NSString stringWithFormat:@"[EOArrayFault (0x%ux): %@, %@]",
+           (unsigned int)self, relationshipName, globalID];
 }
 
 - (Class)faultedClass

@@ -24,7 +24,7 @@
 - (void)_checkBounds:(NSUInteger)index
 {
 	if (index >= count) {
-		[NSException raise:NSRangeException format:@"Index %d is outside of bounds of array [0..%d]", index, count - 1];
+		[NSException raise:NSRangeException format:@"Index %lu is outside of bounds of array [0..%lu]", (unsigned long)index, (unsigned long)(count - 1)];
 	}
 }
 
