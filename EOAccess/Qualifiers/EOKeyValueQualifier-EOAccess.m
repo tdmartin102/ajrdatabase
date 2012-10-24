@@ -36,6 +36,7 @@ http://www.raftis.net/~alex/
 #import "NSObject-EOAccess.h"
 #import "EOJoin.h"
 
+#import <EOControl/EOFault.h>
 #import <EOControl/EOGenericRecord.h>
 #import <EOControl/NSObject-EOEnterpriseObject.h>
 
@@ -156,7 +157,18 @@ http://www.raftis.net/~alex/
 			if (! first)
 				[sql appendString:@" AND "];
 			first = NO;
-			rValue = [[value snapshot] valueForKey:[[j destinationAttribute] name]];
+            // Tom.Martin @ Riemer.com 2012-10-24
+            // This may or may not be a fault.  If it IS a fault, then there is no snapshot.
+            // The most likely case it that this is to-one relationship.  If so, then
+            // the EOFault can supply the value from the fault without firing as the value
+            // would be part of the primary key.  If this is a to-many, then the fault may have to fire.
+            // In any case, we would get the value from the object not the snapshot.
+            // Note:  I am not certain whether firing a fault at this level is okay.  In
+            // other words, Could this method be called while doing a fetch.  I don't think so.
+            if ([EOFault isFault:value])
+                rValue = [value valueForKey:[[j destinationAttribute] name]];
+            else
+                rValue = [[value snapshot] valueForKey:[[j destinationAttribute] name]];
 			[sql appendString:[expression sqlStringForAttribute:[j sourceAttribute]]];
 			[sql appendString:@" "];
 			[sql appendString:[expression sqlStringForQualifierOperation:EOQualifierEquals value:rValue]];
