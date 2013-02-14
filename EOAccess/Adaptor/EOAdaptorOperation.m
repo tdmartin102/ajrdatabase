@@ -24,6 +24,18 @@
 	return self;
 }
 
+- (void)dealloc
+{
+    [entity release];
+    [qualifier release];
+    [changedValues release];
+    [attributes release];
+    [storedProcedure release];
+    [exception release];
+    // databaseOperation weak refferance;
+    [super dealloc];
+}
+
 // Accessing the entity
 - (EOEntity *)entity
 {
