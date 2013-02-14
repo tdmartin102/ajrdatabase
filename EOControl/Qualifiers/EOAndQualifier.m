@@ -30,19 +30,16 @@ http://www.raftis.net/~alex/
 
 - (id)_initWithQualifier:(EOQualifier *)qualifier andList:(va_list)ap
 {
-	NSMutableArray		*temp ;
 	id					object;
 
 	if (self = [super init])
 	{
-		temp = [[NSMutableArray allocWithZone:[self zone]] initWithObjects:qualifier, nil];
-	   while ((object = va_arg(ap, id))) {
-		  [temp addObject:object];
+		qualifiers = [[NSMutableArray allocWithZone:[self zone]] initWithObjects:qualifier, nil];
+        while ((object = va_arg(ap, id))) {
+            [(NSMutableArray *)qualifiers addObject:object];
 	   }
-	   [self initWithArray:temp];
-	   [temp release];
-	}
-   return self;
+    }
+    return self;
 }
 
 + (EOQualifier *)qualifierWithArray:(NSArray *)someQualifiers
@@ -53,7 +50,7 @@ http://www.raftis.net/~alex/
 + (EOQualifier *)qualifierWithQualifiers:(id)aQualifier, ...
 {
    va_list				ap;
-   id						returnValue;
+   id					returnValue;
 
    va_start(ap, aQualifier);
    returnValue = [[(EOAndQualifier *)[self alloc] _initWithQualifier:aQualifier andList:ap] autorelease];
