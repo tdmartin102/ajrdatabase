@@ -190,6 +190,18 @@ static EOHashObject	*_eofKey = NULL;
 	return self;
 }
 
+- (void)_eoDealloc
+{
+	
+	EOEditingContext *editingContext = [self editingContext];
+	if (editingContext != nil && [editingContext globalIDForObject:self] != nil) {
+		[editingContext forgetObject:self];
+		
+		// Clear the EO's pointer to it's editing context
+		[self _clearInstanceObjects];
+	}
+}
+
 - (void)awakeFromFetchInEditingContext:(EOEditingContext *)editingContext
 {
 	[[self classDescription] awakeObjectFromFetch:self inEditingContext:editingContext];

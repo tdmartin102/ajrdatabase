@@ -36,9 +36,10 @@ Status
 * The EOModeler application code needs work, which is a 
   shame as apparently a ton of work went into it.  As of Jan 17th 2011
   it compiles and runs.  It is pre alpha at this point, but there is
-  quite a bit that is working. I would
-  love to get this working 100% again as anyone that wants to use
-  this will need some sort of working EOModeler application.
+  quite a bit that is working. It works fine for a single model but fails
+  with multiple interelated models.  I would love to get this working 
+  100% again as anyone that wants to use this will need some sort of 
+  working EOModeler application.
   That said, the frameworks will work with any legacy EOModel
   file and most likely work with versions that are more current than
   4.5. 
@@ -53,18 +54,18 @@ Status
   deleted as it should. Adding an object in a to-many does what
   it should even when there is no reverse relationships and all
   foreign key attributes are hidden.
-* As of 8/8/2012 This framework has been in beta testing for
-  3 or 4 weeks and at least for the simple case of using only
-  a single editing context, it is working well with bug fixes
-  as we go.  This is using the Oracle adaptor.
-
+* As of 4/5/2013 This framework has been used in a production
+  environment with extensive usage for over a year. So, at least 
+  for the simple case of using only a single editing context, 
+  it is working well with bug fixes as we go.  This is using 
+  the Oracle adaptor.
 
 Why?
 ----
 
-Because, for me at least, I have over 100 very database intensive 
-applications that are stuck in Tiger because they rely upon Apple 
-EOF 4.5.  Wouldn't it be great, if I could plug in a new framework
+Because, for me at least, I had over 100 very database intensive 
+applications that are were stuck in Tiger because they rely upon Apple 
+EOF 4.5.  I felt it would be great, if I could plug in a new framework
 that replaces EOF and they just need minor tweaks to get them working
 on the current Apple OS?  Further, EOF is rather amazing in many ways
 and I know of nothing available that even comes close to the 
@@ -105,8 +106,10 @@ partially implemented, or not implemented at all.  There are
 API elements that do not conform to the published API.  The
 functionality of EOF is huge and much of this code has not been
 fully tested.  My intent is to get this framework to a point where
-it can be used in a production environment.  It is not ready
-for that at this point.  
+it can be used in a production environment.  I consider this code
+to be Beta.  That said, I feel that it can be cautiously used in a 
+production environment with the understanding that some functionality 
+has never been tested. 
                       
 HELP
 ====
@@ -117,4 +120,4 @@ anyone would want to throw my way!  It needs a lot of work; clean-up,
 optimization, I would love to see a MySQL adaptor, etc. etc.
 
 
--tm May 2012
+-tm May 2013
