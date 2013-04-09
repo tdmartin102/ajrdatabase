@@ -143,12 +143,12 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
 
 - (SEL)getMethodForKey:(NSString *)key
 {
-   _EOSelectorTable	*table = [getMethodCache objectForKey:self->isa];
+   _EOSelectorTable	*table = [getMethodCache objectForKey:object_getClass(self)];
    SEL					selector;
    
    if (table == nil) {
       table = [[_EOSelectorTable alloc] init];
-      [getMethodCache setObject:table forKey:self->isa];
+      [getMethodCache setObject:table forKey:object_getClass(self)];
       [table release];
    }
 
@@ -169,12 +169,12 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
 
 - (SEL)_getMethodForKey:(NSString *)key
 {
-   _EOSelectorTable	*table = [_getMethodCache objectForKey:self->isa];
+   _EOSelectorTable	*table = [_getMethodCache objectForKey:object_getClass(self)];
    SEL					selector;
 
    if (table == nil) {
       table = [[_EOSelectorTable alloc] init];
-      [_getMethodCache setObject:table forKey:self->isa];
+      [_getMethodCache setObject:table forKey:object_getClass(self)];
       [table release];
    }
 
@@ -195,12 +195,12 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
 
 - (SEL)setMethodForKey:(NSString *)key
 {
-   _EOSelectorTable	*table = [setMethodCache objectForKey:self->isa];
+   _EOSelectorTable	*table = [setMethodCache objectForKey:object_getClass(self)];
    SEL					selector;
 
    if (table == nil) {
       table = [[_EOSelectorTable alloc] init];
-      [setMethodCache setObject:table forKey:self->isa];
+      [setMethodCache setObject:table forKey:object_getClass(self)];
       [table release];
    }
 
@@ -221,13 +221,13 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
 
 - (SEL)_setMethodForKey:(NSString *)key
 {
-   _EOSelectorTable	*table = [_setMethodCache objectForKey:self->isa];
+   _EOSelectorTable	*table = [_setMethodCache objectForKey:object_getClass(self)];
    SEL					selector;
 
    if (table == nil) {
 		// Create a hash of the selectors. This avoids undo use of reflection.
       table = [[_EOSelectorTable alloc] init];
-      [_setMethodCache setObject:table forKey:self->isa];
+      [_setMethodCache setObject:table forKey:object_getClass(self)];
       [table release];
    }
 

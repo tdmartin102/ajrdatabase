@@ -45,7 +45,10 @@ http://www.raftis.net/~alex/
         return;
     
     [anObject retain];
-	if (((EOFault *)anObject)->isa != faultClass) 
+    // Tom.Martin @ Riemer.com 2013/4/9
+    // remove direct reference to isa
+    //if( (((EOFault *)anObject)->isa != faultClass)
+    if (object_getClass(anObject) != faultClass)
     {
         // Tom.Martin @ Riemer.com 2012-07-19
         // In order to break the potential retain cycles that exist we
@@ -65,11 +68,11 @@ http://www.raftis.net/~alex/
             [anObject setPrimitiveValue:nil forKey:key];
         }
         
-		[aFaultHandler setSavedClass: ((EOFault *)anObject)->isa];
+		[aFaultHandler setSavedClass:object_getClass(anObject)];
 		[aFaultHandler setSavedIvars: ((EOFault *)anObject)->handler];
 		
-        //object_setClass(anObject, faultClass);
-		((EOFault *)anObject)->isa = faultClass;
+        object_setClass(anObject, faultClass);
+		//((EOFault *)anObject)->isa = faultClass;
 		((EOFault *)anObject)->handler = [aFaultHandler retain];
 	} 
     else 
@@ -85,6 +88,7 @@ http://www.raftis.net/~alex/
 	if (object == nil) return NO;
 	
 	// aclark78@users.sourceforge.org - 2006/10/02
+    
 	//Class isaClass = ((struct objc_class *)object)->isa;
 	// tom.martin @ riemer.com - 2011/09/15
 	//Class isaClass = ((Class)object)->isa;
@@ -93,7 +97,8 @@ http://www.raftis.net/~alex/
 	// Tom.martin @ riemer.com - 2011/12/5
 	// I can not verify that NSKVONotifying_EOFault exists in any context.
 	// it is silly to test for something that does not exist so I am removing it
-	return (((EOFault *)object)->isa == [EOFault class]);
+    //return (((EOFault *)object)->isa == [EOFault class]);
+    return (object_getClass(object) == [EOFault class]);
 }
 
 + (void)clearFault: (EOFault *)aFault

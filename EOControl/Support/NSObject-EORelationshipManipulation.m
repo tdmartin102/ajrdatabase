@@ -10,6 +10,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import <objc/objc-class.h>
+
 @interface NSObject (EOEnterpriseObject) <EOEnterpriseObject>
 @end
 
@@ -37,12 +39,12 @@ static NSMutableDictionary *_eoRemoveMethodCache = nil;
 
 - (SEL)_addMethodForKey:(NSString *)key
 {
-   _EOSelectorTable	*table = [[self _eoAddMethodCache] objectForKey:self->isa];
+   _EOSelectorTable	*table = [[self _eoAddMethodCache] objectForKey:object_getClass(self)];
    SEL					selector;
 	
    if (table == nil) {
       table = [[_EOSelectorTable alloc] init];
-      [_eoAddMethodCache setObject:table forKey:self->isa];
+      [_eoAddMethodCache setObject:table forKey:object_getClass(self)];
       [table release];
    }
 	
@@ -63,12 +65,12 @@ static NSMutableDictionary *_eoRemoveMethodCache = nil;
 
 - (SEL)_removeMethodForKey:(NSString *)key
 {
-   _EOSelectorTable	*table = [[self _eoRemoveMethodCache] objectForKey:self->isa];
+   _EOSelectorTable	*table = [[self _eoRemoveMethodCache] objectForKey:object_getClass(self)];
    SEL					selector;
 	
    if (table == nil) {
       table = [[_EOSelectorTable alloc] init];
-      [_eoRemoveMethodCache setObject:table forKey:self->isa];
+      [_eoRemoveMethodCache setObject:table forKey:object_getClass(self)];
       [table release];
    }
 	

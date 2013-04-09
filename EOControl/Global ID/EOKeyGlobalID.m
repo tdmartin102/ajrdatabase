@@ -123,7 +123,7 @@ http://www.raftis.net/~alex/
 	
    //if (((struct objc_class *)other)->isa == ((struct objc_class *)self)->isa) {
    // tom.martin @ riemer.com -- 2011/09/15
-   if (((Class)other)->isa == ((Class)self)->isa) {
+   if (object_getClass(other) ==  object_getClass(self)) {
       EOKeyGlobalID    *trueOther = other;
       int                     x;
 
