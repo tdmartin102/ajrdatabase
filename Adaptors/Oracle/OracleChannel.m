@@ -345,7 +345,9 @@ mailto:tom.martin@riemer.com
       [NSException raise:EODatabaseException format:@"The database connection has already been closed."];
 	  
 	// shutdown the session
-	OCISessionEnd([(OracleContext *)adaptorContext serviceContexthp], errhp, sessionhp, [OracleAdaptor ociMode]);
+	status = OCISessionEnd([(OracleContext *)adaptorContext serviceContexthp], errhp, sessionhp, [OracleAdaptor ociMode]);
+    
+    [self checkStatus];
 	
 	// free our handles
 	OCIHandleFree((dvoid *) errhp, OCI_HTYPE_ERROR);

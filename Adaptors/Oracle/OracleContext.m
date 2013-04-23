@@ -193,6 +193,7 @@ mailto:tom.martin@riemer.com
 	{
 		status = OCIServerDetach(serverhp, errhp, [OracleAdaptor ociMode]);
 		[self checkStatus];
+        attached = NO;
 	}
 }
 
