@@ -165,15 +165,22 @@ http://www.raftis.net/~alex/
             // In any case, we would get the value from the object not the snapshot.
             // Note:  I am not certain whether firing a fault at this level is okay.  In
             // other words, Could this method be called while doing a fetch.  I don't think so.
+            //
+            // Tom.Martin @ Riemer.com 2013-06-14
+            // This was hard coded to use the equals operator.  There are only really two
+            // things you could use  attrib = %@ and attrib != %@ or even attrib is null I suppose
+            // this should work for the first two.  This was failing on attrib != %@ and silently
+            // translating that to '='.  This of course is a very bad thing.
             if ([EOFault isFault:value])
                 rValue = [value valueForKey:[[j destinationAttribute] name]];
             else
                 rValue = [[value snapshot] valueForKey:[[j destinationAttribute] name]];
 			[sql appendString:[expression sqlStringForAttribute:[j sourceAttribute]]];
 			[sql appendString:@" "];
-			[sql appendString:[expression sqlStringForQualifierOperation:EOQualifierEquals value:rValue]];
+			[sql appendString:[expression sqlStringForQualifierOperation:operation value:rValue]];
 			[sql appendString:@" "];
-			[sql appendString:[expression sqlStringForValue:rValue withQualifierOperation:EOQualifierEquals inAttribute:[j destinationAttribute]]];
+			[sql appendString:[expression sqlStringForValue:rValue withQualifierOperation:operation
+                                                inAttribute:[j destinationAttribute]]];
 
 		}
 		if (count != 1) [sql appendString:@")"];
