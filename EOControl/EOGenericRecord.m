@@ -49,12 +49,6 @@ static NSMutableDictionary *_setMethodCache = nil;
 
 NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNotification";
 
-@interface EOGenericRecord (Private)
-
-- (EOGlobalID *)globalID;
-
-@end
-
 
 @interface NSObject (EOPrivate) 
 
@@ -62,6 +56,10 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
 
 @end
 
+@interface EOGenericRecord (Private)
+- (EOGlobalID *)globalID;
+
+@end
 
 @implementation EOGenericRecord
 

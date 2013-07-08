@@ -43,7 +43,6 @@
 #import <EOControl/NSArray-EO.h>
 #import <EOControl/NSClassDescription-EO.h>
 #import <EOControl/NSException-EO.h>
-#import <EOControl/NSObject-EO.h>
 #import <EOControl/NSObject-EOEnterpriseObject.h>
 #import <EOControl/NSObject-EORelationshipManipulation.h>
 #import <EOControl/NSObject-EOValidation.h>

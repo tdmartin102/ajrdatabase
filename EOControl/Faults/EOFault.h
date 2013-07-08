@@ -36,7 +36,6 @@ http://www.raftis.net/~alex/
 /*!
  * Creates a to-one object fault.
  */
-+ (void)makeObjectIntoFault:(id)anObject withHandler:(EOFaultHandler *)aFaultHandler;
 
 // mont_rothstein @ yahoo.com 2005-07-11
 // Added method to support re-faulting objects as per 4.5 API.

@@ -11,6 +11,7 @@
 #import "EOLog.h"
 #import "NSArray-EO.h"
 #import "NSClassDescription-EO.h"
+#import "EOFormat.h"
 
 #import <Foundation/Foundation.h>
 
@@ -524,7 +525,7 @@ static EOHashObject	*_eofKey = NULL;
 
 - (NSString *)eoDescriptionWithLocale:(NSDictionary *)locale indent:(unsigned int)indent
 {
-   return [self description];
+   return EOFormat(@"<%@ (%p): %@>", [self entityName], self, [self globalID]);
 }
 
 - (NSString *)eoDescription
@@ -534,7 +535,7 @@ static EOHashObject	*_eofKey = NULL;
 
 - (NSString *)eoShallowDescriptionWithLocale:(NSDictionary *)locale indent:(unsigned int)indent
 {
-   return [self description];
+   return [self eoDescription];
 }
 
 - (NSString *)eoShallowDescription
@@ -544,7 +545,7 @@ static EOHashObject	*_eofKey = NULL;
 
 - (NSString *)userPresentableDescription
 {
-	return [self description];
+	return [self eoDescription];
 }
 
 - (EOGlobalID *)globalID

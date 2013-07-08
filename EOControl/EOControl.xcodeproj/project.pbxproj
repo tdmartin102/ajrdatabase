@@ -79,8 +79,6 @@
 		FAC10B15073F037F00744E1E /* EOValidation.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC10B11073F037F00744E1E /* EOValidation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FAC10B2C073F03ED00744E1E /* NSException-EO.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC10B22073F03ED00744E1E /* NSException-EO.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FAC10B2D073F03ED00744E1E /* NSException-EO.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC10B23073F03ED00744E1E /* NSException-EO.m */; };
-		FAC10B2E073F03ED00744E1E /* NSObject-EO.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC10B24073F03ED00744E1E /* NSObject-EO.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FAC10B2F073F03ED00744E1E /* NSObject-EO.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC10B25073F03ED00744E1E /* NSObject-EO.m */; };
 		FAC10B30073F03ED00744E1E /* NSObject-EOEnterpriseObject.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC10B26073F03ED00744E1E /* NSObject-EOEnterpriseObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FAC10B31073F03ED00744E1E /* NSObject-EOEnterpriseObject.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC10B27073F03ED00744E1E /* NSObject-EOEnterpriseObject.m */; };
 		FAC10B32073F03ED00744E1E /* NSObject-EORelationshipManipulation.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC10B28073F03ED00744E1E /* NSObject-EORelationshipManipulation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -198,8 +196,6 @@
 		FAC10B11073F037F00744E1E /* EOValidation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOValidation.h; sourceTree = "<group>"; };
 		FAC10B22073F03ED00744E1E /* NSException-EO.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NSException-EO.h"; sourceTree = "<group>"; };
 		FAC10B23073F03ED00744E1E /* NSException-EO.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "NSException-EO.m"; sourceTree = "<group>"; };
-		FAC10B24073F03ED00744E1E /* NSObject-EO.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NSObject-EO.h"; sourceTree = "<group>"; };
-		FAC10B25073F03ED00744E1E /* NSObject-EO.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "NSObject-EO.m"; sourceTree = "<group>"; };
 		FAC10B26073F03ED00744E1E /* NSObject-EOEnterpriseObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NSObject-EOEnterpriseObject.h"; sourceTree = "<group>"; };
 		FAC10B27073F03ED00744E1E /* NSObject-EOEnterpriseObject.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = "NSObject-EOEnterpriseObject.m"; sourceTree = "<group>"; };
 		FAC10B28073F03ED00744E1E /* NSObject-EORelationshipManipulation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "NSObject-EORelationshipManipulation.h"; sourceTree = "<group>"; };
@@ -421,8 +417,6 @@
 				FAC10C13073F092A00744E1E /* NSClassDescription-EO.m */,
 				FAC10B22073F03ED00744E1E /* NSException-EO.h */,
 				FAC10B23073F03ED00744E1E /* NSException-EO.m */,
-				FAC10B24073F03ED00744E1E /* NSObject-EO.h */,
-				FAC10B25073F03ED00744E1E /* NSObject-EO.m */,
 				FAC10B26073F03ED00744E1E /* NSObject-EOEnterpriseObject.h */,
 				FAC10B27073F03ED00744E1E /* NSObject-EOEnterpriseObject.m */,
 				70C847A9076533B600E8C6EA /* NSObject-EOEnterpriseObjectP.h */,
@@ -487,7 +481,6 @@
 				FAC10B13073F037F00744E1E /* EOSortOrdering.h in Headers */,
 				FAC10B15073F037F00744E1E /* EOValidation.h in Headers */,
 				FAC10B2C073F03ED00744E1E /* NSException-EO.h in Headers */,
-				FAC10B2E073F03ED00744E1E /* NSObject-EO.h in Headers */,
 				FAC10B30073F03ED00744E1E /* NSObject-EOEnterpriseObject.h in Headers */,
 				FAC10B32073F03ED00744E1E /* NSObject-EORelationshipManipulation.h in Headers */,
 				FAC10B34073F03ED00744E1E /* NSObject-EOValidation.h in Headers */,
@@ -608,7 +601,6 @@
 				FAC10B05073F034100744E1E /* EOGenericRecord.m in Sources */,
 				FAC10B14073F037F00744E1E /* EOSortOrdering.m in Sources */,
 				FAC10B2D073F03ED00744E1E /* NSException-EO.m in Sources */,
-				FAC10B2F073F03ED00744E1E /* NSObject-EO.m in Sources */,
 				FAC10B31073F03ED00744E1E /* NSObject-EOEnterpriseObject.m in Sources */,
 				FAC10B33073F03ED00744E1E /* NSObject-EORelationshipManipulation.m in Sources */,
 				FAC10B35073F03ED00744E1E /* NSObject-EOValidation.m in Sources */,
@@ -656,6 +648,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -681,6 +674,7 @@
 		707D5ABC0955EADE00ADB2F1 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
@@ -706,6 +700,7 @@
 		707D5ABD0955EADE00ADB2F1 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;

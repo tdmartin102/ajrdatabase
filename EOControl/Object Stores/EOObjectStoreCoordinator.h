@@ -27,9 +27,6 @@ extern NSString *EOCooperatingObjectStoreNeeded;
 - (void)removeCooperatingObjectStore:(EOCooperatingObjectStore *)store;
 - (NSArray *)cooperatingObjectStores;
 
-// Saving changes
-- (void)saveChangesInEditingContext:(EOEditingContext *)anEditingContext;
-
 // Communication between EOCooperatingObjectStores
 - (void)forwardUpdateForObject:(id)object changes:(NSDictionary *)changes;
 - (NSDictionary *)valuesForKeys:(NSArray *)keys object:(id)object;

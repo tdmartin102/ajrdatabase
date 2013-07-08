@@ -45,7 +45,6 @@ http://www.raftis.net/~alex/
 
 - (Class)faultedClass;
 - (EOGlobalID *)globalID;
-- (BOOL)respondsToSelector:(SEL)aSelector forFault:(id)aFault;
 
 #if !defined(STRICT_EOF)
 - (void)setRestrictingQualifier:(EOQualifier *)qualifier;

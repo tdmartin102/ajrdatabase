@@ -219,7 +219,6 @@ extern NSString *EOEditingContextDidSaveChangesNotification;
 
 // EOUtilities
 - (id)faultForGlobalID:(EOGlobalID *)anId;
-- (id)objectForGlobalID:(EOGlobalID *)anId;
 
 @end
 
