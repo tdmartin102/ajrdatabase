@@ -45,4 +45,7 @@ http://www.raftis.net/~alex/
 + (void)setFaultHandler:(EOFaultHandler *)faultHandler forFault:(id)object;
 
 + (void)clearFault: (EOFault *)aFault;
+
+- (NSString *)eoShallowDescriptionWithLocale:(NSDictionary *)locale indent:(unsigned int)indent;
+- (NSString *)eoShallowDescription;
 @end

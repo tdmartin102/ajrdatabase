@@ -130,6 +130,16 @@ http://www.raftis.net/~alex/
    return [self descriptionWithLocale:nil indent:0];
 }
 
+- (NSString *)eoShallowDescriptionWithLocale:(NSDictionary *)locale indent:(unsigned int)indent
+{
+    return [self descriptionWithLocale:locale indent:indent];
+}
+
+- (NSString *)eoShallowDescription
+{
+	return [self eoShallowDescriptionWithLocale:nil indent:0];
+}
+
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
 {
    return [[handler faultedClass] instanceMethodSignatureForSelector:aSelector];
