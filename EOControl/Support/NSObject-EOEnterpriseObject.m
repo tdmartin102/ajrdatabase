@@ -11,6 +11,7 @@
 #import "EOLog.h"
 #import "NSArray-EO.h"
 #import "NSClassDescription-EO.h"
+#import "EOFault.h"
 #import "EOFormat.h"
 
 #import <Foundation/Foundation.h>
@@ -525,7 +526,66 @@ static EOHashObject	*_eofKey = NULL;
 
 - (NSString *)eoDescriptionWithLocale:(NSDictionary *)locale indent:(unsigned int)indent
 {
-   return EOFormat(@"<%@ (%p): %@>", [self entityName], self, [self globalID]);
+    NSMutableString *result;
+    NSMutableString *i;
+    NSString *name;
+    NSClassDescription	*description = [self classDescription];
+    id value;
+    NSString *d;
+    i = [NSMutableString stringWithCapacity:100];
+    NSDictionary *snapshot = [description snapshotForObject:self];
+    
+    while (indent--)
+        [i appendString:@"    "];
+
+    // self
+    result = [NSMutableString stringWithCapacity:1000];
+    [result appendString:i];
+    [result appendString:@"{\n"];
+    [result appendString:i];
+    [result appendString:@"    self = "];
+    [result appendString:[self eoShallowDescriptionWithLocale:nil indent:0]];
+    [result appendString:@"\n"];
+    
+    // values
+    [result appendString:i];
+    [result appendString:@"    values = {\n"];
+    for (name in [description attributeKeys])
+    {
+        [result appendFormat:@"        %@ = %@;\n", name, [snapshot valueForKey:name]];
+    }
+    
+    // to one
+    for (name in [description toOneRelationshipKeys])
+    {
+        value = [snapshot valueForKey:name];
+        if (value == nil || value == [NSNull null])
+            d = @"<null>";
+        else
+            d = [value eoShallowDescriptionWithLocale:nil indent:0];
+        [result appendString:i];
+        [result appendFormat:@"        %@ (toOne) = %@;\n", name, d];
+    }
+    
+	// to many
+    for (name in [description toManyRelationshipKeys])
+    {
+        value = [snapshot valueForKey:name];
+        if (value == nil || value == [NSNull null])
+            d = @"<null>";
+        else if ([EOFault isFault:value])
+            d = [value eoShallowDescriptionWithLocale:nil indent:0];
+        else
+            d = [NSString stringWithFormat:@"(count = %ld)", (long)[(NSArray *)value count]];
+        [result appendFormat:@"        %@ (toMany) = %@;\n", name, d];
+    }
+
+    [result appendString:i];
+    [result appendString:@"    };\n"];
+    [result appendString:i];
+    [result appendString:@"}"];
+        
+    return result;
 }
 
 - (NSString *)eoDescription
@@ -535,7 +595,19 @@ static EOHashObject	*_eofKey = NULL;
 
 - (NSString *)eoShallowDescriptionWithLocale:(NSDictionary *)locale indent:(unsigned int)indent
 {
-   return [self eoDescription];
+    NSMutableString *result;
+    NSString *d;
+    NSString *i = @"    ";
+    result = [NSMutableString stringWithCapacity:100];
+    d = EOFormat(@"<%@[%@](%p): %@",  NSStringFromClass([self class]), [self entityName], self, [self globalID]);
+    while (indent)
+    {
+        [result appendString:i];
+        --indent;
+    }
+    [result appendString:d];
+    
+    return result;
 }
 
 - (NSString *)eoShallowDescription
