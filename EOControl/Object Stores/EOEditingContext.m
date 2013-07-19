@@ -1320,6 +1320,11 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 		// Note that we don't unregister the object. That'll happen after the save, since we're still concerned about the object up to the point where it will no longer exist in the database.
 	}
     
+    // Tom.Martin @ riemer.com 2013-07-19
+    // The deleted object might be a fault. In order to delete it later on we will need a snapshot
+    // may as well fire the fault here and generate that snapshot as this is a pretty safe place to do that.
+    [object self];
+    
 	[deletedQueue setObject:object forKey:globalID];
 	[deletedCache removeAllObjects]; // Invalidate cache.
 	
