@@ -1062,7 +1062,7 @@ mailto:tom.martin@riemer.com
 	return tableNames;
 }
 
-- (EOAttribute *)_newAttributeFoName:(NSString *)colName type:(NSString *)colType 
+- (EOAttribute *)_attributeForName:(NSString *)colName type:(NSString *)colType
                                 len:(int)dataLen scale:(int)dataScale precision:(int)dataPrecision
                                 allowNull:(BOOL)allowNull
 {
@@ -1194,7 +1194,7 @@ mailto:tom.martin@riemer.com
             dataScale = [[row objectForKey:@"Attribute4"] intValue];
         }
         
-        attribute = [self _newAttributeFoName:colName type:colType 
+        attribute = [self _attributeForName:colName type:colType
                                 len:dataLen scale:dataScale precision:dataPrecision
                                 allowNull:nullable];  				
         [entity addAttribute:attribute];
