@@ -12,9 +12,6 @@
 - (void)awakeFromFetchInEditingContext:(EOEditingContext *)editingContext;
 - (void)awakeFromInsertionInEditingContext:(EOEditingContext *)editingContext;
 
-// Announcing changes
-- (void)willChange;
-
 // Getting an object's EOEditingContext
 - (EOEditingContext *)editingContext;
 
@@ -62,5 +59,19 @@
 - (NSString *)eoDescription;
 - (NSString *)eoShallowDescription;
 - (NSString *)userPresentableDescription;
+
+@end
+
+
+@interface EOEnterpriseObject :NSObject  <EOEnterpriseObject> {
+    EOEditingContext *editingContext;
+}
+
+// mont_rothstein @ yahoo.com 2005-01-14
+// Added support for the EO's to keep a pointer to their editing context rather
+// than having AJRUserInfo do it.
+// Private
+- (void)_clearInstanceObjects;
+- (void)_setEditingContext:(EOEditingContext *)editingContext;
 
 @end
