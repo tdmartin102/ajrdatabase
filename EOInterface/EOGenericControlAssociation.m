@@ -99,15 +99,17 @@
     }
 }
 
-- (void)control:(NSControl *)sender didFailToFormatString:(NSString *)string errorDescription:(NSString *)desc
+- (BOOL)control:(NSControl *)sender didFailToFormatString:(NSString *)string errorDescription:(NSString *)desc
 {
     //Not sure about this
+    BOOL result = NO;
     if ([self shouldEndEditingForAspect:@"value" invalidInput:string errorDescription:desc]) {
         [self endEditing];
     }
     if ([controlDelegate respondsToSelector:@selector(control:didFailToFormatString:errorDescription:)]) {
-        [controlDelegate control:sender didFailToFormatString:string errorDescription:desc];
+        result = [controlDelegate control:sender didFailToFormatString:string errorDescription:desc];
     }
+    return result;
 }
 
 - (void)subjectChanged
