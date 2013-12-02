@@ -108,6 +108,11 @@ http://www.raftis.net/~alex/
 	return savedClass;
 }
 
+- (EOEditingContext *)editingContext
+{
+    return editingContext;
+}
+
 /*
  * Checking class information
  */

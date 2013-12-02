@@ -48,4 +48,6 @@ http://www.raftis.net/~alex/
 
 - (NSString *)eoShallowDescriptionWithLocale:(NSDictionary *)locale indent:(unsigned int)indent;
 - (NSString *)eoShallowDescription;
+- (EOEditingContext *)editingContext;
+
 @end

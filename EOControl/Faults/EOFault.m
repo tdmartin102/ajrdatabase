@@ -29,6 +29,7 @@ http://www.raftis.net/~alex/
 #import "EOFaultHandler.h"
 #import "EOGlobalID.h"
 #import "NSObject-EOEnterpriseObject.h"
+#import "EOEditingContext.h"
 
 #import <objc/objc.h>
 #import <objc/objc-api.h>
@@ -186,8 +187,24 @@ http://www.raftis.net/~alex/
 
 - (void)dealloc
 {
+    EOEditingContext *aContext;
+    
 /*! @todo This should be using the clearFault: class method per the WO 4.5 API */
 	//jean_alexis @ sourceforge.net 2005-23-11 done
+    
+    // tom.martin @ riemer.com 2013-12-2
+    // We need to make the editing context forget this object
+    // and we need to do that BEFORE it is cleared.
+    // If clearFault changed the fault back to an EOEnterpriseObject
+    // then the EOEnterpriseObject dealloc implementation will try to remove it
+    // but if the clear does NOT change it, then it will NOT get removed, so do it
+    // here and now.  It will do no harm to try to remove it from the edtingContext
+    // twice.
+    aContext = [[self editingContext] retain];
+    if (aContext != nil && [aContext globalIDForObject:self] != nil)
+        [aContext forgetObject:self];
+    [aContext release];
+
 	[EOFault clearFault:self];
    
 	if ([EOFault isFault: self]) {
@@ -340,6 +357,11 @@ http://www.raftis.net/~alex/
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
 	return [handler respondsToSelector:aSelector forFault:self];
+}
+
+- (EOEditingContext *)editingContext
+{
+    return [handler editingContext];
 }
 
 @end
