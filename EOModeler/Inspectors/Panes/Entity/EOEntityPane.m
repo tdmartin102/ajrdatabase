@@ -97,7 +97,7 @@
 	}
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
 	EOEntity		*entity = [self selectedEntity];
 	NSArray		*attributes = [entity attributes];

@@ -42,7 +42,7 @@
 	return [[[self model] storedProcedures] count];
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
 	EOStoredProcedure	*procedure = [[[self model] storedProcedures] objectAtIndex:rowIndex];
 	NSString				*ident = [aTableColumn identifier];
