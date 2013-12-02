@@ -1159,7 +1159,7 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
 		// to revert updated objects back to there last committed values.
         //	[objectStore invalidateAllObjects];
 		NSEnumerator *updatedObjectsEnumerator;
-		NSObject *nextUpdatedObject;
+		NSObject <EOEnterpriseObject> *nextUpdatedObject;
 		NSDictionary *committedSnapshot;
         NSDictionary *snapshot;
 
