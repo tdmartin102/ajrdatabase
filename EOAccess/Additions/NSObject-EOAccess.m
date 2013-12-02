@@ -34,20 +34,20 @@
 // I am changing this a bit as the internals for objects are now opaque.  
 // Same idea though, implemented in the same way.
 // declare the method here so the compilier knows about it.
-@interface NSObject (EOAccessPrivateParts)
-- (void)_eofNSObjectDealloc;
-@end
+//@interface NSObject (EOAccessPrivateParts)
+//- (void)_eofNSObjectDealloc;
+//@end
 
-@implementation NSObject (EOAccess)
+@implementation EOEnterpriseObject (EOAccess)
 
 // mont_rothstein @ yahoo.com 2005-01-08
 // Here we save NSObject's dealloc method and point to our own alternate dealloc, which
 // will in turn call the original dealloc.
-+ (void)load
-{
-	Method		originalMethod;
-	Method		ourMethod;
-	originalMethod = class_getInstanceMethod([NSObject class], @selector(dealloc));
+//+ (void)load
+//{
+//	Method		originalMethod;
+//	Method		ourMethod;
+//	originalMethod = class_getInstanceMethod([NSObject class], @selector(dealloc));
 	
 	// Tom.Martin @ Riemer.com - 2011-09-18
 	// I am changing this a bit as the internals for objects are now opaque.  
@@ -57,10 +57,9 @@
 	// but that could be handled as well.  Should look into this.
 	//_eofSavedDealloc = (void (*)(id, SEL))originalMethod->method_imp;
 	//originalMethod->method_imp = [NSObject instanceMethodForSelector:@selector(_eofNSObjectDealloc)];
-	ourMethod = class_getInstanceMethod([NSObject class], @selector(_eofNSObjectDealloc));
-	method_exchangeImplementations(originalMethod, ourMethod);
-
-}
+//	ourMethod = class_getInstanceMethod([NSObject class], @selector(_eofNSObjectDealloc));
+//	method_exchangeImplementations(originalMethod, ourMethod);
+//}
 
 - (NSDictionary *)primaryKey
 {
@@ -102,27 +101,27 @@
 // This method is pointed to in +load as a replacement for the standard dealloc.
 // This allows EOs to tell their editing context to release them.  We then call
 // the original dealloc.
-- (void)_eofNSObjectDealloc
-{
+//- (void)_eofNSObjectDealloc
+//{
 	// Only do this if our class description is an EOEntityClassDescription
 	// 2005-05-13 AJR Changed this to check against a nil editingContext, because the attempt at getting the class description was causing IB to dead lock on start up. Also, this should be a faster check than looking up the class description for all objects. On top of that, it should be a sufficient check, since, after all, we're just cleaning ourself out of our editing context, so we only need to do this is we are an editing context.
-	EOEditingContext *editingContext = [self editingContext];
-	if (editingContext != nil && [editingContext globalIDForObject:self] != nil) {
-		if (EOMemoryDebug) [EOLog logDebugWithFormat:@"- [%@ (%p) dealloc]\n", [(id)self className], self];
+//	EOEditingContext *editingContext = [self editingContext];
+//	if (editingContext != nil && [editingContext globalIDForObject:self] != nil) {
+//		if (EOMemoryDebug) [EOLog logDebugWithFormat:@"- [%@ (%p) dealloc]\n", [(id)self className], self];
 		
-		[editingContext forgetObject:self];
+//		[editingContext forgetObject:self];
 		
 		// Clear the EO's pointer to it's editing context
-		[self _clearInstanceObjects];
-	}
+//		[self _clearInstanceObjects];
+//	}
 	
 	// Calls NSObjects's original dealloc
 	// Tom.Martin @ Riemer.com 2011-09-18
 	// change the call to be more OBJ-C like.
 	//_eofSavedDealloc(self, @selector(dealloc));
 	// This is NOT recursive since msg_send will reslove this call to the original dealloc
-	[self _eofNSObjectDealloc];
-}
+//	[self _eofNSObjectDealloc];
+//}
 
 @end
 
