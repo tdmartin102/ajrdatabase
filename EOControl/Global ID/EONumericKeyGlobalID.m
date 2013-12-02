@@ -58,7 +58,12 @@ http://www.raftis.net/~alex/
 		   // mont_rothstein @ yahoo.com 2004-12-03
 		   // If the value at someValues[x] is nil, then we need to return nil because there isn't
 		   // enough data to create the global ID.  This happens when there is a NULL in the database.
-		   if (someValues[x] == nil) return nil;
+		   if (someValues[x] == nil)
+           {
+               [self release];
+               self = nil;
+               return nil;
+           }
 		   values[x] = [someValues[x] unsignedLongLongValue];
 		  keys[x] = [primaryKeys[x] retain];
 			if (x == 0) {
