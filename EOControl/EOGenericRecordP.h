@@ -3,7 +3,8 @@
 
 @interface EOGenericRecord (EOPrivate)
 
-- (void)_setEditingContext:(EOEditingContext *)aContext;
+// Tom.martin@Riemer.com  THis now inherits this method
+//- (void)_setEditingContext:(EOEditingContext *)aContext;
 // mont_rothstein @ yahoo.com 2004-12-05
 // Commented this out because we should be getting the globalID from the editingContext.
 //- (void)_setGlobalID:(EOGlobalID *)aGlobalID;

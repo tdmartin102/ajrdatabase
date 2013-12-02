@@ -25,13 +25,14 @@ http://www.raftis.net/~alex/
  *%*%*%*%*/
 
 #import <Foundation/Foundation.h>
+#import "EOEnterpriseObject.h"
 
 @class EOEntity, EOGlobalID, EOEditingContext;
 
 extern NSString *EOValidationException;
 extern NSString *EOObjectDidUpdateGlobalIDNotification;
 
-@interface EOGenericRecord : NSObject
+@interface EOGenericRecord :EOEnterpriseObject
 {
 	// mont_rothstein @ yahoo.com 2005-02-25
 	// _entityName has to be stored here because otherwise there is no way to know
@@ -43,9 +44,7 @@ extern NSString *EOObjectDidUpdateGlobalIDNotification;
 	// mont_rothstein @ yahoo.com 2004-12-05
 	// Commented this out because we should be getting the globalID from the editingContext.
 	//   EOGlobalID				*_globalID;
-	
-	EOEditingContext		*_editingContext;
-	
+		
 	BOOL						_isDeallocating:1;
 	unsigned int			_padding:31;
 }
