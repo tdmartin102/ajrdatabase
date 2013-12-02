@@ -27,12 +27,12 @@ int EODefaultFetchLimit = 0;
 
 - (id)init
 {
-	[super init];
-	
-	fetchLimit = EODefaultFetchLimit;
-	localKeys = [[NSMutableArray allocWithZone:[self zone]] init];
-	insertedObjectDefaultValues = [[NSDictionary allocWithZone:[self zone]] init];
-	
+	if ((self = [super init]))
+    {
+        fetchLimit = EODefaultFetchLimit;
+        localKeys = [[NSMutableArray allocWithZone:[self zone]] init];
+        insertedObjectDefaultValues = [[NSDictionary allocWithZone:[self zone]] init];
+	}
 	return self;
 }
 
@@ -805,55 +805,56 @@ int EODefaultFetchLimit = 0;
 
 - (id)initWithCoder:(NSCoder *)coder
 {
-   int      version = [coder versionForClassName:NSStringFromClass([self class])];
+    int      version = [coder versionForClassName:NSStringFromClass([self class])];
 		
-	[super initWithCoder:coder];
+	if ((self = [super initWithCoder:coder]))
+    {
+        if ([coder allowsKeyedCoding]) {
+            qualifier = [[coder decodeObjectForKey:@"qualifier"] retain];
+            fetchLimit = [coder decodeIntForKey:@"fetchLimit"];
+            localKeys = [[coder decodeObjectForKey:@"localKeys"] retain];
+            dataSource = [[coder decodeObjectForKey:@"dataSource"] retain];
+            if (version >= 2) {
+                // Remember, delegates aren't retained.
+                delegate = [coder decodeObjectForKey:@"delegate"];
+            }
+            if (version >= 3) {
+                defaultStringMatchFormat = [[coder decodeObjectForKey:@"defaultStringMatchFormat"] retain];
+                defaultStringMatchOperator = [[coder decodeObjectForKey:@"defaultStringMatchOperator"] retain];
+                queryBindingValues = [[coder decodeObjectForKey:@"queryBindingValues"] retain];
+                queryOperatorValues = [[coder decodeObjectForKey:@"queryOperatorValues"] retain];
+                insertedObjectDefaultValues = [[coder decodeObjectForKey:@"insertedObjectDefaultValues"] retain];
+                fetchesOnLoad = [coder decodeBoolForKey:@"fetchesOnLoad"];
+                selectsFirstObjectAfterFetch = [coder decodeBoolForKey:@"selectsFirstObjectAfterFetch"];
+                usesOptimisticRefresh = [coder decodeBoolForKey:@"usesOptimisticRefresh"];
+                validatesChangesImmediately = [coder decodeBoolForKey:@"validatesChangesImmediately"];
+            }
+        } else {
+            qualifier = [[coder decodeObject] retain];
+            [coder decodeValueOfObjCType:@encode(int) at:&fetchLimit];
+            localKeys = [[coder decodeObject] retain];
+            dataSource = [[coder decodeObject] retain];
+            if (version >= 2) {
+                // Remember, delegates aren't retained.
+                delegate = [coder decodeObject];
+            }
+            if (version >= 3) {
+                BOOL tempBool;
+                
+                defaultStringMatchFormat = [[coder decodeObject] retain];
+                defaultStringMatchOperator = [[coder decodeObject] retain];
+                queryBindingValues = [[coder decodeObject] retain];
+                queryOperatorValues = [[coder decodeObject] retain];
+                insertedObjectDefaultValues = [[coder decodeObject] retain];
+                [coder decodeValueOfObjCType:@encode(BOOL) at:&tempBool]; fetchesOnLoad = tempBool;
+                [coder decodeValueOfObjCType:@encode(BOOL) at:&tempBool]; selectsFirstObjectAfterFetch = tempBool;
+                [coder decodeValueOfObjCType:@encode(BOOL) at:&tempBool]; usesOptimisticRefresh = tempBool;
+                [coder decodeValueOfObjCType:@encode(BOOL) at:&tempBool]; validatesChangesImmediately = tempBool;
+            }
+        }
+    }
 	
-	if ([coder allowsKeyedCoding]) {
-		qualifier = [[coder decodeObjectForKey:@"qualifier"] retain];
-		fetchLimit = [coder decodeIntForKey:@"fetchLimit"];
-		localKeys = [[coder decodeObjectForKey:@"localKeys"] retain];
-		dataSource = [[coder decodeObjectForKey:@"dataSource"] retain];
-		if (version >= 2) {
-			// Remember, delegates aren't retained.
-			delegate = [coder decodeObjectForKey:@"delegate"];
-		}
-		if (version >= 3) {
-			defaultStringMatchFormat = [[coder decodeObjectForKey:@"defaultStringMatchFormat"] retain];
-			defaultStringMatchOperator = [[coder decodeObjectForKey:@"defaultStringMatchOperator"] retain];
-			queryBindingValues = [[coder decodeObjectForKey:@"queryBindingValues"] retain];
-			queryOperatorValues = [[coder decodeObjectForKey:@"queryOperatorValues"] retain];
-			insertedObjectDefaultValues = [[coder decodeObjectForKey:@"insertedObjectDefaultValues"] retain];
-			fetchesOnLoad = [coder decodeBoolForKey:@"fetchesOnLoad"];
-			selectsFirstObjectAfterFetch = [coder decodeBoolForKey:@"selectsFirstObjectAfterFetch"];
-			usesOptimisticRefresh = [coder decodeBoolForKey:@"usesOptimisticRefresh"];
-			validatesChangesImmediately = [coder decodeBoolForKey:@"validatesChangesImmediately"];
-		}
-	} else {
-		qualifier = [[coder decodeObject] retain];
-		[coder decodeValueOfObjCType:@encode(int) at:&fetchLimit];
-		localKeys = [[coder decodeObject] retain];
-		dataSource = [[coder decodeObject] retain];
-		if (version >= 2) {
-			// Remember, delegates aren't retained.
-			delegate = [coder decodeObject];
-		}
-		if (version >= 3) {
-			BOOL tempBool;
-			
-			defaultStringMatchFormat = [[coder decodeObject] retain];
-			defaultStringMatchOperator = [[coder decodeObject] retain];
-			queryBindingValues = [[coder decodeObject] retain];
-			queryOperatorValues = [[coder decodeObject] retain];
-			insertedObjectDefaultValues = [[coder decodeObject] retain];
-			[coder decodeValueOfObjCType:@encode(BOOL) at:&tempBool]; fetchesOnLoad = tempBool;
-			[coder decodeValueOfObjCType:@encode(BOOL) at:&tempBool]; selectsFirstObjectAfterFetch = tempBool;
-			[coder decodeValueOfObjCType:@encode(BOOL) at:&tempBool]; usesOptimisticRefresh = tempBool;
-			[coder decodeValueOfObjCType:@encode(BOOL) at:&tempBool]; validatesChangesImmediately = tempBool;
-		}
-	}
-	
-	return self;	
+	return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder

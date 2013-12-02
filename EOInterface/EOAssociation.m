@@ -55,10 +55,12 @@
 
 - (id)initWithObject:(id)aDisplayObject
 {
-    [super init];
-    target = [aDisplayObject retain];
-    boundGroups = [[NSMutableDictionary alloc] init];
-    boundKeys = [[NSMutableDictionary alloc] init];
+    if ((self = [super init]))
+    {
+        target = [aDisplayObject retain];
+        boundGroups = [[NSMutableDictionary alloc] init];
+        boundKeys = [[NSMutableDictionary alloc] init];
+    }
     return self;
 }
 
