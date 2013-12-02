@@ -14,6 +14,11 @@
 
 // mont_rothstein @ yahoo.com 2005-06-10
 // Added declaration of below methods so they could be used elsewhere
+// tom.martin@riemer.com 2013-11-26
+// I really want to get rid of these methods which were used to associate
+// an EOEdtingContext with any object.  I handeled EOEnterpriseObject, EOGenericObject
+// and EOFault, but EOObjectStoreCoordinator was also using this for something else that
+// I don't understand so I am leaving this intact just for that case.
 - (void)_setEOFInstanceObject:(id)object forKey:(id)aKey;
 - (id)_eofInstanceObjectForKey:(id)aKey;
 
