@@ -103,7 +103,7 @@ http://www.raftis.net/~alex/
    return sqlString;
 }
 
-+ (BOOL)_joinsAreEqual:(NSArray *)joins1:(NSArray *)joins2
++ (BOOL)_joins:(NSArray *)joins1 areEqualToJoins:(NSArray *)joins2
 {
     int numJoins1, numJoins2;
 
