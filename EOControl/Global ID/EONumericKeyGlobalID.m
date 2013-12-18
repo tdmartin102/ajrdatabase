@@ -43,33 +43,35 @@ http://www.raftis.net/~alex/
 - (id)initWithEntityName:(NSString *)anEntityName keys:(NSString **)primaryKeys values:(id *)someValues count:(int)aCount
 {
 	int			x;
-
-	if (self = [super init])
+    
+    if (self = [super init])
 	{
-	   count = aCount;
+        count = aCount;
 		
-	   entityName = [anEntityName retain];
-	   values = (unsigned long long *)NSZoneMalloc([self zone], sizeof(unsigned long long) * count);
-	   keys = (NSString **)NSZoneMalloc([self zone], sizeof(id) * count);
-		
+        entityName = [anEntityName retain];
+        
+        // Tom.Martin @ riemer.com 2013-12-12
+        // if keys is not nulled and this is released in the init, the dealloc can end up trying to release garbage.
+        // Further, this was using NSZoneMalloc and zones are no longer being used.
+        values = (unsigned long long *)calloc(count, sizeof(unsigned long long));
+        keys = (NSString **)calloc(count, sizeof(id));
 		hash = [entityName hash];
 		// This uses random to prevent the hash values from being sequential. This happens, for example, if you fetch a large number of items from the same entity in a database. This creates serious slow downs in NSDictionary's hash table. By using call srandom() on the first item and then hashing xor'd with random(), we always produce the same number, but get something "random" enough to prevent the slow down in NSDictionary.
 	   for (x = 0; x < count; x++) {
 		   // mont_rothstein @ yahoo.com 2004-12-03
 		   // If the value at someValues[x] is nil, then we need to return nil because there isn't
 		   // enough data to create the global ID.  This happens when there is a NULL in the database.
-		   if (someValues[x] == nil)
-           {
+		   if (someValues[x] == nil) {
                [self release];
                self = nil;
                return nil;
            }
 		   values[x] = [someValues[x] unsignedLongLongValue];
-		  keys[x] = [primaryKeys[x] retain];
-			if (x == 0) {
-				srandom([someValues[x] unsignedLongValue]);
-			}
-			hash ^= random();
+           keys[x] = [primaryKeys[x] retain];
+           if (x == 0) {
+               srandom([someValues[x] unsignedLongValue]);
+           }
+           hash ^= random();
 	   }
 	}
 	
@@ -85,8 +87,8 @@ http://www.raftis.net/~alex/
    for (x = 0; x < count; x++) {
       if (keys) [keys[x] release];
    }
-   if (values != NULL) NSZoneFree([self zone], values);
-   if (keys != NULL) NSZoneFree([self zone], keys);
+   if (values != NULL) free(values);
+   if (keys != NULL) free(keys);
 	
    [super dealloc];
 }
