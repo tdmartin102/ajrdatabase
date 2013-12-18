@@ -342,7 +342,7 @@
 	return 0;
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
 	NSString		*ident = [aTableColumn identifier];
 	
@@ -355,7 +355,7 @@
 			return [attribute name];
 		} else if ([ident isEqualToString:@"index"]) {
 			NSInteger		index = [self indexOfJoinForSourceAttribute:attribute];
-			if (index != NSNotFound) return [NSString stringWithFormat:@"%d", index + 1];
+			if (index != NSNotFound) return [NSString stringWithFormat:@"%ld", index + 1];
 			return @"";
 		}
 	} else if (aTableView == destinationTable) {
@@ -365,7 +365,7 @@
 			return [attribute name];
 		} else if ([ident isEqualToString:@"index"]) {
 			NSInteger		index = [self indexOfJoinForDestinationAttribute:attribute];
-			if (index != NSNotFound) return [NSString stringWithFormat:@"%d", index + 1];
+			if (index != NSNotFound) return [NSString stringWithFormat:@"%ld", index + 1];
 			return @"";
 		}
 	}

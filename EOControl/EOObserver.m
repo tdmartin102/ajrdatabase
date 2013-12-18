@@ -33,14 +33,17 @@ http://www.raftis.net/~alex/
 // The following method as a category of NSObject is already defined
 // in NSObject - EOEnterpriseObject.m.  I'm yanking this version.
 // I would think this, or the other, would throw an error ...
-//@implementation NSObject (EOObserver)
-//
-//- (void)willChange
-//{
-//   [EOObserverCenter notifyObserversObjectWillChange:self];
-//}
-//
-//@end
+// Tom.Martin @Riemer.com 2013-11-26
+// Okay EOEnterpriseObject became its own object not a category of
+// NSObject, so I needed to put this back here so all NSObjects respond
+// I yanked the implementation out of EOEnterpriseObject
+@implementation NSObject (EOObserver)
+
+- (void)willChange
+{
+   [EOObserverCenter notifyObserversObjectWillChange:self];
+}
+@end
 
 
 static NSZone		*observerZone;

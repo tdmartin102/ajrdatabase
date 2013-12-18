@@ -87,7 +87,7 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
 	return self;
 }
 
-- (id)initWithEditingContext:(EOEditingContext *)editingContext classDescription:(NSClassDescription *)classDescription globalID:(EOGlobalID *)globalID;
+- (id)initWithEditingContext:(EOEditingContext *)anEditingContext classDescription:(NSClassDescription *)classDescription globalID:(EOGlobalID *)globalID;
 {
    if (self = [self init])
    {
@@ -122,7 +122,7 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
 
    if (EOMemoryDebug) [EOLog logDebugWithFormat:@"- [%@ (%p) dealloc]\n", [(id)self entityName], self];
    
-   [_editingContext forgetObject:self];
+   //[_editingContext forgetObject:self];
 
    RELEASE(_values);
    // mont_rothstein @ yahoo.com 2005-02-25
@@ -131,7 +131,7 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
    // on EOGenericRecord would always cause the first entity that has a generic record
    // to be returned.
    RELEASE(_entityName);
-   RELEASE(_editingContext);
+  // RELEASE(_editingContext);
 	// mont_rothstein @ yahoo.com 2004-12-05
 	// Commented this out because we should be getting the globalID from the editingContext.
 //   RELEASE(_globalID);
@@ -430,10 +430,6 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
 //   }
 //}
 
-- (EOEditingContext *)editingContext
-{
-   return _editingContext;
-}
 
 // mont_rothstein @ yahoo.com 2005-02-25
 // _entityName has to be used here because otherwise there is no way to know
@@ -516,7 +512,7 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
 {
 	 // mont_rothstein @ yahoo.com 2004-12-05
 	 // _globalID was removed so this had to be modified to get the globalID from the editingContext.
-	return [[_editingContext globalIDForObject: self] compare:[[other editingContext] globalIDForObject:other]];
+	return [[editingContext globalIDForObject: self] compare:[[other editingContext] globalIDForObject:other]];
 }
 
 - (NSString *)description
@@ -548,16 +544,6 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
 @end
 
 @implementation EOGenericRecord (Private)
-
-// mont_rothstein @ yahoo.com 2005-02-25
-// Moved this here from the main implementation because it is part of this category.
-- (void)_setEditingContext:(EOEditingContext *)aContext
-{
-	if (_editingContext != aContext) {
-		[_editingContext release];
-		_editingContext = [aContext retain];
-	}
-}
 
 // mont_rothstein @ yahoo.com 2005-02-25
 // A globalID method needed to be added because of many-to-many join objects.  Unlike

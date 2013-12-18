@@ -9,6 +9,6 @@
 - (EOQualifier *)_qualifierForValues:(NSDictionary *)values;
 - (NSString *)sqlStringForSQLExpression:(EOSQLExpression *)expression;
 
-+ (BOOL)_joinsAreEqual:(NSArray *)joins1:(NSArray *)joins2;
++ (BOOL)_joins:(NSArray *)joins1 areEqualToJoins:(NSArray *)joins2;
 
 @end

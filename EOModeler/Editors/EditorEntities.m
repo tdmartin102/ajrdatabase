@@ -62,7 +62,7 @@
 	}
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
 	EOEntity		*entity = [[[self model] entities] objectAtIndex:rowIndex];
 	NSString		*ident = [aTableColumn identifier];
@@ -82,7 +82,7 @@
 	return @"?";
 }
 
-- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
 	EOEntity		*entity = [[[self model] entities] objectAtIndex:rowIndex];
 	NSString		*ident = [aTableColumn identifier];

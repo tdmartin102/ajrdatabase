@@ -40,16 +40,6 @@ http://www.raftis.net/~alex/
 #import <EOControl/EOControl.h>
 
 
-@interface NSObject (EOPrivate) 
-
-- (void)_setEditingContext:(EOEditingContext *)editingContext;
-// mont_rothstein @ yahoo.com 2004-12-06
-// This method was removed.
-//- (void)_setGlobalID:(EOGlobalID *)globalID;
-
-@end
-
-
 @implementation EOEntityClassDescription
 
 static NSMutableDictionary *_classDescriptionCache = nil;
@@ -160,7 +150,7 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 	EOGlobalID		*globalID = [anEditingContext globalIDForObject:object];
     NSString        *relationshipName;
 	
-    [object _setEditingContext:anEditingContext];
+    [(EOEnterpriseObject *)object _setEditingContext:anEditingContext];
 	
 	//relationships = [entity relationships];
     relationships = [entity _classRelationships];
@@ -260,7 +250,7 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 	NSArray			*relationships;
 	int				x, max;
 	
-	[object _setEditingContext:anEditingContext];
+	[(EOEnterpriseObject *)object _setEditingContext:anEditingContext];
 	
 	// mont_rothstein @ yahoo.com 10/27/04
 	// We only want to set class relationships.  The full relationships array includes non-class relationships (such as for many-to-many relationships) that don't have class attributes.

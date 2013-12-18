@@ -516,7 +516,7 @@ NSString *EORelationshipDidChangeNameNotification = @"EORelationshipDidChangeNam
 		   relationship = [relationships objectAtIndex:x];
       // First, let's see if the 
 		   if ([relationship destinationEntity] == entity &&
-			   [EOJoin _joinsAreEqual:joins:[relationship joins]]) {
+			   [EOJoin _joins:joins areEqualToJoins:[relationship joins]]) {
 			   return relationship;
 		   }
 	   }

@@ -76,7 +76,8 @@ http://www.raftis.net/~alex/
 	EOJoin          *join;
 	EOQualifier    *qualifier = nil;
 	EOQualifier    *subqualifier;
-	EOAttribute     *source, *destination;
+	EOAttribute     *source;
+    //EOAttribute     *destination;
 	id		        joinValue;
 	NSArray			*joins;
 
@@ -95,7 +96,7 @@ http://www.raftis.net/~alex/
 	{
 		join = [joins objectAtIndex:x];
 		source = [join sourceAttribute];
-		destination = [join destinationAttribute];
+		//destination = [join destinationAttribute];
 		joinValue = [row valueForKey: [source name]];
 		if (joinValue)
 		{

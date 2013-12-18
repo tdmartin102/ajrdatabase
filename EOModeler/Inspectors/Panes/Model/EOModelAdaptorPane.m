@@ -88,7 +88,7 @@
 	return [[EOAdaptor availableAdaptorNames] count] + 1;
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
 	NSArray		*names = [EOAdaptor availableAdaptorNames];
 	

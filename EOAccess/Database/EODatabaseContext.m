@@ -94,13 +94,6 @@ extern int objc_sizeof_type(const char* type);
 
 @end
 
-
-// mont_rothstein @ yahoo.com 2005-01-18
-// Added interface declaration so that the EODatabaseContext will know this method exists.
-@interface NSObject (EOPrivate) 
-- (void)_setEditingContext:(EOEditingContext *)editingContext;
-@end
-
 @implementation EODatabaseContext
 
 + (void)load
@@ -1263,7 +1256,7 @@ static Class _eoDatabaseContextClass = Nil;
 			}
 			// If x == [keys count], then all of keys are in pkNames, so we have all the values as part of the primary key and get return our values from the global ID.
 			if (x == [keys count]) {
-				return [[[object editingContext] globalIDForObject:object] valuesForKeys:keys];
+				return [[[object editingContext] globalIDForObject:object] dictionaryWithValuesForKeys:keys];
 			}
 		}
 	}
@@ -2432,7 +2425,9 @@ static Class _eoDatabaseContextClass = Nil;
 	// mont_rothstein @ yahoo.com 2005-01-18
 	// Set the editing context so that it can be retrieved during dealloc and
 	// told to forget the object.
-	[object _setEditingContext: anEditingContext];
+    // tom.martin@riemer.com 2012-11-26 Not needed.  editingContext can be gotten from the handler
+    // I added an instance method for EOFault to do that
+	//[object _setEditingContext: anEditingContext];
 	
 // mont_rothstein @ yahoo.com 2005-1-2
 // The database context's objects instance variable was removed.

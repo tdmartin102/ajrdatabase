@@ -55,6 +55,7 @@ http://www.raftis.net/~alex/
 - (id)savedIvars;
 - (void)setSavedClass: (Class)value;
 - (Class)savedClass;
+- (EOEditingContext *)editingContext;
 
 // Checking class information
 - (BOOL)isKindOfClass:(Class)aClass forFault:(id)aFault;

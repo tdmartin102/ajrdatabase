@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+#import <EOControl/EOEnterpriseObject.h>
+
 @class EOAttribute, EOGlobalID;
 
-@interface NSObject (EOAccess)
+@interface EOEnterpriseObject (EOAccess)
 
 #if !defined(STRICT_EOF)
 - (NSDictionary *)primaryKey;

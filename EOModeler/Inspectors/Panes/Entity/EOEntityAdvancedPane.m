@@ -191,7 +191,7 @@
 	}
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
 	EOEntity		*entity = [[self entities] objectAtIndex:rowIndex];
 	NSString		*ident = [aTableColumn identifier];
