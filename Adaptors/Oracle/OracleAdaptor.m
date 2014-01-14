@@ -377,7 +377,7 @@ static NSMutableDictionary 	*dataTypes = nil;
 					dataType = SQLT_BFLOAT;
 					break;
 				case  'd':
-					dataType = SQLT_BFLOAT;
+					dataType = SQLT_BDOUBLE;
 					break;
 				case  'I':
 				case  'l':
