@@ -128,7 +128,6 @@ extern NSString *EOFailedDatabaseOperationKey;
 // Fetching objects
 - (NSArray *)objectsWithFetchSpecification:(EOFetchSpecification *)fetchSpecification editingContext:(EOEditingContext *)anEditingContext;
 - (NSArray *)objectsForSourceGlobalID:(EOGlobalID *)globalID relationshipName:(NSString *)name editingContext:(EOEditingContext *)anEditingContext;
-- (NSArray *)arrayFaultWithSourceGlobalID:(EOGlobalID *)globalID relationshipName:(NSString *)name editingContext:(EOEditingContext *)anEditingContext;
 /*! @todo EODatabaseContext: batch fetching support */
 - (void)batchFetchRelationship:(EORelationship *)relationship forSourceObjects:(NSArray *)objects editingContext:(EOEditingContext *)anEditingContext;
 

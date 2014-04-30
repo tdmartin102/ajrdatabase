@@ -128,7 +128,6 @@ extern NSString *EOBindVariableColumnKey;
 
 // NON api method that also returns the attribute.
 - (NSString *)sqlStringForAttributeNamed:(NSString *)name attribute:(EOAttribute **)attrib;
-- (NSString *)sqlStringForAttributeNamed:(NSString *)attributeName;
 
 //- (NSString *)sqlStringForAttributeNamed:(NSString *)attributeName inEntity:(EOEntity *)entity;
 
