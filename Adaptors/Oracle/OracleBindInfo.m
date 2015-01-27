@@ -280,12 +280,19 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
 	// AND we KNOW the value has been converted to an NSString for SQLT_CHR
 	// and NSData for SQLT_LBI
 	
-	aRange.location = transferred;
-	aRange.length = pieceLen; 
-	if (dataType == SQLT_CHR)
+    if (dataType == SQLT_CHR)
+    {
+        // pieceLen MUST BE a multiple of sizeof(unichar)
+        aRange.location = transferred / sizeof(unichar);
+        aRange.length = pieceLen / sizeof(unichar);
 		[(NSString *)value getCharacters:(unichar *)buffer range:aRange];
+    }
 	else
+    {
+        aRange.location = transferred;
+        aRange.length = pieceLen;
 		[(NSData *)value getBytes:(void *)buffer range:aRange];
+    }
 	transferred += pieceLen;
 }
 
