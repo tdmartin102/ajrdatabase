@@ -25,7 +25,7 @@
 
 CONFIG=Default
 DEST=NONE
-SDIR='EOControl EOAccess Adaptors'   
+SDIR='EOControl EOAccess EOInterface Adaptors'   
 ADAPTOR_TARGET=Oracle
 BUNDLE=eoadaptor
    

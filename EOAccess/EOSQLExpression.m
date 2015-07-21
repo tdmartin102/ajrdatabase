@@ -1237,8 +1237,8 @@ static NSCharacterSet	*literalSet;
 	NSMutableDictionary	*binding;
 	
 	// if the value is nil or a NSNull/EONull, then I am thinking without exception there would be no binding
-	// needed.  
-	if (value && (! [value isKindOfClass:[NSNull class]]))
+	// needed.
+	if (value && (! ([value isKindOfClass:[NSNull class]] || [value isKindOfClass:[NSArray class]])))
 	{
 		// Handle binding
 		if ([self mustUseBindVariableForAttribute:attribute])
