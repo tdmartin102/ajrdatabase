@@ -235,6 +235,7 @@ static NSCharacterSet	*literalSet;
 	{
 		rootEntity = [aRootEntity retain];
 		usesAliases = NO;
+        usesDistinct = NO;
 	}
 	return self;
 }
@@ -283,6 +284,8 @@ static NSCharacterSet	*literalSet;
 	NSMutableString	*string;
 	
 	string = [@"SELECT " mutableCopyWithZone:[self zone]];
+    if (usesDistinct)
+        [string appendString:@"DISTINCT "];
 	[string appendString:columnList];
 	[string appendString:@" FROM "];
 	[string appendString:aTableList];
@@ -336,6 +339,7 @@ static NSCharacterSet	*literalSet;
 	if (usesAliases)
 		[self _initAliases];
    
+    usesDistinct = (BOOL)[fetch usesDistinct];
 
 	// create where clause
 	qualifier = [[fetch qualifier] retain];

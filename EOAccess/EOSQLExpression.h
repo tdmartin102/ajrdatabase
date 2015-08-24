@@ -54,6 +54,7 @@ extern NSString *EOBindVariableColumnKey;
 	NSMutableString			*orderByString;
 
    BOOL						usesAliases:1;
+   BOOL						usesDistinct:1;
 }
 
 - (id)initWithRootEntity:(EOEntity *)aRootEntity;
