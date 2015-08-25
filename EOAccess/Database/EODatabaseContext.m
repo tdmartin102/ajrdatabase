@@ -504,7 +504,10 @@ static Class _eoDatabaseContextClass = Nil;
 	// mont_rotshtein @ yahoo.com 2004-12-20
 	// Added sort orderings parameter
 	fetch = [EOFetchSpecification fetchSpecificationWithEntityName:[[relationship destinationEntity] name] qualifier:qualifier sortOrderings: [relationship sortOrderings]];
-	[fetch setUsesDistinct:YES];
+    
+    // Tom Martin @ Riemer.com 2015-08-25
+    // I really don't think distinct is needed here, and it creates problems with unlockable columns like LOBs
+	//[fetch setUsesDistinct:YES];
 	
 	fetchedObjects = [self objectsWithFetchSpecification:fetch editingContext:editingContext];
 	
@@ -529,7 +532,11 @@ static Class _eoDatabaseContextClass = Nil;
 	// mont_rotshtein @ yahoo.com 2004-12-20
 	// Added sort orderings parameter
    fetch = [EOFetchSpecification fetchSpecificationWithEntityName:[[relationship destinationEntity] name] qualifier:qualifier sortOrderings: [relationship sortOrderings]];
-   [fetch setUsesDistinct:YES];
+    
+    // Tom Martin @ Riemer.com 2015-08-25
+    // I really don't think distinct is needed here, and it creates problems with unlockable columns like LOBs
+    //[fetch setUsesDistinct:YES];
+    
    [fetch _setRootEntityName:[[relationship entity] name]];
 	
    fetchedObjects = [self objectsWithFetchSpecification:fetch editingContext:editingContext];
