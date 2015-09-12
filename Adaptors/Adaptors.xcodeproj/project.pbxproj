@@ -27,6 +27,7 @@
 		14001D3514572BF7008E8514 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
 		14001D4614572C2C008E8514 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C3E14572B67008E8514 /* EOAccess.framework */; };
 		14001D4914572C44008E8514 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
+		1E00D9EC1BA4828900817D90 /* MySQLAdaptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E00D9EB1BA4828900817D90 /* MySQLAdaptor.m */; };
 		1E0EACAA13B3B54C00EDEC95 /* OracleBindInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E0EACA913B3B54C00EDEC95 /* OracleBindInfo.m */; };
 		1E16EB5D15D044BD002D5E8D /* PostgreSQLConnectionPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E16EB5B15D044BD002D5E8D /* PostgreSQLConnectionPane.xib */; };
 		1E16EB6015D044D7002D5E8D /* SQLiteConnectionPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E16EB5E15D044D7002D5E8D /* SQLiteConnectionPane.xib */; };
@@ -176,6 +177,8 @@
 /* Begin PBXFileReference section */
 		14001C3E14572B67008E8514 /* EOAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOAccess.framework; path = /Library/Frameworks/EOAccess.framework; sourceTree = "<absolute>"; };
 		14001C7714572B7B008E8514 /* EOControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOControl.framework; path = /Library/Frameworks/EOControl.framework; sourceTree = "<absolute>"; };
+		1E00D9EA1BA4828900817D90 /* MySQLAdaptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySQLAdaptor.h; sourceTree = "<group>"; };
+		1E00D9EB1BA4828900817D90 /* MySQLAdaptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySQLAdaptor.m; sourceTree = "<group>"; };
 		1E0EACA813B3B54C00EDEC95 /* OracleBindInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleBindInfo.h; sourceTree = "<group>"; };
 		1E0EACA913B3B54C00EDEC95 /* OracleBindInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleBindInfo.m; sourceTree = "<group>"; };
 		1E16EB5115D0364B002D5E8D /* OracleInterface-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OracleInterface-Info.plist"; sourceTree = "<group>"; };
@@ -399,6 +402,8 @@
 			isa = PBXGroup;
 			children = (
 				1ED020D01BA478BD009B923E /* Supporting Files */,
+				1E00D9EA1BA4828900817D90 /* MySQLAdaptor.h */,
+				1E00D9EB1BA4828900817D90 /* MySQLAdaptor.m */,
 			);
 			path = MySQL;
 			sourceTree = "<group>";
@@ -872,6 +877,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E00D9EC1BA4828900817D90 /* MySQLAdaptor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2038,6 +2044,7 @@
 				1ED020D51BA478BD009B923E /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
 		};
 		1EDEA31415D0128A0045292C /* Build configuration list for PBXNativeTarget "Oraclenterface" */ = {
 			isa = XCConfigurationList;
