@@ -8,26 +8,67 @@
 
 #import "MySQLAdaptor.h"
 
+#import <mysql.h>
+
 @implementation MySQLAdaptor
 
 //=================================================================
 //        Public Methods
 //=================================================================
 
++ (void)initialize
+{
+    if (dataTypes == nil)
+    {
+        NSBundle		*bundle = [NSBundle bundleForClass:[self class]];
+        NSString		*path;
+        
+        path = [bundle pathForResource:@"MySQLDataTypes" ofType:@"plist"];
+        
+        if (path)
+        {
+            dataTypes = [[[NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:NULL] propertyList] retain];
+            if (!dataTypes)
+                [NSException raise:NSInternalInconsistencyException format:@"Unable to load MySQL data types."];
+        }
+        else
+            [NSException raise:NSInternalInconsistencyException format:@"Unable to find MySQL data types."];
+    }
+    if ([self class] == [MySQLAdaptor class])
+    {
+        if (mysql_library_init(0, NULL, NULL)) {
+            [NSException raise:NSInternalInconsistencyException format:@"Could not initialize MySQL library."];
+    }
+}
+
 + (NSString *)adaptorName
 {
     return @"MySQL";
 }
 
+    
+    /*
+     As maintainer of a fairly large C application that makes MySQL calls from multiple threads, I can say I've had no problems with simply making a new connection in each thread. Some caveats that I've come across:
+     
+     Edit: it seems this bullet only applies to versions < 5.5; see this page for your appropriate version: Like you say you're already doing, link against libmysqlclient_r.
+     Call mysql_library_init() (once, from main()). Read the docs about use in multithreaded environments to see why it's necessary.
+     Make a new MYSQL structure using mysql_init() in each thread. This has the side effect of calling mysql_thread_init() for you.  mysql_real_connect() as usual inside each thread, with its thread-specific MYSQL struct.
+     If you're creating/destroying lots of threads, you'll want to use mysql_thread_end() at the end of each thread (and mysql_library_end() at the end of main()). It's good practice anyway.
+     Basically, don't share MYSQL structs or anything created specific to that struct (i.e. MYSQL_STMTs) and it'll work as you expect.
+     
+     This seems like less work than making a connection pool to me.
+     */
+    
+    
 - (id)initWithName:(NSString *)aName;
 {
-    int		errcode = 0;
-    
     if (self = [super initWithName:aName])
     {
-         if (errcode != 0)
+        if (mysql_library_init(0, NULL, NULL)) {
             [NSException raise:@"EOGeneralAdaptorException"
-                        format:@"OCIEnvCreate failed with errcode = %d.", errcode];
+                        format:@"MySQL failed to initialize.  Most likely the mysql library was not found, or invalid."];
+        }
+        mysql = mysql_init(NULL);
     }
     
     return self;
@@ -35,7 +76,9 @@
 
 - (void)dealloc
 {
-     [super dealloc];
+    mysql_close(mysql);
+    mysql_library_end();
+    [super dealloc];
 }
 
 - (EOAdaptorContext *)createAdaptorContext

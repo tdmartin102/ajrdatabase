@@ -31,5 +31,8 @@ mailto:tom.martin@riemer.com
 
 
 @interface MySQLAdaptor : EOAdaptor
+{
+    MYSQL *mysql;
+}
 
 @end
