@@ -32,7 +32,8 @@ mailto:tom.martin@riemer.com
 
 @interface MySQLAdaptor : EOAdaptor
 {
-    MYSQL *mysql;
 }
+
+- (NSString *)checkStatus:(MYSQL *)value;
 
 @end

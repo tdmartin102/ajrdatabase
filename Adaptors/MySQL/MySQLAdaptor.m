@@ -60,7 +60,7 @@
      */
     
     
-- (id)initWithName:(NSString *)aName;
+- (id)initWithName:(NSString *)aName
 {
     if (self = [super initWithName:aName])
     {
@@ -81,6 +81,23 @@
     [super dealloc];
 }
 
+    
+- (NSString *)checkStatus:(MYSQL *)value
+{
+    NSString		*errStr = nil;
+    const char      *str;
+    
+    str = mysql_error(mysql);
+    if (str)
+    {
+        errStr = [NSString stringWithUTF8String:str];
+        NSException *ouch;
+        ouch = [[NSException alloc] initWithName:@"EOGeneralAdaptorException" reason:errStr userInfo:nil];
+        [ouch raise];
+    }
+    return [errStr autorelease];
+}
+    
 - (EOAdaptorContext *)createAdaptorContext
 {
     EOAdaptorContext	*context = nil;
