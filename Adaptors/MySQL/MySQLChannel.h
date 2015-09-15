@@ -48,3 +48,4 @@
 // this is set imediately after execution for insert, update, delete. but not for select.
 // it is incremented for each row fetched on a select.
 
+- (MYSQL *)mysql;
