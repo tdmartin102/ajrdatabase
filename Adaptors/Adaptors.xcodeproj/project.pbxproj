@@ -33,6 +33,7 @@
 		1E16EB5D15D044BD002D5E8D /* PostgreSQLConnectionPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E16EB5B15D044BD002D5E8D /* PostgreSQLConnectionPane.xib */; };
 		1E16EB6015D044D7002D5E8D /* SQLiteConnectionPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E16EB5E15D044D7002D5E8D /* SQLiteConnectionPane.xib */; };
 		1E45D52113FD8AAC0043B572 /* OracleSchemaGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E45D52013FD8AAC0043B572 /* OracleSchemaGeneration.m */; };
+		1E53566F1BA85ABA00371E45 /* libmysqlclient.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E53566E1BA85ABA00371E45 /* libmysqlclient.dylib */; };
 		1E7958C714642CD100FB2ACF /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C3E14572B67008E8514 /* EOAccess.framework */; };
 		1E7958FC14642CD700FB2ACF /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
 		1E8203CD15753E6F00F9663C /* libpq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E8203CC15753E6F00F9663C /* libpq.a */; };
@@ -52,7 +53,6 @@
 		1E9889A71296F75100F17A39 /* OracleContext.h in Resources */ = {isa = PBXBuildFile; fileRef = 1E9889101296F41B00F17A39 /* OracleContext.h */; };
 		1ED020D61BA47A81009B923E /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C3E14572B67008E8514 /* EOAccess.framework */; };
 		1ED020D71BA47A86009B923E /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
-		1ED020DB1BA47D70009B923E /* libmysqlclient.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ED020DA1BA47D70009B923E /* libmysqlclient.dylib */; };
 		1EDEA30515D0128A0045292C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EDEA30415D0128A0045292C /* Cocoa.framework */; };
 		1EDEA31815D01E1B0045292C /* libclntsh.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E98891E1296F57C00F17A39 /* libclntsh.dylib */; };
 		1EDEA31915D01E200045292C /* libocci.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E98891C1296F56400F17A39 /* libocci.dylib */; };
@@ -190,6 +190,7 @@
 		1E34465012E4D06B007574F2 /* oracle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = oracle; path = /usr/local/include/oracle; sourceTree = "<absolute>"; };
 		1E45D51F13FD8AAC0043B572 /* OracleSchemaGeneration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleSchemaGeneration.h; sourceTree = "<group>"; };
 		1E45D52013FD8AAC0043B572 /* OracleSchemaGeneration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleSchemaGeneration.m; sourceTree = "<group>"; };
+		1E53566E1BA85ABA00371E45 /* libmysqlclient.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmysqlclient.dylib; path = "/usr/local/mysql/lib/libmysqlclient.dylib"; sourceTree = "<absolute>"; };
 		1E8203CC15753E6F00F9663C /* libpq.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpq.a; path = /usr/lib/libpq.a; sourceTree = "<absolute>"; };
 		1E86A7F31312D63C00FA5FDA /* OracleDefineInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleDefineInfo.h; sourceTree = "<group>"; };
 		1E86A7F41312D63C00FA5FDA /* OracleDefineInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleDefineInfo.m; sourceTree = "<group>"; };
@@ -209,7 +210,6 @@
 		1E98891E1296F57C00F17A39 /* libclntsh.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libclntsh.dylib; path = /usr/local/lib/libclntsh.dylib; sourceTree = "<absolute>"; };
 		1ED020CE1BA478BD009B923E /* MySQL.eoadaptor */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MySQL.eoadaptor; sourceTree = BUILT_PRODUCTS_DIR; };
 		1ED020D11BA478BD009B923E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1ED020DA1BA47D70009B923E /* libmysqlclient.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmysqlclient.dylib; path = "../../../../../../usr/local/mysql-5.6.10-osx10.7-x86_64/lib/libmysqlclient.dylib"; sourceTree = "<group>"; };
 		1EDEA30315D0128A0045292C /* Oraclenterface.interface */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Oraclenterface.interface; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EDEA30415D0128A0045292C /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		1EDEA30715D0128A0045292C /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -293,7 +293,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1ED020D71BA47A86009B923E /* EOControl.framework in Frameworks */,
-				1ED020DB1BA47D70009B923E /* libmysqlclient.dylib in Frameworks */,
+				1E53566F1BA85ABA00371E45 /* libmysqlclient.dylib in Frameworks */,
 				1ED020D61BA47A81009B923E /* EOAccess.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -482,7 +482,7 @@
 				FA63DC780742726500AB5036 /* OpenBaseAPI.framework */,
 				FA63DC790742726500AB5036 /* OpenBaseNet.framework */,
 				1E8203CC15753E6F00F9663C /* libpq.a */,
-				1ED020DA1BA47D70009B923E /* libmysqlclient.dylib */,
+				1E53566E1BA85ABA00371E45 /* libmysqlclient.dylib */,
 				1E8E60D01574F0DC00179CCB /* libsqlite3.dylib */,
 				1E98891C1296F56400F17A39 /* libocci.dylib */,
 				1E98891E1296F57C00F17A39 /* libclntsh.dylib */,
@@ -1179,7 +1179,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"/usr/local//mysql/include",
+					"/usr/local/mysql/include",
 				);
 				INFOPLIST_FILE = MySQL/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
@@ -1234,7 +1234,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"/usr/local//mysql/include",
+					"/usr/local/mysql/include",
 				);
 				INFOPLIST_FILE = MySQL/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
@@ -1288,7 +1288,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"/usr/local//mysql/include",
+					"/usr/local/mysql/include",
 				);
 				INFOPLIST_FILE = MySQL/Info.plist;
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
