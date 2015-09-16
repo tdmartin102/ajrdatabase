@@ -36,7 +36,7 @@
     }
     if ([self class] == [MySQLAdaptor class])
     {
-        if (mysql_library_init(0, NULL, NULL)) {
+        if (mysql_library_init(0, NULL, NULL))
             [NSException raise:NSInternalInconsistencyException format:@"Could not initialize MySQL library."];
     }
 }
@@ -46,19 +46,17 @@
     return @"MySQL";
 }
 
-    
-    /*
-     As maintainer of a fairly large C application that makes MySQL calls from multiple threads, I can say I've had no problems with simply making a new connection in each thread. Some caveats that I've come across:
-     
-     Edit: it seems this bullet only applies to versions < 5.5; see this page for your appropriate version: Like you say you're already doing, link against libmysqlclient_r.
-     Call mysql_library_init() (once, from main()). Read the docs about use in multithreaded environments to see why it's necessary.
-     Make a new MYSQL structure using mysql_init() in each thread. This has the side effect of calling mysql_thread_init() for you.  mysql_real_connect() as usual inside each thread, with its thread-specific MYSQL struct.
-     If you're creating/destroying lots of threads, you'll want to use mysql_thread_end() at the end of each thread (and mysql_library_end() at the end of main()). It's good practice anyway.
-     Basically, don't share MYSQL structs or anything created specific to that struct (i.e. MYSQL_STMTs) and it'll work as you expect.
-     
-     This seems like less work than making a connection pool to me.
-     */
-    
+/*
+ As maintainer of a fairly large C application that makes MySQL calls from multiple threads, I can say I've had no problems with simply making a new connection in each thread. Some caveats that I've come across:
+ 
+ Edit: it seems this bullet only applies to versions < 5.5; see this page for your appropriate version: Like you say you're already doing, link against libmysqlclient_r.
+ Call mysql_library_init() (once, from main()). Read the docs about use in multithreaded environments to see why it's necessary.
+ Make a new MYSQL structure using mysql_init() in each thread. This has the side effect of calling mysql_thread_init() for you.  mysql_real_connect() as usual inside each thread, with its thread-specific MYSQL struct.
+ If you're creating/destroying lots of threads, you'll want to use mysql_thread_end() at the end of each thread (and mysql_library_end() at the end of main()). It's good practice anyway.
+ Basically, don't share MYSQL structs or anything created specific to that struct (i.e. MYSQL_STMTs) and it'll work as you expect.
+ 
+ This seems like less work than making a connection pool to me.
+ */
     
 - (id)initWithName:(NSString *)aName
 {
@@ -80,7 +78,6 @@
     mysql_library_end();
     [super dealloc];
 }
-
     
 - (NSString *)checkStatus:(MYSQL *)value
 {
@@ -101,78 +98,33 @@
 - (EOAdaptorContext *)createAdaptorContext
 {
     EOAdaptorContext	*context = nil;
-    /*
+    
     context = [[MySQLContext allocWithZone:[self zone]] initWithAdaptor:self];
     [adaptorContexts addObject:context];
     [context autorelease];
-     */
     
     return context;
 }
 
 - (Class)defaultExpressionClass
 {
-    return [OracleSQLExpression class];
+    return [super defaultExpressionClass];
+    //return [MySQLSQLExpression class];
 }
 
 + (Class)connectionPaneClass
 {
-    return NSClassFromString(@"OracleConnectionPane");
+    return nil;
+    // return NSClassFromString(@"MySQLConnectionPane");
 }
 
 - (EOSchemaGeneration *)synchronizationFactory
 {
-    return [[[OracleSchemaGeneration allocWithZone:[self zone]] init] autorelease];
+    return nil;
+    // return [[[MySQLSchemaGeneration allocWithZone:[self zone]] init] autorelease];
 }
 
-- (OCIEnv  *)envhp { return envhp; }
-
-- (NSString *)checkErr:(sword)aStatus inHandle:(OCIError *)anErrhp
-{
-    text			errbuf[512];
-    sb4				errcode = 0;
-    NSString		*errStr;
-    
-    errStr = nil;
-    switch (aStatus)
-    {
-        case OCI_SUCCESS:
-            break;
-        case OCI_SUCCESS_WITH_INFO:
-            errStr = @"Error - OCI_SUCCESS_WITH_INFO";
-            break;
-        case OCI_NEED_DATA:
-            errStr = @"Error - OCI_NEED_DATA";
-            break;
-        case OCI_NO_DATA:
-            errStr = @"Error - OCI_NODATA";
-            break;
-        case OCI_ERROR:
-            (void) OCIErrorGet((dvoid *)anErrhp, (ub4) 1, (text *) NULL, &errcode,
-                               errbuf, (ub4) sizeof(errbuf), OCI_HTYPE_ERROR);
-            errStr = [[NSString stringWithFormat:@"Error - %@", [NSString stringFromOCIText:errbuf]] retain];
-            break;
-        case OCI_INVALID_HANDLE:
-            errStr = @"Error - OCI_INVALID_HANDLE";
-            break;
-        case OCI_STILL_EXECUTING:
-            errStr = @"Error - OCI_STILL_EXECUTE";
-            break;
-        case OCI_CONTINUE:
-            errStr = @"Error - OCI_CONTINUE";
-            break;
-        default:
-            break;
-    }
-    if (errStr)
-    {
-        NSException *ouch;
-        ouch = [[NSException alloc] initWithName:@"EOGeneralAdaptorException" reason:errStr userInfo:nil];
-        [ouch raise];
-    }
-    return [errStr autorelease];
-}
-
+/*
 + (ub2)dataTypeForAttribute:(EOAttribute *)attrib useWidth:(BOOL *)useWidth nationalCharSet:(BOOL *)useNationalCharSet
 {
     NSDictionary		*dataTypes;
@@ -236,6 +188,7 @@
     
     return dataType;
 }
+*/
 
 + (id)valueForClassNamed:(NSString *)vcn forNSString:(NSString *)value
 {

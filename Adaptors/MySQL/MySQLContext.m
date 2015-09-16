@@ -97,7 +97,7 @@
     
     [super beginTransaction];
     // In MySQL I think we get this for free
-    //
+    // since we set autocommit to 0 when the channel was opened.
     [self transactionDidBegin];
 }
 
@@ -114,8 +114,8 @@
     if ([self hasOpenTransaction])
     {
         MYSQL = *mysql =[(MySQLChannel *)transactionChannel mysql];
-        mysql_commit(mysql);
-        [self checkStatus:mysql];
+        if (!mysql_commit(mysql))
+            [self checkStatus:mysql];
         [self transactionDidCommit];
     }
 }
@@ -133,8 +133,8 @@
     {
         status = OCITransRollback((OCISvcCtx *)serviceContexthp, (OCIError *)errhp, OCI_DEFAULT);
         MYSQL = *mysql =[(MySQLChannel *)transactionChannel mysql];
-        mysql_rollback(mysql);
-        [self checkStatus:mysql];
+        if (!mysql_rollback(mysql))
+            [self checkStatus:mysql];
         [self transactionDidRollback];
     }
 }

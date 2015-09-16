@@ -22,6 +22,11 @@
     return (MySQLAdaptor *)[adaptorContext adaptor];
 }
 
+- (NSString *)checkStatus:(MYSQL *)value
+{
+    return [[self mysqlAdaptor] checkStatus:value];
+}
+
 //=========================================================================================
 //            Public (API) Methods
 //=========================================================================================
@@ -166,4 +171,5 @@
 - (BOOL)isFetchInProgress { return fetchInProgress; }
 
 - (MYSQL *)mysql { return mysql; }
+
 @end
