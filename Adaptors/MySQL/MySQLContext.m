@@ -67,7 +67,7 @@
         int			x;
         int numAdaptorChannels;
         
-        numAdaptorChannels = [adaptorChannels count];
+        numAdaptorChannels = (int)[adaptorChannels count];
         for (x = 0; x < numAdaptorChannels; x++) {
             channel = [adaptorChannels objectAtIndex:x];
             if (![channel isFetchInProgress])
@@ -113,7 +113,7 @@
     
     if ([self hasOpenTransaction])
     {
-        MYSQL = *mysql =[(MySQLChannel *)transactionChannel mysql];
+        MYSQL *mysql =[(MySQLChannel *)transactionChannel mysql];
         if (!mysql_commit(mysql))
             [self checkStatus:mysql];
         [self transactionDidCommit];
@@ -131,8 +131,7 @@
     
     if ([self hasOpenTransaction])
     {
-        status = OCITransRollback((OCISvcCtx *)serviceContexthp, (OCIError *)errhp, OCI_DEFAULT);
-        MYSQL = *mysql =[(MySQLChannel *)transactionChannel mysql];
+        MYSQL *mysql =[(MySQLChannel *)transactionChannel mysql];
         if (!mysql_rollback(mysql))
             [self checkStatus:mysql];
         [self transactionDidRollback];
