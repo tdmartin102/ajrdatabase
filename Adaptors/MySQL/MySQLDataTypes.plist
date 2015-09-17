@@ -1,0 +1,123 @@
+{
+	DECIMAL = {
+		mysqlDataType = 0;
+		valueClassName = NSDecimalNumber;
+		hasPrecision = 1;
+		valueType = i;
+		isNumber = 1;
+	};
+	TINYINT = {
+		mysqlDataType = 1;
+		valueClassName = NSNumber;
+		valueType = s;
+		isNumber = 1;
+	};
+	SMALLINT = {
+		mysqlDataType = 2;
+		valueClassName = NSNumber;
+		valueType = i;
+		isNumber = 1;
+	};
+	INTEGER = {
+		mysqlDataType = 3;
+		valueClassName = NSNumber;
+		valueType = l;
+		isNumber = 1;
+	};
+	FLOAT = {
+		mysqlDataType = 4;
+		valueClassName = NSNumber;
+		valueType = f;
+		isNumber = 1;
+	};
+	DOUBLE = {
+		mysqlDataType = 5;
+		valueClassName = NSNumber;
+		valueType = d;
+		isNumber = 1;
+	};
+	NULL = {
+		mysqlDataType = 6;
+		valueClassName = NSNull;
+	};
+	TIMESTAMP = {
+		mysqlDataType = 7;
+		valueClassName = NSNumber;
+		valueType = l;
+		isNumber = 1;
+	};
+	BIGINT = {
+		mysqlDataType = 8;
+		valueClassName = NSNumber;
+		valueType = q;
+		isNumber = 1;
+	};	
+	MEDIUMINT = {
+		mysqlDataType = 9;
+		valueClassName = NSNumber;
+		valueType = i;
+		isNumber = 1;
+	};	
+	DATE = {
+		mysqlDataType = 10;
+		valueClassName = NSDate;
+		isDate = 1;
+	};
+	TIME = {
+		mysqlDataType = 11;
+		valueClassName = NSNumber;
+		valueType = i;
+		isNumber = 1;
+	};	
+	DATETIME = {
+		mysqlDataType = 12;
+		valueClassName = NSDate;
+		isDate = 1;
+	};
+	YEAR = {
+		mysqlDataType = 13;
+		valueClassName = NSNumber;
+		valueType = i;
+		isNumber = 1;
+	};	
+	VARCHAR = {
+		mysqlDataType = 15;
+		useWidth = 1;
+		valueClassName = NSString;
+	};
+	BIT = {
+		mysqlDataType = 16;
+		valueClassName = NSNumber;
+		valueType = i;
+		isNumber = 1;
+	};
+	BINARY = {
+		mysqlDataType =254;
+		valueClassName = NSDATA;
+	};
+	CHAR = {
+		mysqlDataType =254;
+		useWidth = 1;
+		valueClassName = NSString;
+	};
+	VARBINARY = {
+		mysqlDataType =253;
+		valueClassName = NSDATA;
+	};
+	BLOB = {
+		mysqlDataType =252;
+		valueClassName = NSDATA;
+	};
+	TEXT = {
+		mysqlDataType =252;
+		valueClassName = NSDATA;
+	};
+	SET = {
+		mysqlDataType =248;
+		valueClassName = NSDATA;
+	};
+	ENUM = {
+		mysqlDataType =247;
+		valueClassName = NSDATA;
+	};
+}
