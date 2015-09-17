@@ -29,6 +29,7 @@
 		14001D4914572C44008E8514 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
 		1E00D9EC1BA4828900817D90 /* MySQLAdaptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E00D9EB1BA4828900817D90 /* MySQLAdaptor.m */; };
 		1E00D9EF1BA4D9C300817D90 /* MySQLChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E00D9EE1BA4D9C300817D90 /* MySQLChannel.m */; };
+		1E0537031BAB00E20080D2AD /* MySQLDataTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1E0537021BAB00E20080D2AD /* MySQLDataTypes.plist */; };
 		1E0EACAA13B3B54C00EDEC95 /* OracleBindInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E0EACA913B3B54C00EDEC95 /* OracleBindInfo.m */; };
 		1E16EB5D15D044BD002D5E8D /* PostgreSQLConnectionPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E16EB5B15D044BD002D5E8D /* PostgreSQLConnectionPane.xib */; };
 		1E16EB6015D044D7002D5E8D /* SQLiteConnectionPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E16EB5E15D044D7002D5E8D /* SQLiteConnectionPane.xib */; };
@@ -183,6 +184,7 @@
 		1E00D9EB1BA4828900817D90 /* MySQLAdaptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySQLAdaptor.m; sourceTree = "<group>"; };
 		1E00D9ED1BA4D9C300817D90 /* MySQLChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySQLChannel.h; sourceTree = "<group>"; };
 		1E00D9EE1BA4D9C300817D90 /* MySQLChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySQLChannel.m; sourceTree = "<group>"; };
+		1E0537021BAB00E20080D2AD /* MySQLDataTypes.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = MySQLDataTypes.plist; sourceTree = "<group>"; };
 		1E0EACA813B3B54C00EDEC95 /* OracleBindInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleBindInfo.h; sourceTree = "<group>"; };
 		1E0EACA913B3B54C00EDEC95 /* OracleBindInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleBindInfo.m; sourceTree = "<group>"; };
 		1E16EB5115D0364B002D5E8D /* OracleInterface-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OracleInterface-Info.plist"; sourceTree = "<group>"; };
@@ -370,6 +372,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1E0537041BAB00F80080D2AD /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1E0537021BAB00E20080D2AD /* MySQLDataTypes.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		1E91D55413EB0A6900C0B4F1 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -408,6 +418,7 @@
 		1ED020CF1BA478BD009B923E /* MySQL */ = {
 			isa = PBXGroup;
 			children = (
+				1E0537041BAB00F80080D2AD /* Resources */,
 				1ED020D01BA478BD009B923E /* Supporting Files */,
 				1E00D9EA1BA4828900817D90 /* MySQLAdaptor.h */,
 				1E00D9EB1BA4828900817D90 /* MySQLAdaptor.m */,
@@ -784,6 +795,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E0537031BAB00E20080D2AD /* MySQLDataTypes.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1148,10 +1160,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -1169,7 +1181,7 @@
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1199,8 +1211,8 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
+				SDKROOT = macosx10.7;
+				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = eoadaptor;
 			};
 			name = Development;
@@ -1209,10 +1221,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -1231,7 +1243,7 @@
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -1253,8 +1265,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
+				SDKROOT = macosx10.7;
+				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = eoadaptor;
 			};
 			name = Deployment;
@@ -1263,10 +1275,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -1285,7 +1297,7 @@
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -1307,8 +1319,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
+				SDKROOT = macosx10.7;
+				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = eoadaptor;
 			};
 			name = Default;
