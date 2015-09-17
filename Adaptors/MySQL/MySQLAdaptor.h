@@ -34,6 +34,8 @@ mailto:tom.martin@riemer.com
 {
 }
 
++ (NSDictionary *)dataTypes;
+
 - (NSString *)checkStatus:(MYSQL *)value;
 
 @end

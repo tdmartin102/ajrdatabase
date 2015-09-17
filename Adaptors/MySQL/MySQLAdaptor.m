@@ -7,8 +7,11 @@
 //
 
 #import "MySQLAdaptor.h"
+#import "MySQLContext.h"
 
 #import <mysql.h>
+
+static NSMutableDictionary 	*dataTypes = nil;
 
 @implementation MySQLAdaptor
 
@@ -46,6 +49,11 @@
     return @"MySQL";
 }
 
++ (NSDictionary *)dataTypes
+{
+    return dataTypes;
+}
+
 /*
  As maintainer of a fairly large C application that makes MySQL calls from multiple threads, I can say I've had no problems with simply making a new connection in each thread. Some caveats that I've come across:
  
@@ -66,7 +74,6 @@
             [NSException raise:@"EOGeneralAdaptorException"
                         format:@"MySQL failed to initialize.  Most likely the mysql library was not found, or invalid."];
         }
-        mysql = mysql_init(NULL);
     }
     
     return self;
@@ -74,7 +81,6 @@
 
 - (void)dealloc
 {
-    mysql_close(mysql);
     mysql_library_end();
     [super dealloc];
 }
@@ -84,7 +90,7 @@
     NSString		*errStr = nil;
     const char      *str;
     
-    str = mysql_error(mysql);
+    str = mysql_error(value);
     if (str)
     {
         errStr = [NSString stringWithUTF8String:str];
