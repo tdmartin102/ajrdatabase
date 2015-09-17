@@ -34,6 +34,7 @@
 @interface MySQLChannel : EOAdaptorChannel
 {
     MYSQL                   *mysql;
+    MYSQL_STMT              *stmt;
     int						rowsAffected;
     NSArray					*fetchAttributes;
     NSArray					*evaluateAttributes;
@@ -49,3 +50,5 @@
 // it is incremented for each row fetched on a select.
 
 - (MYSQL *)mysql;
+
+@end
