@@ -55,6 +55,9 @@
 		1E9889A71296F75100F17A39 /* OracleContext.h in Resources */ = {isa = PBXBuildFile; fileRef = 1E9889101296F41B00F17A39 /* OracleContext.h */; };
 		1ED020D61BA47A81009B923E /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C3E14572B67008E8514 /* EOAccess.framework */; };
 		1ED020D71BA47A86009B923E /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
+		1ED512EE1BB037C7009477B5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DAC20742715100AB5036 /* Foundation.framework */; settings = {ASSET_TAGS = (); }; };
+		1ED512EF1BB037CA009477B5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DAC20742715100AB5036 /* Foundation.framework */; settings = {ASSET_TAGS = (); }; };
+		1ED512F01BB037E1009477B5 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DAC10742715100AB5036 /* AppKit.framework */; settings = {ASSET_TAGS = (); }; };
 		1EDEA30515D0128A0045292C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EDEA30415D0128A0045292C /* Cocoa.framework */; };
 		1EDEA31815D01E1B0045292C /* libclntsh.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E98891E1296F57C00F17A39 /* libclntsh.dylib */; };
 		1EDEA31915D01E200045292C /* libocci.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E98891C1296F56400F17A39 /* libocci.dylib */; };
@@ -287,6 +290,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1ED512EE1BB037C7009477B5 /* Foundation.framework in Frameworks */,
 				1E7958FC14642CD700FB2ACF /* EOControl.framework in Frameworks */,
 				1E7958C714642CD100FB2ACF /* EOAccess.framework in Frameworks */,
 				1E98891D1296F56400F17A39 /* libocci.dylib in Frameworks */,
@@ -308,7 +312,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1ED512F01BB037E1009477B5 /* AppKit.framework in Frameworks */,
 				1EDEA30515D0128A0045292C /* Cocoa.framework in Frameworks */,
+				1ED512EF1BB037CA009477B5 /* Foundation.framework in Frameworks */,
 				1EDEA31815D01E1B0045292C /* libclntsh.dylib in Frameworks */,
 				1EDEA31915D01E200045292C /* libocci.dylib in Frameworks */,
 				1EDEA31A15D01E240045292C /* EOAccess.framework in Frameworks */,
@@ -1052,7 +1058,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_LINK_OBJC_RUNTIME = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1068,12 +1075,7 @@
 				INFOPLIST_FILE = "Oracle-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
+				OTHER_LDFLAGS = "-v";
 				PRODUCT_NAME = Oracle;
 				SDKROOT = macosx10.7;
 				WARNING_CFLAGS = (
@@ -1089,6 +1091,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_LINK_OBJC_RUNTIME = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1105,12 +1108,7 @@
 				INFOPLIST_FILE = "Oracle-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
+				OTHER_LDFLAGS = "-v";
 				PRODUCT_NAME = Oracle;
 				SDKROOT = macosx10.7;
 				WARNING_CFLAGS = (
@@ -1126,6 +1124,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_LINK_OBJC_RUNTIME = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1139,12 +1138,7 @@
 				INFOPLIST_FILE = "Oracle-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
+				OTHER_LDFLAGS = "-v";
 				PRODUCT_NAME = Oracle;
 				SDKROOT = macosx10.7;
 				WARNING_CFLAGS = (
@@ -1164,6 +1158,7 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_LINK_OBJC_RUNTIME = NO;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -1172,6 +1167,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = NO;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -1207,11 +1203,11 @@
 					"$(inherited)",
 					/usr/local/mysql/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.9;
 				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = eoadaptor;
 			};
@@ -1225,6 +1221,7 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_LINK_OBJC_RUNTIME = NO;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -1233,6 +1230,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = NO;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -1262,10 +1260,10 @@
 					"$(inherited)",
 					/usr/local/mysql/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.9;
 				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = eoadaptor;
 			};
@@ -1279,6 +1277,7 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_LINK_OBJC_RUNTIME = NO;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -1287,6 +1286,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = NO;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -1316,10 +1316,10 @@
 					"$(inherited)",
 					/usr/local/mysql/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.9;
 				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = eoadaptor;
 			};
@@ -1329,7 +1329,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_LINK_OBJC_RUNTIME = NO;
+				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1358,7 +1360,7 @@
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = NO;
-				"OTHER_LDFLAGS[arch=*]" = "";
+				OTHER_LDFLAGS = "-v";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = interface;
@@ -1369,7 +1371,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_LINK_OBJC_RUNTIME = NO;
+				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1391,6 +1395,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_LDFLAGS = "-v";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = interface;
@@ -1401,7 +1406,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_LINK_OBJC_RUNTIME = NO;
+				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1423,7 +1430,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				"OTHER_LDFLAGS[arch=*]" = "";
+				OTHER_LDFLAGS = "-v";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.7;
 				WRAPPER_EXTENSION = interface;
@@ -2020,7 +2027,7 @@
 		70B72DFC0956026E005162B9 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
 				CURRENT_PROJECT_VERSION = 0.85;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -2031,7 +2038,7 @@
 		70B72DFD0956026E005162B9 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
 				CURRENT_PROJECT_VERSION = 0.85;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
