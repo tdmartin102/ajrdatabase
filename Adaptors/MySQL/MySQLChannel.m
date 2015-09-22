@@ -298,7 +298,6 @@
     int                 fieldCount;
     int                 index;
     int					counter;
-    int                 colWidth;
     EOAttribute			*tempAttribute;
     NSDictionary		*dataTypes;
     NSDictionary		*dataTypeDict;
@@ -343,8 +342,6 @@
         fieldType = [self fieldTypeNameForTypeValue:field->type isBinary:isBinary];
         
        // NEED WIDTH!!!!
-        colWidth = 0;
-
         // Look up the datatype and map it appropriately, but if we don't recognize the database,
         // we can still treat as a string.
         if (fieldType)
@@ -353,6 +350,10 @@
             dataTypeDict = nil;
         if (dataTypeDict)
         {
+            if ([dataTypeDict objectForKey:@"useWidth"])
+            {
+                [tempAttribute setWidth:(int)field->length];
+            }
             [tempAttribute setValueClassName:[dataTypeDict objectForKey:@"valueClassName"]];
             [tempAttribute setExternalType:fieldType];
             [tempAttribute setValueType:[dataTypeDict objectForKey:@"valueType"]];
