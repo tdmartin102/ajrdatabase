@@ -13,7 +13,6 @@
 
 
 - (BOOL)isEmpty;
-- (id)firstObject;
 
 // Unnecessary; can use -doesContain from NSComparisonMethods.
 - (BOOL)containsObjectIdenticalTo:(id)anObject;

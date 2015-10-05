@@ -67,11 +67,6 @@
     return [self count] != 0;
 }
 
--(id)firstObject
-{
-    return [self objectAtIndex:0];
-}
-
 - (BOOL)containsObjectIdenticalTo:(id)anObject
 {
     return (NSNotFound != [self indexOfObjectIdenticalTo:anObject]);
