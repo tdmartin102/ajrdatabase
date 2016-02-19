@@ -460,8 +460,26 @@ static Class _eoDatabaseContextClass = Nil;
 			[fetchedObjects addObject:object];
 			fetchedObjectsCount++;
 			if ((fetchLimit >0) && (fetchedObjectsCount % fetchLimit == 0)) {
-				// @todo: call editing context message handler
-				continueFetching = NO;
+                continueFetching = NO;
+                if ([fetchSpecification  promptsAfterFetchLimit])
+                {
+                    id messageHandler;
+                    messageHandler = [anEditingContext messageHandler];
+                    if (messageHandler)
+                    {
+                        if ([messageHandler respondsToSelector:
+                             @selector(editingContext:shouldContinueFetchingWithCurrentObjectCount:originalLimit:objectStore:)]) {
+                            if ([messageHandler editingContext:anEditingContext
+              shouldContinueFetchingWithCurrentObjectCount:fetchedObjectsCount
+                                             originalLimit:fetchLimit
+                                                   objectStore:self]) {
+                                fetchLimit = [fetchSpecification fetchLimit];
+                                continueFetching = YES;
+                            }
+                        }
+                    }
+                }
+
 			}
 		}
 	NS_HANDLER
