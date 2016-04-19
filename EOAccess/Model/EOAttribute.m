@@ -635,11 +635,6 @@ NSString *EOAttributeDidChangeNameNotification = @"EOAttributeDidChangeNameNotif
 	return NO;
 }
 
-- (NSCalendarDate *)newDateForYear:(int)year month:(unsigned)month day:(unsigned)day hour:(unsigned)hour minute:(unsigned)minute second:(unsigned)second millisecond:(unsigned)millisecond timeZone:(NSTimeZone *)timeZone zone:(NSZone *)zone
-{
-	return [[NSCalendarDate allocWithZone:zone] initWithYear:year month:month day:day hour:hour minute:minute second:second timeZone:timeZone];
-}
-
 - (id)newValueForBytes:(const void *)bytes length:(int)length
 {
 	if (adaptorValueConversionMethod && factoryMethodArgumentType == EOFactoryMethodArgumentIsBytes) {
@@ -658,6 +653,8 @@ NSString *EOAttributeDidChangeNameNotification = @"EOAttributeDidChangeNameNotif
 		return nil;
 	} else if ([valueClassName isEqualToString:@"NSCalendarDate"]) {
 		return nil;
+    } else if ([valueClassName isEqualToString:@"NSDate"]) {
+        return nil;
 	}
 	
 	return nil;
@@ -681,7 +678,9 @@ NSString *EOAttributeDidChangeNameNotification = @"EOAttributeDidChangeNameNotif
 		return nil;
 	} else if ([valueClassName isEqualToString:@"NSCalendarDate"]) {
 		return nil;
-	}
+    } else if ([valueClassName isEqualToString:@"NSDate"]) {
+        return nil;
+    }
 	
 	return nil;
 }

@@ -162,12 +162,6 @@ extern NSString *EOAttributeDidChangeNameNotification;
 - (void)setUserInfo:(NSDictionary *)someInfo;
 - (NSDictionary *)userInfo;
 
-// Methods used by the adaptor
-#if MAC_OS_X_VERSION_MAX_ALLOWED > 1060
-- (NSDate *)newDateForYear:(int)year month:(unsigned)month day:(unsigned)day hour:(unsigned)hour minute:(unsigned)minute second:(unsigned)second millisecond:(unsigned)millisecond timeZone:(NSTimeZone *)timeZone zone:(NSZone *)zone;
-#else
-- (NSCalendarDate *)newDateForYear:(int)year month:(unsigned)month day:(unsigned)day hour:(unsigned)hour minute:(unsigned)minute second:(unsigned)second millisecond:(unsigned)millisecond timeZone:(NSTimeZone *)timeZone zone:(NSZone *)zone;
-#endif
 - (id)newValueForBytes:(const void *)bytes length:(int)length;
 - (id)newValueForBytes:(const void *)bytes length:(int)length encoding:(NSStringEncoding)encoding;
 

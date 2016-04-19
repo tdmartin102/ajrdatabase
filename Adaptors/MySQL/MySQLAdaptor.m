@@ -218,9 +218,7 @@ static NSMutableDictionary 	*dataTypes = nil;
                                            length:[value lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
         return [result autorelease];
     }
-    if ([vcn isEqualToString:@"NSCalendarDate"])
-        return [NSCalendarDate dateWithString:value];
-    if ([vcn isEqualToString:@"NSDate"])
+    if (([vcn isEqualToString:@"NSCalendarDate"]) || ([vcn isEqualToString:@"NSDate"]))
     {
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         NSDate *result = [formatter dateFromString:value];
@@ -239,7 +237,7 @@ static NSMutableDictionary 	*dataTypes = nil;
     // NSString -- we COULD convert to Base64 or something, but ....
     // NSNumber
     // NSDecimalNumber
-    // NSCalendarDate
+    // NSDate
     return nil;
 }
 
@@ -264,7 +262,7 @@ static NSMutableDictionary 	*dataTypes = nil;
     if ([vcn isEqualToString:@"NSDecimalNumber"])
         return [NSDecimalNumber decimalNumberWithString:str];
     
-    // NSCalendarDate
+    // NSDate
     return nil;
 }
 
@@ -289,37 +287,14 @@ static NSMutableDictionary 	*dataTypes = nil;
         return [result autorelease];
     }
     
-    // NSCalendarDate
-    return nil;
-}
-
-+ (id)valueForClassNamed:(NSString *)vcn forNSCalendarDate:(NSCalendarDate *)value
-{
-    if ([vcn isEqualToString:@"NSCalendarDate"])
-        return value;
-    if ([vcn isEqualToString:@"NSDate"])
-        return value;
-    
-    if ([vcn isEqualToString:@"NSString"])
-        return [value description];
-    
-    if ([vcn isEqualToString:@"NSData"])
-    {
-        NSString *str = [value description];
-        id result = [[NSData alloc] initWithBytes:[str UTF8String]
-                                           length:[str lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
-        return [result autorelease];
-    }
-    
-    // NSNumber
-    // NSDecimalNumber
+    // NSDate
     return nil;
 }
 
 + (id)valueForClassNamed:(NSString *)vcn forNSDate:(NSDate *)value
 {
     if ([vcn isEqualToString:@"NSCalendarDate"])
-        return [value  dateWithCalendarFormat:nil timeZone:nil];
+        return value;
     
     if ([vcn isEqualToString:@"NSDate"])
         return value;
@@ -353,8 +328,6 @@ static NSMutableDictionary 	*dataTypes = nil;
         result = [self valueForClassNamed:aClassName forNSDecimalNumber:(NSDecimalNumber *)value];
     else if ([value isKindOfClass:[NSNumber class]])
         result = [self valueForClassNamed:aClassName forNSNumber:(NSNumber *)value];
-    else if ([value isKindOfClass:[NSCalendarDate class]])
-        result = [self valueForClassNamed:aClassName forNSCalendarDate:(NSCalendarDate *)value];
     else if ([value isKindOfClass:[NSDate class]])
         result = [self valueForClassNamed:aClassName forNSDate:(NSDate *)value]; 
     else if ([value isKindOfClass:[NSData class]])

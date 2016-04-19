@@ -1,162 +1,162 @@
 {
-   16 = {
-      define = "BOOLOID";
-      valueClassName = "NSNumber";
-      externalType = "bool";
-      valueType = "c";
-   };
-   17 = {
-      define = "BYTEAOID";
-      valueClassName = "NSString";
-      externalType = "bytea";
-   };
-   18 = {
-      define = "CHAROID";
-      valueClassName = "NSNumber";
-      externalType = "char";
-      valueType = "c";
-   };
-   19 = {
-      define = "NAMEOID";
-      valueClassName = "NSString";
-      externalType = "name";
-   };
-   20 = {
-      define = "INT8OID";
-      valueClassName = "NSNumber";
-      externalType = "int8";
-      valueType = "q";
-   };
-   21 = {
-      define = "INT2OID";
-      valueClassName = "NSNumber";
-      externalType = "int2";
-      valueType = "s";
-   };
-   22 = {
-      define = "INT2VECTOROID";
-      valueClassName = "NSArray";
-      externalType = "int2vector";
-      valueType = "s";
-   };
-   23 = {
-      define = "INT4OID";
-      valueClassName = "NSNumber";
-      externalType = "int4";
-      valueType = "i";
-   };
-   24 = {
-      define = "REGPROCOID";
-      valueClassName = "NSString";
-      externalType = "regproc";
-   };
-   25 = {
-      define = "TEXTOID";
-      valueClassName = "NSString";
-      externalType = "text";
-   };
-   26 = {
-      define = "OIDOID";
-      valueClassName = "NSNumber";
-      externalType = "oid";
-      valueType = "i";
-   };
-   27 = {
-      define = "TIDOID";
-      valueClassName = "NSNumber";
-      externalType = "tid";
-      valueType = "i";
-   };
-   28 = {
-      define = "XIDOID";
-      valueClassName = "NSNumber";
-      externalType = "xid";
-      valueType = "i";
-   };
-   30 = {
-      define = "XIDOID";
-      valueClassName = "NSArray";
-      externalType = "oidvector";
-      valueType = "i";
-   };
-   700 = {
-      define = "FLOAT4OID";
-      valueClassName = "NSNumber";
-      externalType = "float4";
-      valueType = "f";
-   };
-   701 = {
-      define = "FLOAT8OID";
-      valueClassName = "NSNumber";
-      externalType = "float8";
-      valueType = "d";
-   };
-   702 = {
-      define = "ABSTIMEOID";
-      valueClassName = "NSCalendarDate";
-      externalType = "abstime";
-   };
-   790 = {
-      define = "CASHOID";
-      valueClassName = "NSDecimalNumber";
-      externalType = "money";
-   };
-   1005 = {
-      valueClassName = "NSNumber";
-      externalType = "_int2";
-      valueType = "s";
-   };
-   1007 = {
-      valueClassName = "NSArray";
-      externalType = "_int4";
-      valueType = "i";
-   };
-   1009 = {
-      valueClassName = "NSString";
-      externalType = "_text";
-   };
-   1021 = {
-      valueClassName = "NSNumber";
-      externalType = "_float4";
-      valueType = "f";
-   };
-   1022 = {
-      valueClassName = "NSNumber";
-      externalType = "_float8";
-      valueType = "d";
-   };
-   1034 = {
-      valueClassName = "NSString";
-      externalType = "_aclitem";
-   };
-   1042 = {
-      define = "BPCHAROID";
-      valueClassName = "NSString";
-      externalType = "bpchar";
-   };
-   1043 = {
-      define = "VARCHAROID";
-      valueClassName = "NSString";
-      externalType = "varchar";
-   };
-   1082 = {
-      define = "DATEOID";
-      valueClassName = "NSCalendarDate";
-      externalType = "date";
-   };
-   1114 = {
-      define = "TIMESTAMPOID";
-      valueClassName = "NSCalendarDate";
-      externalType = "timestamp";
-   };
-   1184 = {
-      define = "TIMESTAMPTZOID";
-      valueClassName = "NSCalendarDate";
-      externalType = "timestamptz";
-   };
-   1700 = {
-      define = "NUMERICOID";
-      valueClassName = "NSDecimalNumber";
-      externalType = "numeric";
-   };
+	16 = {
+		define = BOOLOID;
+		valueClassName = NSNumber;
+		externalType = bool;
+		valueType = c;
+	};
+	17 = {
+		define = BYTEAOID;
+		valueClassName = NSString;
+		externalType = bytea;
+	};
+	18 = {
+		define = CHAROID;
+		valueClassName = NSNumber;
+		externalType = char;
+		valueType = c;
+	};
+	19 = {
+		define = NAMEOID;
+		valueClassName = NSString;
+		externalType = name;
+	};
+	20 = {
+		define = INT8OID;
+		valueClassName = NSNumber;
+		externalType = int8;
+		valueType = q;
+	};
+	21 = {
+		define = INT2OID;
+		valueClassName = NSNumber;
+		externalType = int2;
+		valueType = s;
+	};
+	22 = {
+		define = INT2VECTOROID;
+		valueClassName = NSArray;
+		externalType = int2vector;
+		valueType = s;
+	};
+	23 = {
+		define = INT4OID;
+		valueClassName = NSNumber;
+		externalType = int4;
+		valueType = i;
+	};
+	24 = {
+		define = REGPROCOID;
+		valueClassName = NSString;
+		externalType = regproc;
+	};
+	25 = {
+		define = TEXTOID;
+		valueClassName = NSString;
+		externalType = text;
+	};
+	26 = {
+		define = OIDOID;
+		valueClassName = NSNumber;
+		externalType = oid;
+		valueType = i;
+	};
+	27 = {
+		define = TIDOID;
+		valueClassName = NSNumber;
+		externalType = tid;
+		valueType = i;
+	};
+	28 = {
+		define = XIDOID;
+		valueClassName = NSNumber;
+		externalType = xid;
+		valueType = i;
+	};
+	30 = {
+		define = XIDOID;
+		valueClassName = NSArray;
+		externalType = oidvector;
+		valueType = i;
+	};
+	700 = {
+		define = FLOAT4OID;
+		valueClassName = NSNumber;
+		externalType = float4;
+		valueType = f;
+	};
+	701 = {
+		define = FLOAT8OID;
+		valueClassName = NSNumber;
+		externalType = float8;
+		valueType = d;
+	};
+	702 = {
+		define = ABSTIMEOID;
+		valueClassName = NSDate;
+		externalType = abstime;
+	};
+	790 = {
+		define = CASHOID;
+		valueClassName = NSDecimalNumber;
+		externalType = money;
+	};
+	1005 = {
+		valueClassName = NSNumber;
+		externalType = "_int2";
+		valueType = s;
+	};
+	1007 = {
+		valueClassName = NSArray;
+		externalType = "_int4";
+		valueType = i;
+	};
+	1009 = {
+		valueClassName = NSString;
+		externalType = "_text";
+	};
+	1021 = {
+		valueClassName = NSNumber;
+		externalType = "_float4";
+		valueType = f;
+	};
+	1022 = {
+		valueClassName = NSNumber;
+		externalType = "_float8";
+		valueType = d;
+	};
+	1034 = {
+		valueClassName = NSString;
+		externalType = "_aclitem";
+	};
+	1042 = {
+		define = BPCHAROID;
+		valueClassName = NSString;
+		externalType = bpchar;
+	};
+	1043 = {
+		define = VARCHAROID;
+		valueClassName = NSString;
+		externalType = varchar;
+	};
+	1082 = {
+		define = DATEOID;
+		valueClassName = NSDate;
+		externalType = date;
+	};
+	1114 = {
+		define = TIMESTAMPOID;
+		valueClassName = NSDate;
+		externalType = timestamp;
+	};
+	1184 = {
+		define = TIMESTAMPTZOID;
+		valueClassName = NSDate;
+		externalType = timestamptz;
+	};
+	1700 = {
+		define = NUMERICOID;
+		valueClassName = NSDecimalNumber;
+		externalType = numeric;
+	};
 }

@@ -37,10 +37,32 @@ http://www.raftis.net/~alex/
 
 @implementation PostgreSQLChannel
 
+- (NSDate *)dateWithString:(NSString *)dateString calendarFormat:(NSString *)fmt
+{
+    struct tm  sometime;
+    time_t aTime;
+    const char *formatString = [fmt UTF8String];
+    
+    // The time struct MUST be cleared as strptime ONLY sets whatever is in the
+    // format.  Seems wrong to me, but there you go.
+    memset(&sometime, 0, sizeof(struct tm));
+    strptime([dateString UTF8String], formatString, &sometime);
+    aTime = mktime(&sometime);
+    return [NSDate dateWithTimeIntervalSince1970: aTime];
+}
+
+- (NSDate *)dateWithString:(NSString *)dateString
+{
+    return [self dateWithString:(NSString *)dateString calendarFormat:@"%Y-%m-%d %H:%M:%S %z"];
+}
+
 - (id)initWithAdaptorContext:(EOAdaptorContext *)aContext
 {
    if (self = [super initWithAdaptorContext:aContext])
+   {
        databaseEncoding = -1;
+       dateFormatter = [[NSDateFormatter alloc] init];
+   }
 
    return self;
 }
@@ -59,6 +81,7 @@ http://www.raftis.net/~alex/
       [self closeChannel];
    }
    PQfinish(connection); connection = NULL;
+    [dateFormatter release];
 
    [super dealloc];
 }
@@ -392,7 +415,7 @@ http://www.raftis.net/~alex/
       }
 
       return [NSNumber numberWithInt:atoi(string)];
-   } else if ([valueClassName isEqualToString:@"NSCalendarDate"]) {
+   } else if ([valueClassName isEqualToString:@"NSDate"]) {
       char				buffer[100];
 		int				length = strlen(string);
 		// mont_rothstein @ yahoo.com 2005-11-15
@@ -406,7 +429,7 @@ http://www.raftis.net/~alex/
 			buffer[23] = '0';
 			buffer[24] = '0';
 			buffer[25] = '\0';
-			return [NSCalendarDate dateWithString:[NSString stringWithUTF8String:buffer]];
+			return [self dateWithString:[NSString stringWithUTF8String:buffer]];
 		} else if ([externalType isEqualToString: @"timetz"]) {
 			strncpy(buffer, string, 8);
 			buffer[8] = '\0';
@@ -415,21 +438,21 @@ http://www.raftis.net/~alex/
 			buffer[12] = '0';
 			buffer[13] = '0';
 			buffer[14] = '\0';
-			return [NSCalendarDate dateWithString:[NSString stringWithUTF8String:buffer] calendarFormat:@"%I:%M:%S %z"];
+			return [self dateWithString:[NSString stringWithUTF8String:buffer] calendarFormat:@"%I:%M:%S %z"];
 		} else if ([externalType isEqualToString: @"time"]) {
 			strncpy(buffer, string, 8);
 			buffer[8] = '\0';
-			return [NSCalendarDate dateWithString:[NSString stringWithUTF8String:buffer] calendarFormat:@"%I:%M:%S"];
+			return [self dateWithString:[NSString stringWithUTF8String:buffer] calendarFormat:@"%I:%M:%S"];
 		} else if ([externalType isEqualToString: @"timestamp"]) {
 			strncpy(buffer, string, 19);
 			buffer[19] = '\0';
 			// mont_rothstein @ yahoo.com 2005-01-01
 			// This incorrectly had a %z in the format, corrected.
-			return [NSCalendarDate dateWithString:[NSString stringWithUTF8String:buffer] calendarFormat:@"%Y-%m-%d %I:%M:%S"];
+			return [self dateWithString:[NSString stringWithUTF8String:buffer] calendarFormat:@"%Y-%m-%d %I:%M:%S"];
 		} else if ([externalType isEqualToString: @"date"]) {
 			strncpy(buffer, string, 10);
 			buffer[10] = '\0';
-			return [NSCalendarDate dateWithString:[NSString stringWithUTF8String:buffer] calendarFormat:@"%Y-%m-%d"];
+			return [self dateWithString:[NSString stringWithUTF8String:buffer] calendarFormat:@"%Y-%m-%d"];
 		}
 	} else if ([valueClassName isEqualToString:@"NSArray"]) {
       NSString	*type = [attribute valueType];
@@ -829,10 +852,10 @@ http://www.raftis.net/~alex/
 				[attribute setValueType:@"i"];
 			} else if ([type isEqualToString:@"timestamp with time zone"]) {
 				[attribute setExternalType:@"timestamptz"];
-				[attribute setValueClassName:@"NSCalendarDate"];
+				[attribute setValueClassName:@"NSDate"];
 			} else if ([type isEqualToString:@"date"]) {
 				[attribute setExternalType:@"date"];
-				[attribute setValueClassName:@"NSCalendarDate"];
+				[attribute setValueClassName:@"NSDate"];
 			} else if ([type hasPrefix:@"character varying"]) {
 				[attribute setExternalType:@"varchar"];
 				[attribute setValueClassName:@"NSString"];

@@ -33,6 +33,19 @@ http://www.raftis.net/~alex/
 
 @implementation SQLiteChannel
 
+- (NSDate *)dateWithString:(NSString *)dateString
+{
+    struct tm  sometime;
+    time_t aTime;
+    
+    // The time struct MUST be cleared as strptime ONLY sets whatever is in the
+    // format.  Seems wrong to me, but there you go.
+    memset(&sometime, 0, sizeof(struct tm));
+    strptime([dateString UTF8String], "%Y-%m-%d %H:%M:%S %z", &sometime);
+    aTime = mktime(&sometime);
+    return [NSDate dateWithTimeIntervalSince1970: aTime];
+}
+
 - (id)initWithAdaptorContext:(EOAdaptorContext *)aContext
 {
    [super initWithAdaptorContext:aContext];
@@ -321,7 +334,7 @@ http://www.raftis.net/~alex/
       }
 
       return [NSNumber numberWithInt:atoi(value)];
-   } else if ([valueClassName isEqualToString:@"NSCalendarDate"]) {
+   } else if ([valueClassName isEqualToString:@"NSDate"]) {
       char				buffer[100];
 		int				length = strlen(value);
       strncpy(buffer, value, 19);
@@ -331,7 +344,7 @@ http://www.raftis.net/~alex/
       buffer[23] = '0';
       buffer[24] = '0';
       buffer[25] = '\0';
-      return [NSCalendarDate dateWithString:[NSString stringWithCString:buffer]];
+      return [self dateWithString:[NSString stringWithCString:buffer]];
    } else if ([valueClassName isEqualToString:@"NSArray"]) {
       NSString	*type = [attribute valueType];
       if ([type length]) {
@@ -752,9 +765,9 @@ http://www.raftis.net/~alex/
 		} else if ([type isEqualToString:@"varchar"]) {
 			[attribute setValueClassName:@"NSString"];
 		} else if ([type isEqualToString:@"date"]) {
-			[attribute setValueClassName:@"NSCalendarDate"];
+			[attribute setValueClassName:@"NSDate"];
 		} else if ([type isEqualToString:@"datetime"]) {
-			[attribute setValueClassName:@"NSCalendarDate"];
+			[attribute setValueClassName:@"NSDate"];
 		}
 		[entity addAttribute:attribute];
 		[attribute release];
