@@ -609,7 +609,7 @@ static NSMutableDictionary *_classDescriptionCache = nil;
                     if (isDBSnapshot)
                         value = [[self _gidsForArray:value] retain];
                     else
-                        value = [value shallowCopy];
+                        value = [[value shallowCopy] retain];
                     [snapshot setObject:value forKey:name];
                     [value release];
                 }

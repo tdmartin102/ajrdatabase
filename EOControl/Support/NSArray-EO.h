@@ -31,6 +31,9 @@
 - (id)valueForKey:(NSString *)key;
 
 // Making copies
+// tom.Martin @ riemer.com 2017-05-19
+// PLEASE PLEASE NOTE:!!!!
+// This NOW returns an autoreleased object so that ARC just might work.
 - (id)shallowCopy;
 
 @end

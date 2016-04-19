@@ -219,7 +219,7 @@ static NSComparisonResult _eoSorter(id one, id two, void *context)
 
 - (id)shallowCopy
 {
-	return [[NSArray allocWithZone:[self zone]] initWithArray:self copyItems:NO];
+	return [[[NSArray allocWithZone:[self zone]] initWithArray:self copyItems:NO] autorelease];
 }
 
 
