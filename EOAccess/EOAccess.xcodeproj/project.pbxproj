@@ -139,7 +139,7 @@
 
 /* Begin PBXFileReference section */
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		14DF9313145724A900DF0C65 /* EOControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOControl.framework; path = ../EOControl/build/Development/EOControl.framework; sourceTree = SOURCE_ROOT; };
+		14DF9313145724A900DF0C65 /* EOControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOControl.framework; path = /Library/Frameworks/EOControl.framework; sourceTree = "<absolute>"; };
 		32DBCF5E0370ADEE00C91783 /* EOAccess_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EOAccess_Prefix.pch; sourceTree = "<group>"; };
 		705F58B20777F71F009FE382 /* EODatabaseContextP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EODatabaseContextP.h; sourceTree = "<group>"; };
 		70AE10D407639E7B00CE4588 /* EOFault-EOAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EOFault-EOAccess.h"; sourceTree = "<group>"; };
