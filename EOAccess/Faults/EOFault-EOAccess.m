@@ -63,7 +63,7 @@ static size_t arraySize;
 		newFault = [EOFault alloc];
 	// tom.martin @ riemer.com 2011-12-5
 	// add call to init.  probably not needed, but seems safer
-	[newFault init];
+	newFault = [newFault init];
 	newFault->handler = [[EOObjectFaultHandler alloc] initWithGlobalID:globalID editingContext:editingContext];
 	[newFault autorelease];
 	
@@ -103,7 +103,7 @@ static size_t arraySize;
 
 	// tom.martin @ riemer.com 2011-12-5
 	// add call to init.  probably not needed, but seems safer
-	[newFault init];
+	newFault = [newFault init];
 	newFault->handler = [[EOArrayFaultHandler alloc] initWithSourceGlobalID:sourceGlobalID relationshipName:relationshipName editingContext:editingContext];
 	[newFault autorelease];
 	
