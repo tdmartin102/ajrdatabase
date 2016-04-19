@@ -32,7 +32,7 @@ http://www.raftis.net/~alex/
 {
     NSString		*entityName;
     NSString		* __strong *keys;
-    id				* __strong values;
+    id				__strong *values;
     int				count;
 	NSUInteger      hash;
 }

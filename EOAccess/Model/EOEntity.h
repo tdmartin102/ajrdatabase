@@ -66,7 +66,7 @@ extern NSString *EOEntityDidChangeNameNotification;
    NSMutableArray			*primaryKeyAttributes;
    NSMutableArray			*primaryKeyAttributeNames;
 	NSString				* __strong *primaryKeyNames;
-	id						* __strong primaryKeyValues;
+	id						__strong *primaryKeyValues;
    NSMutableArray			*relationships;
    NSMutableDictionary	*relationshipIndex;
    NSString					*valueClassName;
