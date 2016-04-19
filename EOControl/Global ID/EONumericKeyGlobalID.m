@@ -54,7 +54,7 @@ http://www.raftis.net/~alex/
         // if keys is not nulled and this is released in the init, the dealloc can end up trying to release garbage.
         // Further, this was using NSZoneMalloc and zones are no longer being used.
         values = (unsigned long long *)calloc(count, sizeof(unsigned long long));
-        keys = (NSString **)calloc(count, sizeof(id));
+        keys = (NSString **)calloc(count, sizeof(NSString *));
 		hash = [entityName hash];
 		// This uses random to prevent the hash values from being sequential. This happens, for example, if you fetch a large number of items from the same entity in a database. This creates serious slow downs in NSDictionary's hash table. By using call srandom() on the first item and then hashing xor'd with random(), we always produce the same number, but get something "random" enough to prevent the slow down in NSDictionary.
 	   for (x = 0; x < count; x++) {
