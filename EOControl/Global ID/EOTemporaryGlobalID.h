@@ -44,17 +44,17 @@ http://www.raftis.net/~alex/
 - (id)valueForKey:(NSString *)key;
 
 /*!
- * @method setNewGlobalID:
+ * @method setTempGlobalID:
  *
  * @discussion The new global ID is used when the primary key is generated for the object during the save process. The currently temporary global ID will get the new global ID. If the save succeeds, the new global ID will replace the current global ID on the object. If the save fails, then the new global ID will be discarded. Normally this method is called by the database layer during the save process.
  */
-- (void)setNewGlobalID:(EOGlobalID *)aGlobalID;
+- (void)setTempGlobalID:(EOGlobalID *)aGlobalID;
 
 /*!
- * @method newGlobalID
+ * @method tempGlobalID
  *
  * @discussion Returns the new global ID. See setNewGlobalID: for details.
  */
-- (EOGlobalID *)newGlobalID;
+- (EOGlobalID *)tempGlobalID;
 
 @end
