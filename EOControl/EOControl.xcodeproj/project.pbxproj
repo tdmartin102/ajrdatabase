@@ -287,7 +287,6 @@
 				FAC10AEA073F02CA00744E1E /* Faults */,
 				FAC10BDF073F083400744E1E /* Global ID */,
 				FAC10ACD073F01D600744E1E /* Object Stores */,
-				FAC10AA9073F01B600744E1E /* Qualifiers */,
 				FAC10B1D073F03A300744E1E /* Support */,
 				FAC10B82073F05F900744E1E /* EODefines.h */,
 				FAC10B83073F05F900744E1E /* EODefines.m */,
@@ -367,7 +366,8 @@
 				FAC10AB8073F01CC00744E1E /* NSObject-EOQualifier.h */,
 				FAC10AB9073F01CC00744E1E /* NSObject-EOQualifier.m */,
 			);
-			path = Qualifiers;
+			name = Qualifiers;
+			path = ../Qualifiers;
 			sourceTree = "<group>";
 		};
 		FAC10ACD073F01D600744E1E /* Object Stores */ = {
@@ -444,6 +444,7 @@
 				FAC10BE3073F084C00744E1E /* EONumericKeyGlobalID.m */,
 				FAC10BE6073F084C00744E1E /* EOTemporaryGlobalID.h */,
 				FAC10BE7073F084C00744E1E /* EOTemporaryGlobalID.m */,
+				FAC10AA9073F01B600744E1E /* Qualifiers */,
 			);
 			path = "Global ID";
 			sourceTree = "<group>";
