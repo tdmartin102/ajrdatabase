@@ -28,7 +28,6 @@
     return [[self mysqlAdaptor] checkStatus:value];
 }
 
-
 - (NSString *)fieldTypeNameForTypeValue:(int)value isBinary:(BOOL)isBinary
 {
     /*
