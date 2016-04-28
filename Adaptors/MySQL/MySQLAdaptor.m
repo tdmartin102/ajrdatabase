@@ -130,37 +130,32 @@ static NSMutableDictionary 	*dataTypes = nil;
     // return [[[MySQLSchemaGeneration allocWithZone:[self zone]] init] autorelease];
 }
 
-/*
-+ (ub2)dataTypeForAttribute:(EOAttribute *)attrib useWidth:(BOOL *)useWidth nationalCharSet:(BOOL *)useNationalCharSet
+
++ (int)dataTypeForAttribute:(EOAttribute *)attrib useWidth:(BOOL *)useWidth
 {
     NSDictionary		*dataTypes;
     NSDictionary		*dataTypeDict;
-    ub2					dataType;
+    int					dataType;
     unichar				valueType;
     
-    dataTypes = [OracleAdaptor dataTypes];
+    dataTypes = [MySQLAdaptor dataTypes];
     dataTypeDict = [dataTypes objectForKey:[attrib externalType]];
-    dataType = [[dataTypeDict objectForKey:@"ociDataType"] intValue];
+    dataType = [[dataTypeDict objectForKey:@"mysqlDataType"] intValue];
     if (! dataType)
-        [NSException raise:EODatabaseException format:@"OracleAdaptor.dataTypeForAttribute: Attempt to read an unsupported Oracle Datatype '%@'",
+        [NSException raise:EODatabaseException format:@"OracleAdaptor.dataTypeForAttribute: Attempt to read an unsupported MySQL Datatype '%@'",
          [attrib externalType]];
     if ([[dataTypeDict objectForKey:@"useWidth"] intValue])
         *useWidth = YES;
     else
         *useWidth = NO;
     
-    if ([[dataTypeDict objectForKey:@"nationalCharSet"] intValue])
-        *useNationalCharSet = YES;
-    else
-        *useNationalCharSet = NO;
-    
-    // if the external column is NUMBER then the dataType will be SQLT_AVC which
+    // if the external column is INTEGER then the dataType will be MYSQL_TYPE_LONG which
     // is fine for a valueClass of NSDecimalNumber, but for NSNumber we may want change the
     // type if the number is realatively small.  We will do this by using valueType
     // if the valueType is less than a long or a double or float we will use native
     // scalar variables.  If it is bigger than an int we will store it in a string and then
     // convert it.  This is what is ALWAYS is done for a NSDecimalNumber
-    if ((dataType == SQLT_AVC) && ([[attrib valueClassName] isEqualToString:@"NSNumber"]))
+    if ((dataType == MYSQL_TYPE_LONG) && ([[attrib valueClassName] isEqualToString:@"NSNumber"]))
     {
         if ([[attrib valueType] length])
         {
@@ -172,13 +167,13 @@ static NSMutableDictionary 	*dataTypes = nil;
                 case  's':
                 case  'S':
                 case  'i':
-                    dataType = SQLT_INT;  // signed integer
+                    dataType = MYSQL_TYPE_LONG;  // signed integer
                     break;
                 case  'f':
-                    dataType = SQLT_BFLOAT;
+                    dataType = MYSQL_TYPE_FLOAT;
                     break;
                 case  'd':
-                    dataType = SQLT_BDOUBLE;
+                    dataType = MYSQL_TYPE_DOUBLE;
                     break;
                 case  'I':
                 case  'l':
@@ -187,6 +182,7 @@ static NSMutableDictionary 	*dataTypes = nil;
                 case  'Q':
                 default:
                     // we will keep SQLT_AVC and convert a string to an NSNumber
+                    dataType = MYSQL_TYPE_DECIMAL;
                     break;
             }
         }
@@ -194,7 +190,7 @@ static NSMutableDictionary 	*dataTypes = nil;
     
     return dataType;
 }
-*/
+
 
 + (id)valueForClassNamed:(NSString *)vcn forNSString:(NSString *)value
 {

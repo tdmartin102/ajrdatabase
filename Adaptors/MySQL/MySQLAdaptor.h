@@ -29,12 +29,29 @@ mailto:tom.martin@riemer.com
 #import <EOControl/EOControl.h>
 #import <mysql.h>
 
+#define	SIMPLE_BUFFER_SIZE	259
+
+typedef union _mysqlBufferValue {
+    char                sCharValue;
+    unsigned char       uCharValue;
+    int                 sIntValue;
+    unsigned int        uIntValue;
+    long long           sLLValue;
+    unsigned long long  uLLValue;
+    double              doubleValue;
+    float               floatValue;
+    MYSQL_TIME          dateTime;
+    unsigned char       *charPtr;       // for malloced buffer
+    unsigned char       simplePtr[SIMPLE_BUFFER_SIZE];  // this can be used for DECIMAL, small strings, etc)
+} mysqlBufferValue;
+
 
 @interface MySQLAdaptor : EOAdaptor
 {
 }
 
 + (NSDictionary *)dataTypes;
++ (int)dataTypeForAttribute:(EOAttribute *)attrib useWidth:(BOOL *)useWidth;
 
 - (NSString *)checkStatus:(MYSQL *)value;
 
