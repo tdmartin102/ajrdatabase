@@ -45,6 +45,10 @@
 		1E86A7F51312D63C00FA5FDA /* OracleDefineInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E86A7F41312D63C00FA5FDA /* OracleDefineInfo.m */; };
 		1E8E60D11574F0DC00179CCB /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E8E60D01574F0DC00179CCB /* libsqlite3.dylib */; };
 		1E8E60D21574F0DC00179CCB /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E8E60D01574F0DC00179CCB /* libsqlite3.dylib */; };
+		1E968CAA1CCF94DD00DDD26C /* MySQLAdaptor.h in Resources */ = {isa = PBXBuildFile; fileRef = 1E00D9EA1BA4828900817D90 /* MySQLAdaptor.h */; };
+		1E968CAB1CCF94DD00DDD26C /* MySQLChannel.h in Resources */ = {isa = PBXBuildFile; fileRef = 1E00D9ED1BA4D9C300817D90 /* MySQLChannel.h */; };
+		1E968CAC1CCF94DD00DDD26C /* MySQLContext.h in Resources */ = {isa = PBXBuildFile; fileRef = 1E5356711BA8764900371E45 /* MySQLContext.h */; };
+		1E968CAF1CCFEE1C00DDD26C /* MySQLBindInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E968CAE1CCFEE1C00DDD26C /* MySQLBindInfo.m */; };
 		1E9889131296F41B00F17A39 /* OracleAdaptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E98890D1296F41B00F17A39 /* OracleAdaptor.m */; };
 		1E9889141296F41B00F17A39 /* OracleChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E98890F1296F41B00F17A39 /* OracleChannel.m */; };
 		1E9889151296F41B00F17A39 /* OracleContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E9889111296F41B00F17A39 /* OracleContext.m */; };
@@ -55,9 +59,9 @@
 		1E9889A71296F75100F17A39 /* OracleContext.h in Resources */ = {isa = PBXBuildFile; fileRef = 1E9889101296F41B00F17A39 /* OracleContext.h */; };
 		1ED020D61BA47A81009B923E /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C3E14572B67008E8514 /* EOAccess.framework */; };
 		1ED020D71BA47A86009B923E /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
-		1ED512EE1BB037C7009477B5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DAC20742715100AB5036 /* Foundation.framework */; settings = {ASSET_TAGS = (); }; };
-		1ED512EF1BB037CA009477B5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DAC20742715100AB5036 /* Foundation.framework */; settings = {ASSET_TAGS = (); }; };
-		1ED512F01BB037E1009477B5 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DAC10742715100AB5036 /* AppKit.framework */; settings = {ASSET_TAGS = (); }; };
+		1ED512EE1BB037C7009477B5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DAC20742715100AB5036 /* Foundation.framework */; };
+		1ED512EF1BB037CA009477B5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DAC20742715100AB5036 /* Foundation.framework */; };
+		1ED512F01BB037E1009477B5 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DAC10742715100AB5036 /* AppKit.framework */; };
 		1EDEA30515D0128A0045292C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EDEA30415D0128A0045292C /* Cocoa.framework */; };
 		1EDEA31815D01E1B0045292C /* libclntsh.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E98891E1296F57C00F17A39 /* libclntsh.dylib */; };
 		1EDEA31915D01E200045292C /* libocci.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E98891C1296F56400F17A39 /* libocci.dylib */; };
@@ -207,6 +211,8 @@
 		1E91D55B13EB0AC600C0B4F1 /* OracleLogo.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = OracleLogo.tiff; sourceTree = "<group>"; };
 		1E91D56113EB0BAC00C0B4F1 /* OracleConnectionPane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleConnectionPane.h; sourceTree = "<group>"; };
 		1E91D56213EB0BAC00C0B4F1 /* OracleConnectionPane.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleConnectionPane.m; sourceTree = "<group>"; };
+		1E968CAD1CCFEE1C00DDD26C /* MySQLBindInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySQLBindInfo.h; sourceTree = "<group>"; };
+		1E968CAE1CCFEE1C00DDD26C /* MySQLBindInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySQLBindInfo.m; sourceTree = "<group>"; };
 		1E9889011296F31D00F17A39 /* Oracle.eoadaptor */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Oracle.eoadaptor; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E9889021296F31D00F17A39 /* Oracle-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Oracle-Info.plist"; sourceTree = "<group>"; };
 		1E98890C1296F41B00F17A39 /* OracleAdaptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleAdaptor.h; sourceTree = "<group>"; };
@@ -426,6 +432,8 @@
 			children = (
 				1E0537041BAB00F80080D2AD /* Resources */,
 				1ED020D01BA478BD009B923E /* Supporting Files */,
+				1E968CAD1CCFEE1C00DDD26C /* MySQLBindInfo.h */,
+				1E968CAE1CCFEE1C00DDD26C /* MySQLBindInfo.m */,
 				1E00D9EA1BA4828900817D90 /* MySQLAdaptor.h */,
 				1E00D9EB1BA4828900817D90 /* MySQLAdaptor.m */,
 				1E00D9ED1BA4D9C300817D90 /* MySQLChannel.h */,
@@ -801,6 +809,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E968CAA1CCF94DD00DDD26C /* MySQLAdaptor.h in Resources */,
+				1E968CAB1CCF94DD00DDD26C /* MySQLChannel.h in Resources */,
+				1E968CAC1CCF94DD00DDD26C /* MySQLContext.h in Resources */,
 				1E0537031BAB00E20080D2AD /* MySQLDataTypes.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -908,6 +919,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E5356731BA8764900371E45 /* MySQLContext.m in Sources */,
+				1E968CAF1CCFEE1C00DDD26C /* MySQLBindInfo.m in Sources */,
 				1E00D9EF1BA4D9C300817D90 /* MySQLChannel.m in Sources */,
 				1E00D9EC1BA4828900817D90 /* MySQLAdaptor.m in Sources */,
 			);
