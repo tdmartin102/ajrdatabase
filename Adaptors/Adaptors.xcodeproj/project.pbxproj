@@ -42,6 +42,7 @@
 		1E8203CE15753E6F00F9663C /* libpq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E8203CC15753E6F00F9663C /* libpq.a */; };
 		1E8203D0157560C300F9663C /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C3E14572B67008E8514 /* EOAccess.framework */; };
 		1E8203D1157560C900F9663C /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
+		1E825C901CD37B6500EE1D15 /* MySQLSQLExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E825C8F1CD37B6500EE1D15 /* MySQLSQLExpression.m */; };
 		1E86A7F51312D63C00FA5FDA /* OracleDefineInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E86A7F41312D63C00FA5FDA /* OracleDefineInfo.m */; };
 		1E8E60D11574F0DC00179CCB /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E8E60D01574F0DC00179CCB /* libsqlite3.dylib */; };
 		1E8E60D21574F0DC00179CCB /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E8E60D01574F0DC00179CCB /* libsqlite3.dylib */; };
@@ -205,6 +206,8 @@
 		1E5356711BA8764900371E45 /* MySQLContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySQLContext.h; sourceTree = "<group>"; };
 		1E5356721BA8764900371E45 /* MySQLContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySQLContext.m; sourceTree = "<group>"; };
 		1E8203CC15753E6F00F9663C /* libpq.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpq.a; path = /usr/lib/libpq.a; sourceTree = "<absolute>"; };
+		1E825C8E1CD37B6500EE1D15 /* MySQLSQLExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySQLSQLExpression.h; sourceTree = "<group>"; };
+		1E825C8F1CD37B6500EE1D15 /* MySQLSQLExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySQLSQLExpression.m; sourceTree = "<group>"; };
 		1E86A7F31312D63C00FA5FDA /* OracleDefineInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleDefineInfo.h; sourceTree = "<group>"; };
 		1E86A7F41312D63C00FA5FDA /* OracleDefineInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleDefineInfo.m; sourceTree = "<group>"; };
 		1E8E60D01574F0DC00179CCB /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = /usr/lib/libsqlite3.dylib; sourceTree = "<absolute>"; };
@@ -432,14 +435,16 @@
 			children = (
 				1E0537041BAB00F80080D2AD /* Resources */,
 				1ED020D01BA478BD009B923E /* Supporting Files */,
-				1E968CAD1CCFEE1C00DDD26C /* MySQLBindInfo.h */,
-				1E968CAE1CCFEE1C00DDD26C /* MySQLBindInfo.m */,
 				1E00D9EA1BA4828900817D90 /* MySQLAdaptor.h */,
 				1E00D9EB1BA4828900817D90 /* MySQLAdaptor.m */,
+				1E968CAD1CCFEE1C00DDD26C /* MySQLBindInfo.h */,
+				1E968CAE1CCFEE1C00DDD26C /* MySQLBindInfo.m */,
 				1E00D9ED1BA4D9C300817D90 /* MySQLChannel.h */,
 				1E00D9EE1BA4D9C300817D90 /* MySQLChannel.m */,
 				1E5356711BA8764900371E45 /* MySQLContext.h */,
 				1E5356721BA8764900371E45 /* MySQLContext.m */,
+				1E825C8E1CD37B6500EE1D15 /* MySQLSQLExpression.h */,
+				1E825C8F1CD37B6500EE1D15 /* MySQLSQLExpression.m */,
 				1E5356701BA86F0F00371E45 /* include */,
 			);
 			path = MySQL;
@@ -921,6 +926,7 @@
 				1E5356731BA8764900371E45 /* MySQLContext.m in Sources */,
 				1E968CAF1CCFEE1C00DDD26C /* MySQLBindInfo.m in Sources */,
 				1E00D9EF1BA4D9C300817D90 /* MySQLChannel.m in Sources */,
+				1E825C901CD37B6500EE1D15 /* MySQLSQLExpression.m in Sources */,
 				1E00D9EC1BA4828900817D90 /* MySQLAdaptor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
