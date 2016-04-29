@@ -56,7 +56,8 @@
 }
 
 // set the database and allocate the buffer according to dataType
-- (instancetype)initWithBindDictionary:(NSDictionary *)value;
+- (instancetype)initWithBindDictionary:(NSDictionary *)value
+                             mysqlBind:(MYSQL_BIND *)mysqlBind;
 
 - (void)createBindForChannel:(MySQLChannel *)channel;
 

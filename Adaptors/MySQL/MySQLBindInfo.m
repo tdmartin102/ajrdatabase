@@ -225,15 +225,19 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
 //  fractional seconds part for that type.
 - (void)setDateValueForDateBuffer
 {
-    int y,m,d,h,mi,s;
-    
-    buffer = bufferValue.simplePtr;
-    bufferSize = 7;
     if (! value)
     {
-        memset(buffer,0,7);
+        bind->buffer_type = MYSQL_TYPE_NULL;
+        bind->is_null = 1;
+        bind->buffer = NULL;
+        bind->length = 0;
         return;
     }
+    
+    bind->buffer_type = dataType;
+    bind->buffer = (char *)&bufferValue.dateTime;
+    bind->is_null = 0;
+    bind->length = 0;
     
     NSDate *aDate = [OracleAdaptor convert:value toValueClassNamed:@"NSDate"];
     NSDateComponents *dateComponents;
@@ -244,63 +248,12 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
     flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit |
     NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
     dateComponents = [currentCalendar components:flags fromDate:aDate];
-    y = [dateComponents year];
-    m = [dateComponents month];
-    d = [dateComponents day];
-    h = [dateComponents hour];
-    mi = [dateComponents minute];
-    s = [dateComponents second];
-    // year
-    buffer[0] = (y / 100) + 100;
-    buffer[1] = (y % 100) + 100;
-    // month, day
-    buffer[2] = m;
-    buffer[3] = d;
-    // hour minute second
-    buffer[4] = h + 1;
-    buffer[5] = mi + 1;
-    buffer[6] = s + 1;
-}
-
-//=====================================================================================================
-//                     Private Call Back Methods
-//=====================================================================================================
-- (ub4 *)pieceLen { return &pieceLen; }
-- (void)setPieceLen:(ub4)aValue { pieceLen = aValue; }
-- (unsigned char *)buffer { return buffer; }
-- (sb4)bufferSize { return bufferSize; }
-
-- (ub4)valueSize
-{
-    return valueSize;
-}
-
-- (unsigned int)transferred { return transferred; }
-- (BOOL)isNull { return (value) ? NO : YES; }
-- (sb2 *)indicator { return &indicator; }
-- (void)setIndicator:(sb2)aValue { indicator = aValue; }
-
-- (void)putBufferPiece
-{
-    NSRange	aRange;
-    // This is dynamic
-    // AND we KNOW the value has been converted to an NSString for SQLT_CHR
-    // and NSData for SQLT_LBI
-    
-    if (dataType == SQLT_CHR)
-    {
-        // pieceLen MUST BE a multiple of sizeof(unichar)
-        aRange.location = transferred / sizeof(unichar);
-        aRange.length = pieceLen / sizeof(unichar);
-        [(NSString *)value getCharacters:(unichar *)buffer range:aRange];
-    }
-    else
-    {
-        aRange.location = transferred;
-        aRange.length = pieceLen;
-        [(NSData *)value getBytes:(void *)buffer range:aRange];
-    }
-    transferred += pieceLen;
+    bufferValue.dateTime.year = [dateComponents year];
+    bufferValue.dateTime.month = [dateComponents month];
+    bufferValue.dateTime.day = [dateComponents day];
+    bufferValue.dateTime.hour = [dateComponents hour];
+    bufferValue.dateTime.minute = [dateComponents minute];
+    bufferValue.dateTime.second = [dateComponents second];
 }
 
 //====================================================================================================
@@ -308,6 +261,7 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
 //====================================================================================================
 
 - (instancetype)initWithBindDictionary:(NSDictionary *)aValue
+                             mysqlBind:(MYSQL_BIND *)aBind;
 {
     if ((self = [super init]))
     {
@@ -315,7 +269,7 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
         
         
         bindDict = [aValue retain];
-        
+        bind = aBind;
         // get the attribute and value from the dictionary
         attrib = [[bindDict objectForKey:EOBindVariableAttributeKey] retain];
         value = [bindDict objectForKey:EOBindVariableValueKey];
@@ -406,14 +360,17 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
     switch (dataType)
     {
         case MYSQL_TYPE_TINY:
+        case MYSQL_TYPE_BIT:
             // TINYINT
             // use signed char
             break;
         case MYSQL_TYPE_SHORT:
+        case MYSQL_TYPE_YEAR:
             // SMALLINT
             // short int
             break;
         case MYSQL_TYPE_LONG:
+        case MYSQL_TYPE_INT24:
             // INT
             // use int
             break;
@@ -451,6 +408,11 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
             // BLOB, BINARY, VARBINARY
             // use char[]
         case MYSQL_TYPE_STRING:
+        case MYSQL_TYPE_DECIMAL:
+        case MYSQL_TYPE_NEWDECIMAL:
+        char MYSQL_TYPE_VAR_STRING:
+        char MYSQL_TYPE_SET:
+        case MYSQL_TYPE_ENUM:
             // TEXT, CHAR, VARCHAR
             // use char[]
         default:
