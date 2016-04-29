@@ -208,25 +208,27 @@
 //---(Private)---- create MySQL binds using the expression bind dictionaries
 - (void)createBindsForExpression:(EOSQLExpression *)expression
 {
-    id					bindEnum;
     NSMutableDictionary	*bindDict;
     MySQLBindInfo		*mysqlBindInfo;
+    int                 index;
     
     if (bindCache)
         [bindCache release];
-    bindCache = [[NSMutableArray allocWithZone:[self zone]] initWithCapacity:
-                 [[expression bindVariableDictionaries] count] + 1];
-    
-    bindEnum = [[expression bindVariableDictionaries] objectEnumerator];
-    while ((bindDict = [bindEnum nextObject]) != nil)
+    bindCount = [[expression bindVariableDictionaries] count];
+    bindCache = [[NSMutableArray alloc] initWithCapacity:bindCount];
+    bindArray = calloc(bindCount, sizeof(MYSQL_BIND));
+    index = 0
+    for (bindDict in bindVariableDictionaries)
     {
         // associated with every bind is a bindHandle and a lot of info about
         // how to do a bind.  We will wrap all that in an object
-        mysqlBindInfo = [[MySQLBindInfo alloc] initWithBindDictionary:bindDict];
+        mysqlBindInfo = [[MySQLBindInfo alloc] initWithBindDictionary:bindDict mysqlBind:&bindArray[index]];
         [bindCache addObject:mysqlBindInfo];
         [mysqlBindInfo release];
         [mysqlBindInfo createBindForChannel:self];
+        ++index;
     }
+    mysql_stmt_bind_param(stmt, bindArray);
 }
 
 //=========================================================================================
@@ -237,7 +239,7 @@
 {
     if (self = [super initWithAdaptorContext:aContext])
     {
-     }
+    }
     
     return self;
 }
@@ -425,6 +427,10 @@
     // get the fetch results from the prepared statement
     // we used prepared statments because ONLY fetches from preparied statements
     // can be cancled.  Also, only prepared statments do binds.
+    //
+    // There is a very very good change that mysql_stmt_prepare()
+    // must be done before any of these will work in which case quite a
+    // bit of work must be done to assure that prepare is only called once.
     fetchResult = mysql_stmt_result_metadata(stmt);
     fieldCount = mysql_num_fields(fetchResult);
     field = mysql_fetch_fields(fetchResult);
@@ -550,10 +556,8 @@
     else
         localTransaction = NO;
     
-    // If we have binds, then do that now as this has to be done BEFORE
-    // the prepare.
-    if ([[expression bindVariableDictionaries] count] > 0)
-        [self createBindsForExpression:expression];  // okay to raise - will call cancel fetch
+    
+    // okay to raise - will call cancel fetch
 
     // prepare the SQL statement
     // convert the NSString into UTF8.
@@ -566,6 +570,13 @@
          mysql_stmt_error(stmt)];
     }
     [self checkStatus]; // okay to raise
+    
+    // If we have binds, then do that now as this has to be done AFTER
+    // the prepare.
+    if ([[expression bindVariableDictionaries] count] > 0)
+        [self createBindsForExpression:expression];
+    
+
     
     
     // find out what kind of statement this is.
@@ -627,6 +638,49 @@
     // Notify our delegate
     if (_delegateRespondsTo.didEvaluateExpression)
         [delegate adaptorChannel:self didEvaluateExpression:expression];
+}
+
+- (void)cancelFetch
+{
+    // clear attributes if any
+    [fetchAttributes release];
+    fetchAttributes = nil;
+    
+    [evaluateAttributes release];
+    evaluateAttributes = nil;
+    
+    // clear our define cache
+    [defineCache release];
+    defineCache = nil;
+    
+    [bindCache release];
+    bindCache = nil;
+    if (bindArray)
+    {
+        free(bindArray);
+        bindArray = NULL;
+    }
+    
+    // if a fetch is in progress cancel it.
+    if (fetchInProgress)
+    {
+        fetchInProgress = NO;
+        if ([self isDebugEnabled])
+            [EOLog logDebugWithFormat:@"%@ %d rows processed", [self description], rowsAffected];
+        
+        // 3rd parm is number of rows to fetch, which, to cancel the cursor is set to 0
+        //status = OCIStmtFetch2(stmthp, errhp, (ub4)0, OCI_FETCH_NEXT, (sb4)0, OCI_DEFAULT);
+        //[self checkStatus];
+    }
+    // if we are in a local transaction roll it back
+    // if we are in a transaction but it is not local, then I figure it is the callers
+    // responsibility to decide if the transaction needs to be commited, rolled back,
+    // or just continue on.
+    if (localTransaction)
+    {
+        [adaptorContext commitTransaction];
+        localTransaction = NO;
+    }
 }
 
 @end

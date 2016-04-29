@@ -42,6 +42,8 @@
     NSMutableArray			*bindCache;
     BOOL					fetchInProgress;
     BOOL					localTransaction;
+    MYSQL_BIND              *bindArray;
+    int                     bindCount;
 }
 
 // --- handy things for low level stuff
