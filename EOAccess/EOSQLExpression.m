@@ -1637,10 +1637,15 @@ static NSInteger joinAliasSort(id a, id b, void *context)
 	NSMutableString	*string = [[NSMutableString allocWithZone:[self zone]] init];
 	NSString		*keySql;
 
+    // tom.martin @ riemer.com 4/29/2016
+    // I changed toupper( to upper because as far as I can see that is ANSI SQL
+    // it is used by MySQL, Postgress, Oracle.  I did not check anything else.
+    // apparently I have never done a case insensitive ordering because it would have
+    // failed this way.
 	if (selector == EOCompareCaseInsensitiveAscending) {
-		[string appendString:@"toupper("];
+		[string appendString:@"upper("];
 	} else if (selector == EOCompareCaseInsensitiveDescending) {
-		[string appendString:@"toupper("];
+		[string appendString:@"upper("];
 	}
 	
 	keySql = [self sqlStringForAttributeNamed:[sortOrdering key]];
