@@ -130,26 +130,33 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
     return [(MySQLAdaptor *)[[channel adaptorContext] adaptor] checkStatus:[channel mysql]];
 }
 
-/*
 //---(Private)--- set a CHARZ buffer from a NSString, NSNumber, NSDecimal
-- (void)setStringValueCharzBuffer
+- (void)setStringValueBuffer
 {
-    NSString	*str;
+    NSString        *str;
+    unsigned char   *strPtr;
     
     // we need a NSString
     str = [OracleAdaptor convert:value toValueClassNamed:@"NSString"];
-    bufferSize = [str ociTextZLength];
-    if (bufferSize <= SIMPLE_BUFFER_SIZE)
-        buffer = bufferValue.simplePtr;
+    *strPtr = [str UTF8String];
+    valueSize = strlen(strPtr);
+    if (bufferSize < SIMPLE_BUFFER_SIZE)
+    {
+        strcpy(bufferValue.simplePtr, strPtr);
+        bind->buffer = bufferValue.simplePtr;
+        bufferSize = SIMPLE_BUFFER_SIZE;
+    }
     else
     {
         freeWhenDone = YES;
-        bufferValue.charPtr = NSZoneMalloc ([self zone], bufferSize);
-        buffer = bufferValue.charPtr;
+        bufferSize = (valueSize + 1) * sizeof(unsigned char);
+        bufferValue.charPtr = calloc((valueSize + 1), sizeof(unsigned char));
+        strcpy(bufferValue.charPtr, strPtr);
+        bind->buffer = bufferValue.charPtr;
     }
-    [str getOCIText:(text *)buffer];
+    bind->length = &valueSize;
+    bind->is_null = 0;
 }
-*/
 
 //---(Private)--- Convert scaler value Buffer into a NSNumber. We only handle value types cCsSiIfd
 //                Types lLqQ do not use scaler values, but instead convert from a string, also
@@ -160,83 +167,92 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
     NSNumber	*num;
     
     // we need a NSNumber
-    num = [OracleAdaptor convert:value toValueClassNamed:@"NSNumber"];
-    switch ([[attrib valueType] characterAtIndex:0])
+    num = [MySQLAdaptor convert:value toValueClassNamed:@"NSNumber"];
+    
+    // dataValue should now be ONLY the values below
+    bind->buffer_type = dataType;
+    bind->is_null = 0;
+    bind->length = 0;
+    switch (dataType)
     {
-        case  'c':
-        case  'C':
-        case  's':
-        case  'S':
-        case  'i':
-            bufferValue.intValue = [num intValue];
-            bufferSize = sizeof(bufferValue.intValue);
-            buffer = (unsigned char *)&bufferValue.intValue;
+        case MYSQL_TYPE_TINY:
+            // TINYINT
+            // use signed char
+            bufferValue.sCharValue = [num charValue];
+            bind->buffer = (char *)&bufferValue.sCharValue;
             break;
-        case  'f':
+        case MYSQL_TYPE_LONG:
+            // INT
+            // use int
+            bufferValue.sIntValue = (int)[num integerValue];
+            bind->buffer = (char *)&bufferValue.sIntValue;
+            break;
+        case MYSQL_TYPE_LONGLONG:
+            // BIGINT
+            // use long long int
+            bufferValue.sLLValue = [num longLongValue];
+            bind->buffer = (char *)&bufferValue.sLLValue;
+            break;
+        case MYSQL_TYPE_FLOAT:
+            // FLOAT
+            // use float
             bufferValue.floatValue = [num floatValue];
-            bufferSize = sizeof(bufferValue.floatValue);
-            buffer = (unsigned char *)&bufferValue.floatValue;
+            bind->buffer = (char *)&bufferValue.floatValue;
             break;
-        case  'd':
+        case MYSQL_TYPE_DOUBLE:
+            // DOUBLE
+            // use double
             bufferValue.doubleValue = [num doubleValue];
-            bufferSize = sizeof(bufferValue.doubleValue);
-            buffer = (unsigned char *)&bufferValue.doubleValue;
-            break;
-        default:
-            bufferValue.intValue = 0;
-            bufferSize = sizeof(bufferValue.intValue);
-            buffer = (unsigned char *)&bufferValue.intValue;
+            bind->buffer = (char *)&bufferValue.doubleValue;
             break;
     }
 }
 
 //---(Private)-- Convert from a BLOB buffer to NSData
-- (void)setDataValueVarRawBuffer
+- (void)setDataValueBuffer
 {
     // primitive target can be NSData
     // The buffer is our internal buffer allocated to the maxiume size for RAW (2000 bytes + 2)
     // This is used for RAW only
     //
-    /*
-    ub2		len;
     NSData	*data;
     data = [OracleAdaptor convert:value toValueClassNamed:@"NSData"];
     
-    len = [data length];
-    bufferSize = len + 2;
+    bufferSize = [data length];
+    valueSize = bufferSize;
     if (bufferSize <= SIMPLE_BUFFER_SIZE)
-        buffer = bufferValue.simplePtr;
+    {
+        [data getBytes:bufferValue.simplePtr];
+        bind->buffer = bufferValue.simplePtr;
+    }
     else
     {
         freeWhenDone = YES;
-        bufferValue.charPtr = NSZoneMalloc ([self zone], bufferSize);
-        buffer = bufferValue.charPtr;
+        bufferValue.charPtr = calloc(bufferSize, sizeof(unsigned char));
+        [data getBytes:bufferValue.charPtr];
+        bind->buffer = bufferValue.charPtr;
     }
-    
-    // the first two bytes are the length
-    memcpy(buffer, &len, 2);
-    [data getBytes:(buffer + 2)];
-     */
+    bind->length = &valueSize;
+    bind->is_null = 0;
 }
 
-
 //---(Private)-- Convert to a DATE buffer fron a NSCalendarDate or NSDate if this is 10.6 or better
-//  Currently we are using this for TIMESTAMP datatypes as well, which means we are losing the
-//  fractional seconds part for that type.
 - (void)setDateValueForDateBuffer
 {
     if (! value)
     {
+        is_null = 1;
         bind->buffer_type = MYSQL_TYPE_NULL;
-        bind->is_null = 1;
+        bind->is_null = &is_null;
         bind->buffer = NULL;
         bind->length = 0;
         return;
     }
     
+    is_null = 0;
     bind->buffer_type = dataType;
     bind->buffer = (char *)&bufferValue.dateTime;
-    bind->is_null = 0;
+    bind->is_null = &is_null;
     bind->length = 0;
     
     NSDate *aDate = [OracleAdaptor convert:value toValueClassNamed:@"NSDate"];
@@ -246,7 +262,7 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
     [currentCalendar setTimeZone:[attrib serverTimeZone]];
     NSUInteger	flags;
     flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit |
-    NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+    NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSCalendarUnitNanosecond;
     dateComponents = [currentCalendar components:flags fromDate:aDate];
     bufferValue.dateTime.year = [dateComponents year];
     bufferValue.dateTime.month = [dateComponents month];
@@ -254,6 +270,8 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
     bufferValue.dateTime.hour = [dateComponents hour];
     bufferValue.dateTime.minute = [dateComponents minute];
     bufferValue.dateTime.second = [dateComponents second];
+    // second_part is in miliseconds
+    bufferValue.dateTime.second_part = [dateComponents nanosecond] * 1000;
 }
 
 //====================================================================================================
@@ -300,7 +318,6 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
     sword				status;
     int					width;
     BOOL				useWidth;
-    BOOL				useNationalCharacterSet;
     NSString			*aString;
     
     // lets set our datatype and allocate the buffer to the max size
@@ -363,28 +380,28 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
         case MYSQL_TYPE_BIT:
             // TINYINT
             // use signed char
+            dataType = MYSQL_TYPE_TINY
+            [self setNumberValueScalarBuffer];
             break;
         case MYSQL_TYPE_SHORT:
         case MYSQL_TYPE_YEAR:
-            // SMALLINT
-            // short int
-            break;
         case MYSQL_TYPE_LONG:
         case MYSQL_TYPE_INT24:
             // INT
             // use int
+            dataType = MYSQL_TYPE_LONG;
+            [self setNumberValueScalarBuffer];
             break;
         case MYSQL_TYPE_LONGLONG:
             // BIGINT
-            // use long long int
-            break;
+            // use long long
         case MYSQL_TYPE_FLOAT:
             // FLOAT
             // use float
-            break;
         case MYSQL_TYPE_DOUBLE:
             // DOUBLE
             // use double
+            [self setNumberValueScalarBuffer];
             break;
         case MYSQL_TYPE_TIME:
             // TIME
@@ -399,24 +416,30 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
             // TIMESTAMP
             // use MYSQL_TIME
             // method: setDateValueForDateBuffer
+            [self setDateValueForDateBuffer];
             break;
         case MYSQL_TYPE_NULL:
             // NULL
             // return EONull
+            is_null = 1;
+            bind->buffer_type = MYSQL_TYPE_NULL;
+            bind->is_null = &is_null;
+            bind->buffer = NULL;
+            bind->length = 0;
             break;
         case MYSQL_TYPE_BLOB:
             // BLOB, BINARY, VARBINARY
             // use char[]
-        case MYSQL_TYPE_STRING:
+            break;
         case MYSQL_TYPE_DECIMAL:
         case MYSQL_TYPE_NEWDECIMAL:
+        case MYSQL_TYPE_STRING:
         char MYSQL_TYPE_VAR_STRING:
         char MYSQL_TYPE_SET:
         case MYSQL_TYPE_ENUM:
-            // TEXT, CHAR, VARCHAR
-            // use char[]
         default:
             // use char[]
+            dataType = MYSQL_TYPE_STRING;
             break;
     }
     

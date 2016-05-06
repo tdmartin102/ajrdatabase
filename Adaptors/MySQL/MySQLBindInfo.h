@@ -42,14 +42,13 @@
     MYSQL_BIND          *bind;
     int                 dataType;
     short               indicator;   // flag indicating NULL
-    NSUInteger          bufferSize;  // size of the actual oci buffer
-    NSUInteger          valueSize;   // total size of the data to be passed to oracle THROUGH the buffer
+    unsigned long       bufferSize;  // size of the actual buffer
+    unsigned long       valueSize;   // total size of the data to be passed to MySQL
+                                     //THROUGH the buffer
     
     // which is bufferSize unless we are doing callbacks via a dynamic bind
     mysqlBufferValue	bufferValue;
-    unsigned int        transferred;
-    NSUInteger          pieceLen;
-    unsigned char       *buffer;
+z    my_bool             is_null;
     
     BOOL                freeWhenDone:1;
     id                  value;
