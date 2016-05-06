@@ -171,6 +171,34 @@
     return result;
 }
 
+//---(Private)--- find the attribute in the evaluateAttributes by attempting to match the column names
+- (int)indexOfAttribute:(EOAttribute *)attrib
+{
+    EOAttribute	*anAttrib;
+    id			enumArray;
+    int			result, index;
+    
+    index = 0;
+    result = -1;
+    enumArray = [evaluateAttributes objectEnumerator];
+    while ((anAttrib = [enumArray nextObject]) != nil)
+    {
+        if ([[anAttrib columnName] caseInsensitiveCompare:[attrib columnName]] == NSOrderedSame)
+        {
+            result = index;
+            break;
+        }
+        ++index;
+    }
+    if (result < 0)
+    {
+        // We are going to raise here.  I don't know what else to do.
+        [NSException raise:EODatabaseException format:@"fetchRowWithZone: could not find attribute with column name %@ among fetched attributes.",
+         [attrib columnName]];
+    }
+    return result;
+}
+
 //---(Private)---- describe bindings for debug logging --------
 - (NSString *)bindingsDescription:(NSArray *)b
 {
@@ -508,7 +536,9 @@
     NSUInteger	len;
     NSUInteger	iterations;
     const char   *statement;
-    
+    my_bool     aBool;
+    MYSQL_RES   *res;
+
     if (!connected)
         [NSException raise:EODatabaseException format:@"The database is not connected durring an evaluateExpression:."];
     
@@ -536,16 +566,50 @@
         }
     }
     
+    // stmt should not really be set, but if cancel was never called for some reason
+    // it COULD be set.  There is no harm in that, we will simply check now
     if (stmt)
     {
         if (mysql_stmt_close(stmt))
             [self checkStatus];
         stmt = NULL;
     }
+    
     stmt = mysql_stmt_init(mysql);
     if (!stmt)
         [NSException raise:EODatabaseException format:@"Out of memory creating MySQL statement"];
-
+    
+    // In order for the field info max_length to get set we need to tell it to update that.
+    // As far as I can tell this is the ONLY way to get the length for a blob or clob otherwise
+    // you would need to allocate buffers for the largest possible size which is crazy crazy.
+    //
+    // aBool = 1;
+    // mysql_stmt_attr_set(stmt, STMT_ATTR_UPDATE_MAX_LENGTH, (void*) &aBool);
+    //
+    // Okay we are NOT going to do it this way.  Apparently this incurres a big performance hit.
+    // There is ANOTHER way to get the length.
+    //
+    // Invoke mysql_stmt_fetch() with a zero-length buffer for the column in question and a
+    // pointer in which the real length can be stored. Then use the real length with
+    // mysql_stmt_fetch_column().
+    /*
+     real_length= 0;
+     
+     bind[0].buffer= 0;
+     bind[0].buffer_length= 0;
+     bind[0].length= &real_length
+     mysql_stmt_bind_result(stmt, bind);
+     
+     mysql_stmt_fetch(stmt);
+     if (real_length > 0)
+     {
+     data= malloc(real_length);
+     bind[0].buffer= data;
+     bind[0].buffer_length= real_length;
+     mysql_stmt_fetch_column(stmt, bind, 0, 0);
+     }
+    */
+    
     // if we are not in a transaction, then we need to create one and then END the transaction
     // once we are done with the statement or the fetch.
     if (! [adaptorContext hasOpenTransaction])
@@ -574,24 +638,35 @@
     // If we have binds, then do that now as this has to be done AFTER
     // the prepare.
     if ([[expression bindVariableDictionaries] count] > 0)
-        [self createBindsForExpression:expression];
-    
-
-    
-    
-    // find out what kind of statement this is.
-    OCIAttrGet(stmthp, OCI_HTYPE_STMT, (dvoid *)&commandType, NULL, OCI_ATTR_STMT_TYPE, errhp);
-    iterations = 1;
-    if (commandType == OCI_STMT_SELECT)
     {
-        // we are doing a fetch
-        fetchInProgress = YES;
-        iterations = 0;
+        [self createBindsForExpression:expression];
+        // now that the bind array is set do the bind.
+        mysql_stmt_bind_param(stmt, bindArray);
     }
     
     // execute the SQL
-    status = OCIStmtExecute([(OracleContext *)adaptorContext serviceContexthp], stmthp, errhp, iterations, 0,
-                            (OCISnapshot *)0, (OCISnapshot *)0, OCI_DEFAULT);
+    mysql_stmt_execute(stmt);
+    NS_DURING
+    [self checkStatus];
+    NS_HANDLER
+    [self cancelFetch];
+    [localException raise];
+    NS_ENDHANDLER
+    
+    // at this point I think we could release the bindCache.
+    // but I will hang onto it until the fetch is canceled.
+
+    // find out what kind of statement this is.
+    // it is possible that this will return a valid result
+    // BEFORE the statement is executed, but I am not sure.
+    res = mysql_stmt_result_metadata(stmt);
+    if (res)
+    {
+        // we are doing a fetch
+        fetchInProgress = YES;
+        mysql_free_result(res);
+        res = NULL;
+    }
     
     NS_DURING
     [self checkStatus];
@@ -602,17 +677,11 @@
     
     if (! fetchInProgress)
     {
-        // mont_rothstein @ yahoo.com 2005-06-26
-        // Set number of rows affected by the expression so that it can be used to determine if the expression
-        // evaluated successfully.
-        // Tom.Martin @ Riemer.com 2010-01-21
         // This should work for update, delete, but probably not for select ...
         // For that I am thinking that I will need to update it it with every call to fetch as it will
         // return whatever is in the buffer.
-        status = OCIAttrGet((dvoid *)stmthp, (ub4)OCI_HTYPE_STMT,
-                            (dvoid *)&rowCount, (ub4 *)0, (ub4)OCI_ATTR_ROW_COUNT, errhp);
-        rowsAffected = rowCount;
-        if ([self isDebugEnabled])
+        rowsAffected = mysql_stmt_affected_rows(stmt);
+         if ([self isDebugEnabled])
             [EOLog logDebugWithFormat:@"%@ %d rows processed", [self description], rowsAffected];
         
         // this is not a fetch.  if a local transaction is in progress, then end it
@@ -639,6 +708,120 @@
     if (_delegateRespondsTo.didEvaluateExpression)
         [delegate adaptorChannel:self didEvaluateExpression:expression];
 }
+
+- (NSMutableDictionary *)fetchRowWithZone:(NSZone *)aZone
+{
+    NSMutableDictionary		*row;
+    id						enumArray;
+    EOAttribute				*attrib;
+    OracleDefineInfo		*defineInfo;
+    NSAutoreleasePool		*pool;
+    BOOL					mustFindPosition;
+    int						attribIndex;
+    
+    if (! [self isFetchInProgress])
+        [NSException raise:EODatabaseException format:@"fetchRowWithZone: called while a fetch was not in progress."];
+    
+    if (! [fetchAttributes count])
+        [NSException raise:EODatabaseException format:@"fetchRowWithZone: called with no fetch attributes set.."];
+    
+    if (! defineCache)
+    {
+        // before we do our fetch we need to set up all our defines
+        // There are two different situations that must be handled in different ways...
+        // if the fetch is a result of evaluateExpression:, then there is no guarantee that there is
+        // a one to one relationship between the order and number of attributes and the order and
+        // number of attributes returned.  In this case we must try to match the attribute to the
+        // COLUMN name and hope that all works out.
+        //
+        // If the fetch is a result of selectAttributes:fetchSpecification:lock:entity,
+        // then there IS a one to one coralation between the attributes array and the
+        // attributes that are feteched and we CAN rely upon the index value.
+        //
+        // The valueForAttribute:atIndex:inZone: blindly gets the value at the index supplied
+        // so IF the fetch is a result of evaluateExpression we will attempt to determine
+        // the index of the returned attribute before calling the method..  The way we will
+        // do this is by comparing the current Attributes to the attributes generated
+        // during evaluate (describeResults).  If the current attributes is exactly the
+        // same array, then there is no need to translate.  If it is different then we will
+        // need to find the index.
+        mustFindPosition = NO;
+        if (evaluateAttributes)
+        {
+            // there is a VERY good chance that the fetchAttributes array is
+            // the SAME array as that returned by describeResults in which
+            // case there is nothing we need to do
+            if (evaluateAttributes != fetchAttributes)
+                mustFindPosition = YES;  // darn
+        }
+        // else evaluateExpression: was not called
+        
+        // we need to create a define for every attribute in fetchAttributes
+        defineCache = [[NSMutableArray allocWithZone:aZone] initWithCapacity:[fetchAttributes count]];
+        enumArray = [[fetchAttributes objectEnumerator] retain];
+        attribIndex = 1;
+        while ((attrib = [enumArray nextObject]) != nil)
+        {
+            pool = [[NSAutoreleasePool allocWithZone:aZone] init];
+            defineInfo = [[MySQLDefineInfo allocWithZone:aZone] initWithAttribute:attrib];
+            if (mustFindPosition)
+            {
+                attribIndex = [self indexOfAttribute:attrib];  // this can raise if it can not identify the attribute
+                [defineInfo setPos:attribIndex + 1];
+            }
+            else
+                [defineInfo setPos:attribIndex++];
+            [defineInfo createDefineForChannel:self];
+            [defineCache addObject:defineInfo];
+            [defineInfo release];
+            [pool release];
+        }
+        [enumArray release];
+    }
+    
+    // 3rd parm is number of rows to fetch, 5th is record offest which is ignored with OCI_FETCH_NEXT
+    status = mysql_stmt_fetch(stmt);
+    // check the status
+    if (status == MYSQL_NO_DATA)
+    {
+        // we are done
+        fetchInProgress = NO;
+        // if we are in a local transaction, commit it
+        if (localTransaction)
+        {
+            [adaptorContext commitTransaction];
+            localTransaction = NO;
+        }
+        [self cancelFetch];
+    }
+    
+    NS_DURING
+    [self checkStatus];
+    NS_HANDLER
+    [self cancelFetch];
+    [localException raise];
+    NS_ENDHANDLER	
+    
+    if (fetchInProgress)
+    {	
+        ++rowsAffected;
+        row = [[NSMutableDictionary allocWithZone:aZone] initWithCapacity:[fetchAttributes count]];
+        enumArray = [[defineCache objectEnumerator] retain];
+        while ((defineInfo = [enumArray nextObject]) != nil)
+        {
+            pool = [[NSAutoreleasePool allocWithZone:aZone] init];
+            [row setValue:[defineInfo objectValue] 
+                   forKey:[[defineInfo attribute] name]];
+            [pool release];
+        }
+        [enumArray release];
+    }
+    else
+        row = nil;
+    
+    return [row autorelease];
+}
+
 
 - (void)cancelFetch
 {
@@ -668,9 +851,8 @@
         if ([self isDebugEnabled])
             [EOLog logDebugWithFormat:@"%@ %d rows processed", [self description], rowsAffected];
         
-        // 3rd parm is number of rows to fetch, which, to cancel the cursor is set to 0
-        //status = OCIStmtFetch2(stmthp, errhp, (ub4)0, OCI_FETCH_NEXT, (sb4)0, OCI_DEFAULT);
-        //[self checkStatus];
+        // free the result set
+        mysql_stmt_free_result(stmt);
     }
     // if we are in a local transaction roll it back
     // if we are in a transaction but it is not local, then I figure it is the callers
