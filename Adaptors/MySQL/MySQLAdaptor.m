@@ -149,48 +149,11 @@ static NSMutableDictionary 	*dataTypes = nil;
     else
         *useWidth = NO;
     
-    // if the external column is INTEGER then the dataType will be MYSQL_TYPE_LONG which
-    // is fine for a valueClass of NSDecimalNumber, but for NSNumber we may want change the
-    // type if the number is realatively small.  We will do this by using valueType
-    // if the valueType is less than a long or a double or float we will use native
-    // scalar variables.  If it is bigger than an int we will store it in a string and then
-    // convert it.  This is what is ALWAYS is done for a NSDecimalNumber
-    if ((dataType == MYSQL_TYPE_LONG) && ([[attrib valueClassName] isEqualToString:@"NSNumber"]))
-    {
-        if ([[attrib valueType] length])
-        {
-            valueType = [[attrib valueType] characterAtIndex:0];
-            switch (valueType)
-            {
-                case  'c':
-                case  'C':
-                case  's':
-                case  'S':
-                case  'i':
-                    dataType = MYSQL_TYPE_LONG;  // signed integer
-                    break;
-                case  'f':
-                    dataType = MYSQL_TYPE_FLOAT;
-                    break;
-                case  'd':
-                    dataType = MYSQL_TYPE_DOUBLE;
-                    break;
-                case  'I':
-                case  'l':
-                case  'L':
-                case  'q':
-                case  'Q':
-                default:
-                    // we will keep SQLT_AVC and convert a string to an NSNumber
-                    dataType = MYSQL_TYPE_DECIMAL;
-                    break;
-            }
-        }
-    }
+    // With MySQL the numerical types map directly to scalar types which means we can
+    // easily map those.  For DECIMAL the only safe way to go is NSString.
     
     return dataType;
 }
-
 
 + (id)valueForClassNamed:(NSString *)vcn forNSString:(NSString *)value
 {

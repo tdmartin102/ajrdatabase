@@ -36,6 +36,8 @@ typedef union _mysqlBufferValue {
     unsigned char       uCharValue;
     int                 sIntValue;
     unsigned int        uIntValue;
+    short               sShortValue;
+    unsigned short      uShortValue;
     long long           sLLValue;
     unsigned long long  uLLValue;
     double              doubleValue;
