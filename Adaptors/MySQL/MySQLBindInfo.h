@@ -33,22 +33,19 @@
 
 #import "MySQLAdaptor.h"
 
-@class MySQLChannel;
-
 @interface MySQLBindInfo : NSObject
 {
     EOAttribute         *attrib;
     NSDictionary        *bindDict;
     MYSQL_BIND          *bind;
     int                 dataType;
-    short               indicator;   // flag indicating NULL
     unsigned long       bufferSize;  // size of the actual buffer
     unsigned long       valueSize;   // total size of the data to be passed to MySQL
                                      //THROUGH the buffer
     
-    // which is bufferSize unless we are doing callbacks via a dynamic bind
     mysqlBufferValue	bufferValue;
-z    my_bool             is_null;
+    my_bool             is_null;
+    my_bool             is_unsigned;
     
     BOOL                freeWhenDone:1;
     id                  value;
@@ -57,7 +54,5 @@ z    my_bool             is_null;
 // set the database and allocate the buffer according to dataType
 - (instancetype)initWithBindDictionary:(NSDictionary *)value
                              mysqlBind:(MYSQL_BIND *)mysqlBind;
-
-- (void)createBindForChannel:(MySQLChannel *)channel;
 
 @end

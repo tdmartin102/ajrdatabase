@@ -27,96 +27,39 @@
  mailto:tom.martin@riemer.com
  */
 
-
 #import "MySQLBindInfo.h"
-
-#import "OracleDefineInfo.h"
-
 #import "MySQLAdaptor.h"
-#import "MySQLContext.h"
-#import "MySQLChannel.h"
 
-#import "AvailabilityMacros.h"
-
-#define BUFFER_BLOCK_SIZE	2048
-
-/*
-@interface MySQLBindInfo ( Callback )
-// oci callback support  NEVER CALL THESES !!!
-- (ub4 *)pieceLen;
-- (void)setPieceLen:(ub4)value;
-- (unsigned char *)buffer;
-- (sb4)bufferSize;
-- (ub4)valueSize;
-- (unsigned int)transferred;
-- (void)putBufferPiece;
-- (BOOL)isNull;
-- (sb2 *)indicator;
-- (void)setIndicator:(sb2)value;
-@end
-*/
-
-/*
-static sb4 ociInBindCallback(dvoid *ictxp, OCIBind *bindp, ub4 iter, ub4 index, dvoid **bufpp,
-                             ub4 *alenp, ub1 *piecep, dvoid **indpp)
-{
-    OracleBindInfo	*bindInfo;
-    ub4				toGo;
-    ub4				valueLen;
-    
-    // ictxp - IN/OUT Our context, in this case is is an instance of OracleBindInfo
-    // bindp - IN     dont care about bindp
-    // iter -  IN     dont KNOW what iter is ....  it is IN only  (IN means it is given TO us, we do not SET it)
-    // index - IN     Index of the current array ... not doing arrays so we ignore
-    // bufpp - OUT    This is the buffer used by OCI for data, we create this and put data into this.
-    // alenpp- OUT    size of the buffer we are providing ...
-    //          soo.... this should be accessable by the OracleDefineInfo object.
-    // piecep - OUT   Piece instruction
-    // indpp  - OUT   This is the indicator variable pointer, if there is no data, we need to tell Oracle
-    
-    bindInfo = (OracleBindInfo *)ictxp;
-    
-    // If the value is null, this is a special cass, we tell Oracle and clean up
-    // I'm thinking we can avoid this situation by not doing a dynamic in the case
-    // where the value is null. Sooooo this code will probably never hit.
-    if ([bindInfo isNull])
-    {
-        *indpp = [bindInfo indicator];
-        [bindInfo setIndicator:-1];
-        *piecep = OCI_LAST_PIECE;
-        *alenp = 0;
-        *bufpp = [bindInfo buffer];
-        return OCI_CONTINUE;
-    }
-    
-    // we have data
-    // how much data is left?
-    valueLen = [bindInfo valueSize];
-    toGo = valueLen - [bindInfo transferred];
-    // What to I set piece to if the piece is the first piece AND the last piece huh?
-    // I am thinking maybe last_piece
-    
-    if (toGo <= BUFFER_BLOCK_SIZE)
-        *piecep = OCI_LAST_PIECE;
-    else if (toGo == valueLen)
-        *piecep = OCI_FIRST_PIECE;
-    else
-        *piecep = OCI_NEXT_PIECE;
-    [bindInfo setPieceLen:MIN(toGo, BUFFER_BLOCK_SIZE)];
-    [bindInfo putBufferPiece];
-    *bufpp = [bindInfo buffer];
-    *alenp = *[bindInfo pieceLen];
-    
-    return OCI_CONTINUE;
-}
-
-static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index, dvoid **bufpp,
-                              ub4 **alenp, ub1 *piecep, dvoid **indpp, ub2 **rcodepp)
-{
-    [NSException raise:EODatabaseException format:@"OracleAdaptor: Out Bind called and we don't support that"];
-    return OCI_CONTINUE;
-}
-*/
+//  ------ MYSQL Types (all of them)
+//   1 MYSQL_TYPE_TINY,
+//   2 MYSQL_TYPE_SHORT,
+//   3 MYSQL_TYPE_LONG,
+//   4 MYSQL_TYPE_FLOAT,
+//   5 MYSQL_TYPE_DOUBLE,
+//   6 MYSQL_TYPE_NULL,
+//   7 MYSQL_TYPE_TIMESTAMP,
+//   8 MYSQL_TYPE_LONGLONG,
+//   9 MYSQL_TYPE_INT24,
+//  10 MYSQL_TYPE_DATE,
+//  11 MYSQL_TYPE_TIME,
+//  12 MYSQL_TYPE_DATETIME,
+//  13 MYSQL_TYPE_YEAR,
+//  14 MYSQL_TYPE_NEWDATE,
+//  15 MYSQL_TYPE_VARCHAR,
+//  16 MYSQL_TYPE_BIT,
+//  17 MYSQL_TYPE_TIMESTAMP2,
+//  18 MYSQL_TYPE_DATETIME2,
+//  19 MYSQL_TYPE_TIME2,
+// 246  MYSQL_TYPE_NEWDECIMAL=246,
+// 247 MYSQL_TYPE_ENUM=247,
+// 248 MYSQL_TYPE_SET=248,
+// 249 MYSQL_TYPE_TINY_BLOB=249,
+// 250 MYSQL_TYPE_MEDIUM_BLOB=250,
+// 251 MYSQL_TYPE_LONG_BLOB=251,
+// 252 MYSQL_TYPE_BLOB=252,
+// 253 MYSQL_TYPE_VAR_STRING=253,
+// 254 MYSQL_TYPE_STRING=254,
+// 255 MYSQL_TYPE_GEOMETRY=255
 
 @implementation MySQLBindInfo
 
@@ -124,13 +67,7 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
 //                     Private Methods
 //====================================================================================================
 
-//---(Private)--- Convience method to call Adaptors implementation of checkStatus
-- (NSString *)checkStatusWithChannel:(OracleChannel *)channel;
-{
-    return [(MySQLAdaptor *)[[channel adaptorContext] adaptor] checkStatus:[channel mysql]];
-}
-
-//---(Private)--- set a CHARZ buffer from a NSString, NSNumber, NSDecimal
+//---(Private)--- set a MSQL_STRING buffer from a NSString, NSNumber, NSDecimal
 - (void)setStringValueBuffer
 {
     NSString        *str;
@@ -158,9 +95,15 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
     bind->is_null = 0;
 }
 
-//---(Private)--- Convert scaler value Buffer into a NSNumber. We only handle value types cCsSiIfd
-//                Types lLqQ do not use scaler values, but instead convert from a string, also
-//                if no valueType is specified the object will be converted from a string as well.
+//---(Private)--- Convert to scaler MYSQL types from a NSNumber.  Larger numbers
+// will be stored as NSDecimalNumber most likely which are handled as strings typically.
+// but sometimes a NSDecimalNumber is stored in a MYSQL_int or BIGINT in which case
+// it will come through here, which is fine.
+//
+// The unsigned flag is not really handled very well.  The basic issue is that
+// EOAttribute has no mechanizim for it.  IF however there is a scaler value type
+// selected it can provide whether or not it should be treated as unsigned. So we will go
+// with that.  It is a bit flaky but if carefully done it will work.
 //---(Private)-- set a scalar buffer from NSNumber
 - (void)setNumberValueScalarBuffer
 {
@@ -168,30 +111,88 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
     
     // we need a NSNumber
     num = [MySQLAdaptor convert:value toValueClassNamed:@"NSNumber"];
+    // try to get whether or not this is unsigned from the valueType
+    // this may be flaky but it is better than no attempt at all.
+    is_unsigned = 0;
+    if ([attrib valueType])
+    {
+        switch ([[attrib valueType] characterAtIndex:0])
+        {
+            case  'C': // unsigned char
+            case  'S': // unsigned short
+            case  'I': // usniged int
+            case  'L': // unsigned long
+            case  'Q': // unsigned long long
+                is_unsigned = 1;
+                break;
+         }
+    }
     
     // dataValue should now be ONLY the values below
     bind->buffer_type = dataType;
     bind->is_null = 0;
     bind->length = 0;
+    bind->is_unsigned = &is_unsigned;
+    
     switch (dataType)
     {
         case MYSQL_TYPE_TINY:
             // TINYINT
             // use signed char
             bufferValue.sCharValue = [num charValue];
-            bind->buffer = (char *)&bufferValue.sCharValue;
+            if (is_unsigned)
+            {
+                bufferValue.uCharValue = [num unsignedCharValue];
+                bind->buffer = (char *)&bufferValue.uCharValue;
+            }
+            else
+            {
+                bufferValue.sCharValue = [num charValue];
+                bind->buffer = (char *)&bufferValue.sCharValue;
+            }
+            break;
+        case MYSQL_TYPE_SHORT:
+            // SMALLINT
+            // use short
+            if (is_unsigned)
+            {
+                bufferValue.uShortValue = [num unsignedShortValue];
+                bind->buffer = (char *)&bufferValue.uShortValue;
+            }
+            else
+            {
+                bufferValue.sShortValue = [num shortValue];
+                bind->buffer = (char *)&bufferValue.sShortValue;
+            }
             break;
         case MYSQL_TYPE_LONG:
             // INT
+            // MYSQL_TYPE_INT24 gets translated to this
             // use int
-            bufferValue.sIntValue = (int)[num integerValue];
-            bind->buffer = (char *)&bufferValue.sIntValue;
+            if (is_unsigned)
+            {
+                bufferValue.uIntValue = [num unsignedIntValue];
+                bind->buffer = (char *)&bufferValue.uIntValue;
+            }
+            else
+            {
+                bufferValue.sIntValue = [num intValue];
+                bind->buffer = (char *)&bufferValue.sIntValue;
+            }
             break;
         case MYSQL_TYPE_LONGLONG:
             // BIGINT
             // use long long int
-            bufferValue.sLLValue = [num longLongValue];
-            bind->buffer = (char *)&bufferValue.sLLValue;
+            if (is_unsigned)
+            {
+                bufferValue.uLLValue = [num  unsignedLongLongValue];
+                bind->buffer = (char *)&bufferValue.uLLValue;
+            }
+            else
+            {
+                bufferValue.sLLValue = [num longLongValue];
+                bind->buffer = (char *)&bufferValue.sLLValue;
+            }
             break;
         case MYSQL_TYPE_FLOAT:
             // FLOAT
@@ -208,7 +209,7 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
     }
 }
 
-//---(Private)-- Convert from a BLOB buffer to NSData
+//---(Private)-- Convert a NSData to a char buffer
 - (void)setDataValueBuffer
 {
     // primitive target can be NSData
@@ -274,6 +275,114 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
     bufferValue.dateTime.second_part = [dateComponents nanosecond] * 1000;
 }
 
+//---(Private)-----
+// move the data into the bind variable.  Note that the bind does not actually take place HERE
+// the bind is actually done in MySQLChannel
+- (void)createBind
+{
+    sword				status;
+    int					width;
+    BOOL				useWidth;
+    NSString			*aString;
+    
+    // lets set our datatype and allocate the buffer to the max size
+    // if the type is something big, long, raw clob then a call back will
+    // allocate the buffer.
+    dataType = [MySQLAdaptor dataTypeForAttribute:attrib useWidth:&useWidth];
+    
+    
+    // depending upon the datatype things get set differently
+    // the following are all the datatypes we currently support
+    // if we encounter one not support we will throw an exception
+    width = [attrib width];  // we will trust this to be correct
+    freeWhenDone = NO;
+    
+    //  MYSQL_TYPE_STRING
+    if (! value)
+    {
+        bind->buffer_type = dataType;
+        bind->is_null = &is_null;
+        bind->buffer = NULL;
+        bind->length = 0;
+    }
+    else
+    {
+        switch (dataType)
+        {
+            case MYSQL_TYPE_TINY:
+            case MYSQL_TYPE_BIT:
+                // TINYINT
+                // use signed char
+                dataType = MYSQL_TYPE_TINY
+                [self setNumberValueScalarBuffer];
+                break;
+            case MYSQL_TYPE_SHORT:
+            case MYSQL_TYPE_YEAR:
+                dataType = MYSQL_TYPE_SHORT;
+                [self setNumberValueScalarBuffer];
+                break;
+            case MYSQL_TYPE_LONG:
+            case MYSQL_TYPE_INT24:
+                // INT
+                // use int
+                dataType = MYSQL_TYPE_LONG;
+                [self setNumberValueScalarBuffer];
+                break;
+            case MYSQL_TYPE_LONGLONG:
+                // BIGINT
+                // use long long
+            case MYSQL_TYPE_FLOAT:
+                // FLOAT
+                // use float
+            case MYSQL_TYPE_DOUBLE:
+                // DOUBLE
+                // use double
+                [self setNumberValueScalarBuffer];
+                break;
+            case MYSQL_TYPE_TIME:
+                // TIME
+                // use MYSQL_TIME
+            case MYSQL_TYPE_DATE:
+                // DATE
+                // use MYSQL_TIME
+            case MYSQL_TYPE_DATETIME:
+                // DATETIME
+                // use MYSQL_TIME
+            case MYSQL_TYPE_TIMESTAMP:
+                // TIMESTAMP
+                // use MYSQL_TIME
+                // method: setDateValueForDateBuffer
+                [self setDateValueForDateBuffer];
+                break;
+            case MYSQL_TYPE_NULL:
+                // NULL
+                // return EONull
+                is_null = 1;
+                bind->buffer_type = MYSQL_TYPE_NULL;
+                bind->is_null = &is_null;
+                bind->buffer = NULL;
+                bind->length = 0;
+                break;
+            case MYSQL_TYPE_BLOB:
+                // BLOB, BINARY, VARBINARY
+                // use char[]
+                [self setDataValueBuffer];
+                break;
+            case MYSQL_TYPE_DECIMAL:
+            case MYSQL_TYPE_NEWDECIMAL:
+            case MYSQL_TYPE_STRING:
+            case MYSQL_TYPE_VAR_STRING:
+            case MYSQL_TYPE_SET:
+            case MYSQL_TYPE_ENUM:
+            default:
+                // use char[]
+                dataType = MYSQL_TYPE_STRING;
+                [self setStringValueBuffer];
+                break;
+        }
+    }
+}
+
 //====================================================================================================
 //                     Public Methods
 //====================================================================================================
@@ -295,6 +404,7 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
         // if this is a custom class we need to convert it to a standard class
         value = [attrib adaptorValueByConvertingAttributeValue:value];
         [value retain];
+        [self createBind];
     }
     
     return self;
@@ -309,235 +419,7 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
     // free any memory we allocated
     if (freeWhenDone)
         free(bufferValue.charPtr);
-    free(placeHolder);
     [super dealloc];
-}
-
-- (void)createBindForChannel:(OracleChannel *)channel
-{
-    sword				status;
-    int					width;
-    BOOL				useWidth;
-    NSString			*aString;
-    
-    // lets set our datatype and allocate the buffer to the max size
-    // if the type is something big, long, raw clob then a call back will
-    // allocate the buffer.
-    dataType = [MySQLAdaptor dataTypeForAttribute:attrib useWidth:&[useWidth];
-                
-    
-    // depending upon the datatype things get set differently
-    // the following are all the datatypes we currently support
-    // if we encounter one not support we will throw an exception
-    width = [attrib width];  // we will trust this to be correct
-    freeWhenDone = NO;
-    
-    // We tried lots of types but I decided on using the folowing:
-    // SQLT_DAT (12 - DATE) for internal type:
-    //		DATE
-    //		method: objectForDate
-    //		buffersize: 7
-    // SQLT_VBI (15 - VARRAW) for internal type:
-    //  		RAW
-    //		method: objectForVarRaw
-    //      	buffersize 2000 + 2
-    // SQLT_BFLOAT (21 - native float) for internal type:
-    //		BINARY_FLOAT and NUMBER when value type = 'f'
-    //		method: objectValueForInt
-    //		buffersize sizeof(float)
-    // SQLT_BDOUBLE (22 - native double) for internal type:
-    //		BINARY_DOUBLE and NUMBER when value type is 'd'
-    //		method: objectValueForInt
-    //		buffersize sizeof(double)
-    // SQLT_INT (3 - INTEGER) for internal type:
-    //		 NUMBER when the value type is less than 'I'
-    //		method: objectValueForInt
-    //		buffersize sizeof(unsigned int)
-    // SQLT_AVC (97 - CHARZ) for internal type:
-    // 		NUMBER when the value type is 'l' or greater, or there is no value type
-    //		method: numberValueForCharz
-    //		buffersize 90
-    // SQLT_CHR (1- VARCHAR2) for internal types:
-    //		LONG, CLOB, NCLOB,
-    //		method: objectForVarchar2
-    //		buffersize:  dynamic
-    // SQLT_VCS (9 - VARCHAR) for internal types:
-    //		VARCHAR2, NVARCHAR2, CHAR, NCHAR,
-    //      TIMESTAMP, TIMESTAMP WITH TIME ZONE, TIMESTAMP WITH LOCAL TIME ZONE
-    //		method: objectForVarchar
-    //		buffersize:  attrib width + 2 for VARCHAR2, NVARCHAR2, CHAR, NCHAR
-    //      300 for TIMESTAMP, TIMESTAMP WITH TIME ZONE, TIMESTAMP WITH LOCAL TIME ZONE
-    // SQLT_LBI (24 - LONG RAW) for internal Types:
-    //		LONG RAW, BLOB
-    //		method: objectForLongRaw
-    //		buffersize: dynamic
-    
-    //  MYSQL_TYPE_STRING
-    
-    switch (dataType)
-    {
-        case MYSQL_TYPE_TINY:
-        case MYSQL_TYPE_BIT:
-            // TINYINT
-            // use signed char
-            dataType = MYSQL_TYPE_TINY
-            [self setNumberValueScalarBuffer];
-            break;
-        case MYSQL_TYPE_SHORT:
-        case MYSQL_TYPE_YEAR:
-        case MYSQL_TYPE_LONG:
-        case MYSQL_TYPE_INT24:
-            // INT
-            // use int
-            dataType = MYSQL_TYPE_LONG;
-            [self setNumberValueScalarBuffer];
-            break;
-        case MYSQL_TYPE_LONGLONG:
-            // BIGINT
-            // use long long
-        case MYSQL_TYPE_FLOAT:
-            // FLOAT
-            // use float
-        case MYSQL_TYPE_DOUBLE:
-            // DOUBLE
-            // use double
-            [self setNumberValueScalarBuffer];
-            break;
-        case MYSQL_TYPE_TIME:
-            // TIME
-            // use MYSQL_TIME
-        case MYSQL_TYPE_DATE:
-            // DATE
-            // use MYSQL_TIME
-        case MYSQL_TYPE_DATETIME:
-            // DATETIME
-            // use MYSQL_TIME
-        case MYSQL_TYPE_TIMESTAMP:
-            // TIMESTAMP
-            // use MYSQL_TIME
-            // method: setDateValueForDateBuffer
-            [self setDateValueForDateBuffer];
-            break;
-        case MYSQL_TYPE_NULL:
-            // NULL
-            // return EONull
-            is_null = 1;
-            bind->buffer_type = MYSQL_TYPE_NULL;
-            bind->is_null = &is_null;
-            bind->buffer = NULL;
-            bind->length = 0;
-            break;
-        case MYSQL_TYPE_BLOB:
-            // BLOB, BINARY, VARBINARY
-            // use char[]
-            break;
-        case MYSQL_TYPE_DECIMAL:
-        case MYSQL_TYPE_NEWDECIMAL:
-        case MYSQL_TYPE_STRING:
-        char MYSQL_TYPE_VAR_STRING:
-        char MYSQL_TYPE_SET:
-        case MYSQL_TYPE_ENUM:
-        default:
-            // use char[]
-            dataType = MYSQL_TYPE_STRING;
-            break;
-    }
-    
-    if (! value)
-        indicator = -1;
-    switch (dataType)
-    {
-        case SQLT_VCS:   // VARCHAR used for:
-            //   VARCHAR2, NVARCHAR2, CHAR, NCHAR,
-            //   TIMESTAMP, TIMESTAMP WITH TIME ZONE, TIMESTAMP WITH LOCAL TIME ZONE
-            //   but we will use CHARZ (SQLT_AVC)
-        case SQLT_AVC:   // CHARZ used for:
-            //   NUMBER  l,L,q,Q or no valueType, NSString
-        case SQLT_VNU:   // VARNUM  not used
-        case SQLT_STR:   // STRING not used
-            dataType = SQLT_AVC;
-            [self setStringValueCharzBuffer];
-            break;
-        case SQLT_DAT:   // DATE 12 used for DATE, TIMESTAMP
-            [self setDateValueForDateBuffer];
-            break;
-        case SQLT_INT:      // ORANET TYPE integer 3  used for NUMBER c,C,s,S,i,I
-        case SQLT_BFLOAT:   // Native Binary Float 21 used for BINARY_FLOAT, NUMBER f
-        case SQLT_BDOUBLE:	// Native Binary Double 22 user for BINARY_DOUBLE, NUMBER d
-            [self setNumberValueScalarBuffer];
-            break;
-        case SQLT_VBI: // VARRAW 15 - RAW
-            [self setDataValueVarRawBuffer];
-            break;
-        case SQLT_CHR: // VARCHAR2 1 used for LONG, CLOB
-        case SQLT_LBI: // LONG RAW 24 used for LONG RAW, BLOB
-            // the buffer for both is identical
-            // if this is null then do something SIMPLE
-            if (! value)
-            {
-                bufferSize = 0;
-                buffer = bufferValue.simplePtr;
-            }
-            else
-            {
-                // this IS dynamic
-                mode = OCI_DATA_AT_EXEC;
-                bufferSize = BUFFER_BLOCK_SIZE;
-                freeWhenDone = YES;
-                bufferValue.charPtr = NSZoneMalloc ([self zone], bufferSize);
-                buffer = bufferValue.charPtr;
-            }
-            break;
-        default:
-            [NSException raise:EODatabaseException format:@"fetchRowWithZone: Unsupported external Oracle Datatype encountered (%d)", dataType];
-            break;
-    }
-    
-    // set ValueSize which is the TOTAL length of the data to be passed by oci to Oracle.  This is the
-    // same as bufferSize UNLESS we are using a dynamic bind.
-    if (dataType == SQLT_CHR)
-        valueSize = [(NSString *)value length] * sizeof(unichar);
-    else if (dataType == SQLT_LBI)
-        valueSize = [(NSData *)value length];
-    else
-        valueSize = bufferSize;
-    
-    // create the bind handle
-    bindHandle = NULL;
-    indicator = 0;
-    
-    // get placeHolder
-    aString = [bindDict objectForKey:EOBindVariablePlaceHolderKey];
-    placeHolderLen = [aString ociTextLength];
-    placeHolder = NSZoneMalloc([self zone], placeHolderLen + sizeof(unichar));
-    [aString getOCIText:placeHolder];
-    
-    status = OCIBindByName((dvoid *)[channel stmthp], &bindHandle, [channel errhp], 
-                           placeHolder, placeHolderLen, buffer, valueSize, dataType, (dvoid *)&indicator,
-                           (ub2 *) 0, (ub2) 0, (ub4) 0, (ub4 *) 0, mode);
-    
-    if ((mode == OCI_DATA_AT_EXEC) && (status == OCI_SUCCESS))
-        status = OCIBindDynamic(bindHandle, [channel errhp], (dvoid	*)self, ociInBindCallback, (dvoid	*)self, ociOutBindCallback);
-    
-    if ((status == OCI_SUCCESS) && (useNationalCharacterSet))
-    {
-        ub2 csid = OCI_UTF16ID;
-        ub1 cform = SQLCS_NCHAR;
-        
-        // you must call set form BEFORE calling set character set
-        status = OCIAttrSet((void *) bindHandle, (ub4) OCI_HTYPE_BIND, (void *) &cform, (ub4) 0,
-                            (ub4)OCI_ATTR_CHARSET_FORM, [channel errhp]); 
-        if (status == OCI_SUCCESS)
-            status = OCIAttrSet((void *) bindHandle, (ub4) OCI_HTYPE_BIND, (void *) &csid, (ub4) 0,
-                                (ub4)OCI_ATTR_CHARSET_ID, [channel errhp]); 
-    }	
-    
-    NS_DURING
-    [self checkStatus:status withChannel:channel];
-    NS_HANDLER
-    [channel cancelFetch];
-    [localException raise];
-    NS_ENDHANDLER	
 }
 
 @end
