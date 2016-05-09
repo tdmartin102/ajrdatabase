@@ -52,5 +52,8 @@
 // it is incremented for each row fetched on a select.
 
 - (MYSQL *)mysql;
+- (MYSQL_BIND *)bindArray;
+- (MYSQL_BIND *)defineArray;
+- (MYSQL_STMT)*stmt;
 
 @end

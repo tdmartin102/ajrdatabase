@@ -111,7 +111,7 @@
             result = @"SMALLINT";
             break;
         case MYSQL_TYPE_LONG:
-            result = @"INTEGER";
+            result = @"INT";
             break;
         case MYSQL_TYPE_INT24:
             result = @"MEDIUMINT";
@@ -246,7 +246,7 @@
     bindCache = [[NSMutableArray alloc] initWithCapacity:bindCount];
     bindArray = calloc(bindCount, sizeof(MYSQL_BIND));
     index = 0
-    for (bindDict in bindVariableDictionaries)
+    for (bindDict in [expression bindVariableDictionaries])
     {
         // associated with every bind is a bindHandle and a lot of info about
         // how to do a bind.  We will wrap all that in an object
@@ -424,6 +424,7 @@
     BOOL                isUnsigned;
     BOOL                isBlob;
     NSString            *fieldType;
+    NSString            *valueType;
     MYSQL_RES           *fetchResult;
     int                 fieldCount;
     int                 index;
@@ -492,7 +493,14 @@
             }
             [tempAttribute setValueClassName:[dataTypeDict objectForKey:@"valueClassName"]];
             [tempAttribute setExternalType:fieldType];
-            [tempAttribute setValueType:[dataTypeDict objectForKey:@"valueType"]];
+            valueType = [dataTypeDict objectForKey:@"valueType"];
+            if (valueType)
+            {
+                // convert to uppercase if this is unsigned.  So c->C, i->I, q-Q etc
+                if (isUnsigned)
+                    valueType = [valueType uppercaseString];
+                [tempAttribute setValueType:valueType];
+            }
             if (field->type == MYSQL_TYPE_DECIMAL)
             {
                 // There does not seem to be any way to get precision and scale for
@@ -864,5 +872,9 @@
         localTransaction = NO;
     }
 }
+
+- (MYSQL_BIND *)bindArray { return bindArray; }
+- (MYSQL_BIND *)defineArray { return bindArray; }
+- (MYSQL_STMT *)stmt { return stmt; }
 
 @end
