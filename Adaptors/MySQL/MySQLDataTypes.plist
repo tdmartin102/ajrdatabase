@@ -9,16 +9,22 @@
 	TINYINT = {
 		mysqlDataType = 1;
 		valueClassName = NSNumber;
-		valueType = s;
+		valueType = c;
 		isNumber = 1;
 	};
 	SMALLINT = {
 		mysqlDataType = 2;
 		valueClassName = NSNumber;
-		valueType = i;
+		valueType = s;
 		isNumber = 1;
 	};
-	INTEGER = {
+	INT = {
+		mysqlDataType = 3;
+		valueClassName = NSNumber;
+		valueType = l;
+		isNumber = 1;
+	};
+	INT24 = {
 		mysqlDataType = 3;
 		valueClassName = NSNumber;
 		valueType = l;
@@ -102,7 +108,7 @@
 		valueClassName = NSString;
 	};
 	VARBINARY = {
-		mysqlDataType = 253;
+		mysqlDataType = 252;
 		useWidth = 1;
 		valueClassName = NSDATA;
 	};
