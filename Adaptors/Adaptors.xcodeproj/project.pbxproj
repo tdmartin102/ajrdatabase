@@ -33,6 +33,7 @@
 		1E0EACAA13B3B54C00EDEC95 /* OracleBindInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E0EACA913B3B54C00EDEC95 /* OracleBindInfo.m */; };
 		1E16EB5D15D044BD002D5E8D /* PostgreSQLConnectionPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E16EB5B15D044BD002D5E8D /* PostgreSQLConnectionPane.xib */; };
 		1E16EB6015D044D7002D5E8D /* SQLiteConnectionPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E16EB5E15D044D7002D5E8D /* SQLiteConnectionPane.xib */; };
+		1E19984D1CE0CDA90021969C /* MySQLDefineInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E19984C1CE0CDA90021969C /* MySQLDefineInfo.m */; };
 		1E45D52113FD8AAC0043B572 /* OracleSchemaGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E45D52013FD8AAC0043B572 /* OracleSchemaGeneration.m */; };
 		1E53566F1BA85ABA00371E45 /* libmysqlclient_r.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E53566E1BA85ABA00371E45 /* libmysqlclient_r.dylib */; };
 		1E5356731BA8764900371E45 /* MySQLContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E5356721BA8764900371E45 /* MySQLContext.m */; };
@@ -198,11 +199,13 @@
 		1E16EB5115D0364B002D5E8D /* OracleInterface-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OracleInterface-Info.plist"; sourceTree = "<group>"; };
 		1E16EB5C15D044BD002D5E8D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PostgreSQLConnectionPane.xib; sourceTree = "<group>"; };
 		1E16EB5F15D044D7002D5E8D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SQLiteConnectionPane.xib; sourceTree = "<group>"; };
+		1E19984B1CE0CDA90021969C /* MySQLDefineInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySQLDefineInfo.h; sourceTree = "<group>"; };
+		1E19984C1CE0CDA90021969C /* MySQLDefineInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySQLDefineInfo.m; sourceTree = "<group>"; };
 		1E34465012E4D06B007574F2 /* oracle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = oracle; path = /usr/local/include/oracle; sourceTree = "<absolute>"; };
 		1E45D51F13FD8AAC0043B572 /* OracleSchemaGeneration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleSchemaGeneration.h; sourceTree = "<group>"; };
 		1E45D52013FD8AAC0043B572 /* OracleSchemaGeneration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleSchemaGeneration.m; sourceTree = "<group>"; };
 		1E53566E1BA85ABA00371E45 /* libmysqlclient_r.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmysqlclient_r.dylib; path = /usr/local/mysql/lib/libmysqlclient_r.dylib; sourceTree = "<absolute>"; };
-		1E5356701BA86F0F00371E45 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; name = include; path = "/usr/local/mysql-5.6.14-osx10.7-x86_64/include"; sourceTree = "<absolute>"; };
+		1E5356701BA86F0F00371E45 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; name = include; path = /usr/local/mysql/include; sourceTree = "<absolute>"; };
 		1E5356711BA8764900371E45 /* MySQLContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySQLContext.h; sourceTree = "<group>"; };
 		1E5356721BA8764900371E45 /* MySQLContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySQLContext.m; sourceTree = "<group>"; };
 		1E8203CC15753E6F00F9663C /* libpq.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpq.a; path = /usr/lib/libpq.a; sourceTree = "<absolute>"; };
@@ -443,6 +446,8 @@
 				1E00D9EE1BA4D9C300817D90 /* MySQLChannel.m */,
 				1E5356711BA8764900371E45 /* MySQLContext.h */,
 				1E5356721BA8764900371E45 /* MySQLContext.m */,
+				1E19984B1CE0CDA90021969C /* MySQLDefineInfo.h */,
+				1E19984C1CE0CDA90021969C /* MySQLDefineInfo.m */,
 				1E825C8E1CD37B6500EE1D15 /* MySQLSQLExpression.h */,
 				1E825C8F1CD37B6500EE1D15 /* MySQLSQLExpression.m */,
 				1E5356701BA86F0F00371E45 /* include */,
@@ -928,6 +933,7 @@
 				1E00D9EF1BA4D9C300817D90 /* MySQLChannel.m in Sources */,
 				1E825C901CD37B6500EE1D15 /* MySQLSQLExpression.m in Sources */,
 				1E00D9EC1BA4828900817D90 /* MySQLAdaptor.m in Sources */,
+				1E19984D1CE0CDA90021969C /* MySQLDefineInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
