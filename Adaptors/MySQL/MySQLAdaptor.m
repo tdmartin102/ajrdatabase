@@ -136,7 +136,6 @@ static NSMutableDictionary 	*dataTypes = nil;
     NSDictionary		*dataTypes;
     NSDictionary		*dataTypeDict;
     int					dataType;
-    unichar				valueType;
     
     dataTypes = [MySQLAdaptor dataTypes];
     dataTypeDict = [dataTypes objectForKey:[attrib externalType]];

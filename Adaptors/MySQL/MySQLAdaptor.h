@@ -29,7 +29,11 @@ mailto:tom.martin@riemer.com
 #import <EOControl/EOControl.h>
 #import <mysql.h>
 
-#define	SIMPLE_BUFFER_SIZE	259
+#define	SIMPLE_BUFFER_SIZE	261
+// Max char size is SIMPLE_BUFFER_SIZE / 4 as this is the largest number
+// of UTF8 characters we can safely insert into a buffer of this size
+// The maximum number of bytes per character in UTF8 is 4
+#define	MAX_UTF8_WIDTH       65
 
 typedef union _mysqlBufferValue {
     char                sCharValue;
@@ -54,6 +58,7 @@ typedef union _mysqlBufferValue {
 
 + (NSDictionary *)dataTypes;
 + (int)dataTypeForAttribute:(EOAttribute *)attrib useWidth:(BOOL *)useWidth;
++ (id)convert:(id)value toValueClassNamed:(NSString *)aClassName;
 
 - (NSString *)checkStatus:(MYSQL *)value;
 
