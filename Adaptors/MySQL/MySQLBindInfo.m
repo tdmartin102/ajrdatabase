@@ -74,12 +74,12 @@
     unsigned char   *strPtr;
     
     // we need a NSString
-    str = [OracleAdaptor convert:value toValueClassNamed:@"NSString"];
-    *strPtr = [str UTF8String];
-    valueSize = strlen(strPtr);
+    str = [MySQLAdaptor convert:value toValueClassNamed:@"NSString"];
+    strPtr = (unsigned char *)[str UTF8String];
+    valueSize = strlen((char *)strPtr);
     if (bufferSize < SIMPLE_BUFFER_SIZE)
     {
-        strcpy(bufferValue.simplePtr, strPtr);
+        strcpy((char *)bufferValue.simplePtr, (char *)strPtr);
         bind->buffer = bufferValue.simplePtr;
         bufferSize = SIMPLE_BUFFER_SIZE;
     }
@@ -88,7 +88,7 @@
         freeWhenDone = YES;
         bufferSize = (valueSize + 1) * sizeof(unsigned char);
         bufferValue.charPtr = calloc((valueSize + 1), sizeof(unsigned char));
-        strcpy(bufferValue.charPtr, strPtr);
+        strcpy((char *)bufferValue.charPtr, (char *)strPtr);
         bind->buffer = bufferValue.charPtr;
     }
     bind->length = &valueSize;
@@ -132,7 +132,7 @@
     bind->buffer_type = dataType;
     bind->is_null = 0;
     bind->length = 0;
-    bind->is_unsigned = &is_unsigned;
+    bind->is_unsigned = is_unsigned;
     
     switch (dataType)
     {
@@ -217,7 +217,7 @@
     // This is used for RAW only
     //
     NSData	*data;
-    data = [OracleAdaptor convert:value toValueClassNamed:@"NSData"];
+    data = [MySQLAdaptor convert:value toValueClassNamed:@"NSData"];
     
     bufferSize = [data length];
     valueSize = bufferSize;
@@ -256,7 +256,7 @@
     bind->is_null = &is_null;
     bind->length = 0;
     
-    NSDate *aDate = [OracleAdaptor convert:value toValueClassNamed:@"NSDate"];
+    NSDate *aDate = [MySQLAdaptor convert:value toValueClassNamed:@"NSDate"];
     NSDateComponents *dateComponents;
     NSCalendar *currentCalendar = [NSCalendar currentCalendar];
     // write time in server time zone
@@ -265,12 +265,12 @@
     flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit |
     NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSCalendarUnitNanosecond;
     dateComponents = [currentCalendar components:flags fromDate:aDate];
-    bufferValue.dateTime.year = [dateComponents year];
-    bufferValue.dateTime.month = [dateComponents month];
-    bufferValue.dateTime.day = [dateComponents day];
-    bufferValue.dateTime.hour = [dateComponents hour];
-    bufferValue.dateTime.minute = [dateComponents minute];
-    bufferValue.dateTime.second = [dateComponents second];
+    bufferValue.dateTime.year = (unsigned int)[dateComponents year];
+    bufferValue.dateTime.month = (unsigned int)[dateComponents month];
+    bufferValue.dateTime.day = (unsigned int)[dateComponents day];
+    bufferValue.dateTime.hour = (unsigned int)[dateComponents hour];
+    bufferValue.dateTime.minute = (unsigned int)[dateComponents minute];
+    bufferValue.dateTime.second = (unsigned int)[dateComponents second];
     // second_part is in miliseconds
     bufferValue.dateTime.second_part = [dateComponents nanosecond] * 1000;
 }
@@ -280,11 +280,9 @@
 // the bind is actually done in MySQLChannel
 - (void)createBind
 {
-    sword				status;
     int					width;
     BOOL				useWidth;
-    NSString			*aString;
-    
+
     // lets set our datatype and allocate the buffer to the max size
     // if the type is something big, long, raw clob then a call back will
     // allocate the buffer.
@@ -313,7 +311,7 @@
             case MYSQL_TYPE_BIT:
                 // TINYINT
                 // use signed char
-                dataType = MYSQL_TYPE_TINY
+                dataType = MYSQL_TYPE_TINY;
                 [self setNumberValueScalarBuffer];
                 break;
             case MYSQL_TYPE_SHORT:
@@ -392,9 +390,6 @@
 {
     if ((self = [super init]))
     {
-        bindHandle = NULL;
-        
-        
         bindDict = [aValue retain];
         bind = aBind;
         // get the attribute and value from the dictionary
