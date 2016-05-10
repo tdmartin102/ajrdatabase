@@ -39,6 +39,7 @@ mailto:tom.martin@riemer.com
     MySQLChannel        __weak *channel;
     EOAttribute         *attrib;
     MYSQL_BIND          *bind;
+    MYSQL_BIND          *bindArray;
     int                 dataType;
     unsigned long       bufferSize;
     mysqlBufferValue	bufferValue;
@@ -51,9 +52,9 @@ mailto:tom.martin@riemer.com
 
 // set the database and allocate the buffer according to dataType
 - (instancetype)initWithAttribute:(EOAttribute *)value
-            channel:(MySQLChannel *)aChannel
-           withBindIndex:(unsigned int)aBindIndex;
-
+                          channel:(MySQLChannel *)aChannel;
+- (void)setBindIndex:(unsigned int)value;
+- (unsigned int)bindIndex;
 - (id)objectValue;
 - (EOAttribute *)attribute;
 

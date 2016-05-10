@@ -45,7 +45,7 @@ mailto:tom.martin@riemer.com
 - (id)numberValueFromChar
 {
 	// target is NSDecimalNumber (probably)
-    return [NSString stringWithUTF8String:bufferValue.simplePtr];
+    return [NSString stringWithUTF8String:(char *)bufferValue.simplePtr];
 }
 
 //---(Private)--- Convert scaler value Buffer into a NSNumber. We only handle value types cCsSiIfd
@@ -97,7 +97,7 @@ mailto:tom.martin@riemer.com
 {
     // This is a string where the buffer was LESS than SIMPLE_BUFFER_SIZE
 	// target can be NSString or NSData
-    return [NSString stringWithUTF8String:bufferValue.simplePtr];
+    return [NSString stringWithUTF8String:(char *)bufferValue.simplePtr];
 }
 
 //---(Private)-- Convert LONG VARCHAR buffer into NSString -----
@@ -126,9 +126,9 @@ mailto:tom.martin@riemer.com
         if (mysql_stmt_fetch_column([channel stmt], bind, bindIndex, 0) == 0)
         {
             if (needFree)
-                result = [NSString stringWithUTF8String:bufferValue.charPtr];
+                result = [NSString stringWithUTF8String:(char *)bufferValue.charPtr];
             else
-                result = [NSString stringWithUTF8String:bufferValue.simplePtr];
+                result = [NSString stringWithUTF8String:(char *)bufferValue.simplePtr];
         }
         if (needFree)
         {
@@ -188,10 +188,7 @@ mailto:tom.martin@riemer.com
 //---(Private)-- Convert from a DATE buffer to a NSDate
 - (id)objectForDate
 {
-	int y;
 	id	result;
-	
-	y = ((buffer[0] - 100) * 100) + (buffer[1] - 100);
 	
     NSDateComponents *dateComponents;
     NSCalendar *currentCalendar;
@@ -217,10 +214,7 @@ mailto:tom.martin@riemer.com
 // -- This is the main method, and it creates the bind for the attribute
 - (void)createDefine
 {
-    ub4					mode;
-    sword				status;
     BOOL				useWidth;
-    BOOL				useNationalCharacterSet;
     
     // lets set our datatype and allocate the buffer to the max size
     // if the type is something big, long, raw clob then a call back will
@@ -245,10 +239,10 @@ mailto:tom.martin@riemer.com
                 break;
         }
     }
-    is_null = 0
+    is_null = 0;
     bind->buffer = NULL;
     bind->length = 0;
-    bin->is_unsigned = 0;
+    bind->is_unsigned = 0;
     
     switch (dataType)
     {
@@ -256,33 +250,33 @@ mailto:tom.martin@riemer.com
         case MYSQL_TYPE_BIT:
             // TINYINT
             // use signed char
-            dataType = MYSQL_TYPE_TINY
+            dataType = MYSQL_TYPE_TINY;
             if (is_unsigned)
             {
-                usedValueType = 'C'
-                bind->buffer = (char *)bufferValue.uCharValue;
+                usedValueType = 'C';
+                bind->buffer = (char *)&bufferValue.uCharValue;
             }
             else
             {
-                usedValueType = 'c'
-                bind->buffer = (char *)bufferValue.sCharValue;
+                usedValueType = 'c';
+                bind->buffer = (char *)&bufferValue.sCharValue;
             }
-            bin->is_unsigned = &is_unsigned;
+            bind->is_unsigned = is_unsigned;
             break;
         case MYSQL_TYPE_SHORT:
         case MYSQL_TYPE_YEAR:
             dataType = MYSQL_TYPE_SHORT;
             if (is_unsigned)
             {
-                usedValueType = 'S'
-                bind->buffer = (char *)bufferValue.uShortValue;
+                usedValueType = 'S';
+                bind->buffer = (char *)&bufferValue.uShortValue;
             }
             else
             {
-                usedValueType = 's'
-                bind->buffer = (char *)bufferValue.sShortValue;
+                usedValueType = 's';
+                bind->buffer = (char *)&bufferValue.sShortValue;
             }
-            bin->is_unsigned = &is_unsigned;
+            bind->is_unsigned = is_unsigned;
             break;
         case MYSQL_TYPE_LONG:
         case MYSQL_TYPE_INT24:
@@ -291,42 +285,42 @@ mailto:tom.martin@riemer.com
             dataType = MYSQL_TYPE_LONG;
             if (is_unsigned)
             {
-                usedValueType = 'I'
-                bind->buffer = (char *)bufferValue.uIntValue;
+                usedValueType = 'I';
+                bind->buffer = (char *)&bufferValue.uIntValue;
             }
             else
             {
-                usedValueType = 'i'
-                bind->buffer = (char *)bufferValue.sIntValue;
+                usedValueType = 'i';
+                bind->buffer = (char *)&bufferValue.sIntValue;
             }
-            bin->is_unsigned = &is_unsigned;
+            bind->is_unsigned = is_unsigned;
             break;
         case MYSQL_TYPE_LONGLONG:
             // BIGINT
             // use long long
             if (is_unsigned)
             {
-                usedValueType = 'Q'
-                bind->buffer = (char *)bufferValue.uLLValue;
+                usedValueType = 'Q';
+                bind->buffer = (char *)&bufferValue.uLLValue;
             }
             else
             {
-                usedValueType = 'q'
-                bind->buffer = (char *)bufferValue.sLLValue;
+                usedValueType = 'q';
+                bind->buffer = (char *)&bufferValue.sLLValue;
             }
-            bin->is_unsigned = &is_unsigned;
+            bind->is_unsigned = is_unsigned;
             break;
         case MYSQL_TYPE_FLOAT:
             // FLOAT
             // use float
-            usedValueType = 'f'
-            bind->buffer = (char *)bufferValue.floatValue;
+            usedValueType = 'f';
+            bind->buffer = (char *)&bufferValue.floatValue;
             break;
         case MYSQL_TYPE_DOUBLE:
             // DOUBLE
             // use double
-            usedValueType = 'd'
-            bind->buffer = (char *)bufferValue.doubleValue;
+            usedValueType = 'd';
+            bind->buffer = (char *)&bufferValue.doubleValue;
             break;
         case MYSQL_TYPE_TIME:
             // TIME
@@ -341,7 +335,7 @@ mailto:tom.martin@riemer.com
             // TIMESTAMP
             // use MYSQL_TIME
             // method: setDateValueForDateBuffer
-            bind->buffer = (char *)bufferValue.dateTime;
+            bind->buffer = (char *)&bufferValue.dateTime;
             break;
         case MYSQL_TYPE_NULL:
             // NULL
@@ -362,12 +356,12 @@ mailto:tom.martin@riemer.com
         case MYSQL_TYPE_NEWDECIMAL:
             dataType = MYSQL_TYPE_STRING;
             memset(bufferValue.simplePtr, 0, SIMPLE_BUFFER_SIZE);
-            bind->buffer = bufferValue.simplePtr
+            bind->buffer = bufferValue.simplePtr;
             break;
         case MYSQL_TYPE_STRING:
         case MYSQL_TYPE_VAR_STRING:
             dataType = MYSQL_TYPE_STRING;
-            if (width >= SIMPLE_BUFFER_SIZE || width = 0)
+            if (width >= MAX_UTF8_WIDTH || width == 0)
             {
                 // we get the size AFTER the fetch, then
                 // refetch this column
@@ -377,7 +371,7 @@ mailto:tom.martin@riemer.com
             else
             {
                 memset(bufferValue.simplePtr, 0, SIMPLE_BUFFER_SIZE);
-                bind->buffer = bufferValue.simplePtr
+                bind->buffer = bufferValue.simplePtr;
             }
             break;
         case MYSQL_TYPE_SET:
@@ -402,20 +396,24 @@ mailto:tom.martin@riemer.com
 
 //--- Designated initializer
 - (instancetype)initWithAttribute:(EOAttribute *)value
-            channel:(MySQLChannel *)aChannel
-      withBindIndex:(unsigned int)aBindIndex;
+            channel:(MySQLChannel *)aChannel;
 {
-    MYSQL_BIND *bindArray;
 	if ((self = [super init]))
     {
         attrib = [value retain];
         channel = aChannel;
         bindArray = [channel bindArray];
-        bindIndex = aBindIndex;
-        bind = bindArray[bindIndex];
-        [self createDefine];
+        bind = NULL;
     }
 	return self;
+}
+
+- (unsigned int)bindIndex { return bindIndex; }
+- (void)setBindIndex:(unsigned int)value
+{
+    bindIndex = value;
+    bind = &bindArray[bindIndex];
+    [self createDefine];
 }
 
 //----- Free things we allocated
@@ -459,7 +457,7 @@ mailto:tom.martin@riemer.com
         case MYSQL_TYPE_STRING:
         default:
             // use char[]
-            if (width >= SIMPLE_BUFFER_SIZE || width = 0)
+            if (width >= MAX_UTF8_WIDTH || width == 0)
                 object = [self stringValueForLongChar];
             else
                 object = [self stringValueForVarchar];
