@@ -9,10 +9,11 @@
 #import "MySQLChannel.h"
 #import "MySQLAdaptor.h"
 #import "MySQLBindInfo.h"
+#import "MySQLDefineInfo.h"
 
 @implementation MySQLChannel
 
-- (int)rowsAffected { return rowsAffected; }
+- (unsigned int)rowsAffected { return (unsigned int)rowsAffected; }
 
 //=========================================================================================
 //            Private Methods
@@ -172,25 +173,26 @@
 }
 
 //---(Private)--- find the attribute in the evaluateAttributes by attempting to match the column names
-- (int)indexOfAttribute:(EOAttribute *)attrib
+- (unsigned int)indexOfAttribute:(EOAttribute *)attrib
 {
-    EOAttribute	*anAttrib;
-    id			enumArray;
-    int			result, index;
+    EOAttribute     *anAttrib;
+    unsigned int	result, index;
+    BOOL            found;
     
     index = 0;
-    result = -1;
-    enumArray = [evaluateAttributes objectEnumerator];
-    while ((anAttrib = [enumArray nextObject]) != nil)
+    result = 0;
+    found = NO;
+    for (anAttrib in evaluateAttributes)
     {
         if ([[anAttrib columnName] caseInsensitiveCompare:[attrib columnName]] == NSOrderedSame)
         {
             result = index;
+            found = YES;
             break;
         }
         ++index;
     }
-    if (result < 0)
+    if (! found)
     {
         // We are going to raise here.  I don't know what else to do.
         [NSException raise:EODatabaseException format:@"fetchRowWithZone: could not find attribute with column name %@ among fetched attributes.",
@@ -242,10 +244,10 @@
     
     if (bindCache)
         [bindCache release];
-    bindCount = [[expression bindVariableDictionaries] count];
+    bindCount = (int)[[expression bindVariableDictionaries] count];
     bindCache = [[NSMutableArray alloc] initWithCapacity:bindCount];
     bindArray = calloc(bindCount, sizeof(MYSQL_BIND));
-    index = 0
+    index = 0;
     for (bindDict in [expression bindVariableDictionaries])
     {
         // associated with every bind is a bindHandle and a lot of info about
@@ -253,7 +255,6 @@
         mysqlBindInfo = [[MySQLBindInfo alloc] initWithBindDictionary:bindDict mysqlBind:&bindArray[index]];
         [bindCache addObject:mysqlBindInfo];
         [mysqlBindInfo release];
-        [mysqlBindInfo createBindForChannel:self];
         ++index;
     }
     mysql_stmt_bind_param(stmt, bindArray);
@@ -433,7 +434,6 @@
     NSDictionary		*dataTypes;
     NSDictionary		*dataTypeDict;
     NSMutableArray		*rawAttributes;
-    NSAutoreleasePool	*pool;
     
     if (! [self isFetchInProgress])
         [NSException raise:EODatabaseException format:@"describeResults called while a fetch was not in progress."];
@@ -465,73 +465,74 @@
     field = mysql_fetch_fields(fetchResult);
     for (index = 0; index < fieldCount; ++index)
     {
-        pool = [[NSAutoreleasePool alloc] init];
-        
-        // Build and store the column attribute
-        tempAttribute = [[EOAttribute alloc] init];
-        
-        [tempAttribute setName:[NSString stringWithFormat:@"Attribute%d", counter - 1]];
-        [tempAttribute setColumnName:[NSString stringWithUTF8String:field->name]];
-        [tempAttribute setAllowsNull:(field->flags & NOT_NULL_FLAG) ? NO : YES];
-        isBinary = (field->flags & BINARY_FLAG) ? YES : NO;
-        isUnsigned = (field->flags & UNSIGNED_FLAG) ? YES : NO;
-        isBlob = (field->flags & BLOB_FLAG) ? YES : NO;
-        fieldType = [self fieldTypeNameForTypeValue:field->type isBinary:isBinary];
-        
-        // NEED WIDTH!!!!
-        // Look up the datatype and map it appropriately, but if we don't recognize the data type,
-        // we can still treat as a string.
-        if (fieldType)
-            dataTypeDict = [dataTypes objectForKey:fieldType];
-        else
-            dataTypeDict = nil;
-        if (dataTypeDict)
+        @autoreleasepool
         {
-            if ([dataTypeDict objectForKey:@"useWidth"])
+            // Build and store the column attribute
+            tempAttribute = [[EOAttribute alloc] init];
+            
+            [tempAttribute setName:[NSString stringWithFormat:@"Attribute%d", counter - 1]];
+            [tempAttribute setColumnName:[NSString stringWithUTF8String:field->name]];
+            [tempAttribute setAllowsNull:(field->flags & NOT_NULL_FLAG) ? NO : YES];
+            isBinary = (field->flags & BINARY_FLAG) ? YES : NO;
+            isUnsigned = (field->flags & UNSIGNED_FLAG) ? YES : NO;
+            isBlob = (field->flags & BLOB_FLAG) ? YES : NO;
+            fieldType = [self fieldTypeNameForTypeValue:field->type isBinary:isBinary];
+            
+            // NEED WIDTH!!!!
+            // Look up the datatype and map it appropriately, but if we don't recognize the data type,
+            // we can still treat as a string.
+            if (fieldType)
+                dataTypeDict = [dataTypes objectForKey:fieldType];
+            else
+                dataTypeDict = nil;
+            if (dataTypeDict)
             {
-                [tempAttribute setWidth:(int)field->length];
-            }
-            [tempAttribute setValueClassName:[dataTypeDict objectForKey:@"valueClassName"]];
-            [tempAttribute setExternalType:fieldType];
-            valueType = [dataTypeDict objectForKey:@"valueType"];
-            if (valueType)
-            {
-                // convert to uppercase if this is unsigned.  So c->C, i->I, q-Q etc
-                if (isUnsigned)
-                    valueType = [valueType uppercaseString];
-                [tempAttribute setValueType:valueType];
-            }
-            if (field->type == MYSQL_TYPE_DECIMAL)
-            {
-                // There does not seem to be any way to get precision and scale for
-                // the DECIMAL type.  But MAYBE, just MAYBE precision is length
-                // and scale is 'decimals' ??
-                if (field->length)
+                if ([dataTypeDict objectForKey:@"useWidth"])
                 {
-                    [tempAttribute setPrecision:(int)field->length];
-                    if (field->decimals)
-                        [tempAttribute setScale:(int)field->decimals];
+                    [tempAttribute setWidth:(int)field->length];
+                }
+                [tempAttribute setValueClassName:[dataTypeDict objectForKey:@"valueClassName"]];
+                [tempAttribute setExternalType:fieldType];
+                valueType = [dataTypeDict objectForKey:@"valueType"];
+                if (valueType)
+                {
+                    // convert to uppercase if this is unsigned.  So c->C, i->I, q-Q etc
+                    if (isUnsigned)
+                        valueType = [valueType uppercaseString];
+                    [tempAttribute setValueType:valueType];
+                }
+                if (field->type == MYSQL_TYPE_DECIMAL)
+                {
+                    // There does not seem to be any way to get precision and scale for
+                    // the DECIMAL type.  But MAYBE, just MAYBE precision is length
+                    // and scale is 'decimals' ??
+                    if (field->length)
+                    {
+                        [tempAttribute setPrecision:(int)field->length];
+                        if (field->decimals)
+                            [tempAttribute setScale:(int)field->decimals];
+                    }
                 }
             }
+            else
+            {
+                [EOLog logWarningWithFormat:@"Unknown data type for %@: %d  We treat it like a string with no width\n", [tempAttribute name], field->type];
+                [tempAttribute setValueClassName:@"NSString"];
+                [tempAttribute setExternalType:@"VARCHAR"];
+                [tempAttribute setValueType:@"s"];
+            }
+            
+            if (tempAttribute)
+            {
+                [rawAttributes addObject:tempAttribute];
+                [tempAttribute release];
+            }
+            
+            // get the next param
+            ++counter;
+            ++field;
+
         }
-        else 
-        {
-            [EOLog logWarningWithFormat:@"Unknown data type for %@: %d  We treat it like a string with no width\n", [tempAttribute name], field->type];
-            [tempAttribute setValueClassName:@"NSString"];
-            [tempAttribute setExternalType:@"VARCHAR"];
-            [tempAttribute setValueType:@"s"];
-        }
-        
-        if (tempAttribute)
-        {
-            [rawAttributes addObject:tempAttribute];
-            [tempAttribute release];
-        }
-        
-        // get the next param
-        ++counter;
-        ++field;
-        [pool release];
     }
     
     return [rawAttributes autorelease];
@@ -539,12 +540,9 @@
 
 - (void)evaluateExpression:(EOSQLExpression *)expression
 {
-    NSUInteger	rowCount;
     NSString	*sqlString;
     NSUInteger	len;
-    NSUInteger	iterations;
     const char   *statement;
-    my_bool     aBool;
     MYSQL_RES   *res;
 
     if (!connected)
@@ -662,7 +660,13 @@
     NS_ENDHANDLER
     
     // at this point I think we could release the bindCache.
-    // but I will hang onto it until the fetch is canceled.
+    [bindCache release];
+    bindCache = nil;
+    if (bindArray)
+    {
+        free(bindArray);
+        bindArray = NULL;
+    }
 
     // find out what kind of statement this is.
     // it is possible that this will return a valid result
@@ -690,7 +694,7 @@
         // return whatever is in the buffer.
         rowsAffected = mysql_stmt_affected_rows(stmt);
          if ([self isDebugEnabled])
-            [EOLog logDebugWithFormat:@"%@ %d rows processed", [self description], rowsAffected];
+            [EOLog logDebugWithFormat:@"%@ %ld rows processed", [self description], (long)rowsAffected];
         
         // this is not a fetch.  if a local transaction is in progress, then end it
         if (localTransaction)
@@ -720,12 +724,10 @@
 - (NSMutableDictionary *)fetchRowWithZone:(NSZone *)aZone
 {
     NSMutableDictionary		*row;
-    id						enumArray;
     EOAttribute				*attrib;
-    OracleDefineInfo		*defineInfo;
-    NSAutoreleasePool		*pool;
+    MySQLDefineInfo         *defineInfo;
     BOOL					mustFindPosition;
-    int						attribIndex;
+    unsigned int			attribIndex;
     
     if (! [self isFetchInProgress])
         [NSException raise:EODatabaseException format:@"fetchRowWithZone: called while a fetch was not in progress."];
@@ -766,31 +768,36 @@
         
         // we need to create a define for every attribute in fetchAttributes
         defineCache = [[NSMutableArray allocWithZone:aZone] initWithCapacity:[fetchAttributes count]];
-        enumArray = [[fetchAttributes objectEnumerator] retain];
-        attribIndex = 1;
-        while ((attrib = [enumArray nextObject]) != nil)
+        bindArray = calloc([fetchAttributes count], sizeof(MYSQL_BIND));
+        attribIndex = 0;
+        for (attrib in fetchAttributes)
         {
-            pool = [[NSAutoreleasePool allocWithZone:aZone] init];
-            defineInfo = [[MySQLDefineInfo allocWithZone:aZone] initWithAttribute:attrib];
-            if (mustFindPosition)
+            @autoreleasepool
             {
-                attribIndex = [self indexOfAttribute:attrib];  // this can raise if it can not identify the attribute
-                [defineInfo setPos:attribIndex + 1];
+                defineInfo = [[MySQLDefineInfo alloc] initWithAttribute:attrib channel:self];
+                if (mustFindPosition)
+                {
+                    attribIndex = [self indexOfAttribute:attrib];  // this can raise if it can not identify the attribute
+                    [defineInfo setBindIndex:attribIndex];
+                }
+                else
+                    [defineInfo setBindIndex:attribIndex++];
+                [defineCache addObject:defineInfo];
+                [defineInfo release];
             }
-            else
-                [defineInfo setPos:attribIndex++];
-            [defineInfo createDefineForChannel:self];
-            [defineCache addObject:defineInfo];
-            [defineInfo release];
-            [pool release];
         }
-        [enumArray release];
+        // do the bind
+        mysql_stmt_bind_result(stmt, bindArray);
+        NS_DURING
+        [self checkStatus];
+        NS_HANDLER
+        [self cancelFetch];
+        [localException raise];
+        NS_ENDHANDLER        
     }
     
-    // 3rd parm is number of rows to fetch, 5th is record offest which is ignored with OCI_FETCH_NEXT
-    status = mysql_stmt_fetch(stmt);
     // check the status
-    if (status == MYSQL_NO_DATA)
+    if (mysql_stmt_fetch(stmt) == MYSQL_NO_DATA)
     {
         // we are done
         fetchInProgress = NO;
@@ -814,15 +821,14 @@
     {	
         ++rowsAffected;
         row = [[NSMutableDictionary allocWithZone:aZone] initWithCapacity:[fetchAttributes count]];
-        enumArray = [[defineCache objectEnumerator] retain];
-        while ((defineInfo = [enumArray nextObject]) != nil)
+        for (defineInfo in defineCache)
         {
-            pool = [[NSAutoreleasePool allocWithZone:aZone] init];
-            [row setValue:[defineInfo objectValue] 
-                   forKey:[[defineInfo attribute] name]];
-            [pool release];
+            @autoreleasepool
+            {
+                [row setValue:[defineInfo objectValue]
+                       forKey:[[defineInfo attribute] name]];
+            }
         }
-        [enumArray release];
     }
     else
         row = nil;

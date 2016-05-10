@@ -35,7 +35,7 @@
 {
     MYSQL                   *mysql;
     MYSQL_STMT              *stmt;
-    int						rowsAffected;
+    unsigned long long		rowsAffected;
     NSArray					*fetchAttributes;
     NSArray					*evaluateAttributes;
     NSMutableArray			*defineCache;
@@ -47,13 +47,13 @@
 }
 
 // --- handy things for low level stuff
-- (int)rowsAffected;
+- (unsigned int)rowsAffected;
 // this is set imediately after execution for insert, update, delete. but not for select.
 // it is incremented for each row fetched on a select.
 
 - (MYSQL *)mysql;
 - (MYSQL_BIND *)bindArray;
 - (MYSQL_BIND *)defineArray;
-- (MYSQL_STMT)*stmt;
+- (MYSQL_STMT *)stmt;
 
 @end
