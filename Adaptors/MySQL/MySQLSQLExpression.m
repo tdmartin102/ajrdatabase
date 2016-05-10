@@ -42,7 +42,7 @@ mailto:tom.martin@riemer.com
 	statement = [@"SELECT " mutableCopy];
 	[statement appendString:[storedProcedure externalName]];
 	[statement appendString:@"("];
-	numArguments = [arguments count];
+	numArguments = (int)[arguments count];
 	for (x = 0; x < numArguments; x++) {
 		EOAttribute	*argument = [arguments objectAtIndex:x];
 		if ([argument parameterDirection] == EOInParameter)
@@ -86,7 +86,7 @@ mailto:tom.martin@riemer.com
 	NSMutableDictionary	*binding;
 	NSString			*name;
 	
-	index = [bindings count] + 1;
+	index = (int)([bindings count] + 1);
 	
 	binding = [[NSMutableDictionary alloc] initWithCapacity:4];
     name = [NSString stringWithFormat:@"%d", index];
@@ -126,8 +126,8 @@ mailto:tom.martin@riemer.com
     NSString		*keySql;
     
     keySql = [self sqlStringForAttributeNamed:[sortOrdering key]];
-    if [((selector == EOCompareAscending) || (selector == EOCompareDescending))
-        string appendString:@"BINARY "];
+    if ((selector == EOCompareAscending) || (selector == EOCompareDescending))
+        [string appendString:@"BINARY "];
     [string appendString:keySql];
     
     if ((selector == EOCompareAscending) ||
