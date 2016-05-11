@@ -1198,7 +1198,6 @@ mailto:tom.martin@riemer.com
                                 len:dataLen scale:dataScale precision:dataPrecision
                                 allowNull:nullable];  				
         [entity addAttribute:attribute];
-        [attribute release];
     }
 		
     [entity setClassProperties:[entity attributes]];
