@@ -54,7 +54,7 @@
 	};
 	BIGINT = {
 		mysqlDataType = 8;
-		valueClassName = NSDecimalNumber;
+		valueClassName = NSNumber;
 		valueType = q;
 		isNumber = 1;
 	};
