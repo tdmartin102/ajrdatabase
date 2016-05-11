@@ -455,11 +455,7 @@
     counter = 0;
     // get the fetch results from the prepared statement
     // we used prepared statments because ONLY fetches from preparied statements
-    // can be cancled.  Also, only prepared statments do binds.
-    //
-    // There is a very very good change that mysql_stmt_prepare()
-    // must be done before any of these will work in which case quite a
-    // bit of work must be done to assure that prepare is only called once.
+    // can be canceled.  Also, only prepared statments do binds.
     fetchResult = mysql_stmt_result_metadata(stmt);
     fieldCount = mysql_num_fields(fetchResult);
     field = mysql_fetch_fields(fetchResult);
@@ -721,6 +717,52 @@
         [delegate adaptorChannel:self didEvaluateExpression:expression];
 }
 
+- (void)selectAttributes:(NSArray *)attributes fetchSpecification:(EOFetchSpecification *)fetch lock:(BOOL)lock entity:(EOEntity *)entity
+{
+    EOSQLExpression		*expression;
+    
+    if ([self isFetchInProgress])
+        [NSException raise:EODatabaseException format:@"Attempt to select objects while a fetch was already in progress."];
+    if (! [self isOpen])
+        [NSException raise:EODatabaseException format:@"Attempt to select attributes on an unopened adaptor channel (%p).", self];
+    
+    fetchEntity = [entity retain];
+    
+    if ([attributes count] == 0)
+        attributes = [fetchEntity attributes];
+    // Make sure this won't change on us. Otherwise we'd get some really strange errors.
+    fetchAttributes = [attributes mutableCopyWithZone:[self zone]];
+    // by setting evaluateAttributes to fetchAttributes we are telling evaluateExpression that it does not
+    // NEED to call describe results to describe the result set.  IF then subsequently fetchAttributes
+    // is not reset by a call to setAttributesToFetch:, then fethAttributes will equal
+    //  evaluateAttributes and finding the attributes by possition is extremely easy.  No lookup need
+    // to be performed.
+    evaluateAttributes = [fetchAttributes retain];
+
+    // mont_rothstein @ yahoo.com 2005-09-22
+    // When prepareSelectExpressionWithAttributes:... raised an exception (for example when a qualifier referenced items not in the model, the app basically locked up because the fetch was left open.  Modified to catch exception and cancel fetch.
+    NS_DURING
+    {
+        expression = [[[[adaptorContext adaptor] expressionClass] allocWithZone:[self zone]] initWithRootEntity:fetchEntity];
+        // mont_rothstein @ yahoo.com 2005-06-23
+        // Modified to pass in lock parameter
+        [expression setUseAliases:YES];
+        [expression prepareSelectExpressionWithAttributes:fetchAttributes
+                                                 lock:[fetch locksObjects]
+                                   fetchSpecification:fetch];
+        [self evaluateExpression: expression];
+    }
+    NS_HANDLER
+    {
+        [expression release];
+        [self cancelFetch];
+        [localException raise];
+    }
+    NS_ENDHANDLER
+    
+    [expression release]; // We're now done with the expression.   
+}
+
 - (NSMutableDictionary *)fetchRowWithZone:(NSZone *)aZone
 {
     NSMutableDictionary		*row;
@@ -877,6 +919,579 @@
         [adaptorContext commitTransaction];
         localTransaction = NO;
     }
+}
+
+- (unsigned int)updateValues:(NSDictionary *)row inRowsDescribedByQualifier:(EOQualifier *)qualifier entity:(EOEntity *)entity
+{
+    EOSQLExpression     *expression;
+    
+    expression = [[[[adaptorContext adaptor] expressionClass] allocWithZone:[self zone]] initWithRootEntity:entity];
+    [expression setUseAliases:NO];
+    [expression prepareUpdateExpressionWithRow:row qualifier:qualifier];
+    
+    NS_DURING
+	   [self evaluateExpression: expression];
+    NS_HANDLER
+	   [expression autorelease];
+	   [localException raise];
+    NS_ENDHANDLER
+    
+    // Evaluate starts a whole fetch cycle, so stop it from progressing.
+    [self cancelFetch];
+    
+    [expression release];
+    
+    return (unsigned int)rowsAffected;
+}
+
+- (void)insertRow:(NSDictionary *)row forEntity:(EOEntity *)entity;
+{
+    EOSQLExpression     *expression;
+    
+    expression = [[[[adaptorContext adaptor] expressionClass] allocWithZone:[self zone]] initWithRootEntity:entity];
+    [expression setUseAliases:NO];
+    [expression prepareInsertExpressionWithRow:row];
+    
+    NS_DURING
+	   [self evaluateExpression: expression];
+    NS_HANDLER
+	   [expression autorelease];
+	   [localException raise];
+    NS_ENDHANDLER
+    
+    // Evaluate starts a whole fetch cycle, so stop it from progressing.
+    [self cancelFetch];
+    
+    [expression release];
+}
+
+- (unsigned int)deleteRowsDescribedByQualifier:(EOQualifier *)qualifier entity:(EOEntity *)entity
+{
+    EOSQLExpression     *expression;
+    
+    expression = [[[[adaptorContext adaptor] expressionClass] allocWithZone:[self zone]] initWithRootEntity:entity];
+    [expression setUseAliases:NO];
+    [expression prepareDeleteExpressionForQualifier:qualifier];
+    
+    // mont_rothstein @ yahoo.com 2005-06-26
+    // Modified to use evaluateExpression.
+    //   [self execute:expression]; // release handled by above!
+    NS_DURING
+	   [self evaluateExpression: expression];
+    NS_HANDLER
+	   [expression autorelease];
+	   [localException raise];
+    NS_ENDHANDLER
+    
+    // mont_rothstein @ yahoo.com 2005-07-10
+    // Added cancelFetch to clean up resources used by evaluateExpression
+    // Evaluate starts a whole fetch cycle, so stop it from progressing.
+    [self cancelFetch];
+    
+    [expression release];
+    
+    return (unsigned int)rowsAffected;
+}
+
+//-- There is no mechanizim in MySQL for generating a primary key BEFORE the row is
+// inserted.  MySQL uses Auto Increment which is quite nice, but that happens
+// AFTER the row is inserted and this framework needs the key BEFORE it is
+// inserted so that it can be used when child rows are being inserted within
+// the same save operation.
+//
+// Because of all this we will FAKE primary key generation by using a MySQL table
+// The sql to GENERATE this table will be stored in the adaptor bundle, but this
+// code will not automatically create it.  It is up to the Database administrator
+// to create the sequence table.
+- (NSArray *)primaryKeysForNewRowsWithEntity:(EOEntity *)entity count:(int)count
+{
+    NSMutableArray		*keys;
+    NSArray				*attribs;
+    NSString            *seqName;
+    NSString            *cols = @"SEQUENCE_INCREMENT, SEQUENCE_MIN_VALUE, SEQUENCE_MAX_VALUE, SEQUENCE_CUR_VALUE, SQEUENCE_CYCLE";
+
+    int					index;
+    NSMutableString		*sql;
+    NSNumber			*pk;
+    NSDictionary		*row;
+    EOSQLExpression     *expression;
+    BOOL                pkLocalTransaction;
+    unsigned long long  startValue;
+    unsigned long long  endValue;
+    unsigned long long  maxValue;
+    unsigned long long  remaining;
+    unsigned long long  key;
+
+    unsigned int        minValue;
+    unsigned int        incValue;
+    unsigned int        increment;
+    int                 cycleValue;
+    NSString            *reasonFmt;
+    NSNumber            *colValue;
+    NSString            *name;
+    
+    reasonFmt = [NSString stringWithFormat:@"Unable to create next primary Key using MySQL Table ajr_sequence_data for entity \"%@\": %%@ Make sure this table Exists!  This must be created manually.  The script for creating this table is in the Database Adaptor bundle resource.", [entity externalName]];
+
+    // if primary key is compond, bail
+    attribs = [entity primaryKeyAttributes];
+    if ([attribs count] != 1)
+        return nil;
+    
+    // Hopefully the sequence table exists.
+    //
+    // First select the current sequecne number with a lock
+    // we will start a transaction specific to primary key generation
+    // if a transaction is not currently in effect that is
+    if (! [adaptorContext hasOpenTransaction])
+    {
+        pkLocalTransaction = YES;
+        [adaptorContext beginTransaction]; // which actually does nothing, but still ..
+    }
+    else
+        pkLocalTransaction = NO;
+    
+    sql = [[NSMutableString alloc] initWithCapacity:200];
+    seqName = [[NSString stringWithFormat:@"%@_SEQ", [entity externalName]] retain];
+
+    [sql appendString:@"SELECT "];
+    [sql appendString:cols];
+    [sql appendString:@" FROM AJR_SEQUENCE_DATA WHERE SEQUENCE_NAME = "];
+    [sql appendString:seqName];
+    [sql appendString:@" FOR UPDATE"];
+
+    expression = [[[[adaptorContext adaptor] expressionClass] expressionForString:sql] retain];
+    [sql release];
+
+    NS_DURING
+    [self evaluateExpression: expression];
+    NS_HANDLER
+    [expression release];
+    [seqName release];
+    [self cancelFetch];
+    [NSException raise:EODatabaseException format:reasonFmt, [localException reason]];
+    NS_ENDHANDLER
+    [expression release];
+    row = nil;
+    if ([self isFetchInProgress])
+    {
+        // get the array of attributes from the result set
+        NS_DURING
+        [self setAttributesToFetch:[self describeResults]];
+        NS_HANDLER
+        [seqName release];
+        [self cancelFetch];
+        [NSException raise:EODatabaseException format:reasonFmt, [localException reason]];
+        NS_ENDHANDLER
+        row = [self fetchRowWithZone:[self zone]];
+
+        if (row)
+        {
+            // since the EO Framework attributes are stored as Attribute1,
+            // Attribute2, lets deal with that.
+            // our order is:
+            // SEQUENCE_INCREMENT   incValue    Attribute0
+            // SEQUENCE_MIN_VALUE   minValue    Attribute1
+            // SEQUENCE_MAX_VALUE   maxValue    Attribute2
+            // SEQUENCE_CUR_VALUE   startValue  Attribute3
+            // SQEUENCE_CYCLE       cycleValue  Attribute4
+            colValue = [row objectForKey:@"Attribute0"];
+            incValue = [colValue unsignedIntValue];
+            colValue = [row objectForKey:@"Attribute1"];
+            minValue = [colValue unsignedIntValue];
+            colValue = [row objectForKey:@"Attribute2"];
+            maxValue = [colValue unsignedLongLongValue];
+            colValue = [row objectForKey:@"Attribute3"];
+            startValue = [colValue unsignedLongLongValue];
+            colValue = [row objectForKey:@"Attribute4"];
+            cycleValue = [colValue intValue];
+            [self cancelFetch];
+        }
+    }
+
+    if (! row)
+    {
+        // no row was found for this entity.  That's fine. Just create a new one.
+        // this will create a row with the defaults set up.
+        startValue = 0;
+        endValue = startValue + count;
+        maxValue = NSUIntegerMax;
+        minValue = 1;
+        incValue = 1;
+        cycleValue = 0;
+        sql = [[NSMutableString alloc] initWithCapacity:200];
+        [sql appendString:@"INSERT INTO AJR_SEQUENCE_DATA (sequence_name, sequence_cur_value) VALUE ('"];
+        [sql appendString:seqName];
+        [sql appendFormat:@"', %llu)", endValue];
+        expression = [[[[adaptorContext adaptor] expressionClass] expressionForString:sql] retain];
+        [sql release];
+        [seqName release];
+        NS_DURING
+        [self evaluateExpression: expression];
+        NS_HANDLER
+        [expression release];
+        [self cancelFetch];
+        [NSException raise:EODatabaseException format:reasonFmt, [localException reason]];
+        NS_ENDHANDLER
+        [expression release];
+    }
+    else
+    {
+        // oh good, we got a row.  We need to UPDATE that row with a new sequence_cur_value
+        
+        // I'm concerned about overflow here because max may be at the limit of a long long
+        // therefor it is not safe to ADD anything to it.
+        increment = incValue * count;
+        remaining = maxValue - startValue;
+        if (remaining < increment)
+        {
+            // the endValue will exceed maxValue,  recycle, if that is okay
+            // if not then raise I guess
+            if (cycleValue)
+            {
+                endValue = remaining - increment;
+            }
+            else
+            {
+                [seqName release];
+                [NSException raise:EODatabaseException
+                 format:@"primaryKeysForNewRowsWithEntity: currentSequece number will exceed max_value"];
+            }
+        }
+        else
+        {
+            // we can just add
+            endValue = startValue + increment;
+        }
+        // DO the update.
+        sql = [NSMutableString stringWithFormat:
+               @"UPDATE AJR_SEQUENCE_DATA SET SEQUENCE_CUR_VALUE = %llu WHERE SEQUENCE_NAME = '%@'",
+               endValue, seqName];
+        expression = [[[[adaptorContext adaptor] expressionClass] expressionForString:sql] retain];
+        [seqName release];
+        NS_DURING
+        [self evaluateExpression: expression];
+        NS_HANDLER
+        [expression release];
+        [self cancelFetch];
+        [NSException raise:EODatabaseException format:reasonFmt, [localException reason]];
+        NS_ENDHANDLER
+        [expression release];
+    }
+    
+    // If we made it this far then the seqence number has been updated
+    // All we need to do now is return an array of primary key dictionarys
+    // for the range requested.
+    name = [[(EOAttribute *)[attribs objectAtIndex:0] name] retain];
+    keys = [[NSMutableArray alloc] initWithCapacity:count];
+    key = startValue;
+    increment = incValue * count;
+    remaining = maxValue - startValue;
+    for (index = 0; index < count; ++index)
+    {
+        if (remaining)
+        {
+            --remaining;
+            key += increment;
+        }
+        else
+        {
+            remaining = maxValue - 1;
+            key = minValue;
+        }
+        pk = [NSNumber numberWithUnsignedLongLong:key];
+        [keys addObject:[NSDictionary dictionaryWithObject:pk forKey:name]];
+    }
+
+    if (pkLocalTransaction)
+    {
+        [adaptorContext commitTransaction];
+    }
+    
+    return [keys autorelease];
+}
+
+- (void)setAttributesToFetch:(NSArray *)someAttributes
+{
+    if (fetchAttributes != someAttributes) {
+        [fetchAttributes release];
+        fetchAttributes = [someAttributes retain];
+    }
+}
+
+- (NSArray *)attributesToFetch
+{
+    return fetchAttributes;
+}
+
+- (NSArray *)describeTableNames
+{
+    NSMutableArray		*tableNames = [NSMutableArray arrayWithCapacity:500];
+    NSString            *tableName;
+    MYSQL_RES           *resSet;
+    MYSQL_ROW           row;
+
+    resSet = mysql_list_tables(mysql, NULL);
+    if (!resSet)
+    {
+        [NSException raise:EODatabaseException
+                    format:
+         @"MySQL function mysql_list_tables() failed to return a result: %s",
+         mysql_error(mysql)];
+    }
+    else
+    {
+        while ((row = mysql_fetch_row(resSet)))
+        {
+            tableName = [NSString stringWithUTF8String:row[0]];
+            [tableNames addObject:tableName];
+        }
+    }
+    mysql_free_result(resSet);
+    
+    return tableNames;
+}
+
+
+//---(Private)-- Translate equivlant data types to types we actually HANDLE
+- (NSString *)_standardAttribTypeForAttribNamed:(NSString *)attribName
+{
+    /*
+     ALL Tyoes
+     * TINYINT[(M)]
+     * SMALLINT[(M)]
+     * MEDIUMINT[(M)]
+     * INT[(M)]
+     * BIGINT[(M)]
+     * FLOAT(p)
+     FLOAT[(M,D)] ??
+     DOUBLE[(M,D)]??
+     * DECIMAL[(M,[D])]
+     * BIT[(M)]
+     * TINYINT(1)
+     * CHAR[(M)]
+     * VARCHAR(M)
+     TINYTEXT -> TEXT
+     * TEXT
+     MEDIUMTEXT -> TEXT
+     LONGTEXT -> TEXT
+     * BINARY[(M)]
+     * VARBINARY(M)
+     TINYBLOB -> BLOB
+     * BLOB
+     MEDIUMBLOB -> BLOB
+     LONGBLOB -> BLOB
+     * ENUM
+     * SET
+     * DATE
+     * DATETIME
+     * TIME
+     * TIMESTAMP
+     * YEAR
+     */
+    
+    NSDictionary *trans = @{ @"TINYTEXT" : @"TEXT",
+                             @"MEDIUMTEXT" : @"TEXT",
+                             @"LONGTEXT" : @"TEXT",
+                             @"TINYBLOB" : @"BLOB",
+                             @"MEDIUMBLOB" : @"BLOB",
+                             @"LONGBLOB" : @"BLOB"};
+    NSString    *result;
+    
+    result = [trans objectForKey:attribName];
+    if (result)
+        return result;
+    else
+        return attribName;
+}
+
+
+- (EOAttribute *)_attributeForName:(NSString *)colName
+                              type:(NSString *)colType
+                               len:(int)dataLen
+                             scale:(int)dataScale
+                         allowNull:(BOOL)allowNull
+                         isPrimary:(BOOL)aPrimaryKey
+                        isUnsigned:(BOOL)isUnsigned
+{
+    NSDictionary    *dataTypes;
+    NSDictionary    *dataTypeDict;
+    NSString        *aString;
+    EOAttribute		*attribute = [[EOAttribute allocWithZone:[self zone]] init];
+    
+    colType = [self _standardAttribTypeForAttribNamed:colType];
+    [attribute setName:colName];
+    [attribute beautifyName];
+    [attribute setColumnName:colName];
+    [attribute setAllowsNull:allowNull];
+    [attribute setExternalType:colType];
+    
+    dataTypes = [MySQLAdaptor dataTypes];
+    dataTypeDict = [dataTypes objectForKey:colType];
+    if (dataTypeDict)
+    {
+        [attribute setValueClassName:[dataTypeDict objectForKey:@"valueClassName"]];
+        if ([dataTypeDict objectForKey:@"useWidth"])
+            [attribute setWidth:dataLen];
+        else if ([dataTypeDict objectForKey:@"isNumber"])
+        {
+            if ([dataTypeDict objectForKey:@"hasPrecision"])
+            {
+                // This would be NSDecimalNumber
+                [attribute setScale:dataScale];
+                [attribute setPrecision:dataLen];
+            }
+            else
+            {
+                aString = [dataTypeDict objectForKey:@"valueType"];
+                if (aString)
+                {
+                    if (isUnsigned)
+                        [attribute setValueType:[aString uppercaseString]];
+                    else
+                        [attribute setValueType:aString];
+                }
+                else
+                    [attribute setValueType:@"i"];
+            }
+        }
+        else if ([dataTypeDict objectForKey:@"isDate"])
+        {
+            [attribute setValueClassName:@"NSDate"];
+        }
+    }
+    else
+    {
+        [EOLog logWarningWithFormat:@"Unknown type: %@\n", colType];
+        [attribute setValueClassName:@"NSString"];
+    }
+    
+    return [attribute autorelease];
+}
+
+- (EOEntity *)_createEntityForTableNamed:(NSString *)name
+{
+    NSDictionary		*row;
+    EOSQLExpression     *expression;
+    EOEntity            *entity;
+    NSArray             *attributes;
+    EOAttribute         *attribute;
+    
+    // this should return: Field, Type, Null, Key, Default, Extra
+    // The order is undefined
+    expression = [[[[[self adaptorContext] adaptor] expressionClass] alloc] init];
+    [expression setStatement:[NSString stringWithFormat:@"DESCRIBE `%@`", name]];
+    
+    entity = nil;
+    NS_DURING
+    [self evaluateExpression:expression];
+    NS_HANDLER
+    [expression release];
+    [localException raise];
+    NS_ENDHANDLER
+    [expression release];
+    
+    if ([self isFetchInProgress])
+    {
+        entity = [[EOEntity allocWithZone:[self zone]] init];
+        [entity setName:name];
+        [entity beautifyName];
+        [entity setExternalName:name];
+        [entity setClassName:@"EOGenericRecord"];
+
+        // get the array of attributes from the result set
+        NS_DURING
+        attributes = [self describeResults];
+        NS_HANDLER
+        [self cancelFetch];
+        [entity release];
+        entity = nil;
+        NS_ENDHANDLER
+        if (entity)
+        {
+            // since the EO Framework attributes are stored as Attribute1,
+            // Attribute2, etc,
+            // lets fix up the attribute names
+            for (attribute in attributes)
+                [attribute setName:[[attribute columnName] uppercaseString]];
+            
+            // The NSDictionary contains all the data for one row
+            [self setAttributesToFetch:attributes];
+            while ((row = [self fetchRowWithZone:NULL]) != nil)
+            {
+                NSString		*colType;
+                NSString        *colTypeInfo;
+                int             dataLen, dataScale, dataPrecision;
+                NSString        *colName;
+                BOOL            nullable;
+                BOOL            isPrimary;
+                BOOL            isUnsigned;
+                NSArray         *words;
+                NSString        *word;
+        
+                isPrimary = NO;
+                isUnsigned = NO;
+                dataLen = 0;
+                dataScale = 0;
+                dataPrecision = 0;
+                colType = nil;
+                colName = [row objectForKey:@"FIELD"];
+                colTypeInfo = [row objectForKey:@"TYPE"];
+                nullable = ([[row objectForKey:@"NULL"] intValue]) ? YES : NO;
+                if ([[row objectForKey:@"KEY"] isEqualToString:@"PRI"])
+                    isPrimary = YES;
+                
+                // get more info from the TYPE field  example is 'smallint(5) unsigned'
+                // or 'decimal(5,2)'
+                words = [colTypeInfo componentsSeparatedByString:@" "];
+                if ([words count] > 1)
+                {
+                    // I am pretty darn sure the ONLY attribute is unsigned.  so if
+                    // there is more than one word then unsigned is yes.
+                    // it is possible that ZEROFILL and maybe BINARY will show up here.
+                    // I need to test for that
+                    if ([[words objectAtIndex:1] isEqualToString:@"unsigned"])
+                        isUnsigned = YES;
+                }
+                if ([words count])
+                {
+                    word = [words objectAtIndex:0];
+                    // this would be the type EXCLUDING the attribute so
+                    // 'decimal(5,2)' for example.  Could also be somethign like 'datetime'
+                    words = [word componentsSeparatedByString:@"("];
+                    if ([words count] > 1)
+                    {
+                        colType = [[words objectAtIndex:0] uppercaseString];
+                        words = [[words objectAtIndex:1] componentsSeparatedByString:@","];
+                        if ([words count] > 1)
+                        {
+                            // this is precision and scale
+                            dataLen = [[words objectAtIndex:0] intValue];
+                            dataScale = [[words objectAtIndex:1] intValue];
+                        }
+                        else
+                        {
+                            // this is simply dataLen
+                            dataLen = [[words objectAtIndex:0] intValue];
+                        }
+                    }
+                    else if ([words count] == 1)
+                    {
+                        colType = [[words objectAtIndex:0] uppercaseString];
+                    }
+                }
+    
+                attribute = [self _attributeForName:colName type:colType
+                                  len:dataLen scale:dataScale
+                                  allowNull:nullable isPrimary:isPrimary
+                                  isUnsigned:isUnsigned];
+                [entity addAttribute:attribute];
+            }
+            [entity setClassProperties:[entity attributes]];
+            [entity setAttributesUsedForLocking:[entity attributes]];
+        }
+    }
+    
+    return [entity autorelease];
 }
 
 - (MYSQL_BIND *)bindArray { return bindArray; }
