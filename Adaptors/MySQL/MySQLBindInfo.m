@@ -280,7 +280,6 @@
 // the bind is actually done in MySQLChannel
 - (void)createBind
 {
-    int					width;
     BOOL				useWidth;
 
     // lets set our datatype and allocate the buffer to the max size
@@ -292,7 +291,6 @@
     // depending upon the datatype things get set differently
     // the following are all the datatypes we currently support
     // if we encounter one not support we will throw an exception
-    width = [attrib width];  // we will trust this to be correct
     freeWhenDone = NO;
     
     //  MYSQL_TYPE_STRING
