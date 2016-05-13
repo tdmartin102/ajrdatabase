@@ -1,5 +1,10 @@
 
 
+-- The following is the table to implement a table based sequence primary key
+-- The table below is ALL that is needed for this implementation.  The
+-- function 'nextval' is for command line convience ONLY the adaptor does not
+-- use it.
+
 CREATE TABLE `ajr_sequence_data` (
 	`sequence_name` varchar(100) NOT NULL,
 	`sequence_increment` int(11) unsigned NOT NULL DEFAULT 1,
@@ -32,9 +37,9 @@ VALUE
 DELIMITER $$
 
 -- The folowing function is for convenience for SQL commands done on the command line.
--- The MySQL EOF Adaptor accesses the table directly and does not use the function
--- This is so that it can do row level locking AND also so that it can select a 
--- RANGE of sequence numbers.
+-- The MySQL EOF Adaptor accesses the table ajr_sequence_data directly and does not
+-- use the function.  This is so that it can do row level locking AND also so that it
+-- can select a RANGE of sequence numbers to optimize performance.
 DROP FUNCTION IF EXISTS `nextval` $$
 CREATE FUNCTION `nextval` (`seq_name` varchar(100)) 
 RETURNS bigint(20) NOT DETERMINISTIC

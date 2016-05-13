@@ -59,6 +59,7 @@
 		1E9889A51296F74600F17A39 /* OracleAdaptor.h in Resources */ = {isa = PBXBuildFile; fileRef = 1E98890C1296F41B00F17A39 /* OracleAdaptor.h */; };
 		1E9889A61296F74B00F17A39 /* OracleChannel.h in Resources */ = {isa = PBXBuildFile; fileRef = 1E98890E1296F41B00F17A39 /* OracleChannel.h */; };
 		1E9889A71296F75100F17A39 /* OracleContext.h in Resources */ = {isa = PBXBuildFile; fileRef = 1E9889101296F41B00F17A39 /* OracleContext.h */; };
+		1EC214381CE4AFE9004D5E89 /* nextval.sql in Resources */ = {isa = PBXBuildFile; fileRef = 1EC214371CE4AFE9004D5E89 /* nextval.sql */; };
 		1ED020D61BA47A81009B923E /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C3E14572B67008E8514 /* EOAccess.framework */; };
 		1ED020D71BA47A86009B923E /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
 		1ED512EE1BB037C7009477B5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DAC20742715100AB5036 /* Foundation.framework */; };
@@ -229,6 +230,7 @@
 		1E9889111296F41B00F17A39 /* OracleContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleContext.m; sourceTree = "<group>"; };
 		1E98891C1296F56400F17A39 /* libocci.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libocci.dylib; path = /usr/local/lib/libocci.dylib; sourceTree = "<absolute>"; };
 		1E98891E1296F57C00F17A39 /* libclntsh.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libclntsh.dylib; path = /usr/local/lib/libclntsh.dylib; sourceTree = "<absolute>"; };
+		1EC214371CE4AFE9004D5E89 /* nextval.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = nextval.sql; sourceTree = "<group>"; };
 		1ED020CE1BA478BD009B923E /* MySQL.eoadaptor */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MySQL.eoadaptor; sourceTree = BUILT_PRODUCTS_DIR; };
 		1ED020D11BA478BD009B923E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1EDEA30315D0128A0045292C /* Oraclenterface.interface */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Oraclenterface.interface; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -393,6 +395,7 @@
 		1E0537041BAB00F80080D2AD /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1EC214371CE4AFE9004D5E89 /* nextval.sql */,
 				1E0537021BAB00E20080D2AD /* MySQLDataTypes.plist */,
 			);
 			name = Resources;
@@ -819,6 +822,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1EC214381CE4AFE9004D5E89 /* nextval.sql in Resources */,
 				1E968CAA1CCF94DD00DDD26C /* MySQLAdaptor.h in Resources */,
 				1E968CAB1CCF94DD00DDD26C /* MySQLChannel.h in Resources */,
 				1E968CAC1CCF94DD00DDD26C /* MySQLContext.h in Resources */,
