@@ -423,7 +423,7 @@
     MYSQL_FIELD         *field;
     BOOL                isBinary;
     BOOL                isUnsigned;
-    BOOL                isBlob;
+    // BOOL                isBlob;
     NSString            *fieldType;
     NSString            *valueType;
     MYSQL_RES           *fetchResult;
@@ -466,12 +466,12 @@
             // Build and store the column attribute
             tempAttribute = [[EOAttribute alloc] init];
             
-            [tempAttribute setName:[NSString stringWithFormat:@"Attribute%d", counter - 1]];
+            [tempAttribute setName:[NSString stringWithFormat:@"Attribute%d", counter]];
             [tempAttribute setColumnName:[NSString stringWithUTF8String:field->name]];
             [tempAttribute setAllowsNull:(field->flags & NOT_NULL_FLAG) ? NO : YES];
             isBinary = (field->flags & BINARY_FLAG) ? YES : NO;
             isUnsigned = (field->flags & UNSIGNED_FLAG) ? YES : NO;
-            isBlob = (field->flags & BLOB_FLAG) ? YES : NO;
+            // isBlob = (field->flags & BLOB_FLAG) ? YES : NO;
             fieldType = [self fieldTypeNameForTypeValue:field->type isBinary:isBinary];
             
             // NEED WIDTH!!!!
