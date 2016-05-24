@@ -29,7 +29,7 @@
 {
     NSString *result = nil;
     const char *str;
-    if(! mysql_stmt_errno(stmt))
+    if(mysql_stmt_errno(stmt))
     {
         str = mysql_stmt_error(stmt);
         result = [NSString stringWithUTF8String:str];
@@ -325,7 +325,6 @@
             mysql_protocol = MYSQL_PROTOCOL_SOCKET;
         else
             mysql_protocol = MYSQL_PROTOCOL_TCP;
-
     }
     else
     {
@@ -334,9 +333,6 @@
         else
             mysql_protocol = MYSQL_PROTOCOL_TCP;
     }
-    
-    if (connected)
-        [NSException raise:EODatabaseException format:@"EOAdaptorChannel is already open"];
     
     if ([self isDebugEnabled])
     {
@@ -485,7 +481,14 @@
             {
                 if ([dataTypeDict objectForKey:@"useWidth"])
                 {
-                    [tempAttribute setWidth:(int)field->length];
+                    if (isBinary)
+                        [tempAttribute setWidth:(int)field->length];
+                    else
+                        // MySQL returns the maximum length in bytes. According to the documentation
+                        // if the character set is UTF-8 then the maximum length is the number of characters * 3
+                        // which is actually wrong since UTF-8 can have a maximum length of 4 bytes, but
+                        // we use what MySQL does.
+                        [tempAttribute setWidth:(int)(field->length / 3)];
                 }
                 [tempAttribute setValueClassName:[dataTypeDict objectForKey:@"valueClassName"]];
                 [tempAttribute setExternalType:fieldType];
