@@ -35,7 +35,8 @@
 		1E16EB6015D044D7002D5E8D /* SQLiteConnectionPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E16EB5E15D044D7002D5E8D /* SQLiteConnectionPane.xib */; };
 		1E19984D1CE0CDA90021969C /* MySQLDefineInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E19984C1CE0CDA90021969C /* MySQLDefineInfo.m */; };
 		1E45D52113FD8AAC0043B572 /* OracleSchemaGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E45D52013FD8AAC0043B572 /* OracleSchemaGeneration.m */; };
-		1E53566F1BA85ABA00371E45 /* libmysqlclient_r.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E53566E1BA85ABA00371E45 /* libmysqlclient_r.dylib */; };
+		1E4B2BA01CF47C3200B7B2FA /* libmysqlclient.18.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E4B2B9F1CF47C3200B7B2FA /* libmysqlclient.18.dylib */; };
+		1E4B2BA11CF47C5900B7B2FA /* libmysqlclient.18.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 1E4B2B9F1CF47C3200B7B2FA /* libmysqlclient.18.dylib */; };
 		1E5356731BA8764900371E45 /* MySQLContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E5356721BA8764900371E45 /* MySQLContext.m */; };
 		1E7958C714642CD100FB2ACF /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C3E14572B67008E8514 /* EOAccess.framework */; };
 		1E7958FC14642CD700FB2ACF /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
@@ -205,7 +206,7 @@
 		1E34465012E4D06B007574F2 /* oracle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = oracle; path = /usr/local/include/oracle; sourceTree = "<absolute>"; };
 		1E45D51F13FD8AAC0043B572 /* OracleSchemaGeneration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleSchemaGeneration.h; sourceTree = "<group>"; };
 		1E45D52013FD8AAC0043B572 /* OracleSchemaGeneration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleSchemaGeneration.m; sourceTree = "<group>"; };
-		1E53566E1BA85ABA00371E45 /* libmysqlclient_r.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmysqlclient_r.dylib; path = /usr/local/mysql/lib/libmysqlclient_r.dylib; sourceTree = "<absolute>"; };
+		1E4B2B9F1CF47C3200B7B2FA /* libmysqlclient.18.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libmysqlclient.18.dylib; sourceTree = "<group>"; };
 		1E5356701BA86F0F00371E45 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; name = include; path = /usr/local/mysql/include; sourceTree = "<absolute>"; };
 		1E5356711BA8764900371E45 /* MySQLContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySQLContext.h; sourceTree = "<group>"; };
 		1E5356721BA8764900371E45 /* MySQLContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySQLContext.m; sourceTree = "<group>"; };
@@ -316,8 +317,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E4B2BA01CF47C3200B7B2FA /* libmysqlclient.18.dylib in Frameworks */,
 				1ED020D71BA47A86009B923E /* EOControl.framework in Frameworks */,
-				1E53566F1BA85ABA00371E45 /* libmysqlclient_r.dylib in Frameworks */,
 				1ED020D61BA47A81009B923E /* EOAccess.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -395,6 +396,7 @@
 		1E0537041BAB00F80080D2AD /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1E4B2B9F1CF47C3200B7B2FA /* libmysqlclient.18.dylib */,
 				1EC214371CE4AFE9004D5E89 /* nextval.sql */,
 				1E0537021BAB00E20080D2AD /* MySQLDataTypes.plist */,
 			);
@@ -527,7 +529,6 @@
 				FA63DC780742726500AB5036 /* OpenBaseAPI.framework */,
 				FA63DC790742726500AB5036 /* OpenBaseNet.framework */,
 				1E8203CC15753E6F00F9663C /* libpq.a */,
-				1E53566E1BA85ABA00371E45 /* libmysqlclient_r.dylib */,
 				1E8E60D01574F0DC00179CCB /* libsqlite3.dylib */,
 				1E98891C1296F56400F17A39 /* libocci.dylib */,
 				1E98891E1296F57C00F17A39 /* libclntsh.dylib */,
@@ -822,6 +823,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E4B2BA11CF47C5900B7B2FA /* libmysqlclient.18.dylib in Resources */,
 				1EC214381CE4AFE9004D5E89 /* nextval.sql in Resources */,
 				1E968CAA1CCF94DD00DDD26C /* MySQLAdaptor.h in Resources */,
 				1E968CAB1CCF94DD00DDD26C /* MySQLChannel.h in Resources */,
@@ -1229,11 +1231,12 @@
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/local/mysql/lib,
+					"$(PROJECT_DIR)/MySQL",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-v";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.9;
 				SKIP_INSTALL = NO;
@@ -1286,10 +1289,11 @@
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/local/mysql/lib,
+					"$(PROJECT_DIR)/MySQL",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "-v";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.9;
 				SKIP_INSTALL = NO;
@@ -1342,10 +1346,11 @@
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/local/mysql/lib,
+					"$(PROJECT_DIR)/MySQL",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "-v";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.9;
 				SKIP_INSTALL = NO;
