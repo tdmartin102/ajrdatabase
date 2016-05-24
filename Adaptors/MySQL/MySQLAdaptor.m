@@ -8,6 +8,7 @@
 
 #import "MySQLAdaptor.h"
 #import "MySQLContext.h"
+#import "MySQLSQLExpression.h"
 
 #import <mysql.h>
 
@@ -114,8 +115,7 @@ static NSMutableDictionary 	*dataTypes = nil;
 
 - (Class)defaultExpressionClass
 {
-    return [super defaultExpressionClass];
-    //return [MySQLSQLExpression class];
+    return [MySQLSQLExpression class];
 }
 
 + (Class)connectionPaneClass
