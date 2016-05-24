@@ -1,0 +1,48 @@
+Important notes on things I am sure to forget.
+
+
+
+MySQL Dynamic Library
+===========================
+At build time the static linker on OS X, ld, writes the shared library identifier of each library that your application links against in to the application binary. At run time the dynamic linker, dyld, attempts to load each shared library from the paths specified in the application binary. You can see this information using otool -L YourApp.app/Contents/MacOS/YourApp.
+
+Various distributions of MySQL install the libraries in various places, the most common is /usr/local/mysql/lib.   The problem is using
+Xcode it is not prcatical to get he adaptor to dynamically load the library from this location.  It will work fine if the library is in a 
+standard location such as /usr/local/lib but this requires every distribution to be modified and could cause all sorts of difficulties.
+
+It is better to simply include the MySQL library in the adaptor bundle itself, where we KNOW its location, and we can control the install_name and the loading of that library.
+
+FIRST, we see that the thread safe version of the library is the SAME as the standard version.  They are just links which point to the same library, so we can just use libmysqlclient.18.dylib.
+ 
+We need to change the shared library identifier of libmysqlclient.18.dylib so that dyld will look for the binary relative to the Adaptor bundle binary. 
+
+Copy the MySQL dynamic library from the standard install location into the Project folder.  Then SET the install name.  This is done by running 
+
+install_name_tool -id @loader_path/../Resources/libmysqlclient.18.dylib libmysqlclient.18.dylib.
+
+
+You need to use @loader_path because the location of the Adaptor is not fixed, as it can be one of several places. We need to load the dynamic library relative to the the location of the Adaptor NOT the executable. 
+
+Make sure the search path in the project is set to find this library, and set up a Copy Build Phase in the Xcode project so that moves the library to the Resource folder of the Adaptor.
+
+You should then be able to verify that the install name written in to your application binary is 
+
+@loader_path/../Frameworks/libmysqlclient.18.dylib rather than libmysqlclient.18.dylib using 
+
+otool -L (pathToAdaptor/MySQL.eoadaptor/Contents/MacOS/MySQL 
+
+If the install name isn't correct then you'll need to ensure that your linker search path is set up to find your modified version of libmysqlclient.18.dylib ahead of any other versions you may have.
+
+
+MySQL Database Requirements
+============================
+The MySql Database has this glorious feature to automatically create primary keys using an 'Auto Increment' column.  This is wonderful except that it does us absoultley no good whatsoever.  The problem is for this framework we need to know the primary key BEFORE the row is written NOT After it is written.   Now there MIGHT be a way to deal with that, but I would rather not try to wrangle the way primary keys and temporary primary keys are used in the system.
+
+Instead I decided to EMULATE the creation of a primary key using a MySQL table.  This means the table MUST BE CREATED in your database for this Adaptor to work AT ALL.  I hate this solution, but I just don't see a way around it.
+
+Look at the nextval.sql file for information about the basic concepts of this table.  
+
+To create the table simple import createSequenceTable.sql into your database instance.
+DO NOT import nextval.sql as it has example sql and is not intended to be imported.
+
+
