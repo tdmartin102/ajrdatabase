@@ -92,7 +92,7 @@ static NSMutableDictionary 	*dataTypes = nil;
     const char      *str;
     
     str = mysql_error(value);
-    if (str)
+    if (*str)
     {
         errStr = [NSString stringWithUTF8String:str];
         NSException *ouch;
