@@ -347,7 +347,6 @@
             case MYSQL_TYPE_TIMESTAMP:
                 // TIMESTAMP
                 // use MYSQL_TIME
-                // method: setDateValueForDateBuffer
                 [self setDateValueForDateBuffer];
                 break;
             case MYSQL_TYPE_NULL:
@@ -368,6 +367,7 @@
             case MYSQL_TYPE_NEWDECIMAL:
             case MYSQL_TYPE_STRING:
             case MYSQL_TYPE_VAR_STRING:
+            case MYSQL_TYPE_VARCHAR:
             case MYSQL_TYPE_SET:
             case MYSQL_TYPE_ENUM:
             default:
