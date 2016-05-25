@@ -63,6 +63,16 @@
 		1EC214381CE4AFE9004D5E89 /* nextval.sql in Resources */ = {isa = PBXBuildFile; fileRef = 1EC214371CE4AFE9004D5E89 /* nextval.sql */; };
 		1ED020D61BA47A81009B923E /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C3E14572B67008E8514 /* EOAccess.framework */; };
 		1ED020D71BA47A86009B923E /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
+		1ED3DBB61CF6110700A5BA2E /* MySQLInterface.interface in Resources */ = {isa = PBXBuildFile; fileRef = 1ED3DBAC1CF6107A00A5BA2E /* MySQLInterface.interface */; };
+		1ED3DBB71CF6125200A5BA2E /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DAC10742715100AB5036 /* AppKit.framework */; };
+		1ED3DBB81CF6125400A5BA2E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DAC20742715100AB5036 /* Foundation.framework */; };
+		1ED3DBB91CF6125700A5BA2E /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C3E14572B67008E8514 /* EOAccess.framework */; };
+		1ED3DBBA1CF6125B00A5BA2E /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
+		1ED3DBBE1CF6129900A5BA2E /* MySQLConnectionPane.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ED3DBBC1CF6129900A5BA2E /* MySQLConnectionPane.m */; };
+		1ED3DBBF1CF6129900A5BA2E /* MySQLConnectionPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1ED3DBBD1CF6129900A5BA2E /* MySQLConnectionPane.xib */; };
+		1ED3DBC11CF612F300A5BA2E /* MySQLConnectionPane.h in Resources */ = {isa = PBXBuildFile; fileRef = 1ED3DBBB1CF6129900A5BA2E /* MySQLConnectionPane.h */; };
+		1ED3DBC31CF6145E00A5BA2E /* mysql.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ED3DBC21CF6145E00A5BA2E /* mysql.png */; };
+		1ED3DBC41CF6145E00A5BA2E /* mysql.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ED3DBC21CF6145E00A5BA2E /* mysql.png */; };
 		1ED512EE1BB037C7009477B5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DAC20742715100AB5036 /* Foundation.framework */; };
 		1ED512EF1BB037CA009477B5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DAC20742715100AB5036 /* Foundation.framework */; };
 		1ED512F01BB037E1009477B5 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DAC10742715100AB5036 /* AppKit.framework */; };
@@ -144,6 +154,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1ED3DBB41CF610F400A5BA2E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA63DA930742707200AB5036 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1ED3DBAB1CF6107A00A5BA2E;
+			remoteInfo = MySQLInterface;
+		};
 		1EDEA32115D01F1B0045292C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FA63DA930742707200AB5036 /* Project object */;
@@ -234,6 +251,12 @@
 		1EC214371CE4AFE9004D5E89 /* nextval.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = nextval.sql; sourceTree = "<group>"; };
 		1ED020CE1BA478BD009B923E /* MySQL.eoadaptor */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MySQL.eoadaptor; sourceTree = BUILT_PRODUCTS_DIR; };
 		1ED020D11BA478BD009B923E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1ED3DBAC1CF6107A00A5BA2E /* MySQLInterface.interface */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MySQLInterface.interface; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED3DBAF1CF6107A00A5BA2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1ED3DBBB1CF6129900A5BA2E /* MySQLConnectionPane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySQLConnectionPane.h; sourceTree = "<group>"; };
+		1ED3DBBC1CF6129900A5BA2E /* MySQLConnectionPane.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySQLConnectionPane.m; sourceTree = "<group>"; };
+		1ED3DBBD1CF6129900A5BA2E /* MySQLConnectionPane.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MySQLConnectionPane.xib; sourceTree = "<group>"; };
+		1ED3DBC21CF6145E00A5BA2E /* mysql.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mysql.png; sourceTree = "<group>"; };
 		1EDEA30315D0128A0045292C /* Oraclenterface.interface */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Oraclenterface.interface; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EDEA30415D0128A0045292C /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		1EDEA30715D0128A0045292C /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -320,6 +343,17 @@
 				1E4B2BA01CF47C3200B7B2FA /* libmysqlclient.18.dylib in Frameworks */,
 				1ED020D71BA47A86009B923E /* EOControl.framework in Frameworks */,
 				1ED020D61BA47A81009B923E /* EOAccess.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1ED3DBA91CF6107A00A5BA2E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1ED3DBB71CF6125200A5BA2E /* AppKit.framework in Frameworks */,
+				1ED3DBB81CF6125400A5BA2E /* Foundation.framework in Frameworks */,
+				1ED3DBB91CF6125700A5BA2E /* EOAccess.framework in Frameworks */,
+				1ED3DBBA1CF6125B00A5BA2E /* EOControl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,6 +502,26 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		1ED3DBAD1CF6107A00A5BA2E /* MySQLInterface */ = {
+			isa = PBXGroup;
+			children = (
+				1ED3DBC21CF6145E00A5BA2E /* mysql.png */,
+				1ED3DBBB1CF6129900A5BA2E /* MySQLConnectionPane.h */,
+				1ED3DBBC1CF6129900A5BA2E /* MySQLConnectionPane.m */,
+				1ED3DBBD1CF6129900A5BA2E /* MySQLConnectionPane.xib */,
+				1ED3DBAE1CF6107A00A5BA2E /* Supporting Files */,
+			);
+			path = MySQLInterface;
+			sourceTree = "<group>";
+		};
+		1ED3DBAE1CF6107A00A5BA2E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1ED3DBAF1CF6107A00A5BA2E /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		1EDEA30615D0128A0045292C /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -486,6 +540,7 @@
 				FA63DC980742728700AB5036 /* PostgreSQL */,
 				FA63DDFB0742760800AB5036 /* SQLite */,
 				1ED020CF1BA478BD009B923E /* MySQL */,
+				1ED3DBAD1CF6107A00A5BA2E /* MySQLInterface */,
 				FA63DABA074270E200AB5036 /* Frameworks */,
 				FA63DF43074277EC00AB5036 /* Info */,
 				FA63DF460742780D00AB5036 /* Shared Resources */,
@@ -504,6 +559,7 @@
 				1E9889011296F31D00F17A39 /* Oracle.eoadaptor */,
 				1EDEA30315D0128A0045292C /* Oraclenterface.interface */,
 				1ED020CE1BA478BD009B923E /* MySQL.eoadaptor */,
+				1ED3DBAC1CF6107A00A5BA2E /* MySQLInterface.interface */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -652,10 +708,28 @@
 			buildRules = (
 			);
 			dependencies = (
+				1ED3DBB51CF610F400A5BA2E /* PBXTargetDependency */,
 			);
 			name = MySQL;
 			productName = MySQL;
 			productReference = 1ED020CE1BA478BD009B923E /* MySQL.eoadaptor */;
+			productType = "com.apple.product-type.bundle";
+		};
+		1ED3DBAB1CF6107A00A5BA2E /* MySQLInterface */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1ED3DBB31CF6107A00A5BA2E /* Build configuration list for PBXNativeTarget "MySQLInterface" */;
+			buildPhases = (
+				1ED3DBA81CF6107A00A5BA2E /* Sources */,
+				1ED3DBA91CF6107A00A5BA2E /* Frameworks */,
+				1ED3DBAA1CF6107A00A5BA2E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MySQLInterface;
+			productName = MySQLInterface;
+			productReference = 1ED3DBAC1CF6107A00A5BA2E /* MySQLInterface.interface */;
 			productType = "com.apple.product-type.bundle";
 		};
 		1EDEA30215D0128A0045292C /* Oraclenterface */ = {
@@ -773,6 +847,9 @@
 					1ED020CD1BA478BD009B923E = {
 						CreatedOnToolsVersion = 6.4;
 					};
+					1ED3DBAB1CF6107A00A5BA2E = {
+						CreatedOnToolsVersion = 6.4;
+					};
 				};
 			};
 			buildConfigurationList = 70B72DFB0956026E005162B9 /* Build configuration list for PBXProject "Adaptors" */;
@@ -800,6 +877,7 @@
 				1E9889001296F31D00F17A39 /* Oracle */,
 				1EDEA30215D0128A0045292C /* Oraclenterface */,
 				1ED020CD1BA478BD009B923E /* MySQL */,
+				1ED3DBAB1CF6107A00A5BA2E /* MySQLInterface */,
 			);
 		};
 /* End PBXProject section */
@@ -823,6 +901,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1ED3DBB61CF6110700A5BA2E /* MySQLInterface.interface in Resources */,
 				1E4B2BA11CF47C5900B7B2FA /* libmysqlclient.18.dylib in Resources */,
 				1EC214381CE4AFE9004D5E89 /* nextval.sql in Resources */,
 				1E968CAA1CCF94DD00DDD26C /* MySQLAdaptor.h in Resources */,
@@ -832,12 +911,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1ED3DBAA1CF6107A00A5BA2E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1ED3DBBF1CF6129900A5BA2E /* MySQLConnectionPane.xib in Resources */,
+				1ED3DBC11CF612F300A5BA2E /* MySQLConnectionPane.h in Resources */,
+				1ED3DBC41CF6145E00A5BA2E /* mysql.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1EDEA30115D0128A0045292C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				1EDEA34815D029AE0045292C /* OracleConnectionPane.h in Resources */,
 				1EDEA31E15D01EDC0045292C /* OracleLogo.tiff in Resources */,
+				1ED3DBC31CF6145E00A5BA2E /* mysql.png in Resources */,
 				1EDEA32C15D023DE0045292C /* OracleConnectionPane.xib in Resources */,
 				1EDEA33D15D026910045292C /* copyright in Resources */,
 				1EDEA34415D0269A0045292C /* license in Resources */,
@@ -943,6 +1033,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1ED3DBA81CF6107A00A5BA2E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1ED3DBBE1CF6129900A5BA2E /* MySQLConnectionPane.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1EDEA2FF15D0128A0045292C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1008,6 +1106,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1ED3DBB51CF610F400A5BA2E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1ED3DBAB1CF6107A00A5BA2E /* MySQLInterface */;
+			targetProxy = 1ED3DBB41CF610F400A5BA2E /* PBXContainerItemProxy */;
+		};
 		1EDEA32215D01F1B0045292C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 1EDEA30215D0128A0045292C /* Oraclenterface */;
@@ -1355,6 +1458,148 @@
 				SDKROOT = macosx10.9;
 				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = eoadaptor;
+			};
+			name = Default;
+		};
+		1ED3DBB01CF6107A00A5BA2E /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = MySQLInterface/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.9;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = interface;
+			};
+			name = Development;
+		};
+		1ED3DBB11CF6107A00A5BA2E /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = MySQLInterface/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.9;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = interface;
+			};
+			name = Deployment;
+		};
+		1ED3DBB21CF6107A00A5BA2E /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = MySQLInterface/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.9;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = interface;
 			};
 			name = Default;
 		};
@@ -2111,6 +2356,15 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Default;
+		};
+		1ED3DBB31CF6107A00A5BA2E /* Build configuration list for PBXNativeTarget "MySQLInterface" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1ED3DBB01CF6107A00A5BA2E /* Development */,
+				1ED3DBB11CF6107A00A5BA2E /* Deployment */,
+				1ED3DBB21CF6107A00A5BA2E /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		1EDEA31415D0128A0045292C /* Build configuration list for PBXNativeTarget "Oraclenterface" */ = {
 			isa = XCConfigurationList;
