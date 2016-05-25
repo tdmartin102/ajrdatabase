@@ -114,7 +114,7 @@
     if ([self hasOpenTransaction])
     {
         MYSQL *mysql =[(MySQLChannel *)transactionChannel mysql];
-        if (!mysql_commit(mysql))
+        if (mysql_commit(mysql))
             [self checkStatus:mysql];
         [self transactionDidCommit];
     }
@@ -132,7 +132,7 @@
     if ([self hasOpenTransaction])
     {
         MYSQL *mysql =[(MySQLChannel *)transactionChannel mysql];
-        if (!mysql_rollback(mysql))
+        if (mysql_rollback(mysql))
             [self checkStatus:mysql];
         [self transactionDidRollback];
     }
