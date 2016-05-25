@@ -48,6 +48,7 @@ mailto:tom.martin@riemer.com
     int					width;
     char                usedValueType;
     unsigned int        bindIndex;
+    BOOL                getLength;
 }
 
 // set the database and allocate the buffer according to dataType
