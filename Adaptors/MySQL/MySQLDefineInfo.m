@@ -103,7 +103,7 @@ mailto:tom.martin@riemer.com
 //---(Private)-- Convert LONG VARCHAR buffer into NSString -----
 - (id)stringValueForLongChar
 {
-    id result = nil;
+    id      result = nil;
     BOOL    needFree;
     
     needFree = NO;
@@ -114,7 +114,8 @@ mailto:tom.martin@riemer.com
         bind->buffer_length= bufferSize;
         if (bufferSize >= SIMPLE_BUFFER_SIZE)
         {
-            bufferValue.charPtr = calloc(bufferSize, sizeof(unsigned char));
+            // make sure we have a null terminator for the string
+            bufferValue.charPtr = calloc(bufferSize + 1, sizeof(unsigned char));
             bind->buffer= bufferValue.charPtr;
             needFree = YES;
         }
@@ -243,7 +244,8 @@ mailto:tom.martin@riemer.com
     bind->buffer = NULL;
     bind->length = 0;
     bind->is_unsigned = 0;
-    
+    getLength = NO;
+
     switch (dataType)
     {
         case MYSQL_TYPE_TINY:
@@ -349,6 +351,7 @@ mailto:tom.martin@riemer.com
             // use char[]
             // we get the size AFTER the fetch, then
             // refetch this column
+            getLength = YES;
             bind->buffer_length= 0;
             bind->length= &bufferSize;
             break;
@@ -360,11 +363,13 @@ mailto:tom.martin@riemer.com
             break;
         case MYSQL_TYPE_STRING:
         case MYSQL_TYPE_VAR_STRING:
+        case MYSQL_TYPE_VARCHAR:
             dataType = MYSQL_TYPE_STRING;
             if (width >= MAX_UTF8_WIDTH || width == 0)
             {
                 // we get the size AFTER the fetch, then
                 // refetch this column
+                getLength = YES;
                 bind->buffer_length= 0;
                 bind->length= &bufferSize;
             }
@@ -404,6 +409,7 @@ mailto:tom.martin@riemer.com
         channel = aChannel;
         bindArray = [channel bindArray];
         bind = NULL;
+        getLength = NO;
     }
 	return self;
 }
@@ -457,7 +463,7 @@ mailto:tom.martin@riemer.com
         case MYSQL_TYPE_STRING:
         default:
             // use char[]
-            if (width >= MAX_UTF8_WIDTH || width == 0)
+            if (getLength)
                 object = [self stringValueForLongChar];
             else
                 object = [self stringValueForVarchar];
