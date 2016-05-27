@@ -5,8 +5,8 @@
 
 @interface EOConnectionPane : NSObject
 {
-	id						view;
-	id						smallView;
+	IBOutlet NSView		*view;
+	IBOutlet NSView		*smallView;
 	EOModel				*model;
 }
 
