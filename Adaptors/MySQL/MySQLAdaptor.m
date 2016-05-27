@@ -55,6 +55,11 @@ static NSMutableDictionary 	*dataTypes = nil;
     return dataTypes;
 }
 
++ (NSArray *)externalTypesWithModel:(EOModel *)model
+{
+    return [[dataTypes allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+}
+
 /*
  As maintainer of a fairly large C application that makes MySQL calls from multiple threads, I can say I've had no problems with simply making a new connection in each thread. Some caveats that I've come across:
  
@@ -120,8 +125,7 @@ static NSMutableDictionary 	*dataTypes = nil;
 
 + (Class)connectionPaneClass
 {
-    return nil;
-    // return NSClassFromString(@"MySQLConnectionPane");
+    return NSClassFromString(@"MySQLConnectionPane");
 }
 
 - (EOSchemaGeneration *)synchronizationFactory
