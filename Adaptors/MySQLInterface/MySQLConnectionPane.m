@@ -135,6 +135,7 @@ mailto:tom.martin@riemer.com
             }
         }
         
+        connection = [model connectionDictionary];
         value = [connection objectForKey:DatabaseKey];
         if (! value)
             value = @"";
