@@ -377,6 +377,8 @@ mailto:tom.martin@riemer.com
             {
                 memset(bufferValue.simplePtr, 0, SIMPLE_BUFFER_SIZE);
                 bind->buffer = bufferValue.simplePtr;
+                bind->buffer_length = SIMPLE_BUFFER_SIZE;
+                bind->length = &bufferSize;
             }
             break;
         case MYSQL_TYPE_SET:
@@ -508,10 +510,9 @@ mailto:tom.martin@riemer.com
 	}
 	else if (! object)
 		object = [EONull null];
-	else
+    else if (object != [EONull null])
 		// convert the low level primitive object to the target class
 		object = [MySQLAdaptor convert:object toValueClassNamed:[attrib valueClassName]];
-
 	return object;	
 }
 
