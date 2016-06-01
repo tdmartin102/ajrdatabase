@@ -8,6 +8,7 @@
 
 #import "MySQLAdaptor.h"
 #import "MySQLContext.h"
+#import "MySQLSQLExpression.h"
 
 #import <mysql.h>
 
@@ -54,6 +55,11 @@ static NSMutableDictionary 	*dataTypes = nil;
     return dataTypes;
 }
 
++ (NSArray *)externalTypesWithModel:(EOModel *)model
+{
+    return [[dataTypes allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+}
+
 /*
  As maintainer of a fairly large C application that makes MySQL calls from multiple threads, I can say I've had no problems with simply making a new connection in each thread. Some caveats that I've come across:
  
@@ -91,7 +97,7 @@ static NSMutableDictionary 	*dataTypes = nil;
     const char      *str;
     
     str = mysql_error(value);
-    if (str)
+    if (*str)
     {
         errStr = [NSString stringWithUTF8String:str];
         NSException *ouch;
@@ -114,14 +120,12 @@ static NSMutableDictionary 	*dataTypes = nil;
 
 - (Class)defaultExpressionClass
 {
-    return [super defaultExpressionClass];
-    //return [MySQLSQLExpression class];
+    return [MySQLSQLExpression class];
 }
 
 + (Class)connectionPaneClass
 {
-    return nil;
-    // return NSClassFromString(@"MySQLConnectionPane");
+    return NSClassFromString(@"MySQLConnectionPane");
 }
 
 - (EOSchemaGeneration *)synchronizationFactory
@@ -130,71 +134,29 @@ static NSMutableDictionary 	*dataTypes = nil;
     // return [[[MySQLSchemaGeneration allocWithZone:[self zone]] init] autorelease];
 }
 
-/*
-+ (ub2)dataTypeForAttribute:(EOAttribute *)attrib useWidth:(BOOL *)useWidth nationalCharSet:(BOOL *)useNationalCharSet
+
++ (int)dataTypeForAttribute:(EOAttribute *)attrib useWidth:(BOOL *)useWidth
 {
     NSDictionary		*dataTypes;
     NSDictionary		*dataTypeDict;
-    ub2					dataType;
-    unichar				valueType;
+    int					dataType;
     
-    dataTypes = [OracleAdaptor dataTypes];
+    dataTypes = [MySQLAdaptor dataTypes];
     dataTypeDict = [dataTypes objectForKey:[attrib externalType]];
-    dataType = [[dataTypeDict objectForKey:@"ociDataType"] intValue];
+    dataType = [[dataTypeDict objectForKey:@"mysqlDataType"] intValue];
     if (! dataType)
-        [NSException raise:EODatabaseException format:@"OracleAdaptor.dataTypeForAttribute: Attempt to read an unsupported Oracle Datatype '%@'",
+        [NSException raise:EODatabaseException format:@"OracleAdaptor.dataTypeForAttribute: Attempt to read an unsupported MySQL Datatype '%@'",
          [attrib externalType]];
     if ([[dataTypeDict objectForKey:@"useWidth"] intValue])
         *useWidth = YES;
     else
         *useWidth = NO;
     
-    if ([[dataTypeDict objectForKey:@"nationalCharSet"] intValue])
-        *useNationalCharSet = YES;
-    else
-        *useNationalCharSet = NO;
-    
-    // if the external column is NUMBER then the dataType will be SQLT_AVC which
-    // is fine for a valueClass of NSDecimalNumber, but for NSNumber we may want change the
-    // type if the number is realatively small.  We will do this by using valueType
-    // if the valueType is less than a long or a double or float we will use native
-    // scalar variables.  If it is bigger than an int we will store it in a string and then
-    // convert it.  This is what is ALWAYS is done for a NSDecimalNumber
-    if ((dataType == SQLT_AVC) && ([[attrib valueClassName] isEqualToString:@"NSNumber"]))
-    {
-        if ([[attrib valueType] length])
-        {
-            valueType = [[attrib valueType] characterAtIndex:0];
-            switch (valueType)
-            {
-                case  'c':
-                case  'C':
-                case  's':
-                case  'S':
-                case  'i':
-                    dataType = SQLT_INT;  // signed integer
-                    break;
-                case  'f':
-                    dataType = SQLT_BFLOAT;
-                    break;
-                case  'd':
-                    dataType = SQLT_BDOUBLE;
-                    break;
-                case  'I':
-                case  'l':
-                case  'L':
-                case  'q':
-                case  'Q':
-                default:
-                    // we will keep SQLT_AVC and convert a string to an NSNumber
-                    break;
-            }
-        }
-    }
+    // With MySQL the numerical types map directly to scalar types which means we can
+    // easily map those.  For DECIMAL the only safe way to go is NSString.
     
     return dataType;
 }
-*/
 
 + (id)valueForClassNamed:(NSString *)vcn forNSString:(NSString *)value
 {
@@ -218,9 +180,7 @@ static NSMutableDictionary 	*dataTypes = nil;
                                            length:[value lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
         return [result autorelease];
     }
-    if ([vcn isEqualToString:@"NSCalendarDate"])
-        return [NSCalendarDate dateWithString:value];
-    if ([vcn isEqualToString:@"NSDate"])
+    if (([vcn isEqualToString:@"NSCalendarDate"]) || ([vcn isEqualToString:@"NSDate"]))
     {
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         NSDate *result = [formatter dateFromString:value];
@@ -239,7 +199,7 @@ static NSMutableDictionary 	*dataTypes = nil;
     // NSString -- we COULD convert to Base64 or something, but ....
     // NSNumber
     // NSDecimalNumber
-    // NSCalendarDate
+    // NSDate
     return nil;
 }
 
@@ -264,7 +224,7 @@ static NSMutableDictionary 	*dataTypes = nil;
     if ([vcn isEqualToString:@"NSDecimalNumber"])
         return [NSDecimalNumber decimalNumberWithString:str];
     
-    // NSCalendarDate
+    // NSDate
     return nil;
 }
 
@@ -289,37 +249,14 @@ static NSMutableDictionary 	*dataTypes = nil;
         return [result autorelease];
     }
     
-    // NSCalendarDate
-    return nil;
-}
-
-+ (id)valueForClassNamed:(NSString *)vcn forNSCalendarDate:(NSCalendarDate *)value
-{
-    if ([vcn isEqualToString:@"NSCalendarDate"])
-        return value;
-    if ([vcn isEqualToString:@"NSDate"])
-        return value;
-    
-    if ([vcn isEqualToString:@"NSString"])
-        return [value description];
-    
-    if ([vcn isEqualToString:@"NSData"])
-    {
-        NSString *str = [value description];
-        id result = [[NSData alloc] initWithBytes:[str UTF8String]
-                                           length:[str lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
-        return [result autorelease];
-    }
-    
-    // NSNumber
-    // NSDecimalNumber
+    // NSDate
     return nil;
 }
 
 + (id)valueForClassNamed:(NSString *)vcn forNSDate:(NSDate *)value
 {
     if ([vcn isEqualToString:@"NSCalendarDate"])
-        return [value  dateWithCalendarFormat:nil timeZone:nil];
+        return value;
     
     if ([vcn isEqualToString:@"NSDate"])
         return value;
@@ -353,8 +290,6 @@ static NSMutableDictionary 	*dataTypes = nil;
         result = [self valueForClassNamed:aClassName forNSDecimalNumber:(NSDecimalNumber *)value];
     else if ([value isKindOfClass:[NSNumber class]])
         result = [self valueForClassNamed:aClassName forNSNumber:(NSNumber *)value];
-    else if ([value isKindOfClass:[NSCalendarDate class]])
-        result = [self valueForClassNamed:aClassName forNSCalendarDate:(NSCalendarDate *)value];
     else if ([value isKindOfClass:[NSDate class]])
         result = [self valueForClassNamed:aClassName forNSDate:(NSDate *)value]; 
     else if ([value isKindOfClass:[NSData class]])

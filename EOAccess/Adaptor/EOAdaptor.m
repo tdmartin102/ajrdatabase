@@ -209,7 +209,7 @@ static NSMutableDictionary *_eoExpressionClasses = nil;
 	return value;
 }
 
-- (NSCalendarDate *)fetchedValueForDateValue:(NSCalendarDate *)value attribute:(EOAttribute *)attribute
+- (NSDate *)fetchedValueForDateValue:(NSDate *)value attribute:(EOAttribute *)attribute
 {
 	return value;
 }

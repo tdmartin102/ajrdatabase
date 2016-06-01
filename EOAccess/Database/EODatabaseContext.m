@@ -876,7 +876,7 @@ static Class _eoDatabaseContextClass = Nil;
             //			// mont_rothstein @ yahoo.com 2004-12-06
             //			// Added code to replace the temp global ID with the permanent one.
             //			[[object editingContext] recordObject: object globalID: [(EOTemporaryGlobalID *)globalID newGlobalID]];
-			[globalIDMappings setObject: [(EOTemporaryGlobalID *)globalID newGlobalID] forKey: globalID];
+			[globalIDMappings setObject: [(EOTemporaryGlobalID *)globalID tempGlobalID] forKey: globalID];
 			
 			// mont_rothstein @ yahoo.com 2004-12-05
 			// Commented out the line below because it is unnecessary.  The objects no longer
@@ -891,7 +891,7 @@ static Class _eoDatabaseContextClass = Nil;
             // Tom.Martin @ Riemer.com 2012-05-03
             // We set this up to happen all at once so we UPDATE our snapshot so that the new one will be
             // recorded.  There IS no snapshot for this object in EODatabase as it is newly inserted
-            [self _replaceSnapshotGlobalID:globalID withNewGlobalID:[(EOTemporaryGlobalID *)globalID newGlobalID]];
+            [self _replaceSnapshotGlobalID:globalID withNewGlobalID:[(EOTemporaryGlobalID *)globalID tempGlobalID]];
 		}
 	}
     
@@ -929,8 +929,8 @@ static Class _eoDatabaseContextClass = Nil;
 				// _acceptDatabaseOperations was incorrectly handling EODatabaseInsertOperator by manipulating updated objects instead of inserted objects.
                 //				[aDatabase incrementSnapshotCountForGlobalID:[operation globalID]];
                 //				[globalIDsForUpdatedObjects addObject: [operation globalID]];
-				[aDatabase incrementSnapshotCountForGlobalID:[(EOTemporaryGlobalID *)[operation globalID] newGlobalID]];
-				[globalIDsForInsertedObjects addObject:[(EOTemporaryGlobalID *)[operation globalID] newGlobalID]];
+				[aDatabase incrementSnapshotCountForGlobalID:[(EOTemporaryGlobalID *)[operation globalID] tempGlobalID]];
+				[globalIDsForInsertedObjects addObject:[(EOTemporaryGlobalID *)[operation globalID] tempGlobalID]];
 				break;
 			case EODatabaseUpdateOperator:
 				// mont_rothstein @ yahoo.com 2005-02-24
@@ -1469,7 +1469,7 @@ static Class _eoDatabaseContextClass = Nil;
                 //    [currentGlobalID setNewGlobalID:[entity globalIDForRow:[pkValues objectAtIndex:x]]];
                 //else
                 //    [currentGlobalID setNewGlobalID:[entity globalIDForRow:[object primaryKey]]];
-				[currentGlobalID setNewGlobalID:[entity globalIDForRow:[pkValues objectAtIndex:x]]];
+				[currentGlobalID setTempGlobalID:[entity globalIDForRow:[pkValues objectAtIndex:x]]];
 			}
 		}
 	}
@@ -1527,7 +1527,7 @@ static Class _eoDatabaseContextClass = Nil;
                     pk = [delegate databaseContext:self newPrimaryKeyForObject:object entity:entity];
 
                 if (pk)
-                    [(EOTemporaryGlobalID *)globalID setNewGlobalID:[entity globalIDForRow:pk]];
+                    [(EOTemporaryGlobalID *)globalID setTempGlobalID:[entity globalIDForRow:pk]];
                 else
                 {
                     // Tom.Martin @ Riemer.com 11/17/11
@@ -1552,7 +1552,7 @@ static Class _eoDatabaseContextClass = Nil;
                     }
                     else
                         // we assume it is already set
-                        [(EOTemporaryGlobalID *)globalID setNewGlobalID:[entity globalIDForRow:[object primaryKey]]];
+                        [(EOTemporaryGlobalID *)globalID setTempGlobalID:[entity globalIDForRow:[object primaryKey]]];
                 }			
             }
         }
@@ -2323,7 +2323,7 @@ static Class _eoDatabaseContextClass = Nil;
 		EOGlobalID		*globalID = [[object editingContext] globalIDForObject:object];
 		
 		if ([globalID isTemporary] && [self ownsGlobalID:globalID]) {
-			[(EOTemporaryGlobalID *)globalID setNewGlobalID:nil];
+			[(EOTemporaryGlobalID *)globalID setTempGlobalID:nil];
 		}
 	}
 }

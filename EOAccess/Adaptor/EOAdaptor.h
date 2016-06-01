@@ -75,7 +75,7 @@ typedef enum _eoAdaptorValueType {
 /*! @todo EOAdaptor: need to call into the fetchValue... methods. */
 - (id)fetchedValueForValue:(id)value attribute:(EOAttribute *)attribute;
 - (NSData *)fetchedValueForDataValue:(NSData *)value attribute:(EOAttribute *)attribute;
-- (NSCalendarDate *)fetchedValueForDateValue:(NSCalendarDate *)value attribute:(EOAttribute *)attribute;
+- (NSDate *)fetchedValueForDateValue:(NSDate *)value attribute:(EOAttribute *)attribute;
 - (NSNumber *)fetchedValueForNumberValue:(NSNumber *)value attribute:(EOAttribute *)attribute;
 - (NSString *)fetchedValueForStringValue:(NSString *)string attribute:(EOAttribute *)attribute;
 

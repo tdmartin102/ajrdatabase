@@ -31,8 +31,8 @@ http://www.raftis.net/~alex/
 @interface EOKeyGlobalID : EOGlobalID
 {
     NSString		*entityName;
-    NSString		**keys;
-    id				*values;
+    NSString		* __strong *keys;
+    id				__strong *values;
     int				count;
 	NSUInteger      hash;
 }

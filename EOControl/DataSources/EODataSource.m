@@ -27,7 +27,7 @@
 
 @implementation EODataSource
 
-+ (int)version 
++ (NSInteger)version
 {
 	return 1;
 }

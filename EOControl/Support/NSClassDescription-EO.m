@@ -231,7 +231,6 @@
 		// value = [[self valueForKey:key] shallowCopy];
         value = [[self primitiveValueForKey:key] shallowCopy];
 		[snapshot setObject:value == nil ? [NSNull null] : value forKey:key];
-		[value release];
 	}
 	
 	return [snapshot autorelease];

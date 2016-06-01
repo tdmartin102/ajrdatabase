@@ -34,6 +34,19 @@ http://www.raftis.net/~alex/
 
 @implementation OpenBaseChannel
 
+- (NSDate *)dateWithString:(NSString *)dateString
+{
+    struct tm  sometime;
+    time_t aTime;
+    
+    // The time struct MUST be cleared as strptime ONLY sets whatever is in the
+    // format.  Seems wrong to me, but there you go.
+    memset(&sometime, 0, sizeof(struct tm));
+    strptime([dateString UTF8String], "%Y-%m-%d %H:%M:%S %z", &sometime);
+    aTime = mktime(&sometime);
+    return [NSDate dateWithTimeIntervalSince1970: aTime];
+}
+
 - (OpenBase *)connection
 {
    return connection;
@@ -186,7 +199,7 @@ http://www.raftis.net/~alex/
                break;
             case 6:		// date
                [connection bindDouble:&(resultSet[x].result.doubleResult)];
-               [tempAttribute setValueClassName:@"NSCalendarDate"];
+               [tempAttribute setValueClassName:@"NSDate"];
                [tempAttribute setExternalType:@"date"];
                break;
             case 7:		// time
@@ -195,7 +208,7 @@ http://www.raftis.net/~alex/
                break;
             case 9:		// datetime
                [connection bindDouble:&(resultSet[x].result.doubleResult)];
-               [tempAttribute setValueClassName:@"NSCalendarDate"];
+               [tempAttribute setValueClassName:@"NSDate"];
                [tempAttribute setExternalType:@"datetime"];
                break;
             case 10:		// longlong
@@ -321,8 +334,8 @@ http://www.raftis.net/~alex/
       return [NSDecimalNumber decimalNumberWithMantissa:abs(integer) exponent:0 isNegative:integer < 0];
    } else if ([valueClassName isEqualToString:@"NSNumber"]) {
       return [NSNumber numberWithInt:integer];
-   } else if ([valueClassName isEqualToString:@"NSCalendarDate"]) {
-      return [NSCalendarDate dateWithTimeIntervalSince1970:integer];
+   } else if ([valueClassName isEqualToString:@"NSDate"]) {
+      return [NSDate dateWithTimeIntervalSince1970:integer];
    } else if ([valueClassName isEqualToString:@"NSData"]) {
       return [NSData dataWithBytes:&integer length:4];
    } else {
@@ -341,8 +354,8 @@ http://www.raftis.net/~alex/
       return [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%lf", aDouble]];
    } else if ([valueClassName isEqualToString:@"NSNumber"]) {
       return [NSNumber numberWithDouble:aDouble];
-   } else if ([valueClassName isEqualToString:@"NSCalendarDate"]) {
-      return [NSCalendarDate dateWithTimeIntervalSinceReferenceDate:aDouble];
+   } else if ([valueClassName isEqualToString:@"NSDate"]) {
+      return [NSDate dateWithTimeIntervalSinceReferenceDate:aDouble];
    } else if ([valueClassName isEqualToString:@"NSData"]) {
       return [NSData dataWithBytes:&aDouble length:sizeof(double)];
    } else {
@@ -361,8 +374,8 @@ http://www.raftis.net/~alex/
       return [NSDecimalNumber decimalNumberWithMantissa:labs(aLong) exponent:0 isNegative:aLong < 0];
    } else if ([valueClassName isEqualToString:@"NSNumber"]) {
       return [NSNumber numberWithLong:aLong];
-   } else if ([valueClassName isEqualToString:@"NSCalendarDate"]) {
-      return [NSCalendarDate dateWithTimeIntervalSince1970:aLong];
+   } else if ([valueClassName isEqualToString:@"NSDate"]) {
+      return [NSDate dateWithTimeIntervalSince1970:aLong];
    } else if ([valueClassName isEqualToString:@"NSData"]) {
       return [NSData dataWithBytes:&aLong length:sizeof(long)];
    } else {
@@ -381,8 +394,8 @@ http://www.raftis.net/~alex/
       return [NSDecimalNumber decimalNumberWithMantissa:qabs(aLong) exponent:0 isNegative:aLong < 0];
    } else if ([valueClassName isEqualToString:@"NSNumber"]) {
       return [NSNumber numberWithLongLong:aLong];
-   } else if ([valueClassName isEqualToString:@"NSCalendarDate"]) {
-      return [NSCalendarDate dateWithTimeIntervalSince1970:aLong];
+   } else if ([valueClassName isEqualToString:@"NSDate"]) {
+      return [NSDate dateWithTimeIntervalSince1970:aLong];
    } else if ([valueClassName isEqualToString:@"NSData"]) {
       return [NSData dataWithBytes:&aLong length:sizeof(long long)];
    } else {
@@ -404,8 +417,8 @@ http://www.raftis.net/~alex/
       return [NSDecimalNumber decimalNumberWithString:[NSString stringWithCString:string]];
    } else if ([valueClassName isEqualToString:@"NSNumber"]) {
       return [NSNumber numberWithInt:atoi(string)];
-   } else if ([valueClassName isEqualToString:@"NSCalendarDate"]) {
-      return [NSCalendarDate dateWithString:[NSString stringWithCString:string]];
+   } else if ([valueClassName isEqualToString:@"NSDate"]) {
+      return [self dateWithString:[NSString stringWithCString:string]];
    } else if ([valueClassName isEqualToString:@"NSData"]) {
       return [NSData dataWithBytes:string length:[attribute width]];
    } else {
@@ -425,7 +438,7 @@ http://www.raftis.net/~alex/
       return nil;
    } else if ([valueClassName isEqualToString:@"NSNumber"]) {
       return [NSNumber numberWithBool:boolean];
-   } else if ([valueClassName isEqualToString:@"NSCalendarDate"]) {
+   } else if ([valueClassName isEqualToString:@"NSDate"]) {
       return nil;
    } else if ([valueClassName isEqualToString:@"NSData"]) {
       return [NSData dataWithBytes:&boolean length:sizeof(BOOL)];
@@ -442,8 +455,8 @@ http://www.raftis.net/~alex/
    if ([valueClassName isEqualToString:@"NSString"]) {
    } else if ([valueClassName isEqualToString:@"NSDecimalNumber"]) {
    } else if ([valueClassName isEqualToString:@"NSNumber"]) {
-   } else if ([valueClassName isEqualToString:@"NSCalendarDate"]) {
-      return [NSCalendarDate dateWithTimeIntervalSinceReferenceDate:aDouble];
+   } else if ([valueClassName isEqualToString:@"NSDate"]) {
+      return [NSDate dateWithTimeIntervalSinceReferenceDate:aDouble];
    } else if ([valueClassName isEqualToString:@"NSData"]) {
    } else {
    }

@@ -120,7 +120,7 @@ http://www.raftis.net/~alex/
     return buffer;
 }
 
-- (void)setNewGlobalID:(EOGlobalID *)aGlobalID
+- (void)setTempGlobalID:(EOGlobalID *)aGlobalID
 {
 	if (newGlobalID != aGlobalID) {
 		[newGlobalID release];
@@ -128,7 +128,7 @@ http://www.raftis.net/~alex/
 	}
 }
 
-- (EOGlobalID *)newGlobalID
+- (EOGlobalID *)tempGlobalID
 {
 	return newGlobalID;
 }

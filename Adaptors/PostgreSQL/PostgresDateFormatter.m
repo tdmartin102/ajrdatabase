@@ -47,7 +47,13 @@ http://www.raftis.net/~alex/
 
 - (id)format:(id)value inAttribute:(EOAttribute *)attribute
 {
-   return [(NSCalendarDate *)value descriptionWithCalendarFormat:@"'%Y-%m-%d %H:%M:%S %z'"];
+    time_t time = [self timeIntervalSince1970];
+    struct tm timeStruct;
+    char buffer[80];
+    
+    localtime_r(&time, &timeStruct);
+    strftime(buffer, 80, "'%Y-%m-%d %H:%M:%S %z'", &timeStruct);
+    return [NSString stringWithCString:buffer encoding:NSASCIIStringEncoding];
 }
 
 @end
