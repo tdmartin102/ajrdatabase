@@ -1566,16 +1566,16 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 	// mont_rothstein @ yahoo.com 2005-04-17
 	// The was checking for the index != nil, it needs to be NSNotFound.
 	if ([[self classProperties] indexOfObjectIdenticalTo:attribute] != NSNotFound) {
-		[classPropertyNames removeObject:oldName];
-		[classPropertyNames addObject:newName];
+		if (oldName) [classPropertyNames removeObject:oldName];
+		if (newName) [classPropertyNames addObject:newName];
 	}
 	
 	// mont_rothstein @ yahoo.com 2005-04-17
 	// This was checking for nil instead of NSNotFound, which caused all new attributes to get
 	// added to the primary keys.
 	if ([primaryKeyAttributes indexOfObjectIdenticalTo:attribute] != NSNotFound) {
-		[primaryKeyAttributeNames removeObject:oldName];
-		[primaryKeyAttributeNames addObject:newName];
+		if (oldName) [primaryKeyAttributeNames removeObject:oldName];
+		if (newName) [primaryKeyAttributeNames addObject:newName];
 	}
 	// Clear the name cache.
 	[attributeNames release]; attributeNames = nil;
@@ -1595,8 +1595,8 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 	// mont_rothstein @ yahoo.com 2005-04-17
 	// The was checking for the index != nil, it needs to be NSNotFound.
 	if ([[self classProperties] indexOfObjectIdenticalTo:relationship] != NSNotFound) {
-		[classPropertyNames removeObject:oldName];
-		[classPropertyNames addObject:newName];
+		if (oldName) [classPropertyNames removeObject:oldName];
+		if (newName) [classPropertyNames addObject:newName];
 	}
 
 	relationshipsNeedSorting = YES;

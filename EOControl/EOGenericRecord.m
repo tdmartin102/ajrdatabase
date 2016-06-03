@@ -139,6 +139,7 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
    [super dealloc];
 }
 
+
 - (SEL)getMethodForKey:(NSString *)key
 {
    _EOSelectorTable	*table = [getMethodCache objectForKey:object_getClass(self)];
@@ -146,7 +147,7 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
    
    if (table == nil) {
       table = [[_EOSelectorTable alloc] init];
-      [getMethodCache setObject:table forKey:object_getClass(self)];
+      [getMethodCache setObject:table forKey:(id <NSCopying>)object_getClass(self)];
       [table release];
    }
 
@@ -172,7 +173,7 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
 
    if (table == nil) {
       table = [[_EOSelectorTable alloc] init];
-      [_getMethodCache setObject:table forKey:object_getClass(self)];
+      [_getMethodCache setObject:table forKey:(id <NSCopying>)object_getClass(self)];
       [table release];
    }
 
@@ -198,7 +199,7 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
 
    if (table == nil) {
       table = [[_EOSelectorTable alloc] init];
-      [setMethodCache setObject:table forKey:object_getClass(self)];
+      [setMethodCache setObject:table forKey:(id <NSCopying>)object_getClass(self)];
       [table release];
    }
 
@@ -225,7 +226,7 @@ NSString *EOObjectDidUpdateGlobalIDNotification = @"EOObjectDidUpdateGlobalIDNot
    if (table == nil) {
 		// Create a hash of the selectors. This avoids undo use of reflection.
       table = [[_EOSelectorTable alloc] init];
-      [_setMethodCache setObject:table forKey:object_getClass(self)];
+      [_setMethodCache setObject:table forKey:(id <NSCopying>)object_getClass(self)];
       [table release];
    }
 
