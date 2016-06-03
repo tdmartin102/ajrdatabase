@@ -47,7 +47,7 @@ http://www.raftis.net/~alex/
 
 - (id)format:(id)value inAttribute:(EOAttribute *)attribute
 {
-    time_t time = [self timeIntervalSince1970];
+    time_t time = [(NSDate *)value timeIntervalSince1970];
     struct tm timeStruct;
     char buffer[80];
     
