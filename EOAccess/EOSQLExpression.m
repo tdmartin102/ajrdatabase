@@ -1538,7 +1538,7 @@ static NSInteger joinAliasSort(id a, id b, void *context)
 	NSString		*path;
 	NSString		*sourceAlias;
 	NSString		*destAlias;
-	NSString		*rootAlias;
+	// NSString		*rootAlias;
 	NSArray			*pathComponents;
 	int				x, c;
 	BOOL			valid;
@@ -1562,7 +1562,7 @@ static NSInteger joinAliasSort(id a, id b, void *context)
 	joinString = [[NSMutableString allocWithZone:[self zone]] initWithCapacity:200];
 	
 	// get the root alias
-	rootAlias = [aliasesByRelationshipPath objectForKey:@""];	
+	// rootAlias = [aliasesByRelationshipPath objectForKey:@""];
 	keys = [aliasesByRelationshipPath allKeys];
 	
 	// we need to sort these paths in order by alias which might insure that
