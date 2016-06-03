@@ -144,25 +144,30 @@ http://www.raftis.net/~alex/
 
 - (void)openChannel
 {
-   NSDictionary		*info = [[[self adaptorContext] adaptor] connectionDictionary];
-   NSString				*url = [info objectForKey:@"URL"];
-   NSString				*username = [info objectForKey:@"username"];
-   NSString				*password = [info objectForKey:@"password"];
-   NSString				*hostname, *databaseName;
+    NSDictionary		*info;
+    NSString			*url;
+    NSString			*username;
+    NSString			*password;
+    NSString				*hostname, *databaseName;
 	int					port;
-   NSArray				*urlParts = [url componentsSeparatedByString:@":"];
-   NSMutableString	*cInfo;
-
-   if (connected) {
-      [NSException raise:EODatabaseException format:@"EOAdaptorChannel is already open"];
-   }
-
+    NSArray				*urlParts;
+    NSMutableString	*cInfo;
+    
+    if (connected) {
+        [NSException raise:EODatabaseException format:@"EOAdaptorChannel is already open"];
+    }
+    
+    info = [[[self adaptorContext] adaptor] connectionDictionary];
    url = [info objectForKey:@"URL"];
    username = [info objectForKey:@"username"];
    password = [info objectForKey:@"password"];
 	databaseName = [info objectForKey:@"databaseName"];
 	hostname = [info objectForKey:@"hostname"];
 	port = [[info objectForKey:@"port"] intValue];
+    if (url)
+        urlParts = [url componentsSeparatedByString:@":"];
+    else
+        urlParts = nil;
 	if (![databaseName length] || ![hostname length]) {
 		NSRange		range;
 		
@@ -355,7 +360,7 @@ http://www.raftis.net/~alex/
 - (id)valueForResultAtIndex:(unsigned int)index
 {
    EOAttribute	*attribute = [fetchAttributes objectAtIndex:index];
-   NSString		*valueClassName = [attribute valueClassName];
+   NSString		*valueClassName;
    char			*string;
 
    if (PQgetisnull(resultSet, rowsFetched, index)) return nil;
@@ -811,16 +816,17 @@ http://www.raftis.net/~alex/
 {
 	NSDictionary		*row;
 	EOSQLExpression	*expression;
-	
+    EOEntity		*entity;
+
 	expression = [[[[[self adaptorContext] adaptor] expressionClass] alloc] init];
 	[expression setStatement:EOFormat(@"SELECT c.oid AS tableoid, n.nspname AS schemaname, c.relname AS tablename, pg_get_userbyid(c.relowner) AS tableowner, c.relhasindex AS hasindexes, c.relhasrules AS hasrules, (c.reltriggers > 0) AS hastriggers FROM (pg_class c LEFT JOIN pg_namespace n ON ((n.oid = c.relnamespace))) WHERE ((c.relkind = 'r'::\"char\") OR (c.relkind = 's'::\"char\")) AND (c.relname = '%@' AND n.nspname = 'public')", name)];
 	[self evaluateExpression:expression];
 	row = [self fetchRowWithZone:NULL];
 	[self cancelFetch];
+    entity = nil;
 	
 	if (row) {
 		int			oid = [[row objectForKey:@"tableoid"] intValue];
-		EOEntity		*entity;
 		
 		[expression setStatement:EOFormat(@"SELECT attnum, attname, atttypmod, attstattarget, attnotnull, atthasdef, attisdropped, attislocal, pg_catalog.format_type(atttypid,atttypmod) as atttypname from pg_catalog.pg_attribute a where attrelid = '%d'::pg_catalog.oid and attnum > 0::pg_catalog.int2 order by attrelid, attnum;", oid)];
 		
@@ -923,12 +929,18 @@ http://www.raftis.net/~alex/
 		
 		[entity setClassProperties:[entity attributes]];
 		[entity setAttributesUsedForLocking:[entity attributes]];
-		
-		return [entity autorelease];
 	}
     [expression release];
 	
-	return nil;
+    if (entity)
+    {
+        if ([[entity attributes] count] == 0)
+        {
+            [entity release];
+            entity = nil;
+        }
+    }
+	return [entity autorelease];
 }
 
 - (EOModel *)describeModelWithTableNames:(NSArray *)tableNames

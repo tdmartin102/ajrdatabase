@@ -40,6 +40,7 @@ http://www.raftis.net/~alex/
 	// mont_rothstein @ yahoo.com 2005-06-26
 	// The number of rows affected by the sql statement
 	int					rowsAffected;
+    NSDateFormatter     *dateFormatter;
 }
 
 - (PGconn *)connection;
