@@ -284,13 +284,12 @@
     for (key in [self toManyRelationshipKeys])
     {
         NSArray         *anArray;
-        id              anObject;
-        NSMutableArray  *result = nil;
 		anArray = [self primitiveValueForKey:key];
         if (anArray)
         {
             id aGID;
-            NSMutableArray *result = [[NSMutableArray allocWithZone:[anArray zone]] 
+            id              anObject;
+            NSMutableArray *result = [[NSMutableArray allocWithZone:[anArray zone]]
                                       initWithCapacity:[anArray count]];
             for (anObject in anArray)
             {
@@ -298,9 +297,11 @@
                 if (aGID)
                     [result addObject:aGID];
             }
+            [snapshot setObject:result forKey:key];
+            [result release];
         }
-        [snapshot setObject:(result == nil) ? [NSNull null] : result forKey:key];
-		[result release];
+        else
+            [snapshot setObject:[NSNull null] forKey:key];
 	}
 	
 	return [snapshot autorelease];
