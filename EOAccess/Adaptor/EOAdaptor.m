@@ -389,7 +389,7 @@ static NSMutableDictionary *_eoExpressionClasses = nil;
 	if (class) {
 		pane = [[class alloc] init];
 		[_eoConnectionPanes setObject:pane forKey:NSStringFromClass([self class])];
-		return pane;
+		return [pane autorelease];
 	}
 	
 	return nil;
