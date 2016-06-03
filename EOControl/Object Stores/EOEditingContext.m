@@ -549,7 +549,8 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
     // key: relationshipName
     // key: ownerGID (string key not object)
     // THIS dictionary does not need to be mutable
-    change = [NSDictionary dictionaryWithObjectsAndKeys:[ownerGid entityName], @"ownerEntityName",
+    change = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+              [ownerGid entityName], @"ownerEntityName",
               relationshipName, @"relationshipName",
               ownerGid, @"ownerGID", nil];
     if (added)
