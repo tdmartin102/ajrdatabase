@@ -33,16 +33,27 @@ http://www.raftis.net/~alex/
 static NSMutableArray	*loggers = nil;
 static EOLog				*SELF = nil;
 
-+ (id)allocWithZone:(NSZone *)zone
+- (instancetype) initUniqueInstance
 {
-   if (SELF == nil) SELF = [super allocWithZone:zone];
-   return SELF;
+    if ((self = [super init]))
+    {
+        if (lock == nil) {
+            lock = [[NSLock alloc] init];
+            [[self class] registerLogger:[[[EOLogger allocWithZone:[self zone]] init] autorelease]];
+        }
+    }
+    return self;
+}
+
++ (void) initialize {
+    // subclassing would result in an instance per class, probably not what we want
+    NSAssert([EOLog class] == self, @"Subclassing is not welcome");
+    SELF = [[super alloc] initUniqueInstance];
 }
 
 + (id)sharedInstance
 {
-   if (SELF) return SELF;
-   return [[self alloc] init];
+    return SELF;
 }
 
 + (void)registerLogger:(EOLogger *)logger
@@ -51,19 +62,6 @@ static EOLog				*SELF = nil;
 		loggers = [[NSMutableArray alloc] init];
 		[loggers addObject:logger];
 	}
-}
-
-- (id)init
-{
-    if (self = [super init])
-    {
-        if (lock == nil) {
-            lock = [[NSLock alloc] init];
-            [[self class] registerLogger:[[[EOLogger allocWithZone:[self zone]] init] autorelease]];
-        }
-    }
-        
-   return self;
 }
 
 - (NSArray *)loggers
@@ -237,13 +235,15 @@ static BOOL defaultLogError = YES;
 
 @implementation EOLogger
 
-- (id)init
+- (instancetype)init
 {
-   logDebug = defaultLogDebug;
-   logInfo = defaultLogInfo;
-   logWarning = defaultLogWarning;
-   logError = defaultLogError;
-   
+    if ((self = [super init]))
+    {
+        logDebug = defaultLogDebug;
+        logInfo = defaultLogInfo;
+        logWarning = defaultLogWarning;
+        logError = defaultLogError;
+    }
    return self;
 }
 

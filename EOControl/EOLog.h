@@ -76,6 +76,10 @@ typedef enum _eoLogLevel {
 + (void)setDelegate:(id)aDelegate;
 + (id)delegate;
 
++(instancetype) alloc __attribute__((unavailable("alloc not available, call sharedInstance instead")));
+-(instancetype) init __attribute__((unavailable("init not available, call sharedInstance instead")));
++(instancetype) new __attribute__((unavailable("new not available, call sharedInstance instead")));
+
 - (void)log:(NSString *)string;
 - (void)log:(EOLogLevel)level string:(NSString *)string;
 - (void)logWithFormat:(NSString *)format arguments:(va_list)argList;
