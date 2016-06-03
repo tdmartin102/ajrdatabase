@@ -51,12 +51,12 @@ static EOQualifierOperation EOEOFQualifierNotEqual;
 
 + (EOQualifier *)qualifierWithKey:(NSString *)aKey value:(id)aValue
 {
-   return [[[self alloc] initWithKey:aKey operation:EOQualifierEquals value:aValue] autorelease];
+    return [[[[self class] alloc] initWithKey:aKey operation:EOQualifierEquals value:aValue] autorelease];
 }
 
 + (EOQualifier *)qualifierWithKey:(NSString *)aKey operation:(EOQualifierOperation)anOperation value:(id)aValue
 {
-   return [[[self alloc] initWithKey:aKey operation:anOperation value:aValue] autorelease];
+   return [[[[self class] alloc] initWithKey:aKey operation:anOperation value:aValue] autorelease];
 }
 
 - (id)initWithKey:(NSString *)aKey value:(id)aValue
