@@ -39,7 +39,7 @@ BOOL	EOAdaptorDebugEnabled = NO;
 BOOL	EODatabaseContextDebugEnabled = NO;
 BOOL	EORegistrationDebugEnabled = NO;
 
-@interface EODebug
+@interface EODebug : NSObject
 @end
 
 @implementation EODebug
