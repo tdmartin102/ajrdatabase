@@ -44,7 +44,7 @@ static NSMutableDictionary *_eoRemoveMethodCache = nil;
 	
    if (table == nil) {
       table = [[_EOSelectorTable alloc] init];
-      [_eoAddMethodCache setObject:table forKey:object_getClass(self)];
+      [_eoAddMethodCache setObject:table forKey:(id <NSCopying>)object_getClass(self)];
       [table release];
    }
 	
@@ -70,7 +70,7 @@ static NSMutableDictionary *_eoRemoveMethodCache = nil;
 	
    if (table == nil) {
       table = [[_EOSelectorTable alloc] init];
-      [_eoRemoveMethodCache setObject:table forKey:object_getClass(self)];
+      [_eoRemoveMethodCache setObject:table forKey:(id <NSCopying>)object_getClass(self)];
       [table release];
    }
 	
