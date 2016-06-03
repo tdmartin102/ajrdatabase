@@ -50,8 +50,13 @@ typedef enum _eoDatabaseOperator {
 - (NSDictionary *)EOSnapshot;
 
 // Accessing the row
-- (void)setNewRow:(NSMutableDictionary *)aRow;
-- (NSMutableDictionary *)newRow;
+// Tom . Martin @Riemer.com
+// 6/3/16 this WAS setNewRow:  newRow
+// That is not compatable with memory rules so it HAS to change.
+// This is only likley to be used interanlly, so... I am thinking this is
+// kinda sorta safe to rename.
+- (void)setRow:(NSMutableDictionary *)aRow;
+- (NSMutableDictionary *)row;
 	
 // Accessing the adaptor operations
 - (void)addAdaptorOperation:(EOAdaptorOperation *)anOperation;

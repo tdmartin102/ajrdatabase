@@ -1596,7 +1596,7 @@ static Class _eoDatabaseContextClass = Nil;
     // Tom.Martin 2012-03-30
     // there is no database snapshot so there is no need to set that, but there IS a newRow to set
     // which we now set to the context snapshot
-    [operation setNewRow:[self localSnapshotForGlobalID:_currentGlobalID]];
+    [operation setRow:[self localSnapshotForGlobalID:_currentGlobalID]];
 	[databaseOperations addObject:operation];
 	[operation release];
 }
@@ -1615,7 +1615,7 @@ static Class _eoDatabaseContextClass = Nil;
 	[operation setEOSnapshot:snapshot];
     // Tom.Martin 2012-03-30
     // set newRow which we now set to the context snapshot
-    [operation setNewRow:[self localSnapshotForGlobalID:_currentGlobalID]];
+    [operation setRow:[self localSnapshotForGlobalID:_currentGlobalID]];
 	[databaseOperations addObject:operation];
 	[operation release];
 }
@@ -2142,11 +2142,11 @@ static Class _eoDatabaseContextClass = Nil;
 - (void)_createInsertOperationForDatabaseOperation:(EODatabaseOperation *)operation
 {
 	EOAdaptorOperation	*adaptorOperation;
-	EOEntity					*entity = [operation entity];
+	EOEntity			*entity = [operation entity];
 	
 	adaptorOperation = [[EOAdaptorOperation allocWithZone:[self zone]] initWithEntity:entity];
 	[adaptorOperation setAdaptorOperator:EOAdaptorInsertOperator];
-	[adaptorOperation setChangedValues:[operation newRow]];
+	[adaptorOperation setChangedValues:[operation row]];
 	[operation addAdaptorOperation:adaptorOperation];
 	[adaptorOperation release];
 	

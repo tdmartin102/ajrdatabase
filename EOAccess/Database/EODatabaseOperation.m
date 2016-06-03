@@ -91,7 +91,7 @@
 	return snapshot;
 }
 
-- (void)setNewRow:(NSMutableDictionary *)aRow
+- (void)setRow:(NSMutableDictionary *)aRow
 {
 	if (newRow != aRow) {
 		[newRow release];
@@ -99,7 +99,7 @@
 	}
 }
 
-- (NSMutableDictionary *)newRow
+- (NSMutableDictionary *)row
 {
 	return newRow;
 }
