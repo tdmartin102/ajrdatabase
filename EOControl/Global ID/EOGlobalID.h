@@ -32,7 +32,7 @@ extern NSString *EOGlobalIDChangedNotification;
 
 @class EOEntity, EOEditingContext;
 
-@interface EOGlobalID : NSObject
+@interface EOGlobalID : NSObject <NSCopying>
 {
 }
 
