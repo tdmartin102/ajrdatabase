@@ -227,7 +227,7 @@
 		1E5356701BA86F0F00371E45 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; name = include; path = /usr/local/mysql/include; sourceTree = "<absolute>"; };
 		1E5356711BA8764900371E45 /* MySQLContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySQLContext.h; sourceTree = "<group>"; };
 		1E5356721BA8764900371E45 /* MySQLContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySQLContext.m; sourceTree = "<group>"; };
-		1E8203CC15753E6F00F9663C /* libpq.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpq.a; path = /usr/lib/libpq.a; sourceTree = "<absolute>"; };
+		1E8203CC15753E6F00F9663C /* libpq.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpq.a; path = /usr/local/lib/libpq.a; sourceTree = "<absolute>"; };
 		1E825C8E1CD37B6500EE1D15 /* MySQLSQLExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySQLSQLExpression.h; sourceTree = "<group>"; };
 		1E825C8F1CD37B6500EE1D15 /* MySQLSQLExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySQLSQLExpression.m; sourceTree = "<group>"; };
 		1E86A7F31312D63C00FA5FDA /* OracleDefineInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleDefineInfo.h; sourceTree = "<group>"; };
@@ -1210,7 +1210,7 @@
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				OTHER_LDFLAGS = "-v";
 				PRODUCT_NAME = Oracle;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.9;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -1243,7 +1243,7 @@
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				OTHER_LDFLAGS = "-v";
 				PRODUCT_NAME = Oracle;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.9;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -1273,7 +1273,7 @@
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				OTHER_LDFLAGS = "-v";
 				PRODUCT_NAME = Oracle;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.9;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -1925,7 +1925,7 @@
 		70B72DEC0956026E005162B9 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
@@ -1934,7 +1934,10 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				HEADER_SEARCH_PATHS = /usr/include;
+				HEADER_SEARCH_PATHS = (
+					/usr/include,
+					/Library/PostgreSQL/9.5/include,
+				);
 				INFOPLIST_FILE = "PostgreSQL-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				LIBRARY_SEARCH_PATHS = /usr/lib;
@@ -1971,7 +1974,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				HEADER_SEARCH_PATHS = /usr/include;
+				HEADER_SEARCH_PATHS = (
+					/usr/include,
+					/Library/PostgreSQL/9.5/include,
+				);
 				INFOPLIST_FILE = "PostgreSQL-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				LIBRARY_SEARCH_PATHS = /usr/lib;
@@ -2005,7 +2011,10 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				HEADER_SEARCH_PATHS = /usr/include;
+				HEADER_SEARCH_PATHS = (
+					/usr/include,
+					/Library/PostgreSQL/9.5/include,
+				);
 				INFOPLIST_FILE = "PostgreSQL-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				LIBRARY_SEARCH_PATHS = /usr/lib;
@@ -2309,7 +2318,7 @@
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
 				CURRENT_PROJECT_VERSION = 0.85;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.9;
 			};
 			name = Development;
 		};
@@ -2320,7 +2329,7 @@
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
 				CURRENT_PROJECT_VERSION = 0.85;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.9;
 			};
 			name = Deployment;
 		};
@@ -2330,7 +2339,7 @@
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
 				CURRENT_PROJECT_VERSION = 0.85;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.9;
 			};
 			name = Default;
 		};
@@ -2365,6 +2374,7 @@
 				1ED3DBB21CF6107A00A5BA2E /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
 		};
 		1EDEA31415D0128A0045292C /* Build configuration list for PBXNativeTarget "Oraclenterface" */ = {
 			isa = XCConfigurationList;

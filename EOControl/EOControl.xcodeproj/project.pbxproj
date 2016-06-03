@@ -549,7 +549,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0440;
+				LastUpgradeCheck = 0640;
 			};
 			buildConfigurationList = 707D5ABE0955EADE00ADB2F1 /* Build configuration list for PBXProject "EOControl" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -651,7 +651,6 @@
 		707D5ABB0955EADE00ADB2F1 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -669,7 +668,7 @@
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
 				PRODUCT_NAME = EOControl;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.9;
 				WRAPPER_EXTENSION = framework;
 				ZERO_LINK = YES;
 			};
@@ -695,7 +694,7 @@
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
 				PRODUCT_NAME = EOControl;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.9;
 				WRAPPER_EXTENSION = framework;
 				ZERO_LINK = NO;
 			};
@@ -719,7 +718,7 @@
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
 				PRODUCT_NAME = EOControl;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.9;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Default;
@@ -727,7 +726,6 @@
 		707D5ABF0955EADE00ADB2F1 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CURRENT_PROJECT_VERSION = 0.85;
 				GCC_MODEL_TUNING = G5;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -739,7 +737,6 @@
 		707D5AC00955EADE00ADB2F1 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CURRENT_PROJECT_VERSION = 0.85;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx10.7;
@@ -749,7 +746,6 @@
 		707D5AC10955EADE00ADB2F1 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CURRENT_PROJECT_VERSION = 0.85;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx10.7;
