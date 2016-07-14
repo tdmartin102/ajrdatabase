@@ -94,7 +94,7 @@
 	BIT = {
 		mysqlDataType = 16;
 		valueClassName = NSNumber;
-		valueType = i;
+		valueType = Q;
 		isNumber = 1;
 	};
 	BINARY = {

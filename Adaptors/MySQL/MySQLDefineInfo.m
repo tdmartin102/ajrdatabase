@@ -249,7 +249,6 @@ mailto:tom.martin@riemer.com
     switch (dataType)
     {
         case MYSQL_TYPE_TINY:
-        case MYSQL_TYPE_BIT:
             // TINYINT
             // use signed char
             dataType = MYSQL_TYPE_TINY;
@@ -298,6 +297,7 @@ mailto:tom.martin@riemer.com
             bind->is_unsigned = is_unsigned;
             break;
         case MYSQL_TYPE_LONGLONG:
+        case MYSQL_TYPE_BIT:
             // BIGINT
             // use long long
             if (is_unsigned)

@@ -306,7 +306,6 @@
         switch (dataType)
         {
             case MYSQL_TYPE_TINY:
-            case MYSQL_TYPE_BIT:
                 // TINYINT
                 // use signed char
                 dataType = MYSQL_TYPE_TINY;
@@ -322,6 +321,12 @@
                 // INT
                 // use int
                 dataType = MYSQL_TYPE_LONG;
+                [self setNumberValueScalarBuffer];
+                break;
+            case MYSQL_TYPE_BIT:
+                // use long long
+                // BIT(M) where M max value is 64 for a 64 bit value
+                dataType = MYSQL_TYPE_LONGLONG;
                 [self setNumberValueScalarBuffer];
                 break;
             case MYSQL_TYPE_LONGLONG:
