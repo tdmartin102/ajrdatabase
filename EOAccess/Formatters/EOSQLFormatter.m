@@ -84,10 +84,10 @@ static EOSQLFormatter			*nullFormatter;
    bucket = [cache objectForKey:[aFormatter adaptorClass]];
    if (bucket == nil) {
       bucket = [[NSMutableDictionary alloc] init];
-      [cache setObject:bucket forKey:[aFormatter adaptorClass]];
+      [cache setObject:bucket forKey:(id <NSCopying>)[aFormatter adaptorClass]];
       [bucket release];
    }
-   [bucket setObject:formatter forKey:[aFormatter formattedClass]];
+   [bucket setObject:formatter forKey:(id <NSCopying>)[aFormatter formattedClass]];
    [formatter release];
 }
 
@@ -100,7 +100,7 @@ static EOSQLFormatter			*nullFormatter;
    while ((key = [enumerator nextObject])) {
       formatter = [bucket objectForKey:key];
       if ([formatter canFormatValue:value]) {
-         [bucket setObject:formatter forKey:[value class]];
+         [bucket setObject:formatter forKey:(id <NSCopying>)[value class]];
          break;
       }
       formatter = nil;
@@ -131,7 +131,7 @@ static EOSQLFormatter			*nullFormatter;
          NSMutableDictionary	*mainBucket = [cache objectForKey:[EOAdaptor class]];
          formatter = [self formatterForValue:value inBucket:mainBucket];
          if (formatter != nil) {
-            [bucket setObject:formatter forKey:[value class]];
+            [bucket setObject:formatter forKey:(id <NSCopying>)[value class]];
          }
       }
       

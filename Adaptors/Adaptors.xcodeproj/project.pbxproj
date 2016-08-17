@@ -1640,7 +1640,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-v";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.9;
 				WRAPPER_EXTENSION = interface;
 			};
 			name = Development;
@@ -1675,7 +1675,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = "-v";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.9;
 				WRAPPER_EXTENSION = interface;
 			};
 			name = Deployment;
@@ -1710,7 +1710,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = "-v";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.9;
 				WRAPPER_EXTENSION = interface;
 			};
 			name = Default;
