@@ -54,14 +54,15 @@
 	[[self selectedEntity] setClassName:[sender stringValue]];
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
 	EOEntity		*entity = [self selectedEntity];
 	
 	return [[entity attributes] count] + [[entity relationships] count];
 }
 
-- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn
+              row:(NSInteger)rowIndex
 {
 	EOEntity		*entity = [self selectedEntity];
 	NSArray		*attributes = [entity attributes];
@@ -97,7 +98,8 @@
 	}
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn
+            row:(NSInteger)rowIndex
 {
 	EOEntity		*entity = [self selectedEntity];
 	NSArray		*attributes = [entity attributes];
@@ -116,7 +118,8 @@
 	return @"?";
 }
 
-- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn
+              row:(NSInteger)rowIndex
 {
 	EOEntity		*entity = [self selectedEntity];
 	NSArray		*attributes = [entity attributes];
@@ -131,7 +134,7 @@
 	}
 	
 	if ([ident isEqualToString:@"primaryKey"]) {
-		NSMutableArray		*array = [[entity primaryKeyAttributes] mutableCopyWithZone:[self zone]];
+		NSMutableArray		*array = [[entity primaryKeyAttributes] mutableCopy];
 		if ([anObject intValue]) {
 			[array addObject:property];
 			if ([property allowsNull]) {
@@ -141,25 +144,22 @@
 			[array removeObject:property];
 		}
 		[entity setPrimaryKeyAttributes:array];
-		[array release];
 	} else if ([ident isEqualToString:@"classProperty"]) {
-		NSMutableArray		*array = [[entity classProperties] mutableCopyWithZone:[self zone]];
+		NSMutableArray		*array = [[entity classProperties] mutableCopy];
 		if ([anObject intValue]) {
 			[array addObject:property];
 		} else {
 			[array removeObject:property];
 		}
 		[entity setClassProperties:array];
-		[array release];
 	} else if ([ident isEqualToString:@"locking"]) {
-		NSMutableArray		*array = [[entity attributesUsedForLocking] mutableCopyWithZone:[self zone]];
+		NSMutableArray		*array = [[entity attributesUsedForLocking] mutableCopy];
 		if ([anObject intValue]) {
 			[array addObject:property];
 		} else {
 			[array removeObject:property];
 		}
 		[entity setAttributesUsedForLocking:array];
-		[array release];
 	} else if ([ident isEqualToString:@"nullable"]) {
 		[property setAllowsNull:[anObject intValue] == 0 ? NO : YES];
 	}

@@ -13,13 +13,6 @@
 
 @implementation EOInspector
 
-- (void)dealloc
-{
-	[toolbar release];
-	
-	[super dealloc];
-}
-
 - (NSString *)name
 {
 	return NSStringFromClass([self class]);
@@ -55,7 +48,7 @@
 - (NSToolbar *)toolbar
 {
 	if (toolbar == nil) {
-		toolbar = [[NSToolbar allocWithZone:[self zone]] initWithIdentifier:[self name]];
+		toolbar = [[NSToolbar alloc] initWithIdentifier:[self name]];
 		[toolbar setDelegate:self];
 		[toolbar setAllowsUserCustomization:NO];
 		[toolbar setAutosavesConfiguration:YES];
@@ -125,7 +118,7 @@
 {
    NSToolbarItem        *item;
 	
-   item = [[NSToolbarItem allocWithZone:[self zone]] initWithItemIdentifier:itemIdentifier];
+   item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
    [item setLabel:itemIdentifier];
    [item setPaletteLabel:itemIdentifier];
    [item setTarget:self];
@@ -133,7 +126,7 @@
 	[item setTag:[self indexOfPaneWithName:itemIdentifier]];
 	[item setImage:[[self paneWithName:itemIdentifier] image]];
 
-   return [item autorelease];
+   return item;
 }
 
 @end

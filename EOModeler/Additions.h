@@ -31,14 +31,4 @@
 - (IBAction)showInspector:(id)sender;
 @end
 
-@interface AJRObjectBroker : NSObject
-{
-	NSInteger numClasses;
-	Class *classes;
-}
-
-- (id)initWithTarget:(id)aTarget action:(SEL)anAction requestingClassesInheritedFromClass:(Class)aClass;
-
-@end
-
 extern void AJRPrintf(NSString *format, ...);

@@ -13,16 +13,19 @@
 #import "EOInspectorPanel.h"
 #import "EOModelWizard.h"
 #import "EditorEntities.h"
+#import "EditorEntity.h"
+#import "EditorStoredProcedures.h"
+#import "EditorStoredProcedure.h"
 #import "EditorView.h"
 #import "IconHeaderCell.h"
 #import "ModelOutlineCell.h"
-#import "NSOutlineView-Extensions.h"
 #import "NSTableView-ColumnVisibility.h"
 #import "SQLGenerator.h"
 
 #import <EOAccess/EOAccess.h>
 
 #import <objc/message.h>
+#import <objc/objc-class.h>
 
 //#import <EOControl/NSArray+CocoaDevUsersAdditions.h>
 
@@ -62,18 +65,22 @@ NSString *StoredProcedures = @"Stored Procedures";
 	return nil;
 }
 
-- (id)initWithPath:(NSString *)path createModel:(BOOL)createModel
+- (instancetype)initWithPath:(NSString *)path createModel:(BOOL)createModel
 {
 	NSToolbar		*toolbar;
-	NSString			*adaptorName;
-	
-	[super init];
+	NSString        *adaptorName;
+    NSBundle        *bundle;
+    NSArray         *anArray;
+
+    self = [super init];
+    if (! self)
+        return nil;
 	
 	if (createModel) {
 		EOModelWizard		*wizard = [[EOModelWizard alloc] init];
-		model = [[wizard run] retain];
+		model = [wizard run];
 		if (model == nil) {
-			[self release];
+			self = nil;
 			return nil;
 		}
 		untitled = YES;
@@ -84,10 +91,15 @@ NSString *StoredProcedures = @"Stored Procedures";
 		
 		path = [model path];
 	} else {
-		model = [[[EOModelGroup defaultModelGroup] modelWithPath:path] retain];
+		model = [[EOModelGroup defaultModelGroup] modelWithPath:path];
 		if (!model) {
-			NSRunAlertPanel(@"Error", @"Unable to open model %@", nil, nil, nil, model);
-			[self release];
+            NSAlert             *alert;
+            alert = [[NSAlert alloc] init];
+            [alert setMessageText:@"Error"];
+            [alert setInformativeText: [NSString stringWithFormat:@"Unable to open model %@", model]];
+            [alert addButtonWithTitle: @"Okay"];
+            [alert runModal];
+            self = nil;
 			return nil;
 		}
 		[model loadAllModelObjects];
@@ -95,7 +107,7 @@ NSString *StoredProcedures = @"Stored Procedures";
 		// And update our recent documents menu
 		[[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:[NSURL fileURLWithPath:path]];
 	}
-	[model setUndoManager:[[[NSUndoManager allocWithZone:[self zone]] init] autorelease]];
+	[model setUndoManager:[[NSUndoManager alloc] init]];
 
 	adaptorName = [model adaptorName];
 	AJRPrintf(@"adaptorName: %@\n", adaptorName);
@@ -107,19 +119,20 @@ NSString *StoredProcedures = @"Stored Procedures";
 	[EOObserverCenter addObserver:self forObject:model];
 	
 	// Load the nib
-	[NSBundle loadNibNamed:@"Document" owner:self];
-	
+    bundle = [NSBundle bundleForClass:[self class]];
+    [bundle loadNibNamed:@"Document" owner:self topLevelObjects:&anArray];
+    uiElements = anArray;
+
 	// Select the initial editor.
 	[editorView displayEditorNamed:@"Entities"];
 	[[[modelOutline tableColumns] objectAtIndex:0] morphDataCellToClass:[ModelOutlineCell class]];
 
 	// Create our toolbar
-   toolbar = [[NSToolbar allocWithZone:[self zone]] initWithIdentifier:@"Editor"];
+   toolbar = [[NSToolbar alloc] initWithIdentifier:@"Editor"];
    [toolbar setDelegate:self];
    [toolbar setAllowsUserCustomization:YES];
    [toolbar setAutosavesConfiguration:YES];
    [window setToolbar:toolbar];
-   [toolbar release];
 
 	// If the inspector was previously open, go a head and open it.
 	if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"InspectorOpen"] hasPrefix:@"Y"]) {
@@ -145,14 +158,14 @@ NSString *StoredProcedures = @"Stored Procedures";
 	return self;
 }
 
-- (id)init
+- (instancetype)init
 {
-	[self initWithPath:nil createModel:YES];
+	self = [self initWithPath:nil createModel:YES];
 	
 	return self;
 }
 
-- (id)initWithPath:(NSString *)aPath
+- (instancetype)initWithPath:(NSString *)aPath
 {
 	return [self initWithPath:aPath createModel:NO];
 }
@@ -160,12 +173,6 @@ NSString *StoredProcedures = @"Stored Procedures";
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	[selectedEntity release];
-	[selectedStoredProcedure release];
-	[entityNameCache release];
-	
-	[super dealloc];
 }
 
 - (void)_updateModelTable
@@ -335,8 +342,7 @@ NSString *StoredProcedures = @"Stored Procedures";
 - (void)setSelectedEntity:(EOEntity *)entity
 {
 	if (entity != selectedEntity) {
-		[selectedEntity release];
-		selectedEntity = [entity retain];
+		selectedEntity = entity;
 		
 		[editorView update];
 	}
@@ -345,8 +351,7 @@ NSString *StoredProcedures = @"Stored Procedures";
 - (void)setSelectedStoredProcedure:(EOStoredProcedure *)aStoredProcedure
 {
 	if (aStoredProcedure != selectedStoredProcedure) {
-		[selectedStoredProcedure release];
-		selectedStoredProcedure = [aStoredProcedure retain];
+		selectedStoredProcedure = aStoredProcedure;
 		
 		[editorView update];
 	}
@@ -360,18 +365,19 @@ NSString *StoredProcedures = @"Stored Procedures";
 - (void)setSelectedObject:(id)anObject
 {
 	if (selectedObject != anObject) {
-		[selectedObject release];
-		selectedObject = [anObject retain];
+		selectedObject = anObject;
 		
 		if (selectedObject == nil) {
 			NSInteger		row = [modelOutline selectedRow];
 			
 			if (row != NSNotFound) {
-				selectedObject = [[modelOutline itemAtRow:row] retain];
+				selectedObject = [modelOutline itemAtRow:row];
 			}
 		}
-		
-		[[NSNotificationCenter defaultCenter] postNotificationName:DocumentSelectionDidChangeNotification object:self userInfo:[NSDictionary dictionaryWithObject:selectedObject forKey:@"object"]];
+        
+        if (selectedObject)
+            [[NSNotificationCenter defaultCenter] postNotificationName:DocumentSelectionDidChangeNotification object:self
+                                                              userInfo:@{@"object" : selectedObject}];
 		
 		[[window toolbar] validateVisibleItems];
 	}
@@ -402,7 +408,9 @@ NSString *StoredProcedures = @"Stored Procedures";
 
 - (void)showDatabaseBrowser:(id)sender
 {
-	[[DataBrowser alloc] initWithModel:model];
+    DataBrowser *d;
+	d = [[DataBrowser alloc] initWithModel:model];
+    [d self];
 }
 
 - (void)generateSQL:(id)sender
@@ -471,39 +479,36 @@ NSString *StoredProcedures = @"Stored Procedures";
 			}
 		}
 	}
-	
-	[entities release];
-}
-
-- (void)generateObjCPanelDidEnd:(NSOpenPanel *)panel returnCode:(int)returnCode contextInfo:(void *)info
-{
-	if (returnCode == NSOKButton) {
-		NSArray		*entities;
-		
-		[[NSUserDefaults standardUserDefaults] setObject:[panel directory] forKey:@"OpenPanelPath"];
-		
-		if ([selectedObject isKindOfClass:[NSArray class]]) {
-			entities = [selectedObject copy];
-		} else if ([selectedObject isKindOfClass:[EOModel class]]) {
-			entities = [[selectedObject entities] copy];
-		} else {
-			entities = [[NSArray arrayWithObject:selectedObject] retain];
-		}
-
-		[self generateObjCFromEntities:entities at:[panel directory]];
-	}
 }
 
 - (void)generateObjCFiles:(id)sender
 {
 	NSOpenPanel		*openPanel = [NSOpenPanel openPanel];
 	
-	[openPanel setCanChooseDirectories:YES];
-	[openPanel setCanChooseFiles:NO];
-	[openPanel setCanCreateDirectories:YES];
-	[openPanel setPrompt:@"Choose"];
-	
-	[openPanel beginSheetForDirectory:[[NSUserDefaults standardUserDefaults] objectForKey:@"OpenPanelPath"] file:@"" modalForWindow:window modalDelegate:self didEndSelector:@selector(generateObjCPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
+    openPanel.canChooseDirectories = YES;
+    openPanel.canChooseFiles = NO;
+    openPanel.canCreateDirectories = YES;
+    openPanel.prompt = @"Choose";
+    openPanel.directoryURL = [NSURL fileURLWithPath:[[NSUserDefaults standardUserDefaults] objectForKey:@"OpenPanelPath"]];
+    openPanel.delegate = self;
+    
+    [openPanel beginSheet:window completionHandler:^(NSModalResponse returnCode) {
+        if (returnCode == NSOKButton) {
+            NSArray		*entities;
+            
+            [[NSUserDefaults standardUserDefaults] setObject:openPanel.directoryURL.path forKey:@"OpenPanelPath"];
+            
+            if ([selectedObject isKindOfClass:[NSArray class]]) {
+                entities = [selectedObject copy];
+            } else if ([selectedObject isKindOfClass:[EOModel class]]) {
+                entities = [[selectedObject entities] copy];
+            } else {
+                entities = [NSArray arrayWithObject:selectedObject] ;
+            }
+            
+            [self generateObjCFromEntities:entities at:openPanel.directoryURL.path];
+        }
+    }];
 }
 
 - (void)newEntity:(id)sender
@@ -512,7 +517,7 @@ NSString *StoredProcedures = @"Stored Procedures";
 	NSString			*name;
 	int				count = 1;
 	
-	entity = [[EOEntity allocWithZone:[self zone]] init];
+	entity = [[EOEntity alloc] init];
 	
 	name = @"Entity";
 	while ([model entityNamed:name]) {
@@ -539,7 +544,7 @@ NSString *StoredProcedures = @"Stored Procedures";
 		int				count = 1;
 		NSMutableArray	*temp;
 		
-		attribute = [[EOAttribute allocWithZone:[entity zone]] init];
+		attribute = [[EOAttribute alloc] init];
 		name = @"attribute";
 		while ([entity attributeNamed:name]) {
 			name = [NSString stringWithFormat:@"attribute%d", count++];
@@ -547,17 +552,14 @@ NSString *StoredProcedures = @"Stored Procedures";
 		[attribute setName:name];
 		[attribute setAllowsNull:YES];
 		[entity addAttribute:attribute];
-		[attribute release];
 		
 		temp = [[entity attributesUsedForLocking] mutableCopy];
 		[temp addObject:attribute];
 		[entity setAttributesUsedForLocking:temp];
-		[temp release];
 		
 		temp = [[entity classProperties] mutableCopy];
 		[temp addObject:attribute];
 		[entity setClassProperties:temp];
-		[temp release];
 		
         [modelOutline selectRowIndexes:[NSIndexSet indexSetWithIndex:[modelOutline rowForItem:entity]] byExtendingSelection:NO];
 		[editorView displayEditorNamed:@"Entity"];
@@ -565,12 +567,11 @@ NSString *StoredProcedures = @"Stored Procedures";
 	} else if (storedProcedure) {
 		EOAttribute		*argument;
 		
-		argument = [[EOAttribute allocWithZone:[entity zone]] init];
+		argument = [[EOAttribute alloc] init];
 		[argument setName:@"argument"];
 		[argument setAllowsNull:YES];
 		[argument setParameterDirection:EOInParameter];
 		[storedProcedure addArgument:argument];
-		[argument release];
         
         [modelOutline selectRowIndexes:[NSIndexSet indexSetWithIndex:
                                         [modelOutline rowForItem:storedProcedure]] 
@@ -592,20 +593,18 @@ NSString *StoredProcedures = @"Stored Procedures";
 		int					count = 1;
 		NSMutableArray		*temp;
 		
-		relationship = [[EORelationship allocWithZone:[entity zone]] init];
+		relationship = [[EORelationship alloc] init];
 		name = @"relationship";
 		while ([entity relationshipNamed:name]) {
 			name = [NSString stringWithFormat:@"relationship%d", count++];
 		}
 		[relationship setName:name];
 		[entity addRelationship:relationship];
-		[relationship release];
 		
 		temp = [[entity classProperties] mutableCopy];
 		[temp addObject:relationship];
 		[entity setClassProperties:temp];
-		[temp release];
-		        
+        
         [modelOutline selectRowIndexes:[NSIndexSet indexSetWithIndex:[modelOutline rowForItem:entity]]
                 byExtendingSelection:NO];
 		[editorView displayEditorNamed:@"Entity"];
@@ -644,13 +643,11 @@ NSString *StoredProcedures = @"Stored Procedures";
 	[relationship setName:name];
 	[relationship setDefinition:definition];
 	[object addRelationship:relationship];
-	[relationship release];
 	
 	array = [[object classProperties] mutableCopy];
 	[array addObject:relationship];
 	[object setClassProperties:array];
-	[array release];
-	    
+    
     [modelOutline selectRowIndexes:[NSIndexSet indexSetWithIndex:[modelOutline rowForItem:object]]
               byExtendingSelection:NO];
 	[self selectModel:modelOutline];
@@ -663,7 +660,7 @@ NSString *StoredProcedures = @"Stored Procedures";
 	NSString				*name;
 	int					count = 1;
 	
-	storedProcedure = [[EOStoredProcedure allocWithZone:[self zone]] init];
+	storedProcedure = [[EOStoredProcedure alloc] init];
 	
 	name = @"StoredProcedure";
 	while ([model storedProcedureNamed:name]) {
@@ -709,49 +706,68 @@ NSString *StoredProcedures = @"Stored Procedures";
 	return NO;
 }
 
-- (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(SEL)callback
+- (void)_documentSaveCallbackHandler:(DocumentSaveCallback)callback returnCode:(int)returnCode
 {
-	if (returnCode == NSOKButton) {
-		NSException		*exception = nil;
-		
-		[[NSUserDefaults standardUserDefaults] setObject:[sheet directory] forKey:@"SavePanelPath"];
-		
-		NS_DURING
-			[model writeToFile:[sheet filename]];
-			[window setTitleWithRepresentedFilename:[model path]];
-			[[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:[NSURL fileURLWithPath:[model path]]];
-			[window setDocumentEdited:NO];
-			untitled = NO;
-		NS_HANDLER
-			exception = [localException retain];
-		NS_ENDHANDLER
-		
-		if (exception) {
-			NSRunAlertPanel(@"Error", @"Unable to save model: %@", nil, nil, nil, exception);
-			[exception release];
-		}
-		if (callback) {
-			if (exception == nil) objc_msgSend(self, callback, DocumentDidSave);
-			else objc_msgSend(self, callback, DocumentDidFail);
-		}
-	} else {
-		if (callback) objc_msgSend(self, callback, DocumentDidCancel);
-	}
+    switch (callback)
+    {
+        case NoCallback:
+            break;
+        case TerminateCallback:
+            [self terminateWithResponse:returnCode];
+            break;
+        case CloseCallback:
+            [self closeWithResponse:returnCode];
+            break;
+    }
 }
 
-- (void)saveDocumentPromptingForName:(BOOL)promptForName callback:(SEL)callback
+- (void)saveDocumentPromptingForName:(BOOL)promptForName callback:(DocumentSaveCallback)callback
 {
 	if (promptForName || untitled) {
 		NSSavePanel		*savePanel = [NSSavePanel savePanel];
-		NSString			*savePath;
+		NSString		*savePath;
 		
-		[savePanel setRequiredFileType:@"eomodeld"];
+        savePanel.allowedFileTypes = @[@"eomodeld"];
 		
 		savePath = [[NSUserDefaults standardUserDefaults] objectForKey:@"SavePanelPath"];
 		if (savePath == nil) savePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
 		
 		[savePanel setCanSelectHiddenExtension:YES];
-		[savePanel beginSheetForDirectory:savePath file:[[model path] lastPathComponent] modalForWindow:window modalDelegate:self didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:) contextInfo:callback];
+        savePanel.directoryURL = [NSURL fileURLWithPath:savePath];
+        savePanel.nameFieldStringValue = [[model path] lastPathComponent];
+        savePanel.delegate = self;
+        
+        [savePanel beginSheetModalForWindow:window completionHandler:^(NSInteger result){
+            if (result == NSFileHandlingPanelOKButton) {
+                NSException		*exception = nil;
+                
+                [[NSUserDefaults standardUserDefaults] setObject:savePanel.directoryURL.path forKey:@"SavePanelPath"];
+                
+                @try {
+                    [model writeToFile:savePanel.URL.path];
+                    [window setTitleWithRepresentedFilename:[model path]];
+                    [[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:[NSURL fileURLWithPath:[model path]]];
+                    [window setDocumentEdited:NO];
+                    untitled = NO;
+
+                } @catch (NSException *oops) {
+                    exception = oops;
+                }
+                
+                if (exception) {
+                    NSRunAlertPanel(@"Error", @"Unable to save model: %@", nil, nil, nil, exception);
+                }
+                if (callback) {
+                    if (exception == nil)
+                        [self _documentSaveCallbackHandler:callback returnCode:DocumentDidSave];
+                    else
+                        [self _documentSaveCallbackHandler:callback returnCode:DocumentDidFail];
+                }
+            } else {
+                if (callback)
+                    [self _documentSaveCallbackHandler:callback returnCode:DocumentDidCancel];
+            }
+        }];
 	} else {
 		[model writeToFile:[model path]];
 		[window setDocumentEdited:NO];
@@ -760,31 +776,33 @@ NSString *StoredProcedures = @"Stored Procedures";
 
 - (void)saveDocumentAs:(id)sender
 {
-	[self saveDocumentPromptingForName:YES callback:NULL];
+	[self saveDocumentPromptingForName:YES callback:NoCallback];
 }
 
 - (void)saveDocument:(id)sender
 {
-	[self saveDocumentPromptingForName:NO callback:NULL];
+	[self saveDocumentPromptingForName:NO callback:NoCallback];
 }
 
-- (void)willEndCloseSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(SEL)callback
+- (void)willEndCloseSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(DocumentSaveCallback)callback
 {
-	if (returnCode == NSAlertAlternateReturn) {
+	if (returnCode == NSAlertSecondButtonReturn) {
 		// Don't save
 		[window close];
-		if (callback) objc_msgSend(self, callback, DocumentDidDiscard);
+		if (callback)
+            [self _documentSaveCallbackHandler:(DocumentSaveCallback)callback returnCode:DocumentDidDiscard];
 	}
 }
 
-- (void)didEndCloseSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(SEL)callback 
+- (void)didEndCloseSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(DocumentSaveCallback)callback
 {
-	if (returnCode == NSAlertDefaultReturn) {
+	if (returnCode == NSAlertFirstButtonReturn) {
 		// Save
 		[self saveDocumentPromptingForName:NO callback:callback];
-	} else if (returnCode == NSAlertOtherReturn) {
+	} else if (returnCode == NSAlertThirdButtonReturn) {
 		// Cancel
-		if (callback) objc_msgSend(self, callback, DocumentDidCancel);
+		if (callback)
+            [self _documentSaveCallbackHandler:(DocumentSaveCallback)callback returnCode:DocumentDidCancel];
 	}
 }
 
@@ -803,15 +821,31 @@ NSString *StoredProcedures = @"Stored Procedures";
 	}
 }
 
-- (void)promptForWindowShouldCloseWithCallback:(SEL)callback
-{
-	NSBeginAlertSheet(@"Do you want to save changes to this document before closing?", @"Save", @"Don't Save", @"Cancel", window, self, @selector(willEndCloseSheet:returnCode:contextInfo:), @selector(didEndCloseSheet:returnCode:contextInfo:), callback, @"If you don't save, your changes will be lost.");
+- (void)promptForWindowShouldCloseWithCallback:(DocumentSaveCallback)callback
+{    
+    __block int modalReturnCode;
+    
+    NSAlert *alert;
+    alert = [[NSAlert alloc] init];
+    [alert setMessageText:@"Do you want to save changes to this document before closing?"];
+    [alert setInformativeText:@"If you don't save, your changes will be lost."];
+    [alert addButtonWithTitle:@"Save"];
+    [alert addButtonWithTitle:@"Don't Save"];
+    [alert addButtonWithTitle:@"Cancel"];
+    [alert setDelegate:self];
+
+    [alert beginSheetModalForWindow:window
+                  completionHandler:^(NSModalResponse returnCode){
+                      modalReturnCode = (int)returnCode;
+                      [self _documentSaveCallbackHandler:callback returnCode:(int)returnCode];
+                  }];
+    [self didEndCloseSheet:window returnCode:modalReturnCode contextInfo:callback];
 }
 
 - (BOOL)windowShouldClose:(id)sender
 {
 	if ([window isDocumentEdited]) {
-		[self promptForWindowShouldCloseWithCallback:@selector(closeWithResponse:)];
+		[self promptForWindowShouldCloseWithCallback:CloseCallback];
 		return NO;
 	}
 	
@@ -822,7 +856,9 @@ NSString *StoredProcedures = @"Stored Procedures";
 {
 	[window setDelegate:nil];
 	window = nil;
-	[self release];
+    // should we be releasing ourself?  seems awkward, plus there is no real way to do that in ARC
+    // self = nil;
+    // [self release];
 }
 
 - (void)windowDidBecomeKey:(NSNotification *)aNotification
@@ -865,15 +901,13 @@ NSString *StoredProcedures = @"Stored Procedures";
 
 + (void)reviewEditedDocuments
 {
-	NSArray	*windows = [NSApp windows];
-	int		x;
-	
-	for (x = 0; x < (const int)[windows count]; x++) {
-		NSWindow		*aWindow = [windows objectAtIndex:x];
-		Document		*document = (Document *)[aWindow delegate];
+    NSWindow		*aWindow;
+    
+    for (aWindow in [NSApp windows]) {
+        Document		*document = (Document *)[aWindow delegate];
 		
 		if ([document isKindOfClass:[Document class]] && [document isDocumentEdited]) {
-			[document promptForWindowShouldCloseWithCallback:@selector(terminateWithResponse:)];
+			[document promptForWindowShouldCloseWithCallback:TerminateCallback];
 			return;
 		}
 	}
@@ -884,44 +918,43 @@ NSString *StoredProcedures = @"Stored Procedures";
 
 - (void)refreshEntityNames
 {
-	[entityNameCache release]; entityNameCache = nil;
+	entityNameCache = nil;
 }
 
 - (NSArray *)possibleEntityNames
 {
 	if (entityNameCache == nil) {
-		NS_DURING
-			EOAdaptor			*adaptor = [EOAdaptor adaptorWithModel:model];
-			EOAdaptorContext	*context = [adaptor createAdaptorContext];
-			EOAdaptorChannel	*channel;
-			
-			channel = [[context channels] lastObject];
-			if (!channel) channel = [context createAdaptorChannel];
-			
-			if (![channel isOpen]) [channel openChannel];
-			entityNameCache = [[channel describeTableNames] mutableCopy];
-		NS_HANDLER
-			AJRPrintf(@"Exception during entity name fetch: %@\n", localException);
-			entityNameCache = [[NSArray alloc] init];
-		NS_ENDHANDLER
-	}
+        @try {
+            EOAdaptor			*adaptor = [EOAdaptor adaptorWithModel:model];
+            EOAdaptorContext	*context = [adaptor createAdaptorContext];
+            EOAdaptorChannel	*channel;
+            
+            channel = [[context channels] lastObject];
+            if (!channel)
+                channel = [context createAdaptorChannel];
+            
+            if (![channel isOpen])
+                [channel openChannel];
+            entityNameCache = [[channel describeTableNames] mutableCopy];
+        } @catch (NSException *exception) {
+            AJRPrintf(@"Exception during entity name fetch: %@\n", exception);
+            entityNameCache = [[NSArray alloc] init];
+        }
+    }
 	
 	return entityNameCache;
 }
 
 - (EOEntity *)entityWithExternalName:(NSString *)aName
 {
-	int			x;
-	NSArray		*entities = [model entities];
-	
-	for (x = 0; x < (const int)[entities count]; x++) {
-		EOEntity		*entity = [entities objectAtIndex:x];
-		
-		if ([[entity externalName] caseInsensitiveCompare:aName] == NSOrderedSame) {
-			return entity;
-		}
-	}
-	
+    EOEntity	*entity;
+    
+    for (entity in [model entities]) {
+        if ([[entity externalName] caseInsensitiveCompare:aName] == NSOrderedSame) {
+            return entity;
+        }
+    }
+    
 	return nil;
 }
 
@@ -932,8 +965,8 @@ NSString *StoredProcedures = @"Stored Procedures";
 	EOAdaptorChannel	*channel;
 	EOModel				*tempModel;
 	NSArray				*entities;
-	int					x;
-	
+    EOEntity            *entity;
+    
 	channel = [[context channels] lastObject];
 	if (!channel) channel = [context createAdaptorChannel];
 	
@@ -941,13 +974,11 @@ NSString *StoredProcedures = @"Stored Procedures";
 	tempModel = [channel describeModelWithTableNames:[NSArray arrayWithObject:aName]];
 	
 	entities = [[tempModel entities] copy];
-	for (x = 0; x < (const int)[entities count]; x++) {
-		EOEntity		*entity = [entities objectAtIndex:x];
-		[tempModel removeEntity:entity];
-		[entity setClassName:[entity name]];
-		[model addEntity:entity];
-	}
-	[entities release];
+    for (entity in entities) {
+        [tempModel removeEntity:entity];
+        [entity setClassName:[entity name]];
+        [model addEntity:entity];
+    }
 }
 
 @end

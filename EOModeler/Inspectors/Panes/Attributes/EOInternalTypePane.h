@@ -15,6 +15,7 @@
 	IBOutlet NSView			*view;
 	
 	EOInternalTypeInspector	*inspector;
+    NSArray                 *uiElements;
 }
 
 + (NSString *)name;

@@ -49,30 +49,34 @@
 
 - (void)newDocument:(id)sender
 {
-	[[Document alloc] init];
+	Document * doc = [[Document alloc] init];
+    [doc self];
 }
 
 - (void)openDocument:(id)sender
 {
 	NSOpenPanel		*openPanel = [NSOpenPanel openPanel];
 	NSString			*path;
-	
-	[openPanel setAllowedFileTypes:[NSArray arrayWithObject:@"eomodeld"]];
-	[openPanel setAllowsMultipleSelection:YES];
+    NSURL               *anURL;
+    NSArray             *files;
+    Document            *doc;
 	
 	path = [[NSUserDefaults standardUserDefaults] objectForKey:@"OpenPanelPath"];
 	if (path == nil) path = NSHomeDirectory();
-	
-	if ([openPanel runModalForDirectory:path file:@"" types:[NSArray arrayWithObject:@"eomodeld"]]) {
-		int			x;
-		NSArray		*files = [openPanel filenames];
-		
-		for (x = 0; x < (const int)[files count]; x++) {
-			[[Document alloc] initWithPath:[files objectAtIndex:x]];
-		}
-		
-		[[NSUserDefaults standardUserDefaults] setObject:[openPanel directory] forKey:@"OpenPanelPath"];
-	}
+    
+    openPanel.canChooseDirectories = NO;
+    openPanel.allowedFileTypes = @[@"eomodeld"];
+    openPanel.allowsMultipleSelection = YES;
+    openPanel.directoryURL = [NSURL fileURLWithPath:path];
+    if ([openPanel runModal]) {
+        files = openPanel.URLs;
+        for (anURL in files)
+        {
+            doc = [[Document alloc] initWithPath:anURL.path];
+            [doc self];
+        }
+        [[NSUserDefaults standardUserDefaults] setObject:openPanel.directoryURL.path forKey:@"OpenPanelPath"];
+    }
 }
 
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
@@ -101,15 +105,17 @@
 		}
 	}
 	
-   return [[Document allocWithZone:[self zone]] initWithPath:[url path]] != nil;
+   return [[Document alloc] initWithPath:[url path]] != nil;
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)app 
 {
-	NSArray		*windows = [app windows];
+	NSArray         *windows = [app windows];
 	unsigned		needsSaving = 0;
-	int			x;
-	
+	int             x;
+    NSAlert         *alert;
+    NSString        *msg;
+
 	// Determine if there are any unsaved documents...
 	
 	for (x = 0; x < (const int)[windows count]; x++) {
@@ -123,16 +129,24 @@
 	}
 	
 	if (needsSaving > 0) {
-		int	choice = NSAlertDefaultReturn;  // Meaning, review changes
+		NSModalResponse	choice = NSAlertFirstButtonReturn;  // Meaning, review changes
 
 		if (needsSaving > 1) { 
 			// If we only have 1 unsaved document, we skip the "review changes?" panel
-			choice = NSRunAlertPanel([NSString stringWithFormat:@"You have %d documents with unsaved changes. Do you want to review these changes before quitting?", needsSaving], @"If you don't review your documents, all changes will be lost.", @"Review Changes...", @"Discard Changes", @"Cancel");
-			
-			if (choice == NSAlertOtherReturn) return NSTerminateCancel; /* Cancel */
+            msg = [NSString stringWithFormat:@"You have %d documents with unsaved changes. Do you want to review these changes before quitting/n/nIf you don't review your documents, all changes will be lost.", needsSaving];
+            
+            alert = [[NSAlert alloc] init];
+            [alert setMessageText:@"EOModler"];
+            [alert setInformativeText: msg];
+            [alert addButtonWithTitle: @"Review Changes..."];
+            [alert addButtonWithTitle: @"Discard Changes"];
+            [alert addButtonWithTitle: @"Cancel"];
+
+            choice = [alert runModal];
+			if (choice == NSAlertThirdButtonReturn) return NSTerminateCancel; /* Cancel */
 		}
 		
-		if (choice == NSAlertDefaultReturn) { /* Review unsaved; Quit Anyway falls through */
+		if (choice == NSAlertFirstButtonReturn) { /* Review unsaved; Quit Anyway falls through */
 			[Document reviewEditedDocuments];
 			return NSTerminateLater;
 		}

@@ -22,7 +22,7 @@
 - (NSArray *)inspectorPanes
 {
 	if (inspectorPanes == nil) {
-		inspectorPanes = [[NSArray allocWithZone:[self zone]] initWithObjects:
+		inspectorPanes = [[NSArray alloc] initWithObjects:
 			[EORelationshipPane paneWithInspector:self],
 			[EORelationshipAdvancedPane paneWithInspector:self],
 			[EOUserInfoPane paneWithInspector:self],

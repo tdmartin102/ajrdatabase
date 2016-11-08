@@ -54,11 +54,11 @@
 
 - (EOEntity *)selectedDestinationEntity
 {
-	int				row = [entitiesTable selectedRow];
+	NSInteger				row = [entitiesTable selectedRow];
 	
 	if (row < 0) return nil;
 	
-	return [[[[modelsPopUp selectedItem] representedObject] entities] objectAtIndex:row];
+	return (EOEntity *)[[[[modelsPopUp selectedItem] representedObject] entities] objectAtIndex:row];
 }
 
 - (NSUInteger)indexOfJoinForSourceAttribute:(EOAttribute *)attribute
@@ -172,9 +172,8 @@
 		if ([self destinationEntity] == nil) {
 			[entitiesTable deselectAll:self];
 		} else {
-            anArray = [[[modelsPopUp selectedItem] representedObject] entities];
-            indexSet = [NSIndexSet indexSetWithIndex:[anArray indexOfObjectIdenticalTo:
-                                                      [self destinationEntity]]];
+            anArray = [(EOModel *)[[modelsPopUp selectedItem] representedObject] entities];
+            indexSet = [NSIndexSet indexSetWithIndex:[anArray indexOfObjectIdenticalTo:[self destinationEntity]]];
 			[entitiesTable selectRowIndexes:indexSet byExtendingSelection:NO];
 		}
 		[entitiesTable scrollRowToVisible:[entitiesTable selectedRow]];
@@ -225,7 +224,7 @@
 
 - (void)selectJoinType:(id)sender
 {
-	[[self selectedRelationship] setJoinSemantic:[[sender selectedItem] tag]];
+	[[self selectedRelationship] setJoinSemantic:(EOJoinSemantic)[[sender selectedItem] tag]];
 }
 
 - (void)selectDestinationEntity:(id)sender
@@ -288,7 +287,7 @@
 	
 	// No join for either source or destination attributes, so create a new one.
 	if (!sJoin && !dJoin) {
-		sJoin = [[EOJoin allocWithZone:[relationship zone]] initWithSourceAttribute:sourceAttribute destinationAttribute:destinationAttribute];
+		sJoin = [[EOJoin alloc] initWithSourceAttribute:sourceAttribute destinationAttribute:destinationAttribute];
 		AJRPrintf(@"adding: %@\n", sJoin);
 		[relationship addJoin:sJoin];
 		AJRPrintf(@"joins: %@\n", [relationship joins]);
@@ -329,7 +328,7 @@
 	}
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
 	if (aTableView == entitiesTable) {
 		return [[[[modelsPopUp selectedItem] representedObject] entities] count];

@@ -36,27 +36,26 @@
 	[keyValueTable editColumn:column row:row withEvent:nil select:YES];
 }
 
-- (void)editRow:(int)row column:(int)column
+- (void)editRow:(NSInteger)row column:(NSInteger)column
 {
-	[self performSelector:@selector(_delay:) withObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:row], @"row", [NSNumber numberWithInt:column], @"column", nil] afterDelay:0.01];
+	[self performSelector:@selector(_delay:) withObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:row], @"row", [NSNumber numberWithInteger:column], @"column", nil] afterDelay:0.01];
 }
 
 - (void)updateTable
 {
 	NSInteger	row = [keyValueTable selectedRow];
 	NSString	*key = nil;
-	int			editedRow;
-	int			editedColumn;
+	NSInteger	editedRow;
+	NSInteger	editedColumn;
 	
 	if (editKey) {
-		key = [editKey retain];
+		key = editKey;
 	} else {
 		if (row >= 0 && row < [keys count]) {
-			key = [[keys objectAtIndex:row] retain];
+			key = [keys objectAtIndex:row];
 		}
 	}
 	
-	[keys release];
 	keys = [[info allKeys] mutableCopy];
 	[keys sortUsingSelector:@selector(caseInsensitiveCompare:)];
 	
@@ -85,13 +84,12 @@
 				[self editRow:row column:editedColumn];
 			}
 		}
-		[key release];
 	}
 	
 	if (editKey) {
 		// This is set when adding a key and indicates we should select the row with the new key, as well as begin editing it.
 		[self editRow:row column:0];
-		[editKey release]; editKey = nil;
+		editKey = nil;
 	}
 	
 	// Make sure the buttons are in agreement with our selection.
@@ -108,7 +106,6 @@
 
 - (void)update
 {
-	[info release];
 	info = [[(EOEntity *)[self selectedObject] userInfo] mutableCopy];
 	
 	[self updateTable];
@@ -116,7 +113,7 @@
 
 - (void)selectRow:(id)sender
 {
-	int		row;
+	NSInteger		row;
 	
 	[self updateButtons];
 	
@@ -142,14 +139,14 @@
 	[info setObject:@"" forKey:key];
 	
 	// Used to select the correct row and make it editing.
-	editKey = [key retain];
+	editKey = key;
 	
 	[[self selectedObject] setUserInfo:info];
 }
 
 - (void)remove:(id)sender
 {
-	int	row = [keyValueTable selectedRow];
+	NSInteger	row = [keyValueTable selectedRow];
 	
 	if (row < 0) {
 		NSBeep();
@@ -160,7 +157,7 @@
 	[[self selectedObject] setUserInfo:info];
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
 	return [keys count];
 }
@@ -179,7 +176,8 @@
 	return @"?";
 }
 
-- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn
+              row:(NSInteger)rowIndex
 {
 	if (!ignoreEdit) {
 		NSString			*key = [keys objectAtIndex:rowIndex];
@@ -187,11 +185,10 @@
 		
 		if ([ident isEqualToString:@"key"]) {
 			if (![key isEqualToString:anObject]) {
-				id		value = [[info objectForKey:key] retain];
+				id		value = [info objectForKey:key];
 				[info removeObjectForKey:key];
 				[info setObject:value forKey:anObject];
 				[keys replaceObjectAtIndex:rowIndex withObject:anObject];
-				[value release];
 				[[self selectedObject] setUserInfo:info];
 			}
 		} else if ([ident isEqualToString:@"value"]) {
@@ -205,7 +202,7 @@
 
 - (void)textDidChange:(NSNotification *)aNotification
 {
-	int		row = [keyValueTable selectedRow];
+	NSInteger		row = [keyValueTable selectedRow];
 	NSString	*key;
 	
 	if (row >= 0) {

@@ -17,11 +17,11 @@ static EOInspectorPanel		*SELF = nil;
 
 + (id)allocWithZone:(NSZone *)zone
 {
-	if (SELF == nil) SELF = [super allocWithZone:[self zone]];
+	if (SELF == nil) SELF = [super allocWithZone:nil];
 	return SELF;
 }
 
-- (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)windowStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)deferCreation
+- (instancetype)initWithContentRect:(NSRect)contentRect styleMask:(NSWindowStyleMask)windowStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)deferCreation
 {
     static BOOL kilroy = NO;
     if (! kilroy)
@@ -36,9 +36,14 @@ static EOInspectorPanel		*SELF = nil;
 - (void)orderFront:(id)sender
 {
 	if (!nothingView) {
-		[NSBundle loadNibNamed:@"EOInspectorPanel" owner:self];
+        NSBundle *bundle;
+        NSArray  *anArray;
+        
+        bundle = [NSBundle bundleForClass:[self class]];
+        [bundle loadNibNamed:@"EOInspectorPanel" owner:self topLevelObjects:&anArray];
+        uiElements = anArray;
 		
-		nothingToolbar = [[NSToolbar allocWithZone:[self zone]] initWithIdentifier:@"Inspector - Nothing"];
+		nothingToolbar = [[NSToolbar alloc] initWithIdentifier:@"Inspector - Nothing"];
 		[nothingToolbar setDelegate:self];
 		[nothingToolbar setAllowsUserCustomization:NO];
 		[nothingToolbar setAutosavesConfiguration:YES];
@@ -128,12 +133,12 @@ static EOInspectorPanel		*SELF = nil;
 {
    NSToolbarItem        *item;
 	
-   item = [[NSToolbarItem allocWithZone:[self zone]] initWithItemIdentifier:itemIdentifier];
+   item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
    [item setLabel:itemIdentifier];
    [item setPaletteLabel:itemIdentifier];
    [item setTarget:nil];
 	
-	return [item autorelease];
+	return item;
 }
 
 - (void)deleteSelection:(id)sender

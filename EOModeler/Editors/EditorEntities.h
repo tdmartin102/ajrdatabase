@@ -14,7 +14,7 @@
 {
 	IBOutlet NSTableView		*entityTable;
 	
-	EOEntity						*editingEntity;
+	EOEntity					*editingEntity;
 }
 
 - (void)selectEntity:(id)sender;

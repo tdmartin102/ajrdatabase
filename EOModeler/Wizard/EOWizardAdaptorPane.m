@@ -25,21 +25,21 @@
 
 - (void)selectAdaptor:(id)sender
 {
-	int		row = [adaptorTable selectedRow];
+	NSInteger		row = [adaptorTable selectedRow];
 	NSArray	*names = [EOAdaptor availableAdaptorNames];
 	
 	if (row == [names count]) {
 		[connectionBox setContentView:noneView];
-		[connectionPane release]; connectionPane = nil;
+		connectionPane = nil;
 		[adaptorTable setNextKeyView:[modelWizard cancelButton]];
 	} else {
 		EOAdaptor		*adaptor = [EOAdaptor adaptorWithName:[names objectAtIndex:row]];
 		NSView			*contentView;
 		
 		[connectionPane setModel:nil];
-		[connectionPane release]; connectionPane = nil;
+		connectionPane = nil;
 		if (adaptor) {
-			connectionPane = [[[adaptor class] sharedConnectionPane] retain];
+			connectionPane = [[adaptor class] sharedConnectionPane];
 			contentView = [connectionPane view];
 			[connectionBox setContentView:contentView];
 			[connectionPane setModel:[modelWizard model]];
@@ -73,7 +73,7 @@
 
 - (void)updateButtons
 {
-	int		row = [adaptorTable selectedRow];
+	NSInteger		row = [adaptorTable selectedRow];
 	NSArray	*names = [EOAdaptor availableAdaptorNames];
 
 	[[modelWizard previousButton] setEnabled:NO];
@@ -85,16 +85,9 @@
 	}
 }
 
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
-{
-	if (returnCode == NSAlertAlternateReturn) {
-		[NSApp stopModalWithCode:NSOKButton];
-	}
-}
-
 - (BOOL)canGoNext
 {
-	int		row = [adaptorTable selectedRow];
+	NSInteger		row = [adaptorTable selectedRow];
 	NSArray	*names = [EOAdaptor availableAdaptorNames];
 	
 	if (row == [names count]) {
@@ -107,13 +100,26 @@
 		NS_DURING
 			[adaptor assertConnectionDictionaryIsValid];
 		NS_HANDLER
-			exception = [localException retain];
+			exception = localException;
 		NS_ENDHANDLER
 		
 		if (exception) {
-			NSBeginAlertSheet(@"Unable to connect to the database", @"No", @"Yes", nil, [adaptorTable window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, 
-				[NSString stringWithFormat:@"The following reason was provided: %lc%@%lc.\n\nWould you still like to create a model with this adaptor and connection information?", 0x201C, exception, 0x201D]);
-			[exception release];
+            NSAlert *alert;
+            NSString *msg;
+            
+            msg = [NSString stringWithFormat:@"The following reason was provided: %lc%@%lc.\n\nWould you still like to create a model with this adaptor and connection information?", 0x201C, exception, 0x201D];
+            alert = [[NSAlert alloc] init];
+            [alert setMessageText:@"Unable to connect to the database"];
+            [alert setInformativeText:msg];
+            [alert addButtonWithTitle:@"No"];
+            [alert addButtonWithTitle:@"Yes"];
+            
+            [alert beginSheetModalForWindow:[adaptorTable window]
+                          completionHandler:^(NSModalResponse returnCode){
+                              if (returnCode == NSAlertAlternateReturn) {
+                                  [NSApp stopModalWithCode:NSOKButton];
+                              }
+                          }];
 			return NO;
 		}
 	}

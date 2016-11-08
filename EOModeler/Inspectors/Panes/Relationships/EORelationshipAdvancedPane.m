@@ -49,7 +49,7 @@
 
 - (void)selectDeleteRule:(id)sender
 {
-	[[self selectedRelationship] setDeleteRule:[[sender selectedCell] tag]];
+	[[self selectedRelationship] setDeleteRule:(EODeleteRule)[[sender selectedCell] tag]];
 }
 
 - (void)toggleOwnsDestination:(id)sender

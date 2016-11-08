@@ -21,7 +21,7 @@
 - (NSArray *)inspectorPanes
 {
 	if (inspectorPanes == nil) {
-		inspectorPanes = [[NSArray allocWithZone:[self zone]] initWithObjects:
+		inspectorPanes = [[NSArray alloc] initWithObjects:
 			[EOAttributePane paneWithInspector:self],
 			[EOUserInfoPane paneWithInspector:self],
 			nil];

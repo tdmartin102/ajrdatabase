@@ -10,56 +10,41 @@
 
 #import "EOInternalTypePane.h"
 #import "Additions.h"
-
+#import "AJRObjectBroker.h"
 #import <EOAccess/EOAccess.h>
 
 @implementation EOInternalTypeInspector
 
-- (id)initWithFrame:(NSRect)frame
+- (instancetype)initWithFrame:(NSRect)frame
 {
-	[super initWithFrame:frame];
-	
-	inspectors = [[NSMutableArray allocWithZone:[self zone]] init];
-	inspectorsByName = [[NSMutableDictionary allocWithZone:[self zone]] init];
-	broker = [[AJRObjectBroker allocWithZone:[self zone]] initWithTarget:self action:@selector(registerInspector:) requestingClassesInheritedFromClass:[EOInternalTypePane class]];
+    if ((self = [super initWithFrame:frame])) {
+        inspectors = [[NSMutableArray alloc] init];
+        inspectorsByName = [[NSMutableDictionary alloc] init];
+        broker = [[AJRObjectBroker alloc] initWithTarget:self action:@selector(registerInspector:) requestingClassesInheritedFromClass:[EOInternalTypePane class]];
+    }
 	
 	return self;
-}
-
-- (void)dealloc
-{
-	[inspectors release];
-	[inspectorsByName release];
-	[broker release];
-	
-	[attribute release];
-	currentPane = nil;
-	
-	[previousView release];
-	[nextView release];
-
-	[super dealloc];
 }
 
 - (void)awakeFromNib
 {
 	[self populatePopUp];
-	previousView = [[self previousKeyView] retain];
-	nextView = [[self nextKeyView] retain];
+	previousView = [self previousKeyView];
+	nextView = [self nextKeyView];
 }
 
 - (void)registerInspector:(Class)anInspector
 {
 	NSString					*name = [anInspector name];
 	Class						InspectorClass = [anInspector inspectedClass];
-	EOInternalTypePane	*inspector = [[anInspector allocWithZone:[self zone]] initWithInspector:self];
+	EOInternalTypePane	*inspector = [[anInspector alloc] initWithInspector:self];
 	
 	if (InspectorClass) {
 		[inspectors addObject:inspector];
 		[inspectorsByName setObject:inspector forKey:name];
 	} else {
 		[inspectors addObject:inspector];
-		customPane = [inspector retain];
+		customPane = inspector;
 		[inspectorsByName setObject:inspector forKey:name];
 	}
 	
@@ -112,18 +97,20 @@
 
 - (void)setAttribute:(EOAttribute *)anAttribute
 {
-	NSString					*className;
+	NSString			*className;
 	EOInternalTypePane	*newPane = nil;
 	int						x;
 
 	if (attribute != anAttribute) {
-		[attribute release];
-		attribute = [anAttribute retain];
+		attribute = anAttribute;
 	}
 	
 	className = [attribute valueClassName];
-	if (className == nil) className = @"__custom__";
-	
+	if (className == nil)
+    {
+        className = @"__custom__";
+        [attribute setValueClassName:className];
+    }
 	for (x = 0; x < (const int)[inspectors count]; x++) {
 		newPane = [inspectors objectAtIndex:x];
 		if ([newPane canInspectAttribute:attribute]) break;

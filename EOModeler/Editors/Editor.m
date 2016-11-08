@@ -18,9 +18,12 @@
 	return nil;
 }
 
-- (id)initWithDocument:(Document *)aDocument
+- (instancetype)initWithDocument:(Document *)aDocument
 {
-	document = aDocument;
+    if ((self = [super init]))
+    {
+        document = aDocument;
+    }
 	
 	return self;
 }
@@ -28,7 +31,12 @@
 - (NSView *)view
 {
 	if (view == nil) {
-		[NSBundle loadNibNamed:NSStringFromClass([self class]) owner:self];
+        NSBundle *bundle;
+        NSArray  *anArray;
+                
+        bundle = [NSBundle bundleForClass:[self class]];
+        [bundle loadNibNamed:NSStringFromClass([self class]) owner:self topLevelObjects:&anArray];
+        uiElements = anArray;
 	}
 	
 	return view;

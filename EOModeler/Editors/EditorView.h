@@ -19,7 +19,7 @@
 	IBOutlet Document			*document;
 }
 
-- (id)initWithFrame:(NSRect)frame;
+- (instancetype)initWithFrame:(NSRect)frame;
 
 - (void)displayEditorNamed:(NSString *)name;
 

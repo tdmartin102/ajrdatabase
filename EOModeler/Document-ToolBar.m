@@ -2,6 +2,7 @@
 #import "Document.h"
 
 #import <EOAccess/EOAccess.h>
+#import "EOInspectorPanel.h"
 
 @implementation Document (Toolbar)
 
@@ -27,7 +28,7 @@
 {
    NSToolbarItem        *item;
 	
-   item = [[NSToolbarItem allocWithZone:[self zone]] initWithItemIdentifier:itemIdentifier];
+   item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
    [item setLabel:itemIdentifier];
    [item setPaletteLabel:itemIdentifier];
    [item setTarget:nil];
@@ -84,7 +85,7 @@
       [item setImage:[NSImage imageNamed:@"toolbarNewStoredProcedure"]];
    }
 	
-   return [item autorelease];
+   return item;
 }
 
 - (BOOL)validateToolbarItem:(NSToolbarItem *)theItem

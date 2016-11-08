@@ -27,7 +27,7 @@
 		if (!channel) channel = [context createAdaptorChannel];
 		
 		if (![channel isOpen]) [channel openChannel];
-		tableNames = [[channel describeTableNames] retain];
+		tableNames = [channel describeTableNames];
 	}
 }
 
@@ -48,7 +48,7 @@
 	[[modelWizard nextButton] setEnabled:[modelWizard assignStoredProcedures]];
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
 	return [tableNames count];
 }
@@ -95,12 +95,9 @@
 			}
 			[model addEntity:entity];
 		}
-		[entities release];
 		[model setName:[tempModel name]];
 	}
-	
-	[names release];
-	
+		
 	return YES;
 }
 

@@ -16,24 +16,37 @@
 {
 	//[[AJRTableView class] poseAsClass:[NSTableView class]];
 	//[self poseAsClass:[NSTableView class]];
-	#warning We need to swizzel this class or better yet set NSTableViews in IB to be this class.  RIght now this is not used.
+	// #warning We need to swizzel this class or better yet set NSTableViews in IB to be this class.  
 
+    Method		originalMethod;
+    Method		ourMethod;
+    
+    // [self poseAsClass:[NSWindow class]];
+    // We need to swizzel this class or better yet set up windows in IB to BE this class.
+    
+    originalMethod = class_getInstanceMethod([NSTableView class], @selector(selectAll:));
+    ourMethod = class_getInstanceMethod([NSTableView class], @selector(_ajrSelectAll:));
+    method_exchangeImplementations(originalMethod, ourMethod);
+
+    originalMethod = class_getInstanceMethod([NSTableView class], @selector(keyDown:));
+    ourMethod = class_getInstanceMethod([NSTableView class], @selector(_ajrKeyDown:));
+    method_exchangeImplementations(originalMethod, ourMethod);
 }
 
-- (void)selectAll:(id)sender
+- (void)_ajrSelectAll:(id)sender
 {
-	[super selectAll:sender];
+	[self _ajrSelectAll:sender];
 	
 	if ([self action]) {
 		[NSApp sendAction:[self action] to:[self target] from:self];
 	}
 }
 
-- (void)keyDown:(NSEvent *)event
+- (void)_ajrKeyDown:(NSEvent *)event
 {
-	int		row = [self selectedRow];
+	NSInteger	row = [self selectedRow];
 	
-	[super keyDown:event];
+	[self _ajrKeyDown:event];
 	
 	if (row != [self selectedRow] && [self action]) {
 		[NSApp sendAction:[self action] to:[self target] from:self];

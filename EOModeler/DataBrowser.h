@@ -31,9 +31,10 @@
 	EOSQLExpression		*expression;
 	NSMutableArray			*rows;
 	NSDictionary			*columnAttributes;
+    NSArray                 *uiElements;
 }
 
-- (id)initWithModel:(EOModel *)aModel;
+- (instancetype)initWithModel:(EOModel *)aModel;
 
 - (void)setMaxRowsToFetch:(id)sender;
 - (void)selectEntity:(id)sender;

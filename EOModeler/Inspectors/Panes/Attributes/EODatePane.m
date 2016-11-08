@@ -21,7 +21,7 @@
 
 + (Class)inspectedClass
 {
-	return [NSCalendarDate class];
+	return [NSDate class];
 }
 
 - (void)awakeFromNib
@@ -47,7 +47,7 @@
 {
 	EOAttribute		*attribute = [self selectedAttribute];
 	
-	[attribute setValueClassName:@"NSCalendarDate"];
+	[attribute setValueClassName:@"NSDate"];
 }
 
 - (void)selectTimeZone:(id)sender

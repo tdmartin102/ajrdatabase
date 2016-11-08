@@ -18,15 +18,14 @@
 
 + (id)paneWithInspector:(EOInspector *)anInspector
 {
-	return [[[self alloc] initWithInspector:anInspector] autorelease];
+	return [[self alloc] initWithInspector:anInspector];
 }
 
-- (id)initWithInspector:(EOInspector *)anInspector
+- (instancetype)initWithInspector:(EOInspector *)anInspector
 {
-	[super init];
-	
-	inspector = anInspector;
-	
+	if ((self = [super init])) {
+        inspector = anInspector;
+    }
 	return self;
 }
 
@@ -45,7 +44,12 @@
 - (NSView *)view
 {
 	if (view == nil) {
-		[NSBundle loadNibNamed:NSStringFromClass([self class]) owner:self];
+        NSBundle *bundle;
+        NSArray  *anArray;
+        
+        bundle = [NSBundle bundleForClass:[self class]];
+        [bundle loadNibNamed:NSStringFromClass([self class])  owner:self topLevelObjects:&anArray];
+        uiElements = anArray;
 	}
 	
 	return view;

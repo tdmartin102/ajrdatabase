@@ -13,35 +13,30 @@
 
 @implementation DataBrowser
 
-- (id)initWithModel:(EOModel *)aModel
+- (instancetype)initWithModel:(EOModel *)aModel
 {
-	[super init];
-	
-	model = [aModel retain];
-	
-	columnAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
-		[NSFont systemFontOfSize:[NSFont smallSystemFontSize]], NSFontAttributeName,
-		nil];
-	
-	if (![NSBundle loadNibNamed:@"DatabaseQuery" owner:self] || !window) {
-		[self release];
-		return nil;
-	}
-	
-	[window makeKeyAndOrderFront:self];
-	
+    NSBundle *bundle;
+    NSArray  *anArray;
+    
+	if ((self =[super init])) {
+        model = aModel;
+        
+        columnAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+            [NSFont systemFontOfSize:[NSFont smallSystemFontSize]], NSFontAttributeName,
+            nil];
+        
+        bundle = [NSBundle bundleForClass:[self class]];
+        if (! [bundle loadNibNamed:@"DatabaseQuery" owner:self topLevelObjects:&anArray])
+        {
+            self = nil;
+        }
+        else
+        {
+            uiElements = anArray;
+            [window makeKeyAndOrderFront:self];
+        }
+    }
 	return self;
-}
-
-- (void)dealloc
-{
-	[model release];
-	[columnAttributes release];
-	[rows release];
-	[expression release];
-	[selectedEntity release];
-	
-	[super dealloc];
 }
 
 - (void)awakeFromNib
@@ -57,16 +52,16 @@
 {
 	NSArray	*theAttributes	= nil;
 	EOFetchSpecification	*aFetchSpec	= nil;
-	int		row;
+	NSInteger		row;
 	
-	[selectedEntity release]; selectedEntity = nil;
-	[expression release]; expression = nil;
+	selectedEntity = nil;
+	expression = nil;
 	
 	row = [entityTable selectedRow];
 	if (row >= 0) {
 		EOAdaptor			*adaptor = [EOAdaptor adaptorWithModel:model];
 		
-		selectedEntity = [[[model entities] objectAtIndex:row] retain];
+		selectedEntity = [[model entities] objectAtIndex:row];
 		
 		expression = [[[adaptor expressionClass] alloc] initWithRootEntity:selectedEntity];
 		theAttributes = [selectedEntity attributes];
@@ -113,14 +108,12 @@
 	EOAdaptor			*adaptor;
 	EOAdaptorContext	*context;
 	EOAdaptorChannel	*channel;
-	int					count = 0, max = [maxFetchField intValue];
+	NSInteger			count = 0, max = [maxFetchField intValue];
 	NSDictionary		*row;
-	NSString				*error = nil;
-	NSCalendarDate		*start;
+	NSString			*error = nil;
+	NSDate              *start;
 	NSArray				*results = nil;
-	
-	[expression release];
-	
+		
 	adaptor = [EOAdaptor adaptorWithModel:model];
 	expression = [[[adaptor expressionClass] alloc] initWithStatement:[queryText string]];
 	
@@ -137,10 +130,10 @@
 	if (![channel isOpen]) [channel openChannel];
 	
 	NS_DURING
-		start = [[NSCalendarDate alloc] init];
+		start = [[NSDate alloc] init];
 		[channel evaluateExpression:expression];
-		results = [[channel describeResults] retain];
-		while ((row = [channel fetchRowWithZone:NULL]) != nil) {
+		results = [channel describeResults];
+		while ((row = [channel fetchRowWithZone:nil]) != nil) {
 			[rows addObject:row];
 			count++;
 			if (count >= max) break;
@@ -155,8 +148,8 @@
 		float				seconds;
 		int				x;
 		
-		seconds = [[NSCalendarDate date] timeIntervalSinceReferenceDate] - [start timeIntervalSinceReferenceDate];
-		[statusField setStringValue:[NSString stringWithFormat:@"%d row%@ fetched in %.1f second%@", count, count == 1 ? @"" : @"s", seconds, seconds == 1 ? @"" : @"s"]];
+		seconds = [[NSDate date] timeIntervalSinceReferenceDate] - [start timeIntervalSinceReferenceDate];
+		[statusField setStringValue:[NSString stringWithFormat:@"%ld row%@ fetched in %.1f second%@", (long)count, count == 1 ? @"" : @"s", seconds, seconds == 1 ? @"" : @"s"]];
 		
 		while ([[dataTable tableColumns] count]) {
 			[dataTable removeTableColumn:[[dataTable tableColumns] lastObject]];
@@ -174,14 +167,10 @@
 			[column setWidth:[self widthForColumn:[attribute name]]];
 			[column setEditable:NO];
 			[dataTable addTableColumn:column];
-			[column release];
 		}
 
-		[results release];
 		[dataTable reloadData];
 	}
-	
-	[start release];
 }
 
 - (void)exportQuery:(id)sender

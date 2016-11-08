@@ -26,7 +26,6 @@ static char myAddedValues;
 		aDict = [[NSMutableDictionary alloc] initWithCapacity:10];
 		// and associate that dictionary with our object
 		objc_setAssociatedObject(self, &myAddedValues, aDict, OBJC_ASSOCIATION_RETAIN);
-		[aDict release];
 	}
 	
 	// now set the value
@@ -74,7 +73,6 @@ static char myAddedValues;
 	[newCell setAlignment:[oldCell alignment]];
 
 	[self setDataCell:newCell];
-	[newCell release];
 	return newCell;
 }
 
@@ -103,10 +101,8 @@ static char myAddedValues;
 	[newCell setWraps:[oldCell wraps]];
 	[newCell setAlignment:[oldCell alignment]];
 
-	[self setHeaderCell:newCell];
-	[newCell release];
+	[self setHeaderCell:(NSTableHeaderCell *)newCell];
 	return newCell;
-
 }
 
 @end
@@ -115,69 +111,8 @@ static char myAddedValues;
 - (IBAction)showInspector:(id)sender
 {
 	//
-	// put our view into some sort of inspectore I am thinking
+	// put our view into some sort of inspecter I am thinking
 }
-@end
-
-
-static AJRObjectBroker *broker = nil;
-
-@implementation AJRObjectBroker : NSObject
-
-
-// I am really not sure what the point of all this is, but here is my swing and a miss.
-- (id)initWithTarget:(id)aTarget action:(SEL)anAction requestingClassesInheritedFromClass:(Class)aClass
-{
-	NSInteger i;
-	if (! broker)
-	{
-		// load ALL clases and save that
-		[super init];
-		broker = self;
-		numClasses = objc_getClassList(NULL, 0);
-		classes = malloc(sizeof(Class) * numClasses);
-		numClasses = objc_getClassList(classes, numClasses);
-	}
-    else
-        self = broker;
-	
-	// we COULD cache things.  save the subclasses of (aClass) then if
-	// aClass were asked for again, we would already have the result at hand.
-	// This gits ONLY the first level subclasses.  If you wanted the whole tree
-	// then this would need to be re-entrent or something like that.
-	// in testing it seems that this method is only called ONCE for each passed class
-	// in which case there is no point in doing caching now is there.
-	for (i = 0; i < numClasses; i++)
-    {
-        Class superClass = classes[i];
-        do
-        {
-            superClass = class_getSuperclass(superClass);
-        } while(superClass && superClass != aClass);
-         
-        if (superClass == nil)
-        {
-            continue;
-        }         
-		[aTarget performSelector:anAction withObject:classes[i]];
-    }		
-			
-	return self;
-}
-
-
-- (oneway void)release
-{
-    // do nothing as we DO NOT whish to release
-    // we are a singleton
-}
-
-- (id)autorelease
-{
-    // do nothing
-    return self;
-}
-
 @end
 
 void AJRPrintf(NSString *format, ...)

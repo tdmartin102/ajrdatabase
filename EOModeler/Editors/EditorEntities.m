@@ -24,19 +24,13 @@
 	return @"Entities";
 }
 
-- (id)initWithDocument:(Document *)aDocument
+- (instancetype)initWithDocument:(Document *)aDocument
 {
-	[super initWithDocument:aDocument];
+	self = [super initWithDocument:aDocument];
 	
 	return self;
 }
 
-- (void)dealloc
-{
-	[editingEntity release];
-	
-	[super dealloc];
-}
 
 - (void)awakeFromNib
 {
@@ -45,10 +39,11 @@
 
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView
 {
-	return [[[self model] entities] count];
+	return (int)[[[self model] entities] count];
 }
 
-- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn
+              row:(NSInteger)rowIndex
 {
 	EOEntity		*entity = [[[self model] entities] objectAtIndex:rowIndex];
 	NSString		*ident = [aTableColumn identifier];
@@ -62,7 +57,8 @@
 	}
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn
+            row:(NSInteger)rowIndex
 {
 	EOEntity		*entity = [[[self model] entities] objectAtIndex:rowIndex];
 	NSString		*ident = [aTableColumn identifier];
@@ -82,7 +78,8 @@
 	return @"?";
 }
 
-- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn
+              row:(NSInteger)rowIndex
 {
 	EOEntity		*entity = [[[self model] entities] objectAtIndex:rowIndex];
 	NSString		*ident = [aTableColumn identifier];
@@ -141,8 +138,7 @@
 		NSUInteger	index = [[[self model] entities] indexOfObjectIdenticalTo:object];
 		
 		if (index != NSNotFound && index == [entityTable editedRow]) {
-			[editingEntity release];
-			editingEntity = [object retain];
+			editingEntity = object;
 		}
 		[entityTable setNeedsDisplayInRect:[entityTable rectOfRow:index]];
 	}
@@ -160,21 +156,18 @@
 - (void)selectEntity:(id)sender
 {
 	EOEntity		*entity;
-	int			row = [entityTable selectedRow];
+	NSInteger		row = [entityTable selectedRow];
 	
 	if ([[entityTable selectedRowIndexes] count] > 1) {
-		NSMutableArray		*selectedEntities = [[NSMutableArray allocWithZone:[self zone]] init];
+		NSMutableArray		*selectedEntities = [[NSMutableArray alloc] init];
 		NSIndexSet          *indexSet = [entityTable selectedRowIndexes];
-		NSNumber			*index;
 		NSArray				*entities = [[self model] entities];
 		
         [indexSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop){
             [selectedEntities addObject:[entities objectAtIndex:idx]];}];
         
-		
 		[document setSelectedEntity:nil];
 		[document setSelectedObject:selectedEntities];
-		[selectedEntities release];
 	} else {
 		if (row < 0) {
 			[document setSelectedEntity:nil];
@@ -186,7 +179,7 @@
 		}
 	}
 	
-	[editingEntity release]; editingEntity = nil;
+	editingEntity = nil;
 }
 
 - (void)editEntity:(EOEntity *)entity
@@ -220,8 +213,8 @@
 	NSString		*ident				= nil;
 	NSArray			*theTableColumns	= nil;
 	NSTableColumn	*aTableColumn		= nil;
-	int				 row				= -1;
-	int				 col				= -1;
+	NSInteger		row                 = -1;
+	NSInteger		col                 = -1;
 	
 	col = [(NSTableView *)control editedColumn];
 	if ( col != -1 ) {

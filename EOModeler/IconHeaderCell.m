@@ -12,25 +12,29 @@
 
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
-	NSString		*title = [[self title] retain];
-	NSSize		size;
+	NSString		*title = [self title];
+	NSSize          size;
+    NSRect          imageRect;
 
 	[self setTitle:@""];
 	[super drawInteriorWithFrame:cellFrame inView:controlView];
 	[self setTitle:title];
-	[title release];
 	
 	if ([self image]) {
 		size = [[self image] size];
-		[[self image] compositeToPoint:(NSPoint){cellFrame.origin.x + (cellFrame.size.width - size.width) / 2.0, cellFrame.origin.y + cellFrame.size.height - (cellFrame.size.height - size.height) / 2.0} operation:NSCompositeSourceOver];
+        imageRect.origin.x = cellFrame.origin.x + (cellFrame.size.width - size.width) / 2.0;
+        imageRect.origin.y = cellFrame.origin.y + cellFrame.size.height - (cellFrame.size.height - size.height) / 2.0;
+        imageRect.size = size;
+        
+        [[self image] drawInRect:imageRect fromRect:NSZeroRect
+                       operation:NSCompositeSourceOver fraction:1.0];
 	}
 }
 
 - (void)setImage:(NSImage *)anImage
 {
 	if (image != anImage) {
-		[image release];
-		image = [anImage retain];
+		image = anImage;
 	}
 }
 

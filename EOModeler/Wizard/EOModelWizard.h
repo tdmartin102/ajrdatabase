@@ -25,6 +25,7 @@
 	NSMutableArray			*steps;
 	EOWizardPane			*step;
 	int						stepIndex;
+    NSArray                 *uiElements;
 	
 	BOOL						assignPrimaryKeys:1;
 	BOOL						assignRelationships:1;

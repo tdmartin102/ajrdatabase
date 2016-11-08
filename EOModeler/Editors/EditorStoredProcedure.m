@@ -23,13 +23,6 @@
 	return @"Stored Procedure";
 }
 
-- (void)dealloc
-{
-	[editingObject release];
-	
-	[super dealloc];
-}
-
 - (void)awakeFromNib
 {
 	[procedureTable setCanHideColumns:YES];
@@ -43,7 +36,8 @@
 	return [[[self selectedStoredProcedure] arguments] count];
 }
 
-- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn
+              row:(NSInteger)rowIndex
 {
 	NSString		*ident = [aTableColumn identifier];
 	EOAttribute	*argument = [[[self selectedStoredProcedure] arguments] objectAtIndex:rowIndex];
@@ -70,7 +64,7 @@
 		}
 	} else if ([ident isEqualToString:@"valueClass"]) {
 		if (needsToSetValueClasses) {
-			NSArray		*types = [NSArray arrayWithObjects:@"NSString", @"NSCalendarDate", @"NSData", @"NSNumber", @"NSDecimalNumber", nil];
+			NSArray		*types = [NSArray arrayWithObjects:@"NSString", @"NSDate", @"NSData", @"NSNumber", @"NSDecimalNumber", nil];
 			
 			types = [types sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 			[aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
@@ -82,7 +76,8 @@
 	}
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn
+            row:(NSInteger)rowIndex
 {
 	NSString		*ident = [aTableColumn identifier];
 	EOAttribute	*argument = [[[self selectedStoredProcedure] arguments] objectAtIndex:rowIndex];
@@ -108,7 +103,8 @@
 	return @"";
 }
 
-- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn
+              row:(NSInteger)rowIndex
 {
 	NSString		*ident = [aTableColumn identifier];
 	EOAttribute	*argument = [[[self selectedStoredProcedure] arguments] objectAtIndex:rowIndex];
@@ -160,9 +156,9 @@
 
 - (void)selectedArgument:(id)sender
 {
-	int		row = [sender selectedRow];
+	NSInteger		row = [sender selectedRow];
 	
-	[editingObject release]; editingObject = nil;
+	editingObject = nil;
 	
 	if (row < 0) {
 		[document setSelectedObject:nil];
@@ -197,7 +193,7 @@
 - (void)updateArgumentSelection
 {
 	if ([[document selectedObject] isKindOfClass:[EOAttribute class]]) {
-		int		count = [[procedureTable selectedRowIndexes] count];
+		NSInteger		count = [[procedureTable selectedRowIndexes] count];
 		if (count == 0) {
 			[document setSelectedObject:[document selectedStoredProcedure]];
 		} else if (count == 1) {
@@ -253,12 +249,11 @@
 		EOStoredProcedure	*procedure = [self selectedStoredProcedure];
 		
 		if (procedure) {
-			NSInteger					index = [[procedure arguments] indexOfObjectIdenticalTo:object];
+			NSInteger	index = [[procedure arguments] indexOfObjectIdenticalTo:object];
 			
 			if (index != NSNotFound) {
 				if (index == [procedureTable editedRow]) {
-					[editingObject release];
-					editingObject = [object retain];
+					editingObject = object;
 				}
 				[procedureTable setNeedsDisplayInRect:[procedureTable rectOfRow:index]];
 			}

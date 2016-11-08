@@ -14,12 +14,13 @@
 {
 	Document				*document;
 	
-	IBOutlet NSView	*view;
+	IBOutlet NSView         *view;
+    NSArray                 *uiElements;
 }
 
 + (NSString *)name;
 
-- (id)initWithDocument:(Document *)aDocument;
+- (instancetype)initWithDocument:(Document *)aDocument;
 
 - (NSView *)view;
 

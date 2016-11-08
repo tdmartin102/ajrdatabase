@@ -14,7 +14,7 @@
 {
 	IBOutlet NSTableView		*adaptorTable;
 	IBOutlet NSBox				*connectionBox;
-	IBOutlet NSView			*noneView;
+	IBOutlet NSView             *noneView;
 	IBOutlet NSButton			*testButton;
 	IBOutlet NSButton			*syncButton;
 	

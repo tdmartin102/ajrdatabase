@@ -27,7 +27,7 @@
 
 - (void)selectAdaptor:(id)sender
 {
-	int		row = [adaptorTable selectedRow];
+	NSInteger		row = [adaptorTable selectedRow];
 	NSArray	*names = [EOAdaptor availableAdaptorNames];
 	EOModel	*model = [self selectedObject];
 	
@@ -51,8 +51,8 @@
         indexSet = [NSIndexSet indexSetWithIndex:[[EOAdaptor availableAdaptorNames] count]];
 		[adaptorTable selectRowIndexes:indexSet byExtendingSelection:NO];
 		[connectionBox setContentView:noneView];
-		[connectionPane release]; connectionPane = nil;
-//		[adaptorTable setNextKeyView:[modelWizard cancelButton]];
+		connectionPane = nil;
+	//	[adaptorTable setNextKeyView:[modelWizard cancelButton]];
 	} else {
 		EOAdaptor		*adaptor = [EOAdaptor adaptorWithModel:model];
 		NSView			*contentView;
@@ -65,10 +65,10 @@
 		[adaptorTable selectRowIndexes:indexSet byExtendingSelection:NO];
 		
 		[connectionPane setModel:nil];
-		[connectionPane release]; connectionPane = nil;
+		connectionPane = nil;
 		
 		if (adaptor) {
-			connectionPane = [[[adaptor class] sharedConnectionPane] retain];
+			connectionPane = [[adaptor class] sharedConnectionPane];
 			contentView = [connectionPane smallView];
 			if (contentView == nil) contentView = [connectionPane view];
 			[connectionBox setContentView:contentView];
@@ -83,7 +83,7 @@
 	}
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
 	return [[EOAdaptor availableAdaptorNames] count] + 1;
 }
@@ -105,7 +105,7 @@
 
 - (void)testSettings:(id)sender
 {
-	int		row = [adaptorTable selectedRow];
+	NSInteger		row = [adaptorTable selectedRow];
 	NSArray	*names = [EOAdaptor availableAdaptorNames];
 	
 	if (row != [names count]) {
@@ -116,13 +116,12 @@
 		NS_DURING
 			[adaptor assertConnectionDictionaryIsValid];
 		NS_HANDLER
-			exception = [localException retain];
+			exception = localException;
 		NS_ENDHANDLER
 		
 		if (exception) {
 			NSBeginAlertSheet(@"Unable to connect to the database", @"OK", nil, nil, [adaptorTable window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, 
-				[NSString stringWithFormat:@"The following reason was provided: %@.", exception]);
-			[exception release];
+				@"%@", [NSString stringWithFormat:@"The following reason was provided: %@.", exception]);
 		} else {
 			NSBeginAlertSheet(@"Database connection successful", @"OK", nil, nil, [adaptorTable window], self, @selector(sheetDidEnd:returnCode:contextInfo:), NULL, NULL, @"The adaptor was able to successfully make a connection to the database.");
 		}

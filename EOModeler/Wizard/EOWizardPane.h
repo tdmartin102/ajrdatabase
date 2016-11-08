@@ -12,12 +12,13 @@
 
 @interface EOWizardPane : NSObject 
 {
-	IBOutlet NSView		*view;
+	IBOutlet NSView         *view;
 	
 	EOModelWizard			*modelWizard;
+    NSArray                 *uiElements;
 }
 
-- (id)initWithModelWizard:(EOModelWizard *)aWizard;
+- (instancetype)initWithModelWizard:(EOModelWizard *)aWizard;
 
 - (NSView *)view;
 

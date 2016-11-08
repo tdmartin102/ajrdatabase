@@ -22,26 +22,33 @@ typedef enum _documentSaveResponse {
 	DocumentDidFail = 3
 } DocumentSaveResponse;
 
-@interface Document : NSObject <EOObserving, NSToolbarDelegate>
+typedef enum _documentSaveCallback {
+    NoCallback = 0,
+    TerminateCallback = 1,
+    CloseCallback = 2
+} DocumentSaveCallback;
+
+@interface Document : NSObject <EOObserving, NSToolbarDelegate, NSOpenSavePanelDelegate, NSAlertDelegate>
 {
-	IBOutlet	NSWindow			*window;
-	IBOutlet NSOutlineView	*modelOutline;
-	IBOutlet EditorView		*editorView;
+	IBOutlet	NSWindow        *window;
+	IBOutlet    NSOutlineView	*modelOutline;
+	IBOutlet    EditorView		*editorView;
 	
 	EOModel						*model;
-	Class							adaptorClass;
-	EOEntity						*selectedEntity;
+	Class						adaptorClass;
+	EOEntity					*selectedEntity;
 	EOStoredProcedure			*selectedStoredProcedure;
-	id								selectedObject;
+	id							selectedObject;
 	
 	NSArray						*entityNameCache;
 	
-	BOOL							untitled:1;
+	BOOL						untitled:1;
+    NSArray                     *uiElements;
 }
 
 + (Document *)currentDocument;
 
-- (id)initWithPath:(NSString *)aPath;
+- (instancetype)initWithPath:(NSString *)aPath;
 
 - (EOModel *)model;
 - (EOEntity *)selectedEntity;
@@ -66,6 +73,16 @@ typedef enum _documentSaveResponse {
 - (NSArray *)possibleEntityNames;
 - (EOEntity *)entityWithExternalName:(NSString *)aName;
 - (void)addEntityWithTableName:(NSString *)aName;
+
+- (void)showDatabaseBrowser:(id)sender;
+- (void)generateObjCFiles:(id)sender;
+- (void)generateSQL:(id)sender;
+- (void)newEntity:(id)sender;
+- (void)newAttribute:(id)sender;
+- (void)newRelationship:(id)sender;
+- (void)newFetchSpecification:(id)sender;
+- (void)flattenRelationship:(id)sender;
+- (void)newStoredProcedure:(id)sender;
 
 @end
 

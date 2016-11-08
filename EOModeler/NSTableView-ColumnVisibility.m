@@ -14,12 +14,15 @@
 
 #import "PBPopUpButton.h"
 
+// CRAZY dangerous stuff to override Apple private methods.  bad idea.
+
 static void (*_ajrPersistentRead)(id, SEL);
 static void (*_ajrPersistentWrite)(id, SEL);
 
 @interface NSTableView (Private)
 
 - (void)_writePersistentTableColumns;
+- (void)_readPersistentTableColumns;
 
 @end
 
@@ -49,9 +52,8 @@ static void (*_ajrPersistentWrite)(id, SEL);
 	NSArray		*columns = [self instanceObjectForKey:@"hiddenColumns"];
 	
 	if (columns == nil) {
-		columns = [[NSMutableArray allocWithZone:[self zone]] init];
+		columns = [[NSMutableArray alloc] init];
 		[self setInstanceObject:columns forKey:@"hiddenColumns"];
-		[columns release];
 	}
 	
 	return columns;
@@ -63,19 +65,15 @@ static void (*_ajrPersistentWrite)(id, SEL);
 		
 	if (flag) {
 		if ([hiddenColumns indexOfObjectIdenticalTo:column] != NSNotFound) {
-			[column retain];
 			[hiddenColumns removeObject:column];
 			[self addTableColumn:column];
-			[column release];
 			[self setNeedsDisplay:YES];
 			[self _writePersistentTableColumns];
 		}
 	} else {
 		if ([hiddenColumns indexOfObjectIdenticalTo:column] == NSNotFound) {
-			[column retain];
 			[self removeTableColumn:column];
 			[hiddenColumns addObject:column];
-			[column release];
 			[self setNeedsDisplay:YES];
 			[self _writePersistentTableColumns];
 		}
@@ -127,7 +125,7 @@ static void (*_ajrPersistentWrite)(id, SEL);
 
 - (NSString *)_autosaveNameKey
 {
-	return [NSString stringWithFormat:@"%C Hidden %@", self, [self autosaveName]];
+	return [NSString stringWithFormat:@"%ld Hidden %@", (long)self, [self autosaveName]];
 }
 
 - (void)_ajrReadPersistentTableColumns
@@ -156,15 +154,13 @@ static void (*_ajrPersistentWrite)(id, SEL);
 		[self addTableColumn:[hidden objectAtIndex:x]];
 	}
 	_ajrPersistentWrite(self, _cmd);
-	names = [[NSMutableArray allocWithZone:[self zone]] init];
+	names = [[NSMutableArray alloc] init];
 	for (x = 0; x < (const int)[hidden count]; x++) {
 		[self removeTableColumn:[hidden objectAtIndex:x]];
 		[names addObject:[[hidden objectAtIndex:x] identifier]];
 	}
 	
 	[[NSUserDefaults standardUserDefaults] setObject:names forKey:nameKey];
-	
-	[names release];
 }
 
 - (void)setCanHideColumns:(BOOL)flag
@@ -176,14 +172,14 @@ static void (*_ajrPersistentWrite)(id, SEL);
 		NSArray				*columns;
 		int					x;
 	
-		button = [[PBPopUpButton allocWithZone:[self zone]] initWithFrame:(NSRect){{0.0, 0.0}, {19.0, 18.0}} pullsDown:YES];
+		button = [[PBPopUpButton alloc] initWithFrame:(NSRect){{0.0, 0.0}, {19.0, 18.0}} pullsDown:YES];
 		[button addItemWithTitle:@"One"];
 		[button setBordered:NO];
 		item = [button itemAtIndex:0];
 		[item setTitle:@""];
 
 		columns = [self tableColumns];
-		titles = [[NSMutableArray allocWithZone:[self zone]] init];
+		titles = [[NSMutableArray alloc] init];
 		for (x = 0; x < (const int)[columns count]; x++) {
 			[titles addObject:[[[columns objectAtIndex:x] headerCell] stringValue]];
 			[[titles lastObject] setInstanceObject:[columns objectAtIndex:x] forKey:@"column"];

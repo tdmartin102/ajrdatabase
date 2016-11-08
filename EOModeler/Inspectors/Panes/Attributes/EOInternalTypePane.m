@@ -29,12 +29,11 @@
 	return Nil;
 }
 
-- (id)initWithInspector:(EOInternalTypeInspector *)anInspector
+- (instancetype)initWithInspector:(EOInternalTypeInspector *)anInspector
 {
-	[super init];
-	
-	inspector = anInspector;
-	
+    if ((self = [super init])) {
+        inspector = anInspector;
+    }
 	return self;
 }
 
@@ -46,7 +45,12 @@
 - (NSView *)view
 {
 	if (view == nil) {
-		[NSBundle loadNibNamed:NSStringFromClass([self class]) owner:self];
+        NSBundle *bundle;
+        NSArray  *anArray;
+        
+        bundle = [NSBundle bundleForClass:[self class]];
+        [bundle loadNibNamed:NSStringFromClass([self class]) owner:self topLevelObjects:&anArray];
+        uiElements = anArray;
 	}
 	
 	return view;

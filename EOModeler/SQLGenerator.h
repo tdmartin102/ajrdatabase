@@ -28,11 +28,12 @@
 	
 	EOModel						*model;
 	NSArray						*entities;
-	NSMutableDictionary		*options;
+	NSMutableDictionary         *options;
 	NSArray						*statements;
+    NSArray                     *uiElements;
 }
 
-- (id)initWithModel:(EOModel *)aModel entities:(NSArray *)someEntities;
+- (instancetype)initWithModel:(EOModel *)aModel entities:(NSArray *)someEntities;
 
 - (void)run;
 

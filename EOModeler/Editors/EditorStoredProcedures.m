@@ -25,24 +25,18 @@
 	return @"Stored Procedures";
 }
 
-- (void)dealloc
-{
-	[editingObject release];
-	
-	[super dealloc];
-}
-
 - (void)awakeFromNib
 {
 	[proceduresTable setCanHideColumns:YES];
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
 	return [[[self model] storedProcedures] count];
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn
+            row:(NSInteger)rowIndex
 {
 	EOStoredProcedure	*procedure = [[[self model] storedProcedures] objectAtIndex:rowIndex];
 	NSString				*ident = [aTableColumn identifier];
@@ -56,7 +50,8 @@
 	return @"?";
 }
 
-- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn
+              row:(NSInteger)rowIndex
 {
 	EOStoredProcedure	*procedure = [[[self model] storedProcedures] objectAtIndex:rowIndex];
 	NSString				*ident = [aTableColumn identifier];
@@ -76,7 +71,7 @@
 	
 	if (index != NSNotFound) {
 		if (procedure == editingObject) {
-			int		editedColumn;
+			NSInteger	editedColumn;
 			
 			// We had a name change, or at least a sorting change, so we need to re-display the whole table.
 			[proceduresTable setNeedsDisplay:YES];
@@ -99,8 +94,7 @@
 		
 		if (index != NSNotFound) {
 			if (index == [proceduresTable editedRow]) {
-				[editingObject release];
-				editingObject = [object retain];
+				editingObject = object;
 			}
 			[proceduresTable setNeedsDisplayInRect:[proceduresTable rectOfRow:index]];
 		}
@@ -116,7 +110,7 @@
 
 - (void)selectStoredProcedure:(id)sender
 {
-	int		row = [proceduresTable selectedRow];
+	NSInteger		row = [proceduresTable selectedRow];
 	
 	if (row >= 0) {
 		[document setSelectedObject:[[[self model] storedProcedures] objectAtIndex:row]];
@@ -125,7 +119,7 @@
 	}
 	
 	if (editingObject) {
-		[editingObject release]; editingObject = nil;
+		editingObject = nil;
 	}
 }
 

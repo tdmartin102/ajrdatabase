@@ -10,19 +10,23 @@
 
 @implementation EOWizardPane
 
-- (id)initWithModelWizard:(EOModelWizard *)aWizard
+- (instancetype)initWithModelWizard:(EOModelWizard *)aWizard
 {
-	[super init];
-	
-	modelWizard = aWizard;
-	
+    if ((self = [super init])) {
+        modelWizard = aWizard;
+    }
 	return self;
 }
 
 - (NSView *)view
 {
 	if (view == nil) {
-		[NSBundle loadNibNamed:NSStringFromClass([self class]) owner:self];
+        NSBundle *bundle;
+        NSArray  *anArray;
+
+        bundle = [NSBundle bundleForClass:[self class]];
+        [bundle loadNibNamed:NSStringFromClass([self class]) owner:self topLevelObjects:&anArray];
+        uiElements = anArray;
 	}
 	
 	return view;

@@ -27,7 +27,7 @@
 
 - (void)update
 {
-	[fetchLimitText setIntValue:[[NSUserDefaults standardUserDefaults] integerForKey:@"FetchLimit"]];
+	[fetchLimitText setIntegerValue:[[NSUserDefaults standardUserDefaults] integerForKey:@"FetchLimit"]];
 }
 
 - (void)setFetchLimit:(id)sender

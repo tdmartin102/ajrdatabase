@@ -10,18 +10,23 @@
 
 @implementation ModelOutlineCell
 
-- (void)dealloc
-{
-	[imageName release];
-	
-	[super dealloc];
-}
-
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
 	if (imageName) {
-		[[self attributedStringValue] drawInRect:[self titleRectForBounds:cellFrame]];
-		[[NSImage imageNamed:imageName] compositeToPoint:(NSPoint){cellFrame.origin.x + 2, cellFrame.origin.y + cellFrame.size.height} operation:NSCompositeSourceOver];
+        NSSize size;
+        NSRect imageRect;
+        NSImage *aImage = [NSImage imageNamed:imageName];
+        if (aImage) {
+            [[self attributedStringValue] drawInRect:[self titleRectForBounds:cellFrame]];
+        
+            size = [aImage size];
+            imageRect.origin.x = cellFrame.origin.x + 2;
+            imageRect.origin.y = cellFrame.origin.y + cellFrame.size.height;
+            imageRect.size = size;
+        
+            [[self image] drawInRect:imageRect fromRect:NSZeroRect
+                       operation:NSCompositeSourceOver fraction:1.0];
+         }
 	} else {
 		[super drawInteriorWithFrame:cellFrame inView:controlView];
 	}
@@ -42,8 +47,7 @@
 - (void)setImageName:(NSString *)anImageName
 {
 	if (imageName != anImageName) {
-		[imageName release];
-		imageName = [anImageName retain];
+		imageName = anImageName;
 	}
 }
 

@@ -42,13 +42,6 @@
 	return @"Entity";
 }
 
-- (void)dealloc
-{
-	[editingObject release];
-	
-	[super dealloc];
-}
-
 - (void)awakeFromNib
 {
 	[entityAttributesText setStringValue:@""];
@@ -75,9 +68,8 @@
 		return [joins objectAtIndex:0];
 	}
 	
-	join = [[EOJoin allocWithZone:[relationship zone]] initWithSourceAttribute:nil destinationAttribute:nil];
+	join = [[EOJoin alloc] initWithSourceAttribute:nil destinationAttribute:nil];
 	[relationship addJoin:join];
-	[join release];
 
 	if ([[relationship joins] count] == 1 && [[relationship name] hasPrefix:@"relationship"]) {
 		if ([relationship isToMany]) {
@@ -114,7 +106,8 @@
 	return 0;
 }
 
-- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn
+              row:(NSInteger)rowIndex
 {
 	if (aTableView == entityAttributesTable) {
 		NSString		*ident = [aTableColumn identifier];
@@ -142,7 +135,7 @@
 			}
 		} else if ([ident isEqualToString:@"valueClass"]) {
 			if (needsToSetValueClasses) {
-				NSArray		*types = [NSArray arrayWithObjects:@"NSString", @"NSCalendarDate", @"NSData", @"NSNumber", @"NSDecimalNumber", nil];
+				NSArray		*types = [NSArray arrayWithObjects:@"NSString", @"NSDate", @"NSData", @"NSNumber", @"NSDecimalNumber", nil];
 				
 				types = [types sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 				[aCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
@@ -274,7 +267,7 @@
 		} else if ([ident isEqualToString:@"writeFormat"]) {
 			[attribute setWriteFormat:anObject];
 		} else if ([ident isEqualToString:@"primaryKey"]) {
-			NSMutableArray		*array = [[[self selectedEntity] primaryKeyAttributes] mutableCopyWithZone:[self zone]];
+			NSMutableArray		*array = [[[self selectedEntity] primaryKeyAttributes] mutableCopy];
 			if ([anObject intValue]) {
 				[array addObject:attribute];
 				if ([attribute allowsNull]) {
@@ -284,25 +277,22 @@
 				[array removeObject:attribute];
 			}
 			[[self selectedEntity] setPrimaryKeyAttributes:array];
-			[array release];
 		} else if ([ident isEqualToString:@"classProperty"]) {
-			NSMutableArray		*array = [[[self selectedEntity] classProperties] mutableCopyWithZone:[self zone]];
+			NSMutableArray		*array = [[[self selectedEntity] classProperties] mutableCopy];
 			if ([anObject intValue]) {
 				[array addObject:attribute];
 			} else {
 				[array removeObject:attribute];
 			}
 			[[self selectedEntity] setClassProperties:array];
-			[array release];
 		} else if ([ident isEqualToString:@"lock"]) {
-			NSMutableArray		*array = [[[self selectedEntity] attributesUsedForLocking] mutableCopyWithZone:[self zone]];
+			NSMutableArray		*array = [[[self selectedEntity] attributesUsedForLocking] mutableCopy];
 			if ([anObject intValue]) {
 				[array addObject:attribute];
 			} else {
 				[array removeObject:attribute];
 			}
 			[[self selectedEntity] setAttributesUsedForLocking:array];
-			[array release];
 		} else if ([ident isEqualToString:@"nullable"]) {
 			[attribute setAllowsNull:[anObject intValue] == 0 ? NO : YES];
 		}
@@ -315,14 +305,13 @@
 		} else if ([ident isEqualToString:@"type"]) {
 			[relationship setToMany:[anObject boolValue]];;
 		} else if ([ident isEqualToString:@"classProperty"]) {
-			NSMutableArray		*array = [[[self selectedEntity] classProperties] mutableCopyWithZone:[self zone]];
+			NSMutableArray		*array = [[[self selectedEntity] classProperties] mutableCopy];
 			if ([anObject intValue]) {
 				[array addObject:relationship];
 			} else {
 				[array removeObject:relationship];
 			}
 			[[self selectedEntity] setClassProperties:array];
-			[array release];
 		} else if ([ident isEqualToString:@"destinationEntity"]) {
 			EOEntity		*destinationEntity = [[EOModelGroup defaultModelGroup] entityNamed:anObject];
 			
@@ -379,7 +368,7 @@
 - (void)updateAttributeSelection
 {
 	if ([[document selectedObject] isKindOfClass:[EOAttribute class]] && [document selectedEntity]) {
-		int		count = [[entityAttributesTable selectedRowIndexes] count];
+		NSUInteger		count = [[entityAttributesTable selectedRowIndexes] count];
 		if (count == 0) {
 			// Let's see if we can defer to an attribute selection
 			count = [[entityRelationshipsTable selectedRowIndexes] count];
@@ -409,7 +398,7 @@
 - (void)updateRelationshipSelection
 {
 	if ([[document selectedObject] isKindOfClass:[EORelationship class]]) {
-		int		count = [[entityRelationshipsTable selectedRowIndexes] count];
+		NSInteger		count = [[entityRelationshipsTable selectedRowIndexes] count];
 		if (count == 0) {
 			// Let's see if we can defer to an attribute selection
 			count = [[entityAttributesTable selectedRowIndexes] count];
@@ -438,12 +427,12 @@
 
 - (void)updateAttribute:(EOAttribute *)attribute
 {
-	EOEntity			*entity = [attribute entity];
-	NSUInteger	index = [[entity attributes] indexOfObjectIdenticalTo:attribute];
+	EOEntity		*entity = [attribute entity];
+	NSUInteger      index = [[entity attributes] indexOfObjectIdenticalTo:attribute];
 		
 	if (index != NSNotFound) {
 		if (attribute == editingObject) {
-			int		editedColumn;
+			NSInteger		editedColumn;
 			
 			// We had a name change, or at least a sorting change, so we need to re-display the whole table.
 			[entityAttributesTable setNeedsDisplay:YES];
@@ -468,7 +457,7 @@
 	
 	if (index != NSNotFound) {
 		if (relationship == editingObject) {
-			int		editedColumn;
+			NSInteger		editedColumn;
 			
 			// We had a name change, or at least a sorting change, so we need to re-display the whole table.
 			[entityRelationshipsTable setNeedsDisplay:YES];
@@ -503,8 +492,7 @@
 		
 		if (index != NSNotFound) {
 			if (index == [entityAttributesTable editedRow]) {
-				[editingObject release];
-				editingObject = [object retain];
+				editingObject = object;
 			}
 			[entityAttributesTable setNeedsDisplayInRect:[entityAttributesTable rectOfRow:index]];
 		}
@@ -513,8 +501,7 @@
 		
 		if (index != NSNotFound) {
 			if (index == [entityRelationshipsTable editedRow]) {
-				[editingObject release];
-				editingObject = [object retain];
+				editingObject = object;
 			}
 			[entityRelationshipsTable setNeedsDisplayInRect:[entityRelationshipsTable rectOfRow:index]];
 		}
@@ -598,9 +585,9 @@
 
 - (void)selectAttribute:(id)sender
 {
-	int		row = [sender selectedRow];
+	NSInteger		row = [sender selectedRow];
 	
-	[editingObject release]; editingObject = nil;
+	editingObject = nil;
 	
 	if ([[sender selectedRowIndexes] count] <= 1) {
 		if (row == -1) {
@@ -616,22 +603,20 @@
 	} else {
 		NSMutableArray		*selectedAttributes = [[NSMutableArray alloc] init];
 		NSIndexSet          *indexSet = [entityAttributesTable selectedRowIndexes];
-		NSNumber			*index;
 		NSArray				*attributes = [[self selectedEntity] attributes];
 		
         [indexSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop){
             [selectedAttributes addObject:[attributes objectAtIndex:idx]];}];
 		
 		[document setSelectedObject:selectedAttributes];
-		[selectedAttributes release];
 	}
 }
 
 - (void)selectRelationship:(id)sender
 {
-	int		row = [sender selectedRow];
+	NSInteger		row = [sender selectedRow];
 	
-	[editingObject release]; editingObject = nil;
+	editingObject = nil;
 	
 	if (row == -1) {
 		row = [entityAttributesTable selectedRow];

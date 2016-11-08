@@ -34,18 +34,10 @@ http://www.raftis.net/~alex/
 
 @implementation PBPopUpButtonCell
 
-- (void)dealloc
-{
-	[image release];
-	
-	[super dealloc];
-}
-
 - (void)setImage:(NSImage *)anImage
 {
 	if (image != anImage) {
-		[image release];
-		image =[anImage retain];
+		image =anImage;
 	}
 }
 
@@ -57,11 +49,25 @@ http://www.raftis.net/~alex/
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
-	NSSize		size = [[self image] size];
+	NSSize		size;
+    NSImage     *aImage;
+    NSRect      imageRect;
+    
+    aImage = [NSImage imageNamed:@"PBPopUpButtonCellBackground"];
 	
-	[[NSImage imageNamed:@"PBPopUpButtonCellBackground"] compositeToPoint:(NSPoint){cellFrame.origin.x, cellFrame.origin.y + cellFrame.size.height} operation:NSCompositeCopy];
-	
-	[[self image] compositeToPoint:(NSPoint){cellFrame.origin.x + ceil((cellFrame.size.width - size.width) / 2.0), cellFrame.origin.y + rint((cellFrame.size.height + size.height) / 2.0)} operation:NSCompositeSourceOver];
+    imageRect.origin.x = cellFrame.origin.x;
+    imageRect.origin.y = cellFrame.origin.y + cellFrame.size.height;
+    imageRect.size = [aImage size];
+    [aImage drawInRect:imageRect fromRect:NSZeroRect
+                   operation:NSCompositeCopy fraction:1.0];
+
+    size = [[self image] size];
+    imageRect.origin.x = cellFrame.origin.x + ceil((cellFrame.size.width - size.width) / 2.0);
+    imageRect.origin.y = cellFrame.origin.y + rint((cellFrame.size.height + size.height) / 2.0);
+    imageRect.size = size;
+    
+    [[self image] drawInRect:imageRect fromRect:NSZeroRect
+                   operation:NSCompositeSourceOver fraction:1.0];
 }
 
 @end

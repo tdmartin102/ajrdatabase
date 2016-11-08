@@ -54,10 +54,10 @@ static Class		cellClass = Nil;
 	NSPopUpButtonCell		*oldCell;
 	PBPopUpButtonCell		*newCell;
 	
-	[super initWithCoder:coder];
+	self = [super initWithCoder:coder];
 	
 	oldCell = [self cell];
-	newCell = [[[[self class] cellClass] allocWithZone:[self zone]] initImageCell:[oldCell image]];
+	newCell = [[[[self class] cellClass] alloc] initImageCell:[oldCell image]];
 	[newCell setMenu:[oldCell menu]];
 	[newCell setPullsDown:[oldCell pullsDown]];
 	[newCell setAutoenablesItems:[oldCell autoenablesItems]];

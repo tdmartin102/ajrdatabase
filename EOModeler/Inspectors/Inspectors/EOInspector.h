@@ -15,7 +15,7 @@
 	EOInspectorPanel		*inspectorPanel;
 	NSToolbar				*toolbar;
 	NSArray					*inspectorPanes;
-	int						currentPane;
+	NSInteger				currentPane;
 }
 
 - (void)activateInPanel:(EOInspectorPanel *)aPanel;

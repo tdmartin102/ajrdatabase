@@ -11,30 +11,21 @@
 #import "Document.h"
 #import "Editor.h"
 #import "Additions.h"
+#import "AJRObjectBroker.h"
 
 @implementation EditorView
 
-- (id)initWithFrame:(NSRect)frame
+- (instancetype)initWithFrame:(NSRect)frame
 {
-	[super initWithFrame:frame];
-	
-	editors = [[NSMutableDictionary allocWithZone:[self zone]] init];
-	
+	if ((self = [super initWithFrame:frame])) {
+        editors = [[NSMutableDictionary alloc] init];
+    }
 	return self;
-}
-
-- (void)dealloc
-{
-	[broker release];
-	[editors release];
-	[currentEditor release];
-	
-	[super dealloc];
 }
 
 - (void)registerEditor:(Class)EditorClass
 {
-	Editor		*editor = [(Editor *)[EditorClass allocWithZone:[self zone]] initWithDocument:document];
+	Editor		*editor = [(Editor *)[EditorClass alloc] initWithDocument:document];
 	
 	[editors setObject:editor forKey:[EditorClass name]];
 }
@@ -43,7 +34,8 @@
 {
 	document = aDocument;
 	// Don't create until now, since we want to make sure our document is connected before we do this.
-	broker = [[AJRObjectBroker allocWithZone:[self zone]] initWithTarget:self action:@selector(registerEditor:) requestingClassesInheritedFromClass:[Editor class]];
+	broker = [[AJRObjectBroker alloc] initWithTarget:self action:@selector(registerEditor:)
+                 requestingClassesInheritedFromClass:[Editor class]];
 }
 
 - (void)displayEditorNamed:(NSString *)name
@@ -60,8 +52,7 @@
 			[self addSubview:new];
 		}
 		
-		[currentEditor release];
-		currentEditor = [editor retain];
+		currentEditor = editor;
 		[currentEditor update];
 	}
 }

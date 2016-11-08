@@ -79,6 +79,9 @@
 - (void)_ajrDrawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
 	if ([controlView isKindOfClass:[NSTableView class]]) {
+        NSImage *anImage;
+        NSRect imageRect;
+        
 		cellFrame.size.width -= 10.0;
 		cellFrame.origin.x += 2.0;
 		[[self attributedStringValue] drawInRect:cellFrame];
@@ -92,7 +95,11 @@
 				_cellFrame->size.width = min;
 			}
 		}
-		[[NSImage imageNamed:@"smallPopupArrows"] compositeToPoint:(NSPoint){cellFrame.origin.x + cellFrame.size.width - 5.0, cellFrame.origin.y + cellFrame.size.height - 2.0} operation:NSCompositeSourceOver];
+        anImage = [NSImage imageNamed:@"smallPopupArrows"];
+        imageRect.origin.x = cellFrame.origin.x + cellFrame.size.width - 5.0;
+        imageRect.origin.y = cellFrame.origin.y + cellFrame.size.height - 2.0;
+        imageRect.size = [anImage size];
+        [anImage drawInRect:imageRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
 	} else {
 		[self _ajrDrawWithFrame:cellFrame inView:controlView];
 	}

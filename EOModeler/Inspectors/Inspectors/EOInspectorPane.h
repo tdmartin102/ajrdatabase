@@ -13,12 +13,12 @@
 @interface EOInspectorPane : NSObject
 {
 	IBOutlet NSView		*view;
-
 	EOInspector				*inspector;
+    NSArray                 *uiElements;
 }
 
 + (id)paneWithInspector:(EOInspector *)anInspector;
-- (id)initWithInspector:(EOInspector *)anInspector;
+- (instancetype)initWithInspector:(EOInspector *)anInspector;
 
 - (NSString *)name;
 - (NSImage *)image;

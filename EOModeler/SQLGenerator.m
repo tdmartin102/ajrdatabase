@@ -12,30 +12,21 @@
 
 @implementation SQLGenerator
 
-- (id)initWithModel:(EOModel *)aModel entities:(NSArray *)someEntities
+- (instancetype)initWithModel:(EOModel *)aModel entities:(NSArray *)someEntities
 {
-	[super init];
-	
-	entities = [someEntities copyWithZone:[self zone]];
-	model = [aModel retain];
-	options = [[NSMutableDictionary alloc] init];
-	
+    if ((self = [super init])) {
+        entities = [someEntities copy];
+        model = aModel;
+        options = [[NSMutableDictionary alloc] init];
+    }
 	return self;
-}
-
-- (void)dealloc
-{
-	[model release];
-	[options release];
-	[entities release];
-	
-	[super dealloc];
 }
 
 - (void)windowWillClose:(NSNotification *)notification
 {
 	[window setDelegate:nil];
-	[self release];
+	// we realy can't release self here, this might be a leak then
+    //[self release];
 }
 
 - (void)updateScript
@@ -43,8 +34,7 @@
 	EOAdaptor				*adaptor = [EOAdaptor adaptorWithModel:model];
 	EOSchemaGeneration	*generator = [adaptor synchronizationFactory];
 	
-	[statements release];
-	statements = [[generator schemaCreationStatementsForEntities:entities options:options] retain];
+	statements = [generator schemaCreationStatementsForEntities:entities options:options];
 	
 	[sqlText setFont:[NSFont userFixedPitchFontOfSize:10.0]];
 	[sqlText setString:[[[statements valueForKey:@"statement"] componentsJoinedByString:@";\n"] stringByAppendingString:@";\n"]];
@@ -70,7 +60,7 @@
 
 - (void)executeSQL:(id)sender
 {
-	NSMutableArray		*errors = [[NSMutableArray allocWithZone:[self zone]] init];
+	NSMutableArray		*errors = [[NSMutableArray alloc] init];
 	EOAdaptor			*adaptor = [EOAdaptor adaptorWithModel:model];
 	EOAdaptorContext	*context = [adaptor createAdaptorContext];
 	EOAdaptorChannel	*channel = [context createAdaptorChannel];
@@ -106,13 +96,18 @@
 			[[sv superview] setNeedsDisplay:YES];
 		}
 	}
-	[errors release];
 }
 
 - (void)run
 {
 	if (window == nil) {
-		[NSBundle loadNibNamed:@"SQLGenerator" owner:self];
+        NSBundle *bundle;
+        NSArray  *anArray;
+        
+        bundle = [NSBundle bundleForClass:[self class]];
+        [bundle loadNibNamed:@"SQLGenerator" owner:self topLevelObjects:&anArray];
+        uiElements = anArray;
+
 		[self toggleOptions:self];
 	}
 	

@@ -15,6 +15,8 @@
 	IBOutlet NSView		*nothingView;
 	IBOutlet NSView		*multipleView;
 	IBOutlet NSToolbar	*nothingToolbar;
+    
+    NSArray             *uiElements;
 }
 
 - (void)updateInspector;

@@ -8,6 +8,8 @@
 
 #import "Editor.h"
 
+@class EOAttribute;
+
 @interface EditorStoredProcedure : Editor
 {
 	IBOutlet NSTableView		*procedureTable;
@@ -19,5 +21,6 @@
 }
 
 - (void)selectedArgument:(id)sender;
+- (void)editArgument:(EOAttribute *)argument;
 
 @end

@@ -16,32 +16,29 @@
 
 @implementation EOModelWizard
 
-- (id)init
+- (instancetype)init
 {
 	EOWizardPane		*pane;
 	
-	[super init];
+	if ((self = [super init]))
+    {
+        assignPrimaryKeys = YES;
+        assignRelationships = NO;
+        assignStoredProcedures = NO;
+        assignCustomObjects = YES;
 	
-	assignPrimaryKeys = YES;
-	assignRelationships = NO;
-	assignStoredProcedures = NO;
-	assignCustomObjects = YES;
 	
-	
-	steps = [[NSMutableArray allocWithZone:[self zone]] init];
-	pane = [[EOWizardAdaptorPane allocWithZone:[self zone]] initWithModelWizard:self];
-	[steps addObject:pane];
-	[pane release];
-	pane = [[EOWizardFeaturesPane allocWithZone:[self zone]] initWithModelWizard:self];
-	[steps addObject:pane];
-	[pane release];
-	pane = [[EOWizardTablesPane allocWithZone:[self zone]] initWithModelWizard:self];
-	[steps addObject:pane];
-	[pane release];
-	
-	stepIndex = 0;
-	step = [steps objectAtIndex:stepIndex];
-	
+        steps = [[NSMutableArray alloc] init];
+        pane = [[EOWizardAdaptorPane alloc] initWithModelWizard:self];
+        [steps addObject:pane];
+        pane = [[EOWizardFeaturesPane alloc] initWithModelWizard:self];
+        [steps addObject:pane];
+        pane = [[EOWizardTablesPane alloc] initWithModelWizard:self];
+        [steps addObject:pane];
+        
+        stepIndex = 0;
+        step = [steps objectAtIndex:stepIndex];
+    }
 	return self;
 }
 
@@ -60,11 +57,16 @@
 - (EOModel *)run
 {
 	if (window == nil) {
-		[NSBundle loadNibNamed:@"EOModelWizard" owner:self];
+        NSBundle *bundle;
+        NSArray  *anArray;
+        
+        bundle = [NSBundle bundleForClass:[self class]];
+        [bundle loadNibNamed:@"EOModelWizard" owner:self topLevelObjects:&anArray];
+        uiElements = anArray;
+
 		[window center];
 	}
 	
-	[model release];
 	model = [[EOModel alloc] init];
 	
 	[self updatePane];
@@ -74,13 +76,13 @@
 		EOModel		*temp;
 		
 		[window orderOut:self];
-		temp = [model autorelease];
+		temp = model;
 		model = nil;
 		
 		return temp;
 	}
 	[window orderOut:self];
-	[model release]; model = nil;
+	model = nil;
 	
 	return nil;
 }
@@ -114,7 +116,6 @@
 - (void)cancel:(id)sender
 {
 	[NSApp stopModalWithCode:NSCancelButton];
-	[model release];
 	model = nil;
 }
 

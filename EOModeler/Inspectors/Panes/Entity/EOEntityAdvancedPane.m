@@ -23,7 +23,7 @@
 		int				x;
 		NSArray			*models = [[EOModelGroup defaultModelGroup] models];
 		
-		entities = [[NSMutableArray allocWithZone:[self zone]] init];
+		entities = [[NSMutableArray alloc] init];
 		
 		for (x = 0; x < (const int)[models count]; x++) {
 			[entities addObjectsFromArray:[[models objectAtIndex:x] entities]];
@@ -59,7 +59,7 @@
 
 - (void)updateParentButton
 {
-	int		row = [parentTable selectedRow];
+	NSInteger		row = [parentTable selectedRow];
 	
 	if (row < 0) {
 		[parentButton setEnabled:NO];
@@ -125,7 +125,7 @@
 
 - (void)toggleParent:(id)sender
 {
-	int		row = [parentTable selectedRow];
+	NSInteger		row = [parentTable selectedRow];
 	
 	if (row < 0) {
 		NSBeep();
@@ -162,12 +162,12 @@
 	[[self selectedEntity] setIsAbstractEntity:[sender state]];
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
 	return [[self entities] count];
 }
 
-- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
 	EOEntity		*entity = [[self entities] objectAtIndex:rowIndex];
 	NSString		*ident = [aTableColumn identifier];
@@ -205,7 +205,7 @@
 	return @"?";
 }
 
-- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)row
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)row
 {
 	EOEntity		*selected = [[self entities] objectAtIndex:row];
 	EOEntity		*entity = [self selectedEntity];
@@ -223,7 +223,7 @@
 	[parentTable setNeedsDisplay:YES];
 }
 
-- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex
 {
 	EOEntity		*selected = [[self entities] objectAtIndex:rowIndex];
 	EOEntity		*entity = [self selectedEntity];

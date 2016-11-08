@@ -67,7 +67,7 @@
 
 - (void)selectedInitArgument:(id)sender
 {
-	[[self selectedAttribute] setFactoryMethodArgumentType:[[sender selectedItem] tag]];
+	[[self selectedAttribute] setFactoryMethodArgumentType:(EOFactoryMethodArgumentType)[[sender selectedItem] tag]];
 }
 
 @end
