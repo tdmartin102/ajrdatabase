@@ -10,13 +10,13 @@
 
 @interface EORelationshipPane : EOInspectorPane
 {
-	IBOutlet NSTabView		*tabView;
+	IBOutlet NSTabView          *tabView;
 	
 	IBOutlet NSTextField		*nameField;
-	IBOutlet NSPopUpButton	*modelsPopUp;
+	IBOutlet NSPopUpButton      *modelsPopUp;
 	IBOutlet NSTableView		*entitiesTable;
 	IBOutlet NSMatrix			*toOneMatrix;
-	IBOutlet NSPopUpButton	*joinTypePopUp;
+	IBOutlet NSPopUpButton      *joinTypePopUp;
 	IBOutlet NSTableView		*sourceTable;
 	IBOutlet NSTableView		*destinationTable;
 	IBOutlet NSButton			*connectButton;
@@ -25,13 +25,13 @@
 	IBOutlet NSTextField		*definitionField;
 }
 
-- (void)setName:(id)sender;
-- (void)selectModel:(id)sender;
-- (void)selectToOne:(id)sender;
-- (void)selectJoinType:(id)sender;
-- (void)selectDestinationEntity:(id)sender;
-- (void)selectSourceAttribute:(id)sender;
-- (void)selectDestinationAttribute:(id)sender;
-- (void)toggleJoin:(id)sender;
+- (IBAction)setName:(id)sender;
+- (IBAction)selectModel:(id)sender;
+- (IBAction)selectToOne:(id)sender;
+- (IBAction)selectJoinType:(id)sender;
+- (IBAction)selectDestinationEntity:(id)sender;
+- (IBAction)selectSourceAttribute:(id)sender;
+- (IBAction)selectDestinationAttribute:(id)sender;
+- (IBAction)toggleJoin:(id)sender;
 
 @end

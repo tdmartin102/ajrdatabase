@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="PreferencesGeneral">
+            <connections>
+                <outlet property="fetchLimitText" destination="8" id="10"/>
+                <outlet property="view" destination="5" id="6"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="5" userLabel="View">
+            <rect key="frame" x="0.0" y="0.0" width="400" height="57"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textField verticalHuggingPriority="750" id="8">
+                    <rect key="frame" x="214" y="18" width="91" height="22"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="14">
+                        <numberFormatter key="formatter" formatterBehavior="10_0" positiveFormat="#,##0" negativeFormat="-#,##0" localizesFormat="NO" hasThousandSeparators="NO" thousandSeparator="," id="9">
+                            <textAttributesForNegativeValues>
+                                <color key="NSColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </textAttributesForNegativeValues>
+                            <attributedString key="attributedStringForNil"/>
+                            <attributedString key="attributedStringForNotANumber">
+                                <fragment content="NaN"/>
+                            </attributedString>
+                            <attributedString key="attributedStringForZero">
+                                <fragment content="0"/>
+                            </attributedString>
+                            <decimal key="minimum" value="0"/>
+                            <decimal key="maximum" value="20000000"/>
+                        </numberFormatter>
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <connections>
+                        <action selector="setFetchLimit:" target="-2" id="11"/>
+                    </connections>
+                </textField>
+                <textField verticalHuggingPriority="750" id="7">
+                    <rect key="frame" x="45" y="20" width="164" height="17"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" id="13">
+                        <font key="font" metaFont="system"/>
+                        <string key="title">Record Fetch Limit:
+</string>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+        </customView>
+    </objects>
+</document>

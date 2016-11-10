@@ -13,14 +13,14 @@
 	IBOutlet NSTextField		*batchSizeField;
 	IBOutlet NSMatrix			*optionalityMatrix;
 	IBOutlet NSMatrix			*deleteRuleMatrix;
-	IBOutlet NSButtonCell	*ownsDestinationCheck;
-	IBOutlet NSButtonCell	*propagatesPKCheck;
+	IBOutlet NSButtonCell       *ownsDestinationCheck;
+	IBOutlet NSButtonCell       *propagatesPKCheck;
 }
 
-- (void)setBatchSize:(id)sender;
-- (void)selectOptionality:(id)sender;
-- (void)selectDeleteRule:(id)sender;
-- (void)toggleOwnsDestination:(id)sender;
-- (void)togglePropagatesPK:(id)sender;
+- (IBAction)setBatchSize:(id)sender;
+- (IBAction)selectOptionality:(id)sender;
+- (IBAction)selectDeleteRule:(id)sender;
+- (IBAction)toggleOwnsDestination:(id)sender;
+- (IBAction)togglePropagatesPK:(id)sender;
 
 @end

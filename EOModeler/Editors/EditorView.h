@@ -16,7 +16,7 @@
 	NSMutableDictionary		*editors;
 	Editor						*currentEditor;
 	
-	IBOutlet Document			*document;
+	__weak IBOutlet Document			*document;
 }
 
 - (instancetype)initWithFrame:(NSRect)frame;

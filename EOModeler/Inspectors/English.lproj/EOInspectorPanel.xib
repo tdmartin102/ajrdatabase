@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="EOInspectorPanel">
+            <connections>
+                <outlet property="multipleView" destination="11" id="13"/>
+                <outlet property="nothingView" destination="8" id="10"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="8" userLabel="Nothing">
+            <rect key="frame" x="0.0" y="0.0" width="280" height="428"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <textField verticalHuggingPriority="750" id="9">
+                    <rect key="frame" x="17" y="250" width="246" height="17"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Nothing to Inspect" id="15">
+                        <font key="font" metaFont="systemBold"/>
+                        <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+        </customView>
+        <customView id="11" userLabel="Multiple">
+            <rect key="frame" x="0.0" y="0.0" width="280" height="428"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <textField verticalHuggingPriority="750" id="12">
+                    <rect key="frame" x="17" y="250" width="246" height="17"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Multiple Items Selected" id="16">
+                        <font key="font" metaFont="systemBold"/>
+                        <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+        </customView>
+    </objects>
+</document>

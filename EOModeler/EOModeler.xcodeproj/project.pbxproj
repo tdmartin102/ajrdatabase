@@ -10,9 +10,43 @@
 		148CDD0314575C28008F682E /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 148CDD0214575C28008F682E /* EOControl.framework */; };
 		14DF9359145725E600DF0C65 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DF9358145725E600DF0C65 /* EOAccess.framework */; };
 		14DF93611457260900DF0C65 /* EOInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DF93601457260900DF0C65 /* EOInterface.framework */; };
+		1E0411681DD39EBD00A14432 /* EORelationshipPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E0411661DD39EBD00A14432 /* EORelationshipPane.xib */; };
+		1E64075A1DD4CE0C00D29170 /* PreferenceChecks.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E64075C1DD4CE0C00D29170 /* PreferenceChecks.xib */; };
+		1E64075D1DD4CE1100D29170 /* PreferencesBundles.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E64075F1DD4CE1100D29170 /* PreferencesBundles.xib */; };
+		1E6407601DD4CE1500D29170 /* PreferencesGeneral.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E6407621DD4CE1500D29170 /* PreferencesGeneral.xib */; };
+		1E6407631DD4CE1B00D29170 /* PreferencesModels.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E6407651DD4CE1B00D29170 /* PreferencesModels.xib */; };
 		1EB269CD14C5C7C10024D4AB /* Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB269CC14C5C7C10024D4AB /* Additions.m */; };
 		1EE187971DD21C51008F9653 /* AJRObjectBroker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EE187961DD21C51008F9653 /* AJRObjectBroker.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1EE1879A1DD21F2D008F9653 /* AJRClassEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EE187991DD21F2D008F9653 /* AJRClassEnumerator.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1EFEC6531DD4AAD00044CE66 /* DatabaseQuery.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC64B1DD4AAD00044CE66 /* DatabaseQuery.xib */; };
+		1EFEC6541DD4AAD00044CE66 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC64D1DD4AAD00044CE66 /* Document.xib */; };
+		1EFEC6551DD4AAD00044CE66 /* EOModeler.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC64F1DD4AAD00044CE66 /* EOModeler.xib */; };
+		1EFEC6561DD4AAD00044CE66 /* SQLGenerator.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC6511DD4AAD00044CE66 /* SQLGenerator.xib */; };
+		1EFEC65F1DD4AF1B0044CE66 /* EditorEntities.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC6571DD4AF1B0044CE66 /* EditorEntities.xib */; };
+		1EFEC6601DD4AF1B0044CE66 /* EditorEntity.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC6591DD4AF1B0044CE66 /* EditorEntity.xib */; };
+		1EFEC6611DD4AF1B0044CE66 /* EditorStoredProcedure.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC65B1DD4AF1B0044CE66 /* EditorStoredProcedure.xib */; };
+		1EFEC6621DD4AF1B0044CE66 /* EditorStoredProcedures.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC65D1DD4AF1B0044CE66 /* EditorStoredProcedures.xib */; };
+		1EFEC6651DD4B2780044CE66 /* EOInspectorPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC6631DD4B2780044CE66 /* EOInspectorPanel.xib */; };
+		1EFEC6761DD4B2E10044CE66 /* EOAttributePane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC6661DD4B2E10044CE66 /* EOAttributePane.xib */; };
+		1EFEC6771DD4B2E10044CE66 /* EOCustomPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC6681DD4B2E10044CE66 /* EOCustomPane.xib */; };
+		1EFEC6781DD4B2E10044CE66 /* EODataPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC66A1DD4B2E10044CE66 /* EODataPane.xib */; };
+		1EFEC6791DD4B2E10044CE66 /* EODatePane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC66C1DD4B2E10044CE66 /* EODatePane.xib */; };
+		1EFEC67A1DD4B2E10044CE66 /* EODecimalNumberPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC66E1DD4B2E10044CE66 /* EODecimalNumberPane.xib */; };
+		1EFEC67B1DD4B2E10044CE66 /* EODoublePane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC6701DD4B2E10044CE66 /* EODoublePane.xib */; };
+		1EFEC67C1DD4B2E10044CE66 /* EOIntegerPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC6721DD4B2E10044CE66 /* EOIntegerPane.xib */; };
+		1EFEC67D1DD4B2E10044CE66 /* EOStringPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC6741DD4B2E10044CE66 /* EOStringPane.xib */; };
+		1EFEC6861DD4B46A0044CE66 /* EOEntityAdvancedPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC67E1DD4B46A0044CE66 /* EOEntityAdvancedPane.xib */; };
+		1EFEC6871DD4B46A0044CE66 /* EOEntityPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC6801DD4B46A0044CE66 /* EOEntityPane.xib */; };
+		1EFEC6881DD4B46A0044CE66 /* EOEntitySharedObjectsPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC6821DD4B46A0044CE66 /* EOEntitySharedObjectsPane.xib */; };
+		1EFEC6891DD4B46A0044CE66 /* EOEntityStoredProceduresPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC6841DD4B46A0044CE66 /* EOEntityStoredProceduresPane.xib */; };
+		1EFEC68E1DD4B5680044CE66 /* EOModelAdaptorPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC68A1DD4B5680044CE66 /* EOModelAdaptorPane.xib */; };
+		1EFEC68F1DD4B5680044CE66 /* EOModelConnectionPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC68C1DD4B5680044CE66 /* EOModelConnectionPane.xib */; };
+		1EFEC6921DD4B66C0044CE66 /* EOUserInfoPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC6901DD4B66C0044CE66 /* EOUserInfoPane.xib */; };
+		1EFEC6A61DD4BD900044CE66 /* EOModelWizard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC69E1DD4BD900044CE66 /* EOModelWizard.xib */; };
+		1EFEC6A71DD4BD900044CE66 /* EOWizardAdaptorPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC6A01DD4BD900044CE66 /* EOWizardAdaptorPane.xib */; };
+		1EFEC6A81DD4BD900044CE66 /* EOWizardFeaturesPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC6A21DD4BD900044CE66 /* EOWizardFeaturesPane.xib */; };
+		1EFEC6A91DD4BD900044CE66 /* EOWizardTablesPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC6A41DD4BD900044CE66 /* EOWizardTablesPane.xib */; };
+		1EFEC6AC1DD4BF720044CE66 /* EORelationshipAdvancedPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC6AA1DD4BF720044CE66 /* EORelationshipAdvancedPane.xib */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -48,10 +82,6 @@
 		FAC11554074022DD00744E1E /* EditorStoredProcedures.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC11548074022DD00744E1E /* EditorStoredProcedures.m */; };
 		FAC11555074022DD00744E1E /* EditorView.h in Resources */ = {isa = PBXBuildFile; fileRef = FAC11549074022DD00744E1E /* EditorView.h */; };
 		FAC11556074022DD00744E1E /* EditorView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC1154A074022DD00744E1E /* EditorView.m */; };
-		FAC1155F074022EB00744E1E /* EditorEntities.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC11557074022EB00744E1E /* EditorEntities.nib */; };
-		FAC11560074022EB00744E1E /* EditorEntity.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC11559074022EB00744E1E /* EditorEntity.nib */; };
-		FAC11561074022EB00744E1E /* EditorStoredProcedure.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC1155B074022EB00744E1E /* EditorStoredProcedure.nib */; };
-		FAC11562074022EB00744E1E /* EditorStoredProcedures.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC1155D074022EB00744E1E /* EditorStoredProcedures.nib */; };
 		FAC115730740235600744E1E /* NSComboBoxCellFix.h in Resources */ = {isa = PBXBuildFile; fileRef = FAC115690740235600744E1E /* NSComboBoxCellFix.h */; };
 		FAC115740740235600744E1E /* NSComboBoxCellFix.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC1156A0740235600744E1E /* NSComboBoxCellFix.m */; };
 		FAC115770740235600744E1E /* NSTableViewFix.h in Resources */ = {isa = PBXBuildFile; fileRef = FAC1156D0740235600744E1E /* NSTableViewFix.h */; };
@@ -62,7 +92,6 @@
 		FAC1157C0740235600744E1E /* NSWindowFix.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC115720740235600744E1E /* NSWindowFix.m */; };
 		FAC115A60740248900744E1E /* EOInspectorPanel.h in Resources */ = {isa = PBXBuildFile; fileRef = FAC115A40740248900744E1E /* EOInspectorPanel.h */; };
 		FAC115A70740248900744E1E /* EOInspectorPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC115A50740248900744E1E /* EOInspectorPanel.m */; };
-		FAC115AA0740249800744E1E /* EOInspectorPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC115A80740249800744E1E /* EOInspectorPanel.nib */; };
 		FAC115C1074024D100744E1E /* EOAttributeInspector.h in Resources */ = {isa = PBXBuildFile; fileRef = FAC115B1074024D100744E1E /* EOAttributeInspector.h */; };
 		FAC115C2074024D100744E1E /* EOAttributeInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC115B2074024D100744E1E /* EOAttributeInspector.m */; };
 		FAC115C3074024D100744E1E /* EOEntityInspector.h in Resources */ = {isa = PBXBuildFile; fileRef = FAC115B3074024D100744E1E /* EOEntityInspector.h */; };
@@ -99,14 +128,6 @@
 		FAC115FC0740255F00744E1E /* EOInternalTypePane.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC115E80740255F00744E1E /* EOInternalTypePane.m */; };
 		FAC115FD0740255F00744E1E /* EOStringPane.h in Resources */ = {isa = PBXBuildFile; fileRef = FAC115E90740255F00744E1E /* EOStringPane.h */; };
 		FAC115FE0740255F00744E1E /* EOStringPane.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC115EA0740255F00744E1E /* EOStringPane.m */; };
-		FAC1160F0740256E00744E1E /* EOAttributePane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC115FF0740256E00744E1E /* EOAttributePane.nib */; };
-		FAC116100740256E00744E1E /* EOCustomPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC116010740256E00744E1E /* EOCustomPane.nib */; };
-		FAC116110740256E00744E1E /* EODataPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC116030740256E00744E1E /* EODataPane.nib */; };
-		FAC116120740256E00744E1E /* EODatePane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC116050740256E00744E1E /* EODatePane.nib */; };
-		FAC116130740256E00744E1E /* EODecimalNumberPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC116070740256E00744E1E /* EODecimalNumberPane.nib */; };
-		FAC116140740256E00744E1E /* EODoublePane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC116090740256E00744E1E /* EODoublePane.nib */; };
-		FAC116150740256E00744E1E /* EOIntegerPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC1160B0740256E00744E1E /* EOIntegerPane.nib */; };
-		FAC116160740256E00744E1E /* EOStringPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC1160D0740256E00744E1E /* EOStringPane.nib */; };
 		FAC11627074025C600744E1E /* EOEntityAdvancedPane.h in Resources */ = {isa = PBXBuildFile; fileRef = FAC1161F074025C600744E1E /* EOEntityAdvancedPane.h */; };
 		FAC11628074025C600744E1E /* EOEntityAdvancedPane.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC11620074025C600744E1E /* EOEntityAdvancedPane.m */; };
 		FAC11629074025C600744E1E /* EOEntityPane.h in Resources */ = {isa = PBXBuildFile; fileRef = FAC11621074025C600744E1E /* EOEntityPane.h */; };
@@ -115,25 +136,16 @@
 		FAC1162C074025C600744E1E /* EOEntitySharedObjectsPane.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC11624074025C600744E1E /* EOEntitySharedObjectsPane.m */; };
 		FAC1162D074025C600744E1E /* EOEntityStoredProceduresPane.h in Resources */ = {isa = PBXBuildFile; fileRef = FAC11625074025C600744E1E /* EOEntityStoredProceduresPane.h */; };
 		FAC1162E074025C600744E1E /* EOEntityStoredProceduresPane.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC11626074025C600744E1E /* EOEntityStoredProceduresPane.m */; };
-		FAC11637074025DE00744E1E /* EOEntityAdvancedPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC1162F074025DE00744E1E /* EOEntityAdvancedPane.nib */; };
-		FAC11638074025DE00744E1E /* EOEntityPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC11631074025DE00744E1E /* EOEntityPane.nib */; };
-		FAC11639074025DE00744E1E /* EOEntitySharedObjectsPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC11633074025DE00744E1E /* EOEntitySharedObjectsPane.nib */; };
-		FAC1163A074025DE00744E1E /* EOEntityStoredProceduresPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC11635074025DE00744E1E /* EOEntityStoredProceduresPane.nib */; };
 		FAC1164D0740264C00744E1E /* EOModelAdaptorPane.h in Resources */ = {isa = PBXBuildFile; fileRef = FAC116490740264C00744E1E /* EOModelAdaptorPane.h */; };
 		FAC1164E0740264C00744E1E /* EOModelAdaptorPane.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC1164A0740264C00744E1E /* EOModelAdaptorPane.m */; };
 		FAC1164F0740264C00744E1E /* EOModelConnectionPane.h in Resources */ = {isa = PBXBuildFile; fileRef = FAC1164B0740264C00744E1E /* EOModelConnectionPane.h */; };
 		FAC116500740264C00744E1E /* EOModelConnectionPane.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC1164C0740264C00744E1E /* EOModelConnectionPane.m */; };
-		FAC1165B0740269B00744E1E /* EOModelAdaptorPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC116570740269B00744E1E /* EOModelAdaptorPane.nib */; };
-		FAC1165C0740269B00744E1E /* EOModelConnectionPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC116590740269B00744E1E /* EOModelConnectionPane.nib */; };
 		FAC11669074026DE00744E1E /* EORelationshipAdvancedPane.h in Resources */ = {isa = PBXBuildFile; fileRef = FAC11665074026DE00744E1E /* EORelationshipAdvancedPane.h */; };
 		FAC1166A074026DE00744E1E /* EORelationshipAdvancedPane.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC11666074026DE00744E1E /* EORelationshipAdvancedPane.m */; };
 		FAC1166B074026DE00744E1E /* EORelationshipPane.h in Resources */ = {isa = PBXBuildFile; fileRef = FAC11667074026DE00744E1E /* EORelationshipPane.h */; };
 		FAC1166C074026DE00744E1E /* EORelationshipPane.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC11668074026DE00744E1E /* EORelationshipPane.m */; };
-		FAC11671074026F100744E1E /* EORelationshipAdvancedPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC1166D074026F100744E1E /* EORelationshipAdvancedPane.nib */; };
-		FAC11672074026F100744E1E /* EORelationshipPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC1166F074026F100744E1E /* EORelationshipPane.nib */; };
 		FAC1167D0740271C00744E1E /* EOUserInfoPane.h in Resources */ = {isa = PBXBuildFile; fileRef = FAC1167B0740271C00744E1E /* EOUserInfoPane.h */; };
 		FAC1167E0740271C00744E1E /* EOUserInfoPane.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC1167C0740271C00744E1E /* EOUserInfoPane.m */; };
-		FAC116810740272900744E1E /* EOUserInfoPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC1167F0740272900744E1E /* EOUserInfoPane.nib */; };
 		FAC116A3074027C500744E1E /* EOAttributePane.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FAC116A2074027C500744E1E /* EOAttributePane.tiff */; };
 		FAC116AA074027DB00744E1E /* EOEntityAdvancedPane.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FAC116A6074027DB00744E1E /* EOEntityAdvancedPane.tiff */; };
 		FAC116AB074027DB00744E1E /* EOEntityPane.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FAC116A7074027DB00744E1E /* EOEntityPane.tiff */; };
@@ -151,10 +163,6 @@
 		FAC116D10740287800744E1E /* PreferencesGeneral.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC116C90740287800744E1E /* PreferencesGeneral.m */; };
 		FAC116D20740287800744E1E /* PreferencesModels.h in Resources */ = {isa = PBXBuildFile; fileRef = FAC116CA0740287800744E1E /* PreferencesModels.h */; };
 		FAC116D30740287800744E1E /* PreferencesModels.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC116CB0740287800744E1E /* PreferencesModels.m */; };
-		FAC116DC0740288700744E1E /* PreferencesBundles.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC116D40740288700744E1E /* PreferencesBundles.nib */; };
-		FAC116DD0740288700744E1E /* PreferencesChecks.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC116D60740288700744E1E /* PreferencesChecks.nib */; };
-		FAC116DE0740288700744E1E /* PreferencesGeneral.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC116D80740288700744E1E /* PreferencesGeneral.nib */; };
-		FAC116DF0740288700744E1E /* PreferencesModels.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC116DA0740288700744E1E /* PreferencesModels.nib */; };
 		FAC116EA0740289C00744E1E /* PreferencesBundles.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FAC116E60740289C00744E1E /* PreferencesBundles.tiff */; };
 		FAC116EB0740289C00744E1E /* PreferencesChecks.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FAC116E70740289C00744E1E /* PreferencesChecks.tiff */; };
 		FAC116EC0740289C00744E1E /* PreferencesGeneral.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FAC116E80740289C00744E1E /* PreferencesGeneral.tiff */; };
@@ -171,14 +179,6 @@
 		FAC1170B0740292600744E1E /* EOWizardTablesPane.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC116FF0740292600744E1E /* EOWizardTablesPane.m */; };
 		FAC1170C0740292600744E1E /* NoEventMatrix.h in Resources */ = {isa = PBXBuildFile; fileRef = FAC117000740292600744E1E /* NoEventMatrix.h */; };
 		FAC1170D0740292600744E1E /* NoEventMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC117010740292600744E1E /* NoEventMatrix.m */; };
-		FAC117160740293500744E1E /* EOModelWizard.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC1170E0740293500744E1E /* EOModelWizard.nib */; };
-		FAC117170740293500744E1E /* EOWizardAdaptorPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC117100740293500744E1E /* EOWizardAdaptorPane.nib */; };
-		FAC117180740293500744E1E /* EOWizardFeaturesPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC117120740293500744E1E /* EOWizardFeaturesPane.nib */; };
-		FAC117190740293500744E1E /* EOWizardTablesPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC117140740293500744E1E /* EOWizardTablesPane.nib */; };
-		FAC117270740299400744E1E /* DatabaseQuery.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC1171F0740299400744E1E /* DatabaseQuery.nib */; };
-		FAC117280740299400744E1E /* Document.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC117210740299400744E1E /* Document.nib */; };
-		FAC117290740299400744E1E /* EOModeler.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC117230740299400744E1E /* EOModeler.nib */; };
-		FAC1172A0740299400744E1E /* SQLGenerator.nib in Resources */ = {isa = PBXBuildFile; fileRef = FAC117250740299400744E1E /* SQLGenerator.nib */; };
 		FAC1176707402A2900744E1E /* classTitle.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FAC1173D07402A2900744E1E /* classTitle.tiff */; };
 		FAC1176807402A2900744E1E /* Dot Blue.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FAC1173E07402A2900744E1E /* Dot Blue.tiff */; };
 		FAC1176907402A2900744E1E /* Dot Clear.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FAC1173F07402A2900744E1E /* Dot Clear.tiff */; };
@@ -229,12 +229,46 @@
 		148CDD0214575C28008F682E /* EOControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOControl.framework; path = /Library/Frameworks/EOControl.framework; sourceTree = "<absolute>"; };
 		14DF9358145725E600DF0C65 /* EOAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOAccess.framework; path = /Library/Frameworks/EOAccess.framework; sourceTree = "<absolute>"; };
 		14DF93601457260900DF0C65 /* EOInterface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOInterface.framework; path = /Library/Frameworks/EOInterface.framework; sourceTree = "<absolute>"; };
+		1E0411671DD39EBD00A14432 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EORelationshipPane.xib; sourceTree = "<group>"; };
+		1E64075B1DD4CE0C00D29170 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PreferenceChecks.xib; sourceTree = "<group>"; };
+		1E64075E1DD4CE1100D29170 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PreferencesBundles.xib; sourceTree = "<group>"; };
+		1E6407611DD4CE1500D29170 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PreferencesGeneral.xib; sourceTree = "<group>"; };
+		1E6407641DD4CE1B00D29170 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PreferencesModels.xib; sourceTree = "<group>"; };
 		1EB269CB14C5C7C10024D4AB /* Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Additions.h; sourceTree = "<group>"; };
 		1EB269CC14C5C7C10024D4AB /* Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Additions.m; sourceTree = "<group>"; };
 		1EE187951DD21C51008F9653 /* AJRObjectBroker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AJRObjectBroker.h; sourceTree = "<group>"; };
 		1EE187961DD21C51008F9653 /* AJRObjectBroker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AJRObjectBroker.m; sourceTree = "<group>"; };
 		1EE187981DD21F2D008F9653 /* AJRClassEnumerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AJRClassEnumerator.h; sourceTree = "<group>"; };
 		1EE187991DD21F2D008F9653 /* AJRClassEnumerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AJRClassEnumerator.m; sourceTree = "<group>"; };
+		1EFEC64C1DD4AAD00044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/DatabaseQuery.xib; sourceTree = "<group>"; };
+		1EFEC64E1DD4AAD00044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Document.xib; sourceTree = "<group>"; };
+		1EFEC6501DD4AAD00044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EOModeler.xib; sourceTree = "<group>"; };
+		1EFEC6521DD4AAD00044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SQLGenerator.xib; sourceTree = "<group>"; };
+		1EFEC6581DD4AF1B0044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EditorEntities.xib; sourceTree = "<group>"; };
+		1EFEC65A1DD4AF1B0044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EditorEntity.xib; sourceTree = "<group>"; };
+		1EFEC65C1DD4AF1B0044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EditorStoredProcedure.xib; sourceTree = "<group>"; };
+		1EFEC65E1DD4AF1B0044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EditorStoredProcedures.xib; sourceTree = "<group>"; };
+		1EFEC6641DD4B2780044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EOInspectorPanel.xib; sourceTree = "<group>"; };
+		1EFEC6671DD4B2E10044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EOAttributePane.xib; sourceTree = "<group>"; };
+		1EFEC6691DD4B2E10044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EOCustomPane.xib; sourceTree = "<group>"; };
+		1EFEC66B1DD4B2E10044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EODataPane.xib; sourceTree = "<group>"; };
+		1EFEC66D1DD4B2E10044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EODatePane.xib; sourceTree = "<group>"; };
+		1EFEC66F1DD4B2E10044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EODecimalNumberPane.xib; sourceTree = "<group>"; };
+		1EFEC6711DD4B2E10044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EODoublePane.xib; sourceTree = "<group>"; };
+		1EFEC6731DD4B2E10044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EOIntegerPane.xib; sourceTree = "<group>"; };
+		1EFEC6751DD4B2E10044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EOStringPane.xib; sourceTree = "<group>"; };
+		1EFEC67F1DD4B46A0044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EOEntityAdvancedPane.xib; sourceTree = "<group>"; };
+		1EFEC6811DD4B46A0044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EOEntityPane.xib; sourceTree = "<group>"; };
+		1EFEC6831DD4B46A0044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EOEntitySharedObjectsPane.xib; sourceTree = "<group>"; };
+		1EFEC6851DD4B46A0044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EOEntityStoredProceduresPane.xib; sourceTree = "<group>"; };
+		1EFEC68B1DD4B5680044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EOModelAdaptorPane.xib; sourceTree = "<group>"; };
+		1EFEC68D1DD4B5680044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EOModelConnectionPane.xib; sourceTree = "<group>"; };
+		1EFEC6911DD4B66C0044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EOUserInfoPane.xib; sourceTree = "<group>"; };
+		1EFEC69F1DD4BD900044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EOModelWizard.xib; sourceTree = "<group>"; };
+		1EFEC6A11DD4BD900044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EOWizardAdaptorPane.xib; sourceTree = "<group>"; };
+		1EFEC6A31DD4BD900044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EOWizardFeaturesPane.xib; sourceTree = "<group>"; };
+		1EFEC6A51DD4BD900044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EOWizardTablesPane.xib; sourceTree = "<group>"; };
+		1EFEC6AB1DD4BF720044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EORelationshipAdvancedPane.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -273,10 +307,6 @@
 		FAC11548074022DD00744E1E /* EditorStoredProcedures.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EditorStoredProcedures.m; sourceTree = "<group>"; };
 		FAC11549074022DD00744E1E /* EditorView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EditorView.h; sourceTree = "<group>"; };
 		FAC1154A074022DD00744E1E /* EditorView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EditorView.m; sourceTree = "<group>"; };
-		FAC11558074022EB00744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EditorEntities.nib; sourceTree = "<group>"; };
-		FAC1155A074022EB00744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EditorEntity.nib; sourceTree = "<group>"; };
-		FAC1155C074022EB00744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EditorStoredProcedure.nib; sourceTree = "<group>"; };
-		FAC1155E074022EB00744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EditorStoredProcedures.nib; sourceTree = "<group>"; };
 		FAC115690740235600744E1E /* NSComboBoxCellFix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSComboBoxCellFix.h; sourceTree = "<group>"; };
 		FAC1156A0740235600744E1E /* NSComboBoxCellFix.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSComboBoxCellFix.m; sourceTree = "<group>"; };
 		FAC1156D0740235600744E1E /* NSTableViewFix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSTableViewFix.h; sourceTree = "<group>"; };
@@ -287,7 +317,6 @@
 		FAC115720740235600744E1E /* NSWindowFix.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSWindowFix.m; sourceTree = "<group>"; };
 		FAC115A40740248900744E1E /* EOInspectorPanel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOInspectorPanel.h; sourceTree = "<group>"; };
 		FAC115A50740248900744E1E /* EOInspectorPanel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOInspectorPanel.m; sourceTree = "<group>"; };
-		FAC115A90740249800744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EOInspectorPanel.nib; sourceTree = "<group>"; };
 		FAC115B1074024D100744E1E /* EOAttributeInspector.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOAttributeInspector.h; sourceTree = "<group>"; };
 		FAC115B2074024D100744E1E /* EOAttributeInspector.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOAttributeInspector.m; sourceTree = "<group>"; };
 		FAC115B3074024D100744E1E /* EOEntityInspector.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOEntityInspector.h; sourceTree = "<group>"; };
@@ -324,14 +353,6 @@
 		FAC115E80740255F00744E1E /* EOInternalTypePane.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOInternalTypePane.m; sourceTree = "<group>"; };
 		FAC115E90740255F00744E1E /* EOStringPane.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOStringPane.h; sourceTree = "<group>"; };
 		FAC115EA0740255F00744E1E /* EOStringPane.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOStringPane.m; sourceTree = "<group>"; };
-		FAC116000740256E00744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EOAttributePane.nib; sourceTree = "<group>"; };
-		FAC116020740256E00744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EOCustomPane.nib; sourceTree = "<group>"; };
-		FAC116040740256E00744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EODataPane.nib; sourceTree = "<group>"; };
-		FAC116060740256E00744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EODatePane.nib; sourceTree = "<group>"; };
-		FAC116080740256E00744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EODecimalNumberPane.nib; sourceTree = "<group>"; };
-		FAC1160A0740256E00744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EODoublePane.nib; sourceTree = "<group>"; };
-		FAC1160C0740256E00744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EOIntegerPane.nib; sourceTree = "<group>"; };
-		FAC1160E0740256E00744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EOStringPane.nib; sourceTree = "<group>"; };
 		FAC1161F074025C600744E1E /* EOEntityAdvancedPane.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOEntityAdvancedPane.h; sourceTree = "<group>"; };
 		FAC11620074025C600744E1E /* EOEntityAdvancedPane.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOEntityAdvancedPane.m; sourceTree = "<group>"; };
 		FAC11621074025C600744E1E /* EOEntityPane.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOEntityPane.h; sourceTree = "<group>"; };
@@ -340,25 +361,16 @@
 		FAC11624074025C600744E1E /* EOEntitySharedObjectsPane.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOEntitySharedObjectsPane.m; sourceTree = "<group>"; };
 		FAC11625074025C600744E1E /* EOEntityStoredProceduresPane.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOEntityStoredProceduresPane.h; sourceTree = "<group>"; };
 		FAC11626074025C600744E1E /* EOEntityStoredProceduresPane.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOEntityStoredProceduresPane.m; sourceTree = "<group>"; };
-		FAC11630074025DE00744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EOEntityAdvancedPane.nib; sourceTree = "<group>"; };
-		FAC11632074025DE00744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EOEntityPane.nib; sourceTree = "<group>"; };
-		FAC11634074025DE00744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EOEntitySharedObjectsPane.nib; sourceTree = "<group>"; };
-		FAC11636074025DE00744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EOEntityStoredProceduresPane.nib; sourceTree = "<group>"; };
 		FAC116490740264C00744E1E /* EOModelAdaptorPane.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOModelAdaptorPane.h; sourceTree = "<group>"; };
 		FAC1164A0740264C00744E1E /* EOModelAdaptorPane.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOModelAdaptorPane.m; sourceTree = "<group>"; };
 		FAC1164B0740264C00744E1E /* EOModelConnectionPane.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOModelConnectionPane.h; sourceTree = "<group>"; };
 		FAC1164C0740264C00744E1E /* EOModelConnectionPane.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOModelConnectionPane.m; sourceTree = "<group>"; };
-		FAC116580740269B00744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EOModelAdaptorPane.nib; sourceTree = "<group>"; };
-		FAC1165A0740269B00744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EOModelConnectionPane.nib; sourceTree = "<group>"; };
 		FAC11665074026DE00744E1E /* EORelationshipAdvancedPane.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EORelationshipAdvancedPane.h; sourceTree = "<group>"; };
 		FAC11666074026DE00744E1E /* EORelationshipAdvancedPane.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EORelationshipAdvancedPane.m; sourceTree = "<group>"; };
 		FAC11667074026DE00744E1E /* EORelationshipPane.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EORelationshipPane.h; sourceTree = "<group>"; };
 		FAC11668074026DE00744E1E /* EORelationshipPane.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EORelationshipPane.m; sourceTree = "<group>"; };
-		FAC1166E074026F100744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EORelationshipAdvancedPane.nib; sourceTree = "<group>"; };
-		FAC11670074026F100744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EORelationshipPane.nib; sourceTree = "<group>"; };
 		FAC1167B0740271C00744E1E /* EOUserInfoPane.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EOUserInfoPane.h; sourceTree = "<group>"; };
 		FAC1167C0740271C00744E1E /* EOUserInfoPane.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOUserInfoPane.m; sourceTree = "<group>"; };
-		FAC116800740272900744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EOUserInfoPane.nib; sourceTree = "<group>"; };
 		FAC116A2074027C500744E1E /* EOAttributePane.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = EOAttributePane.tiff; sourceTree = "<group>"; };
 		FAC116A6074027DB00744E1E /* EOEntityAdvancedPane.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = EOEntityAdvancedPane.tiff; sourceTree = "<group>"; };
 		FAC116A7074027DB00744E1E /* EOEntityPane.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = EOEntityPane.tiff; sourceTree = "<group>"; };
@@ -376,10 +388,6 @@
 		FAC116C90740287800744E1E /* PreferencesGeneral.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PreferencesGeneral.m; sourceTree = "<group>"; };
 		FAC116CA0740287800744E1E /* PreferencesModels.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PreferencesModels.h; sourceTree = "<group>"; };
 		FAC116CB0740287800744E1E /* PreferencesModels.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PreferencesModels.m; sourceTree = "<group>"; };
-		FAC116D50740288700744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PreferencesBundles.nib; sourceTree = "<group>"; };
-		FAC116D70740288700744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PreferencesChecks.nib; sourceTree = "<group>"; };
-		FAC116D90740288700744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PreferencesGeneral.nib; sourceTree = "<group>"; };
-		FAC116DB0740288700744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PreferencesModels.nib; sourceTree = "<group>"; };
 		FAC116E60740289C00744E1E /* PreferencesBundles.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = PreferencesBundles.tiff; sourceTree = "<group>"; };
 		FAC116E70740289C00744E1E /* PreferencesChecks.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = PreferencesChecks.tiff; sourceTree = "<group>"; };
 		FAC116E80740289C00744E1E /* PreferencesGeneral.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = PreferencesGeneral.tiff; sourceTree = "<group>"; };
@@ -396,14 +404,6 @@
 		FAC116FF0740292600744E1E /* EOWizardTablesPane.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EOWizardTablesPane.m; sourceTree = "<group>"; };
 		FAC117000740292600744E1E /* NoEventMatrix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NoEventMatrix.h; sourceTree = "<group>"; };
 		FAC117010740292600744E1E /* NoEventMatrix.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NoEventMatrix.m; sourceTree = "<group>"; };
-		FAC1170F0740293500744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EOModelWizard.nib; sourceTree = "<group>"; };
-		FAC117110740293500744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EOWizardAdaptorPane.nib; sourceTree = "<group>"; };
-		FAC117130740293500744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EOWizardFeaturesPane.nib; sourceTree = "<group>"; };
-		FAC117150740293500744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EOWizardTablesPane.nib; sourceTree = "<group>"; };
-		FAC117200740299400744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/DatabaseQuery.nib; sourceTree = "<group>"; };
-		FAC117220740299400744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Document.nib; sourceTree = "<group>"; };
-		FAC117240740299400744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EOModeler.nib; sourceTree = "<group>"; };
-		FAC117260740299400744E1E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SQLGenerator.nib; sourceTree = "<group>"; };
 		FAC1173D07402A2900744E1E /* classTitle.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = classTitle.tiff; sourceTree = "<group>"; };
 		FAC1173E07402A2900744E1E /* Dot Blue.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Dot Blue.tiff"; sourceTree = "<group>"; };
 		FAC1173F07402A2900744E1E /* Dot Clear.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Dot Clear.tiff"; sourceTree = "<group>"; };
@@ -577,16 +577,16 @@
 				FAC11540074022DD00744E1E /* Editor.m */,
 				FAC11541074022DD00744E1E /* EditorEntities.h */,
 				FAC11542074022DD00744E1E /* EditorEntities.m */,
-				FAC11557074022EB00744E1E /* EditorEntities.nib */,
+				1EFEC6571DD4AF1B0044CE66 /* EditorEntities.xib */,
 				FAC11543074022DD00744E1E /* EditorEntity.h */,
 				FAC11544074022DD00744E1E /* EditorEntity.m */,
-				FAC11559074022EB00744E1E /* EditorEntity.nib */,
+				1EFEC6591DD4AF1B0044CE66 /* EditorEntity.xib */,
 				FAC11545074022DD00744E1E /* EditorStoredProcedure.h */,
 				FAC11546074022DD00744E1E /* EditorStoredProcedure.m */,
-				FAC1155B074022EB00744E1E /* EditorStoredProcedure.nib */,
+				1EFEC65B1DD4AF1B0044CE66 /* EditorStoredProcedure.xib */,
 				FAC11547074022DD00744E1E /* EditorStoredProcedures.h */,
 				FAC11548074022DD00744E1E /* EditorStoredProcedures.m */,
-				FAC1155D074022EB00744E1E /* EditorStoredProcedures.nib */,
+				1EFEC65D1DD4AF1B0044CE66 /* EditorStoredProcedures.xib */,
 				FAC11549074022DD00744E1E /* EditorView.h */,
 				FAC1154A074022DD00744E1E /* EditorView.m */,
 			);
@@ -611,9 +611,9 @@
 		FAC115320740225300744E1E /* Inspectors */ = {
 			isa = PBXGroup;
 			children = (
+				1EFEC6631DD4B2780044CE66 /* EOInspectorPanel.xib */,
 				FAC115A40740248900744E1E /* EOInspectorPanel.h */,
 				FAC115A50740248900744E1E /* EOInspectorPanel.m */,
-				FAC115A80740249800744E1E /* EOInspectorPanel.nib */,
 				FAC1157F0740236B00744E1E /* Inspectors */,
 				FAC115820740237100744E1E /* Panes */,
 			);
@@ -625,19 +625,19 @@
 			children = (
 				FAC116C40740287800744E1E /* PreferencesBundles.h */,
 				FAC116C50740287800744E1E /* PreferencesBundles.m */,
-				FAC116D40740288700744E1E /* PreferencesBundles.nib */,
+				1E64075F1DD4CE1100D29170 /* PreferencesBundles.xib */,
 				FAC116E60740289C00744E1E /* PreferencesBundles.tiff */,
 				FAC116C60740287800744E1E /* PreferencesChecks.h */,
 				FAC116C70740287800744E1E /* PreferencesChecks.m */,
-				FAC116D60740288700744E1E /* PreferencesChecks.nib */,
+				1E64075C1DD4CE0C00D29170 /* PreferenceChecks.xib */,
 				FAC116E70740289C00744E1E /* PreferencesChecks.tiff */,
 				FAC116C80740287800744E1E /* PreferencesGeneral.h */,
 				FAC116C90740287800744E1E /* PreferencesGeneral.m */,
-				FAC116D80740288700744E1E /* PreferencesGeneral.nib */,
+				1E6407621DD4CE1500D29170 /* PreferencesGeneral.xib */,
 				FAC116E80740289C00744E1E /* PreferencesGeneral.tiff */,
 				FAC116CA0740287800744E1E /* PreferencesModels.h */,
 				FAC116CB0740287800744E1E /* PreferencesModels.m */,
-				FAC116DA0740288700744E1E /* PreferencesModels.nib */,
+				1E6407651DD4CE1B00D29170 /* PreferencesModels.xib */,
 				FAC116E90740289C00744E1E /* PreferencesModels.tiff */,
 			);
 			path = Preferences;
@@ -648,18 +648,18 @@
 			children = (
 				FAC116F60740292600744E1E /* EOModelWizard.h */,
 				FAC116F70740292600744E1E /* EOModelWizard.m */,
-				FAC1170E0740293500744E1E /* EOModelWizard.nib */,
+				1EFEC69E1DD4BD900044CE66 /* EOModelWizard.xib */,
 				FAC116F80740292600744E1E /* EOWizardAdaptorPane.h */,
 				FAC116F90740292600744E1E /* EOWizardAdaptorPane.m */,
-				FAC117100740293500744E1E /* EOWizardAdaptorPane.nib */,
+				1EFEC6A01DD4BD900044CE66 /* EOWizardAdaptorPane.xib */,
 				FAC116FA0740292600744E1E /* EOWizardFeaturesPane.h */,
 				FAC116FB0740292600744E1E /* EOWizardFeaturesPane.m */,
-				FAC117120740293500744E1E /* EOWizardFeaturesPane.nib */,
+				1EFEC6A21DD4BD900044CE66 /* EOWizardFeaturesPane.xib */,
 				FAC116FC0740292600744E1E /* EOWizardPane.h */,
 				FAC116FD0740292600744E1E /* EOWizardPane.m */,
 				FAC116FE0740292600744E1E /* EOWizardTablesPane.h */,
 				FAC116FF0740292600744E1E /* EOWizardTablesPane.m */,
-				FAC117140740293500744E1E /* EOWizardTablesPane.nib */,
+				1EFEC6A41DD4BD900044CE66 /* EOWizardTablesPane.xib */,
 				FAC117000740292600744E1E /* NoEventMatrix.h */,
 				FAC117010740292600744E1E /* NoEventMatrix.m */,
 			);
@@ -679,8 +679,8 @@
 				FAC115B8074024D100744E1E /* EOInspector.m */,
 				FAC115B9074024D100744E1E /* EOInspectorPane.h */,
 				FAC115BA074024D100744E1E /* EOInspectorPane.m */,
-				FAC115BB074024D100744E1E /* EOModelInspector.h */,
 				FAC115BC074024D100744E1E /* EOModelInspector.m */,
+				FAC115BB074024D100744E1E /* EOModelInspector.h */,
 				FAC115BD074024D100744E1E /* EORelationshipInspector.h */,
 				FAC115BE074024D100744E1E /* EORelationshipInspector.m */,
 				FAC115BF074024D100744E1E /* EOStoredProcedureInspector.h */,
@@ -706,7 +706,7 @@
 			children = (
 				FAC1167B0740271C00744E1E /* EOUserInfoPane.h */,
 				FAC1167C0740271C00744E1E /* EOUserInfoPane.m */,
-				FAC1167F0740272900744E1E /* EOUserInfoPane.nib */,
+				1EFEC6901DD4B66C0044CE66 /* EOUserInfoPane.xib */,
 				FAC116BA0740281A00744E1E /* EOUserInfoPane.tiff */,
 			);
 			path = Shared;
@@ -717,12 +717,12 @@
 			children = (
 				FAC11665074026DE00744E1E /* EORelationshipAdvancedPane.h */,
 				FAC11666074026DE00744E1E /* EORelationshipAdvancedPane.m */,
-				FAC1166D074026F100744E1E /* EORelationshipAdvancedPane.nib */,
+				1EFEC6AA1DD4BF720044CE66 /* EORelationshipAdvancedPane.xib */,
 				FAC116B40740280800744E1E /* EORelationshipAdvancedPane.tiff */,
 				FAC11667074026DE00744E1E /* EORelationshipPane.h */,
 				FAC11668074026DE00744E1E /* EORelationshipPane.m */,
-				FAC1166F074026F100744E1E /* EORelationshipPane.nib */,
 				FAC116B50740280800744E1E /* EORelationshipPane.tiff */,
+				1E0411661DD39EBD00A14432 /* EORelationshipPane.xib */,
 			);
 			path = Relationships;
 			sourceTree = "<group>";
@@ -732,10 +732,10 @@
 			children = (
 				FAC116490740264C00744E1E /* EOModelAdaptorPane.h */,
 				FAC1164A0740264C00744E1E /* EOModelAdaptorPane.m */,
-				FAC116570740269B00744E1E /* EOModelAdaptorPane.nib */,
+				1EFEC68A1DD4B5680044CE66 /* EOModelAdaptorPane.xib */,
 				FAC1164B0740264C00744E1E /* EOModelConnectionPane.h */,
 				FAC1164C0740264C00744E1E /* EOModelConnectionPane.m */,
-				FAC116590740269B00744E1E /* EOModelConnectionPane.nib */,
+				1EFEC68C1DD4B5680044CE66 /* EOModelConnectionPane.xib */,
 				FAC116B0074027F300744E1E /* EOModelConnectionPane.tiff */,
 			);
 			path = Model;
@@ -746,19 +746,19 @@
 			children = (
 				FAC1161F074025C600744E1E /* EOEntityAdvancedPane.h */,
 				FAC11620074025C600744E1E /* EOEntityAdvancedPane.m */,
-				FAC1162F074025DE00744E1E /* EOEntityAdvancedPane.nib */,
+				1EFEC67E1DD4B46A0044CE66 /* EOEntityAdvancedPane.xib */,
 				FAC116A6074027DB00744E1E /* EOEntityAdvancedPane.tiff */,
 				FAC11621074025C600744E1E /* EOEntityPane.h */,
 				FAC11622074025C600744E1E /* EOEntityPane.m */,
-				FAC11631074025DE00744E1E /* EOEntityPane.nib */,
+				1EFEC6801DD4B46A0044CE66 /* EOEntityPane.xib */,
 				FAC116A7074027DB00744E1E /* EOEntityPane.tiff */,
 				FAC11623074025C600744E1E /* EOEntitySharedObjectsPane.h */,
 				FAC11624074025C600744E1E /* EOEntitySharedObjectsPane.m */,
-				FAC11633074025DE00744E1E /* EOEntitySharedObjectsPane.nib */,
+				1EFEC6821DD4B46A0044CE66 /* EOEntitySharedObjectsPane.xib */,
 				FAC116A8074027DB00744E1E /* EOEntitySharedObjectsPane.tiff */,
 				FAC11625074025C600744E1E /* EOEntityStoredProceduresPane.h */,
 				FAC11626074025C600744E1E /* EOEntityStoredProceduresPane.m */,
-				FAC11635074025DE00744E1E /* EOEntityStoredProceduresPane.nib */,
+				1EFEC6841DD4B46A0044CE66 /* EOEntityStoredProceduresPane.xib */,
 				FAC116A9074027DB00744E1E /* EOEntityStoredProceduresPane.tiff */,
 			);
 			path = Entity;
@@ -769,33 +769,33 @@
 			children = (
 				FAC115D70740255F00744E1E /* EOAttributePane.h */,
 				FAC115D80740255F00744E1E /* EOAttributePane.m */,
-				FAC115FF0740256E00744E1E /* EOAttributePane.nib */,
+				1EFEC6661DD4B2E10044CE66 /* EOAttributePane.xib */,
 				FAC116A2074027C500744E1E /* EOAttributePane.tiff */,
 				FAC115D90740255F00744E1E /* EOCustomPane.h */,
 				FAC115DA0740255F00744E1E /* EOCustomPane.m */,
-				FAC116010740256E00744E1E /* EOCustomPane.nib */,
+				1EFEC6681DD4B2E10044CE66 /* EOCustomPane.xib */,
 				FAC115DB0740255F00744E1E /* EODataPane.h */,
 				FAC115DC0740255F00744E1E /* EODataPane.m */,
-				FAC116030740256E00744E1E /* EODataPane.nib */,
+				1EFEC66A1DD4B2E10044CE66 /* EODataPane.xib */,
 				FAC115DD0740255F00744E1E /* EODatePane.h */,
 				FAC115DE0740255F00744E1E /* EODatePane.m */,
-				FAC116050740256E00744E1E /* EODatePane.nib */,
+				1EFEC66C1DD4B2E10044CE66 /* EODatePane.xib */,
 				FAC115DF0740255F00744E1E /* EODecimalNumberPane.h */,
 				FAC115E00740255F00744E1E /* EODecimalNumberPane.m */,
-				FAC116070740256E00744E1E /* EODecimalNumberPane.nib */,
+				1EFEC66E1DD4B2E10044CE66 /* EODecimalNumberPane.xib */,
 				FAC115E10740255F00744E1E /* EODoublePane.h */,
 				FAC115E20740255F00744E1E /* EODoublePane.m */,
-				FAC116090740256E00744E1E /* EODoublePane.nib */,
+				1EFEC6701DD4B2E10044CE66 /* EODoublePane.xib */,
 				FAC115E30740255F00744E1E /* EOIntegerPane.h */,
 				FAC115E40740255F00744E1E /* EOIntegerPane.m */,
-				FAC1160B0740256E00744E1E /* EOIntegerPane.nib */,
+				1EFEC6721DD4B2E10044CE66 /* EOIntegerPane.xib */,
 				FAC115E50740255F00744E1E /* EOInternalTypeInspector.h */,
 				FAC115E60740255F00744E1E /* EOInternalTypeInspector.m */,
 				FAC115E70740255F00744E1E /* EOInternalTypePane.h */,
 				FAC115E80740255F00744E1E /* EOInternalTypePane.m */,
 				FAC115E90740255F00744E1E /* EOStringPane.h */,
 				FAC115EA0740255F00744E1E /* EOStringPane.m */,
-				FAC1160D0740256E00744E1E /* EOStringPane.nib */,
+				1EFEC6741DD4B2E10044CE66 /* EOStringPane.xib */,
 			);
 			path = Attributes;
 			sourceTree = "<group>";
@@ -852,10 +852,10 @@
 		FAC1173C074029EA00744E1E /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
-				FAC1171F0740299400744E1E /* DatabaseQuery.nib */,
-				FAC117210740299400744E1E /* Document.nib */,
-				FAC117230740299400744E1E /* EOModeler.nib */,
-				FAC117250740299400744E1E /* SQLGenerator.nib */,
+				1EFEC64B1DD4AAD00044CE66 /* DatabaseQuery.xib */,
+				1EFEC64D1DD4AAD00044CE66 /* Document.xib */,
+				1EFEC64F1DD4AAD00044CE66 /* EOModeler.xib */,
+				1EFEC6511DD4AAD00044CE66 /* SQLGenerator.xib */,
 			);
 			name = Interfaces;
 			sourceTree = "<group>";
@@ -914,31 +914,32 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				1E0411681DD39EBD00A14432 /* EORelationshipPane.xib in Resources */,
 				FAC115160740224200744E1E /* Controller.h in Resources */,
 				FAC115180740224200744E1E /* DataBrowser.h in Resources */,
 				FAC1151C0740224200744E1E /* Document.h in Resources */,
 				FAC1151E0740224200744E1E /* IconHeaderCell.h in Resources */,
 				FAC115200740224200744E1E /* ModelOutlineCell.h in Resources */,
+				1EFEC6A81DD4BD900044CE66 /* EOWizardFeaturesPane.xib in Resources */,
 				FAC115220740224200744E1E /* NSTableView-ColumnVisibility.h in Resources */,
+				1EFEC6871DD4B46A0044CE66 /* EOEntityPane.xib in Resources */,
 				FAC115240740224200744E1E /* PBPopUpButton.h in Resources */,
 				FAC115260740224200744E1E /* PBPopUpButtonCell.h in Resources */,
 				FAC115280740224200744E1E /* SQLGenerator.h in Resources */,
 				FAC1154B074022DD00744E1E /* Editor.h in Resources */,
 				FAC1154D074022DD00744E1E /* EditorEntities.h in Resources */,
 				FAC1154F074022DD00744E1E /* EditorEntity.h in Resources */,
+				1EFEC6891DD4B46A0044CE66 /* EOEntityStoredProceduresPane.xib in Resources */,
 				FAC11551074022DD00744E1E /* EditorStoredProcedure.h in Resources */,
 				FAC11553074022DD00744E1E /* EditorStoredProcedures.h in Resources */,
 				FAC11555074022DD00744E1E /* EditorView.h in Resources */,
-				FAC1155F074022EB00744E1E /* EditorEntities.nib in Resources */,
-				FAC11560074022EB00744E1E /* EditorEntity.nib in Resources */,
-				FAC11561074022EB00744E1E /* EditorStoredProcedure.nib in Resources */,
-				FAC11562074022EB00744E1E /* EditorStoredProcedures.nib in Resources */,
 				FAC115730740235600744E1E /* NSComboBoxCellFix.h in Resources */,
 				FAC115770740235600744E1E /* NSTableViewFix.h in Resources */,
+				1EFEC6881DD4B46A0044CE66 /* EOEntitySharedObjectsPane.xib in Resources */,
 				FAC115790740235600744E1E /* NSTextFieldFix.h in Resources */,
+				1EFEC6861DD4B46A0044CE66 /* EOEntityAdvancedPane.xib in Resources */,
 				FAC1157B0740235600744E1E /* NSWindowFix.h in Resources */,
 				FAC115A60740248900744E1E /* EOInspectorPanel.h in Resources */,
-				FAC115AA0740249800744E1E /* EOInspectorPanel.nib in Resources */,
 				FAC115C1074024D100744E1E /* EOAttributeInspector.h in Resources */,
 				FAC115C3074024D100744E1E /* EOEntityInspector.h in Resources */,
 				FAC115C5074024D100744E1E /* EOFetchSpecificationInspector.h in Resources */,
@@ -948,41 +949,37 @@
 				FAC115CD074024D100744E1E /* EORelationshipInspector.h in Resources */,
 				FAC115CF074024D100744E1E /* EOStoredProcedureInspector.h in Resources */,
 				FAC115EB0740255F00744E1E /* EOAttributePane.h in Resources */,
+				1EFEC6651DD4B2780044CE66 /* EOInspectorPanel.xib in Resources */,
 				FAC115ED0740255F00744E1E /* EOCustomPane.h in Resources */,
 				FAC115EF0740255F00744E1E /* EODataPane.h in Resources */,
+				1EFEC6551DD4AAD00044CE66 /* EOModeler.xib in Resources */,
 				FAC115F10740255F00744E1E /* EODatePane.h in Resources */,
+				1EFEC6791DD4B2E10044CE66 /* EODatePane.xib in Resources */,
 				FAC115F30740255F00744E1E /* EODecimalNumberPane.h in Resources */,
+				1E6407631DD4CE1B00D29170 /* PreferencesModels.xib in Resources */,
 				FAC115F50740255F00744E1E /* EODoublePane.h in Resources */,
+				1EFEC68E1DD4B5680044CE66 /* EOModelAdaptorPane.xib in Resources */,
 				FAC115F70740255F00744E1E /* EOIntegerPane.h in Resources */,
+				1EFEC6A71DD4BD900044CE66 /* EOWizardAdaptorPane.xib in Resources */,
 				FAC115F90740255F00744E1E /* EOInternalTypeInspector.h in Resources */,
 				FAC115FB0740255F00744E1E /* EOInternalTypePane.h in Resources */,
 				FAC115FD0740255F00744E1E /* EOStringPane.h in Resources */,
-				FAC1160F0740256E00744E1E /* EOAttributePane.nib in Resources */,
-				FAC116100740256E00744E1E /* EOCustomPane.nib in Resources */,
-				FAC116110740256E00744E1E /* EODataPane.nib in Resources */,
-				FAC116120740256E00744E1E /* EODatePane.nib in Resources */,
-				FAC116130740256E00744E1E /* EODecimalNumberPane.nib in Resources */,
-				FAC116140740256E00744E1E /* EODoublePane.nib in Resources */,
-				FAC116150740256E00744E1E /* EOIntegerPane.nib in Resources */,
-				FAC116160740256E00744E1E /* EOStringPane.nib in Resources */,
+				1EFEC6761DD4B2E10044CE66 /* EOAttributePane.xib in Resources */,
+				1EFEC6531DD4AAD00044CE66 /* DatabaseQuery.xib in Resources */,
 				FAC11627074025C600744E1E /* EOEntityAdvancedPane.h in Resources */,
+				1E64075A1DD4CE0C00D29170 /* PreferenceChecks.xib in Resources */,
 				FAC11629074025C600744E1E /* EOEntityPane.h in Resources */,
 				FAC1162B074025C600744E1E /* EOEntitySharedObjectsPane.h in Resources */,
 				FAC1162D074025C600744E1E /* EOEntityStoredProceduresPane.h in Resources */,
-				FAC11637074025DE00744E1E /* EOEntityAdvancedPane.nib in Resources */,
-				FAC11638074025DE00744E1E /* EOEntityPane.nib in Resources */,
-				FAC11639074025DE00744E1E /* EOEntitySharedObjectsPane.nib in Resources */,
-				FAC1163A074025DE00744E1E /* EOEntityStoredProceduresPane.nib in Resources */,
 				FAC1164D0740264C00744E1E /* EOModelAdaptorPane.h in Resources */,
+				1EFEC67D1DD4B2E10044CE66 /* EOStringPane.xib in Resources */,
 				FAC1164F0740264C00744E1E /* EOModelConnectionPane.h in Resources */,
-				FAC1165B0740269B00744E1E /* EOModelAdaptorPane.nib in Resources */,
-				FAC1165C0740269B00744E1E /* EOModelConnectionPane.nib in Resources */,
 				FAC11669074026DE00744E1E /* EORelationshipAdvancedPane.h in Resources */,
+				1EFEC67C1DD4B2E10044CE66 /* EOIntegerPane.xib in Resources */,
 				FAC1166B074026DE00744E1E /* EORelationshipPane.h in Resources */,
-				FAC11671074026F100744E1E /* EORelationshipAdvancedPane.nib in Resources */,
-				FAC11672074026F100744E1E /* EORelationshipPane.nib in Resources */,
 				FAC1167D0740271C00744E1E /* EOUserInfoPane.h in Resources */,
-				FAC116810740272900744E1E /* EOUserInfoPane.nib in Resources */,
+				1EFEC6921DD4B66C0044CE66 /* EOUserInfoPane.xib in Resources */,
+				1EFEC6561DD4AAD00044CE66 /* SQLGenerator.xib in Resources */,
 				FAC116A3074027C500744E1E /* EOAttributePane.tiff in Resources */,
 				FAC116AA074027DB00744E1E /* EOEntityAdvancedPane.tiff in Resources */,
 				FAC116AB074027DB00744E1E /* EOEntityPane.tiff in Resources */,
@@ -992,52 +989,52 @@
 				FAC116B60740280800744E1E /* EORelationshipAdvancedPane.tiff in Resources */,
 				FAC116B70740280800744E1E /* EORelationshipPane.tiff in Resources */,
 				FAC116BB0740281A00744E1E /* EOUserInfoPane.tiff in Resources */,
+				1EFEC6541DD4AAD00044CE66 /* Document.xib in Resources */,
 				FAC116CC0740287800744E1E /* PreferencesBundles.h in Resources */,
 				FAC116CE0740287800744E1E /* PreferencesChecks.h in Resources */,
 				FAC116D00740287800744E1E /* PreferencesGeneral.h in Resources */,
 				FAC116D20740287800744E1E /* PreferencesModels.h in Resources */,
-				FAC116DC0740288700744E1E /* PreferencesBundles.nib in Resources */,
-				FAC116DD0740288700744E1E /* PreferencesChecks.nib in Resources */,
-				FAC116DE0740288700744E1E /* PreferencesGeneral.nib in Resources */,
-				FAC116DF0740288700744E1E /* PreferencesModels.nib in Resources */,
+				1EFEC6781DD4B2E10044CE66 /* EODataPane.xib in Resources */,
 				FAC116EA0740289C00744E1E /* PreferencesBundles.tiff in Resources */,
 				FAC116EB0740289C00744E1E /* PreferencesChecks.tiff in Resources */,
 				FAC116EC0740289C00744E1E /* PreferencesGeneral.tiff in Resources */,
 				FAC116ED0740289C00744E1E /* PreferencesModels.tiff in Resources */,
 				FAC117020740292600744E1E /* EOModelWizard.h in Resources */,
 				FAC117040740292600744E1E /* EOWizardAdaptorPane.h in Resources */,
+				1E64075D1DD4CE1100D29170 /* PreferencesBundles.xib in Resources */,
 				FAC117060740292600744E1E /* EOWizardFeaturesPane.h in Resources */,
 				FAC117080740292600744E1E /* EOWizardPane.h in Resources */,
 				FAC1170A0740292600744E1E /* EOWizardTablesPane.h in Resources */,
 				FAC1170C0740292600744E1E /* NoEventMatrix.h in Resources */,
-				FAC117160740293500744E1E /* EOModelWizard.nib in Resources */,
-				FAC117170740293500744E1E /* EOWizardAdaptorPane.nib in Resources */,
-				FAC117180740293500744E1E /* EOWizardFeaturesPane.nib in Resources */,
-				FAC117190740293500744E1E /* EOWizardTablesPane.nib in Resources */,
-				FAC117270740299400744E1E /* DatabaseQuery.nib in Resources */,
-				FAC117280740299400744E1E /* Document.nib in Resources */,
-				FAC117290740299400744E1E /* EOModeler.nib in Resources */,
-				FAC1172A0740299400744E1E /* SQLGenerator.nib in Resources */,
+				1EFEC68F1DD4B5680044CE66 /* EOModelConnectionPane.xib in Resources */,
 				FAC1176707402A2900744E1E /* classTitle.tiff in Resources */,
 				FAC1176807402A2900744E1E /* Dot Blue.tiff in Resources */,
 				FAC1176907402A2900744E1E /* Dot Clear.tiff in Resources */,
 				FAC1176A07402A2900744E1E /* Dot Cyan.tiff in Resources */,
 				FAC1176B07402A2900744E1E /* Dot Green.tiff in Resources */,
 				FAC1176C07402A2900744E1E /* Dot Purple.tiff in Resources */,
+				1EFEC65F1DD4AF1B0044CE66 /* EditorEntities.xib in Resources */,
+				1EFEC6771DD4B2E10044CE66 /* EOCustomPane.xib in Resources */,
 				FAC1176D07402A2900744E1E /* Dot Red.tiff in Resources */,
 				FAC1176E07402A2900744E1E /* Dot Yellow.tiff in Resources */,
 				FAC1176F07402A2900744E1E /* EOEntity.tiff in Resources */,
 				FAC1177007402A2900744E1E /* EOFetchSpecification.tiff in Resources */,
+				1EFEC67B1DD4B2E10044CE66 /* EODoublePane.xib in Resources */,
 				FAC1177107402A2900744E1E /* EOModel.tiff in Resources */,
 				FAC1177207402A2900744E1E /* eomodeld.icns in Resources */,
 				FAC1177307402A2900744E1E /* eomodeld.tiff in Resources */,
 				FAC1177407402A2900744E1E /* EOModeler.icns in Resources */,
+				1EFEC67A1DD4B2E10044CE66 /* EODecimalNumberPane.xib in Resources */,
 				FAC1177507402A2900744E1E /* EOModeler.tiff in Resources */,
+				1EFEC6621DD4AF1B0044CE66 /* EditorStoredProcedures.xib in Resources */,
 				FAC1177607402A2900744E1E /* EORelationship.tiff in Resources */,
+				1EFEC6601DD4AF1B0044CE66 /* EditorEntity.xib in Resources */,
 				FAC1177707402A2900744E1E /* EOStoredProcedure.tiff in Resources */,
+				1EFEC6A91DD4BD900044CE66 /* EOWizardTablesPane.xib in Resources */,
 				FAC1177807402A2900744E1E /* folder.tiff in Resources */,
 				FAC1177907402A2900744E1E /* keyTitle.tiff in Resources */,
 				FAC1177A07402A2900744E1E /* location.tiff in Resources */,
+				1EFEC6A61DD4BD900044CE66 /* EOModelWizard.xib in Resources */,
 				FAC1177B07402A2900744E1E /* lockTitle.tiff in Resources */,
 				FAC1177C07402A2900744E1E /* menuNewEntity.tiff in Resources */,
 				FAC1177D07402A2900744E1E /* naTitle.tiff in Resources */,
@@ -1048,6 +1045,7 @@
 				FAC1178207402A2900744E1E /* smallPopupArrows.tiff in Resources */,
 				FAC1178307402A2900744E1E /* synchronizeEntity.tiff in Resources */,
 				FAC1178407402A2900744E1E /* toMany.tiff in Resources */,
+				1EFEC6611DD4AF1B0044CE66 /* EditorStoredProcedure.xib in Resources */,
 				FAC1178507402A2900744E1E /* toolbarBrowseDB.tiff in Resources */,
 				FAC1178607402A2900744E1E /* toolbarFlattenRelationship.tiff in Resources */,
 				FAC1178707402A2900744E1E /* toolbarGenerateObjC.tiff in Resources */,
@@ -1056,6 +1054,8 @@
 				FAC1178A07402A2900744E1E /* toolbarNewAttribute.tiff in Resources */,
 				FAC1178B07402A2900744E1E /* toolbarNewEntity.tiff in Resources */,
 				FAC1178C07402A2900744E1E /* toolbarNewFetchSpecification.tiff in Resources */,
+				1EFEC6AC1DD4BF720044CE66 /* EORelationshipAdvancedPane.xib in Resources */,
+				1E6407601DD4CE1500D29170 /* PreferencesGeneral.xib in Resources */,
 				FAC1178D07402A2900744E1E /* toolbarNewRelationship.tiff in Resources */,
 				FAC1178E07402A2900744E1E /* toolbarNewStoredProcedure.tiff in Resources */,
 				FAC1178F07402A2900744E1E /* toOne.tiff in Resources */,
@@ -1147,276 +1147,276 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		FAC11557074022EB00744E1E /* EditorEntities.nib */ = {
+		1E0411661DD39EBD00A14432 /* EORelationshipPane.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC11558074022EB00744E1E /* English */,
+				1E0411671DD39EBD00A14432 /* English */,
 			);
-			name = EditorEntities.nib;
+			name = EORelationshipPane.xib;
 			sourceTree = "<group>";
 		};
-		FAC11559074022EB00744E1E /* EditorEntity.nib */ = {
+		1E64075C1DD4CE0C00D29170 /* PreferenceChecks.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC1155A074022EB00744E1E /* English */,
+				1E64075B1DD4CE0C00D29170 /* en */,
 			);
-			name = EditorEntity.nib;
+			name = PreferenceChecks.xib;
 			sourceTree = "<group>";
 		};
-		FAC1155B074022EB00744E1E /* EditorStoredProcedure.nib */ = {
+		1E64075F1DD4CE1100D29170 /* PreferencesBundles.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC1155C074022EB00744E1E /* English */,
+				1E64075E1DD4CE1100D29170 /* en */,
 			);
-			name = EditorStoredProcedure.nib;
+			name = PreferencesBundles.xib;
 			sourceTree = "<group>";
 		};
-		FAC1155D074022EB00744E1E /* EditorStoredProcedures.nib */ = {
+		1E6407621DD4CE1500D29170 /* PreferencesGeneral.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC1155E074022EB00744E1E /* English */,
+				1E6407611DD4CE1500D29170 /* en */,
 			);
-			name = EditorStoredProcedures.nib;
+			name = PreferencesGeneral.xib;
 			sourceTree = "<group>";
 		};
-		FAC115A80740249800744E1E /* EOInspectorPanel.nib */ = {
+		1E6407651DD4CE1B00D29170 /* PreferencesModels.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC115A90740249800744E1E /* English */,
+				1E6407641DD4CE1B00D29170 /* en */,
 			);
-			name = EOInspectorPanel.nib;
+			name = PreferencesModels.xib;
 			sourceTree = "<group>";
 		};
-		FAC115FF0740256E00744E1E /* EOAttributePane.nib */ = {
+		1EFEC64B1DD4AAD00044CE66 /* DatabaseQuery.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC116000740256E00744E1E /* English */,
+				1EFEC64C1DD4AAD00044CE66 /* English */,
 			);
-			name = EOAttributePane.nib;
+			name = DatabaseQuery.xib;
 			sourceTree = "<group>";
 		};
-		FAC116010740256E00744E1E /* EOCustomPane.nib */ = {
+		1EFEC64D1DD4AAD00044CE66 /* Document.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC116020740256E00744E1E /* English */,
+				1EFEC64E1DD4AAD00044CE66 /* English */,
 			);
-			name = EOCustomPane.nib;
+			name = Document.xib;
 			sourceTree = "<group>";
 		};
-		FAC116030740256E00744E1E /* EODataPane.nib */ = {
+		1EFEC64F1DD4AAD00044CE66 /* EOModeler.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC116040740256E00744E1E /* English */,
+				1EFEC6501DD4AAD00044CE66 /* English */,
 			);
-			name = EODataPane.nib;
+			name = EOModeler.xib;
 			sourceTree = "<group>";
 		};
-		FAC116050740256E00744E1E /* EODatePane.nib */ = {
+		1EFEC6511DD4AAD00044CE66 /* SQLGenerator.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC116060740256E00744E1E /* English */,
+				1EFEC6521DD4AAD00044CE66 /* English */,
 			);
-			name = EODatePane.nib;
+			name = SQLGenerator.xib;
 			sourceTree = "<group>";
 		};
-		FAC116070740256E00744E1E /* EODecimalNumberPane.nib */ = {
+		1EFEC6571DD4AF1B0044CE66 /* EditorEntities.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC116080740256E00744E1E /* English */,
+				1EFEC6581DD4AF1B0044CE66 /* English */,
 			);
-			name = EODecimalNumberPane.nib;
+			name = EditorEntities.xib;
 			sourceTree = "<group>";
 		};
-		FAC116090740256E00744E1E /* EODoublePane.nib */ = {
+		1EFEC6591DD4AF1B0044CE66 /* EditorEntity.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC1160A0740256E00744E1E /* English */,
+				1EFEC65A1DD4AF1B0044CE66 /* English */,
 			);
-			name = EODoublePane.nib;
+			name = EditorEntity.xib;
 			sourceTree = "<group>";
 		};
-		FAC1160B0740256E00744E1E /* EOIntegerPane.nib */ = {
+		1EFEC65B1DD4AF1B0044CE66 /* EditorStoredProcedure.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC1160C0740256E00744E1E /* English */,
+				1EFEC65C1DD4AF1B0044CE66 /* English */,
 			);
-			name = EOIntegerPane.nib;
+			name = EditorStoredProcedure.xib;
 			sourceTree = "<group>";
 		};
-		FAC1160D0740256E00744E1E /* EOStringPane.nib */ = {
+		1EFEC65D1DD4AF1B0044CE66 /* EditorStoredProcedures.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC1160E0740256E00744E1E /* English */,
+				1EFEC65E1DD4AF1B0044CE66 /* English */,
 			);
-			name = EOStringPane.nib;
+			name = EditorStoredProcedures.xib;
 			sourceTree = "<group>";
 		};
-		FAC1162F074025DE00744E1E /* EOEntityAdvancedPane.nib */ = {
+		1EFEC6631DD4B2780044CE66 /* EOInspectorPanel.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC11630074025DE00744E1E /* English */,
+				1EFEC6641DD4B2780044CE66 /* English */,
 			);
-			name = EOEntityAdvancedPane.nib;
+			name = EOInspectorPanel.xib;
 			sourceTree = "<group>";
 		};
-		FAC11631074025DE00744E1E /* EOEntityPane.nib */ = {
+		1EFEC6661DD4B2E10044CE66 /* EOAttributePane.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC11632074025DE00744E1E /* English */,
+				1EFEC6671DD4B2E10044CE66 /* English */,
 			);
-			name = EOEntityPane.nib;
+			name = EOAttributePane.xib;
 			sourceTree = "<group>";
 		};
-		FAC11633074025DE00744E1E /* EOEntitySharedObjectsPane.nib */ = {
+		1EFEC6681DD4B2E10044CE66 /* EOCustomPane.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC11634074025DE00744E1E /* English */,
+				1EFEC6691DD4B2E10044CE66 /* English */,
 			);
-			name = EOEntitySharedObjectsPane.nib;
+			name = EOCustomPane.xib;
 			sourceTree = "<group>";
 		};
-		FAC11635074025DE00744E1E /* EOEntityStoredProceduresPane.nib */ = {
+		1EFEC66A1DD4B2E10044CE66 /* EODataPane.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC11636074025DE00744E1E /* English */,
+				1EFEC66B1DD4B2E10044CE66 /* English */,
 			);
-			name = EOEntityStoredProceduresPane.nib;
+			name = EODataPane.xib;
 			sourceTree = "<group>";
 		};
-		FAC116570740269B00744E1E /* EOModelAdaptorPane.nib */ = {
+		1EFEC66C1DD4B2E10044CE66 /* EODatePane.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC116580740269B00744E1E /* English */,
+				1EFEC66D1DD4B2E10044CE66 /* English */,
 			);
-			name = EOModelAdaptorPane.nib;
+			name = EODatePane.xib;
 			sourceTree = "<group>";
 		};
-		FAC116590740269B00744E1E /* EOModelConnectionPane.nib */ = {
+		1EFEC66E1DD4B2E10044CE66 /* EODecimalNumberPane.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC1165A0740269B00744E1E /* English */,
+				1EFEC66F1DD4B2E10044CE66 /* English */,
 			);
-			name = EOModelConnectionPane.nib;
+			name = EODecimalNumberPane.xib;
 			sourceTree = "<group>";
 		};
-		FAC1166D074026F100744E1E /* EORelationshipAdvancedPane.nib */ = {
+		1EFEC6701DD4B2E10044CE66 /* EODoublePane.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC1166E074026F100744E1E /* English */,
+				1EFEC6711DD4B2E10044CE66 /* English */,
 			);
-			name = EORelationshipAdvancedPane.nib;
+			name = EODoublePane.xib;
 			sourceTree = "<group>";
 		};
-		FAC1166F074026F100744E1E /* EORelationshipPane.nib */ = {
+		1EFEC6721DD4B2E10044CE66 /* EOIntegerPane.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC11670074026F100744E1E /* English */,
+				1EFEC6731DD4B2E10044CE66 /* English */,
 			);
-			name = EORelationshipPane.nib;
+			name = EOIntegerPane.xib;
 			sourceTree = "<group>";
 		};
-		FAC1167F0740272900744E1E /* EOUserInfoPane.nib */ = {
+		1EFEC6741DD4B2E10044CE66 /* EOStringPane.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC116800740272900744E1E /* English */,
+				1EFEC6751DD4B2E10044CE66 /* English */,
 			);
-			name = EOUserInfoPane.nib;
+			name = EOStringPane.xib;
 			sourceTree = "<group>";
 		};
-		FAC116D40740288700744E1E /* PreferencesBundles.nib */ = {
+		1EFEC67E1DD4B46A0044CE66 /* EOEntityAdvancedPane.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC116D50740288700744E1E /* English */,
+				1EFEC67F1DD4B46A0044CE66 /* English */,
 			);
-			name = PreferencesBundles.nib;
+			name = EOEntityAdvancedPane.xib;
 			sourceTree = "<group>";
 		};
-		FAC116D60740288700744E1E /* PreferencesChecks.nib */ = {
+		1EFEC6801DD4B46A0044CE66 /* EOEntityPane.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC116D70740288700744E1E /* English */,
+				1EFEC6811DD4B46A0044CE66 /* English */,
 			);
-			name = PreferencesChecks.nib;
+			name = EOEntityPane.xib;
 			sourceTree = "<group>";
 		};
-		FAC116D80740288700744E1E /* PreferencesGeneral.nib */ = {
+		1EFEC6821DD4B46A0044CE66 /* EOEntitySharedObjectsPane.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC116D90740288700744E1E /* English */,
+				1EFEC6831DD4B46A0044CE66 /* English */,
 			);
-			name = PreferencesGeneral.nib;
+			name = EOEntitySharedObjectsPane.xib;
 			sourceTree = "<group>";
 		};
-		FAC116DA0740288700744E1E /* PreferencesModels.nib */ = {
+		1EFEC6841DD4B46A0044CE66 /* EOEntityStoredProceduresPane.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC116DB0740288700744E1E /* English */,
+				1EFEC6851DD4B46A0044CE66 /* English */,
 			);
-			name = PreferencesModels.nib;
+			name = EOEntityStoredProceduresPane.xib;
 			sourceTree = "<group>";
 		};
-		FAC1170E0740293500744E1E /* EOModelWizard.nib */ = {
+		1EFEC68A1DD4B5680044CE66 /* EOModelAdaptorPane.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC1170F0740293500744E1E /* English */,
+				1EFEC68B1DD4B5680044CE66 /* English */,
 			);
-			name = EOModelWizard.nib;
+			name = EOModelAdaptorPane.xib;
 			sourceTree = "<group>";
 		};
-		FAC117100740293500744E1E /* EOWizardAdaptorPane.nib */ = {
+		1EFEC68C1DD4B5680044CE66 /* EOModelConnectionPane.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC117110740293500744E1E /* English */,
+				1EFEC68D1DD4B5680044CE66 /* English */,
 			);
-			name = EOWizardAdaptorPane.nib;
+			name = EOModelConnectionPane.xib;
 			sourceTree = "<group>";
 		};
-		FAC117120740293500744E1E /* EOWizardFeaturesPane.nib */ = {
+		1EFEC6901DD4B66C0044CE66 /* EOUserInfoPane.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC117130740293500744E1E /* English */,
+				1EFEC6911DD4B66C0044CE66 /* English */,
 			);
-			name = EOWizardFeaturesPane.nib;
+			name = EOUserInfoPane.xib;
 			sourceTree = "<group>";
 		};
-		FAC117140740293500744E1E /* EOWizardTablesPane.nib */ = {
+		1EFEC69E1DD4BD900044CE66 /* EOModelWizard.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC117150740293500744E1E /* English */,
+				1EFEC69F1DD4BD900044CE66 /* English */,
 			);
-			name = EOWizardTablesPane.nib;
+			name = EOModelWizard.xib;
 			sourceTree = "<group>";
 		};
-		FAC1171F0740299400744E1E /* DatabaseQuery.nib */ = {
+		1EFEC6A01DD4BD900044CE66 /* EOWizardAdaptorPane.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC117200740299400744E1E /* English */,
+				1EFEC6A11DD4BD900044CE66 /* English */,
 			);
-			name = DatabaseQuery.nib;
+			name = EOWizardAdaptorPane.xib;
 			sourceTree = "<group>";
 		};
-		FAC117210740299400744E1E /* Document.nib */ = {
+		1EFEC6A21DD4BD900044CE66 /* EOWizardFeaturesPane.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC117220740299400744E1E /* English */,
+				1EFEC6A31DD4BD900044CE66 /* English */,
 			);
-			name = Document.nib;
+			name = EOWizardFeaturesPane.xib;
 			sourceTree = "<group>";
 		};
-		FAC117230740299400744E1E /* EOModeler.nib */ = {
+		1EFEC6A41DD4BD900044CE66 /* EOWizardTablesPane.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC117240740299400744E1E /* English */,
+				1EFEC6A51DD4BD900044CE66 /* English */,
 			);
-			name = EOModeler.nib;
+			name = EOWizardTablesPane.xib;
 			sourceTree = "<group>";
 		};
-		FAC117250740299400744E1E /* SQLGenerator.nib */ = {
+		1EFEC6AA1DD4BF720044CE66 /* EORelationshipAdvancedPane.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAC117260740299400744E1E /* English */,
+				1EFEC6AB1DD4BF720044CE66 /* English */,
 			);
-			name = SQLGenerator.nib;
+			name = EORelationshipAdvancedPane.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

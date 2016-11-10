@@ -23,4 +23,14 @@
 {
 }
 
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
+{
+    return 0;
+}
+
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+{
+    return @"?";
+}
+
 @end

@@ -75,12 +75,12 @@
 - (void)objectDidChange:(id)object
 {
 	[currentEditor objectDidChange:object];
-//	NSEnumerator		*enumerator = [editors objectEnumerator];
-//	Editor				*editor;
-//	
-//	while ((editor = [enumerator nextObject]) != nil) {
-//		[editor objectDidChange:object];
-//	}
+	NSEnumerator		*enumerator = [editors objectEnumerator];
+	Editor				*editor;
+	
+	while ((editor = [enumerator nextObject]) != nil) {
+		[editor objectDidChange:object];
+	}
 }
 
 - (Editor *)currentEditor

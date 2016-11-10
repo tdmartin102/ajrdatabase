@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <capability name="box content view" minToolsVersion="7.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="EOAttributePane">
+            <connections>
+                <outlet property="allowsNullCheck" destination="84" id="153"/>
+                <outlet property="columnField" destination="9" id="148"/>
+                <outlet property="columnPopUp" destination="16" id="157"/>
+                <outlet property="externalTypeField" destination="156" id="158"/>
+                <outlet property="internalTypeInspector" destination="145" id="155"/>
+                <outlet property="nameField" destination="8" id="149"/>
+                <outlet property="readFormatField" destination="93" id="150"/>
+                <outlet property="readOnlyCheck" destination="86" id="152"/>
+                <outlet property="view" destination="5" id="6"/>
+                <outlet property="writeFormatField" destination="91" id="151"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="5" userLabel="View">
+            <rect key="frame" x="0.0" y="0.0" width="280" height="428"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <comboBox verticalHuggingPriority="750" id="156">
+                    <rect key="frame" x="104" y="353" width="169" height="22"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <comboBoxCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="left" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="181">
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </comboBoxCell>
+                    <connections>
+                        <action selector="setExternalType:" target="-2" id="161"/>
+                        <outlet property="nextKeyView" destination="25" id="163"/>
+                    </connections>
+                </comboBox>
+                <box title="Custom Formatting" id="96">
+                    <rect key="frame" x="7" y="7" width="266" height="81"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <view key="contentView" id="ifG-Hh-I59">
+                        <rect key="frame" x="2" y="2" width="262" height="64"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField verticalHuggingPriority="750" id="93">
+                                <rect key="frame" x="88" y="35" width="164" height="19"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="185">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <connections>
+                                    <action selector="setReadFormat:" target="-2" id="168"/>
+                                    <outlet property="nextKeyView" destination="91" id="98"/>
+                                </connections>
+                            </textField>
+                            <textField verticalHuggingPriority="750" id="95">
+                                <rect key="frame" x="3" y="37" width="80" height="14"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Read Format:" id="186">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField verticalHuggingPriority="750" id="90">
+                                <rect key="frame" x="3" y="14" width="80" height="14"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Write Format:" id="187">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField verticalHuggingPriority="750" id="91">
+                                <rect key="frame" x="88" y="12" width="164" height="19"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="188">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <connections>
+                                    <action selector="setWriteFormat:" target="-2" id="169"/>
+                                    <outlet property="nextKeyView" destination="5" id="103"/>
+                                </connections>
+                            </textField>
+                        </subviews>
+                    </view>
+                </box>
+                <box title="Options" id="83">
+                    <rect key="frame" x="7" y="92" width="266" height="74"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <view key="contentView" id="wrl-gm-zCz">
+                        <rect key="frame" x="2" y="2" width="262" height="57"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button id="86">
+                                <rect key="frame" x="55" y="31" width="89" height="18"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <buttonCell key="cell" type="check" title="Is Read Only" bezelStyle="regularSquare" imagePosition="leading" alignment="left" controlSize="small" inset="2" id="183">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="smallSystem"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="toggleReadOnly:" target="-2" id="166"/>
+                                    <outlet property="nextKeyView" destination="84" id="99"/>
+                                </connections>
+                            </button>
+                            <button id="84">
+                                <rect key="frame" x="55" y="11" width="121" height="18"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <buttonCell key="cell" type="check" title="Allows Null Values" bezelStyle="regularSquare" imagePosition="leading" alignment="left" controlSize="small" inset="2" id="184">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="smallSystem"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="toggleAllowsNull:" target="-2" id="167"/>
+                                    <outlet property="nextKeyView" destination="93" id="97"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                    </view>
+                </box>
+                <box title="Internal Data Type" id="20">
+                    <rect key="frame" x="7" y="167" width="266" height="177"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <view key="contentView" id="2Ja-lS-KL3">
+                        <rect key="frame" x="2" y="2" width="262" height="160"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <popUpButton verticalHuggingPriority="750" id="25">
+                                <rect key="frame" x="7" y="129" width="248" height="22"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <popUpButtonCell key="cell" type="push" title=" " bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" tag="6" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="28" id="182">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <menu key="menu" title="OtherViews" id="23">
+                                        <items>
+                                            <menuItem title=" " state="on" tag="6" id="28"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <action selector="takeInspectorFrom:" target="145" id="146"/>
+                                    <outlet property="nextKeyView" destination="145" id="173"/>
+                                </connections>
+                            </popUpButton>
+                            <customView id="145" customClass="EOInternalTypeInspector">
+                                <rect key="frame" x="10" y="10" width="242" height="115"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <connections>
+                                    <outlet property="attributePane" destination="-2" id="171"/>
+                                    <outlet property="classPopUp" destination="25" id="147"/>
+                                    <outlet property="nextKeyView" destination="86" id="165"/>
+                                </connections>
+                            </customView>
+                        </subviews>
+                    </view>
+                </box>
+                <popUpButton verticalHuggingPriority="750" id="16">
+                    <rect key="frame" x="7" y="374" width="92" height="22"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <popUpButtonCell key="cell" type="push" title="Column" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="19" id="180">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="smallSystem"/>
+                        <menu key="menu" title="OtherViews" id="18">
+                            <items>
+                                <menuItem title="Column" state="on" id="19"/>
+                                <menuItem title="Derived" id="15"/>
+                            </items>
+                        </menu>
+                    </popUpButtonCell>
+                    <connections>
+                        <action selector="selectColumn:" target="-2" id="170"/>
+                        <outlet property="nextKeyView" destination="9" id="77"/>
+                    </connections>
+                </popUpButton>
+                <textField verticalHuggingPriority="750" id="12">
+                    <rect key="frame" x="7" y="401" width="92" height="14"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Name:" id="179">
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" id="9">
+                    <rect key="frame" x="104" y="377" width="166" height="19"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="178">
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <connections>
+                        <action selector="setColumn:" target="-2" id="160"/>
+                        <outlet property="nextKeyView" destination="156" id="162"/>
+                    </connections>
+                </textField>
+                <textField verticalHuggingPriority="750" id="8">
+                    <rect key="frame" x="104" y="399" width="166" height="19"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="177">
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <connections>
+                        <action selector="setName:" target="-2" id="159"/>
+                        <outlet property="delegate" destination="-2" id="174"/>
+                        <outlet property="nextKeyView" destination="16" id="76"/>
+                    </connections>
+                </textField>
+                <textField verticalHuggingPriority="750" id="7">
+                    <rect key="frame" x="7" y="357" width="92" height="14"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="External Type:" id="176">
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <connections>
+                <outlet property="nextKeyView" destination="8" id="82"/>
+            </connections>
+        </customView>
+    </objects>
+</document>

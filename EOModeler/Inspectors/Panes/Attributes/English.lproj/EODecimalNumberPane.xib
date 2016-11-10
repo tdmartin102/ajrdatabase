@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="EODecimalNumberPane">
+            <connections>
+                <outlet property="precisionField" destination="35" id="38"/>
+                <outlet property="scaleField" destination="32" id="39"/>
+                <outlet property="view" destination="27" id="40"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customObject id="26" customClass="NSApplication"/>
+        <customView id="27">
+            <rect key="frame" x="0.0" y="0.0" width="242" height="115"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <textField verticalHuggingPriority="750" id="35">
+                    <rect key="frame" x="108" y="96" width="134" height="19"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="36">
+                        <numberFormatter key="formatter" formatterBehavior="10_0" positiveFormat="0" negativeFormat="-0" localizesFormat="NO" hasThousandSeparators="NO" thousandSeparator="," id="37">
+                            <attributedString key="attributedStringForNil"/>
+                            <attributedString key="attributedStringForNotANumber">
+                                <fragment content="NaN"/>
+                            </attributedString>
+                            <attributedString key="attributedStringForZero">
+                                <fragment content="0"/>
+                            </attributedString>
+                            <decimal key="minimum" value="NaN"/>
+                            <decimal key="maximum" value="NaN"/>
+                        </numberFormatter>
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <connections>
+                        <action selector="setPrecision:" target="-2" id="45"/>
+                        <outlet property="nextKeyView" destination="32" id="43"/>
+                    </connections>
+                </textField>
+                <textField verticalHuggingPriority="750" id="32">
+                    <rect key="frame" x="108" y="74" width="134" height="19"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="33">
+                        <numberFormatter key="formatter" formatterBehavior="10_0" positiveFormat="0" negativeFormat="-0" localizesFormat="NO" hasThousandSeparators="NO" thousandSeparator="," id="34">
+                            <attributedString key="attributedStringForNil"/>
+                            <attributedString key="attributedStringForNotANumber">
+                                <fragment content="NaN"/>
+                            </attributedString>
+                            <attributedString key="attributedStringForZero">
+                                <fragment content="0"/>
+                            </attributedString>
+                            <decimal key="minimum" value="NaN"/>
+                            <decimal key="maximum" value="NaN"/>
+                        </numberFormatter>
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <connections>
+                        <action selector="setScale:" target="-2" id="44"/>
+                        <outlet property="nextKeyView" destination="27" id="42"/>
+                    </connections>
+                </textField>
+                <textField verticalHuggingPriority="750" id="30">
+                    <rect key="frame" x="-4" y="98" width="107" height="14"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="External Precision:" id="31">
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" id="28">
+                    <rect key="frame" x="-4" y="76" width="107" height="14"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="External Scale:" id="29">
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <connections>
+                <outlet property="nextKeyView" destination="35" id="41"/>
+            </connections>
+        </customView>
+    </objects>
+</document>

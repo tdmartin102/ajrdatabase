@@ -9,6 +9,7 @@
 #import "Document.h"
 
 #import "Additions.h"
+#import "Controller.h"
 #import "DataBrowser.h"
 #import "EOInspectorPanel.h"
 #import "EOModelWizard.h"
@@ -154,7 +155,7 @@ NSString *StoredProcedures = @"Stored Procedures";
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(objectDidChange:) name:@"ObjectDidChange" object:self];
 	
 	[self setSelectedObject:model];
-	
+    
 	return self;
 }
 
@@ -822,9 +823,7 @@ NSString *StoredProcedures = @"Stored Procedures";
 }
 
 - (void)promptForWindowShouldCloseWithCallback:(DocumentSaveCallback)callback
-{    
-    __block int modalReturnCode;
-    
+{
     NSAlert *alert;
     alert = [[NSAlert alloc] init];
     [alert setMessageText:@"Do you want to save changes to this document before closing?"];
@@ -836,10 +835,9 @@ NSString *StoredProcedures = @"Stored Procedures";
 
     [alert beginSheetModalForWindow:window
                   completionHandler:^(NSModalResponse returnCode){
-                      modalReturnCode = (int)returnCode;
                       [self _documentSaveCallbackHandler:callback returnCode:(int)returnCode];
+                      [self didEndCloseSheet:window returnCode:(int)returnCode contextInfo:callback];
                   }];
-    [self didEndCloseSheet:window returnCode:modalReturnCode contextInfo:callback];
 }
 
 - (BOOL)windowShouldClose:(id)sender
@@ -856,9 +854,13 @@ NSString *StoredProcedures = @"Stored Procedures";
 {
 	[window setDelegate:nil];
 	window = nil;
+    editorView = nil;
+    modelOutline = nil;
     // should we be releasing ourself?  seems awkward, plus there is no real way to do that in ARC
     // self = nil;
     // [self release];
+    uiElements = nil;
+    [(Controller *)[NSApp delegate] closeDocument:self];
 }
 
 - (void)windowDidBecomeKey:(NSNotification *)aNotification
@@ -928,6 +930,7 @@ NSString *StoredProcedures = @"Stored Procedures";
             EOAdaptor			*adaptor = [EOAdaptor adaptorWithModel:model];
             EOAdaptorContext	*context = [adaptor createAdaptorContext];
             EOAdaptorChannel	*channel;
+            NSArray             *tempArray;
             
             channel = [[context channels] lastObject];
             if (!channel)
@@ -935,7 +938,9 @@ NSString *StoredProcedures = @"Stored Procedures";
             
             if (![channel isOpen])
                 [channel openChannel];
-            entityNameCache = [[channel describeTableNames] mutableCopy];
+            tempArray = [[channel describeTableNames] mutableCopy];
+            // sort them
+            entityNameCache = [tempArray sortedArrayUsingSelector:@selector(compare:)];
         } @catch (NSException *exception) {
             AJRPrintf(@"Exception during entity name fetch: %@\n", exception);
             entityNameCache = [[NSArray alloc] init];

@@ -58,7 +58,10 @@
 	if (item == nil) {
 		return model;
 	} else if ([item isKindOfClass:[EOModel class]]) {
-		NSArray		*entities = [item entities];
+		NSArray		*temp = [item entities];
+        NSArray     *entities = [temp sortedArrayUsingComparator:^NSComparisonResult(EOEntity *obj1, EOEntity *obj2) {
+            return [[obj1 name] compare:[obj2 name]];
+        }];
 		
 		if (index >= [entities count]) {
 			return StoredProcedures;

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <capability name="box content view" minToolsVersion="7.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="EORelationshipAdvancedPane">
+            <connections>
+                <outlet property="batchSizeField" destination="TCu-iL-bHD" id="kfc-0o-VmR"/>
+                <outlet property="deleteRuleMatrix" destination="DDC-mc-6Yr" id="rfl-ae-JKw"/>
+                <outlet property="optionalityMatrix" destination="7Ae-rZ-ghZ" id="LtZ-nQ-PX0"/>
+                <outlet property="ownsDestinationCheck" destination="Ibz-n2-uia" id="goO-ts-0bh"/>
+                <outlet property="propagatesPKCheck" destination="6oO-q2-mDR" id="gUQ-D8-bhY"/>
+                <outlet property="view" destination="c22-O7-iKe" id="CrN-AC-xHR"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe">
+            <rect key="frame" x="0.0" y="0.0" width="280" height="428"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <box autoresizesSubviews="NO" fixedFrame="YES" borderType="line" title="Optionallity" translatesAutoresizingMaskIntoConstraints="NO" id="2Iq-Oc-AK8">
+                    <rect key="frame" x="7" y="280" width="256" height="64"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <view key="contentView" id="qN8-nk-gUE">
+                        <rect key="frame" x="1" y="1" width="254" height="48"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Ae-rZ-ghZ">
+                                <rect key="frame" x="20" y="9" width="157" height="36"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                <size key="cellSize" width="157" height="18"/>
+                                <buttonCell key="prototype" type="radio" title="Radio" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="EJU-QH-GcN">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="smallSystem"/>
+                                </buttonCell>
+                                <cells>
+                                    <column>
+                                        <buttonCell type="radio" title="Optional" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="dTp-aF-pFu">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="smallSystem"/>
+                                        </buttonCell>
+                                        <buttonCell type="radio" title="Mandatory" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="lbh-xg-svH">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="smallSystem"/>
+                                        </buttonCell>
+                                    </column>
+                                </cells>
+                                <connections>
+                                    <action selector="selectOptionality:" target="-2" id="6BB-s0-EV1"/>
+                                </connections>
+                            </matrix>
+                        </subviews>
+                    </view>
+                </box>
+                <box autoresizesSubviews="NO" fixedFrame="YES" borderType="line" title="Delete Rule" translatesAutoresizingMaskIntoConstraints="NO" id="m3f-6R-2fB">
+                    <rect key="frame" x="7" y="172" width="256" height="104"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <view key="contentView" id="V8Y-mY-eCe">
+                        <rect key="frame" x="1" y="1" width="254" height="88"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DDC-mc-6Yr">
+                                <rect key="frame" x="20" y="8" width="172" height="76"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                <size key="cellSize" width="172" height="19"/>
+                                <buttonCell key="prototype" type="radio" title="Radio" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="z8s-n6-f9B">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="smallSystem"/>
+                                </buttonCell>
+                                <cells>
+                                    <column>
+                                        <buttonCell type="radio" title="Nullify" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="7rp-j8-Bbp">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="smallSystem"/>
+                                        </buttonCell>
+                                        <buttonCell type="radio" title="Cascade" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="o07-XJ-ver">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="smallSystem"/>
+                                        </buttonCell>
+                                        <buttonCell type="radio" title="Deny" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="AEI-jt-SsR">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="smallSystem"/>
+                                        </buttonCell>
+                                        <buttonCell type="radio" title="No Action" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="0on-gq-tYg">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="smallSystem"/>
+                                        </buttonCell>
+                                    </column>
+                                </cells>
+                                <connections>
+                                    <action selector="selectDeleteRule:" target="-2" id="45s-AE-6Qi"/>
+                                </connections>
+                            </matrix>
+                        </subviews>
+                    </view>
+                </box>
+                <box autoresizesSubviews="NO" fixedFrame="YES" borderType="line" title="Options" translatesAutoresizingMaskIntoConstraints="NO" id="V0F-qx-qFh">
+                    <rect key="frame" x="7" y="93" width="256" height="75"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <view key="contentView" id="RzU-kN-HoR">
+                        <rect key="frame" x="1" y="1" width="254" height="59"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="49o-IR-NCM">
+                                <rect key="frame" x="18" y="35" width="179" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="Owns Destination" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Ibz-n2-uia">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="toggleOwnsDestination:" target="-2" id="YbV-Zx-byi"/>
+                                </connections>
+                            </button>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w80-lS-T8V">
+                                <rect key="frame" x="18" y="15" width="179" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="Propagate Primary Key" bezelStyle="regularSquare" imagePosition="left" inset="2" id="6oO-q2-mDR">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="togglePropagatesPK:" target="-2" id="Rp5-pj-NOh"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                    </view>
+                </box>
+                <box autoresizesSubviews="NO" fixedFrame="YES" borderType="line" title="Batch Faulting" translatesAutoresizingMaskIntoConstraints="NO" id="XqN-6O-knZ">
+                    <rect key="frame" x="7" y="348" width="256" height="60"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <view key="contentView" id="Pcr-MS-aCz">
+                        <rect key="frame" x="1" y="1" width="254" height="44"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TCu-iL-bHD">
+                                <rect key="frame" x="87" y="18" width="96" height="19"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="dsn-PZ-hX4">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <connections>
+                                    <outlet property="delegate" destination="-2" id="0u5-hq-DyB"/>
+                                </connections>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zWv-5n-2EQ">
+                                <rect key="frame" x="18" y="18" width="63" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Batch Size:" id="JsX-Ln-ga6">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                    </view>
+                </box>
+            </subviews>
+        </customView>
+    </objects>
+</document>

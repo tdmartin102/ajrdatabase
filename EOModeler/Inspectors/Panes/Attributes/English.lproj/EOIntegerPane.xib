@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="EOIntegerPane">
+            <connections>
+                <outlet property="typePopUp" destination="33" id="47"/>
+                <outlet property="view" destination="30" id="48"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customObject id="29" customClass="NSApplication"/>
+        <customView id="30">
+            <rect key="frame" x="0.0" y="0.0" width="242" height="115"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <popUpButton verticalHuggingPriority="750" id="33">
+                    <rect key="frame" x="69" y="93" width="176" height="22"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" id="34">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="smallSystem"/>
+                        <menu key="menu" title="OtherViews" id="35">
+                            <items>
+                                <menuItem title="Boolean" id="46"/>
+                                <menuItem title="Character" id="44"/>
+                                <menuItem title="Unsigned Character" id="43"/>
+                                <menuItem title="Short" id="42"/>
+                                <menuItem title="Unsigned Short" id="45"/>
+                                <menuItem title="Integer" id="41"/>
+                                <menuItem title="Unsigned Integer" id="40"/>
+                                <menuItem title="Long" id="38"/>
+                                <menuItem title="Unsigned Long" id="39"/>
+                                <menuItem title="Long Long" id="37"/>
+                                <menuItem title="Unsigned Long Long" id="36"/>
+                            </items>
+                        </menu>
+                    </popUpButtonCell>
+                    <connections>
+                        <action selector="selectType:" target="-2" id="49"/>
+                    </connections>
+                </popUpButton>
+                <textField verticalHuggingPriority="750" id="31">
+                    <rect key="frame" x="-4" y="98" width="71" height="14"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Value Type:" id="32">
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+        </customView>
+    </objects>
+</document>

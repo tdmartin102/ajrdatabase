@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="Document">
+            <connections>
+                <outlet property="editorView" destination="143" id="145"/>
+                <outlet property="modelOutline" destination="9" id="33"/>
+                <outlet property="window" destination="5" id="7"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="Editor Window" animationBehavior="default" id="5" userLabel="Window">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" unifiedTitleAndToolbar="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="378" y="211" width="789" height="645"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <value key="minSize" type="size" width="213" height="107"/>
+            <view key="contentView" id="6">
+                <rect key="frame" x="0.0" y="0.0" width="789" height="645"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <splitView vertical="YES" id="144">
+                        <rect key="frame" x="-1" y="-1" width="791" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="12">
+                                <rect key="frame" x="0.0" y="0.0" width="169" height="647"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <clipView key="contentView" id="dH2-l2-oL6">
+                                    <rect key="frame" x="1" y="1" width="167" height="645"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <outlineView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowHeight="15" indentationPerLevel="16" autoresizesOutlineColumn="YES" outlineTableColumn="11" id="9">
+                                            <rect key="frame" x="0.0" y="0.0" width="167" height="645"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <size key="intercellSpacing" width="3" height="2"/>
+                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                            <tableColumns>
+                                                <tableColumn width="164" minWidth="16" maxWidth="1000" id="11">
+                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
+                                                        <font key="font" metaFont="smallSystem"/>
+                                                        <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" white="0.33333299" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </tableHeaderCell>
+                                                    <textFieldCell key="dataCell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" alignment="left" id="149">
+                                                        <font key="font" metaFont="smallSystem"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </textFieldCell>
+                                                    <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                </tableColumn>
+                                            </tableColumns>
+                                            <connections>
+                                                <action selector="selectModel:" target="-2" id="147"/>
+                                                <outlet property="dataSource" destination="-2" id="31"/>
+                                                <outlet property="delegate" destination="-2" id="32"/>
+                                            </connections>
+                                        </outlineView>
+                                    </subviews>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="150">
+                                    <rect key="frame" x="-100" y="-100" width="152" height="15"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="151">
+                                    <rect key="frame" x="152" y="1" width="16" height="645"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                            <customView id="143" customClass="EditorView">
+                                <rect key="frame" x="178" y="0.0" width="613" height="647"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <connections>
+                                    <outlet property="document" destination="-2" id="146"/>
+                                </connections>
+                            </customView>
+                        </subviews>
+                        <holdingPriorities>
+                            <real value="250"/>
+                            <real value="250"/>
+                        </holdingPriorities>
+                    </splitView>
+                </subviews>
+            </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="8"/>
+            </connections>
+        </window>
+    </objects>
+</document>

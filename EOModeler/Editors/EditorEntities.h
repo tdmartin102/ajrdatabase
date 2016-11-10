@@ -13,8 +13,6 @@
 @interface EditorEntities : Editor
 {
 	IBOutlet NSTableView		*entityTable;
-	
-	EOEntity					*editingEntity;
 }
 
 - (void)selectEntity:(id)sender;

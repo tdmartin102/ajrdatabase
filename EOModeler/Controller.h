@@ -8,11 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface Controller : NSObject
-{
-}
+@class Document;
 
-- (void)newDocument:(id)sender;
-- (void)openDocument:(id)sender;
+@interface Controller : NSObject
+
+- (IBAction)newDocument:(id)sender;
+- (IBAction)openDocument:(id)sender;
+
+- (void)closeDocument:(Document *)doc;
 
 @end

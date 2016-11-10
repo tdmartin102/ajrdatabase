@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="EOWizardFeaturePane">
+            <connections>
+                <outlet property="customObjectsCheck" destination="9" id="25"/>
+                <outlet property="primaryKeysCheck" destination="6" id="24"/>
+                <outlet property="relationshipsCheck" destination="7" id="27"/>
+                <outlet property="storedProceduresCheck" destination="8" id="26"/>
+                <outlet property="view" destination="5" id="28"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="5" userLabel="View">
+            <rect key="frame" x="0.0" y="0.0" width="400" height="300"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <box verticalHuggingPriority="750" boxType="separator" id="21">
+                    <rect key="frame" x="28" y="115" width="362" height="5"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </box>
+                <box verticalHuggingPriority="750" boxType="separator" id="19">
+                    <rect key="frame" x="28" y="180" width="362" height="5"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </box>
+                <box verticalHuggingPriority="750" boxType="separator" id="17">
+                    <rect key="frame" x="28" y="231" width="362" height="5"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </box>
+                <textField verticalHuggingPriority="750" id="15">
+                    <rect key="frame" x="25" y="47" width="368" height="42"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="justified" id="46">
+                        <font key="font" metaFont="smallSystem"/>
+                        <string key="title">Maps custom objects to entities in the model. The wizard assumes that custom classes have the same names as their entities. (You have to create the classes.)</string>
+                        <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" id="14">
+                    <rect key="frame" x="25" y="126" width="368" height="28"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="justified" title="Allows you to choose stored procedures defined in the database (if any) to include in your model." id="45">
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" id="13">
+                    <rect key="frame" x="25" y="191" width="368" height="14"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="justified" title="Allows you to specify referential integrity rules for relationships" id="44">
+                        <font key="font" metaFont="smallSystem"/>
+                        <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" id="12">
+                    <rect key="frame" x="25" y="242" width="368" height="28"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="justified" id="43">
+                        <font key="font" metaFont="smallSystem"/>
+                        <string key="title">A primary key is a column or combination of columns whose values are guaranteed to uniquely identify each row in a database table.</string>
+                        <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button id="9">
+                    <rect key="frame" x="7" y="95" width="149" height="16"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <buttonCell key="cell" type="check" title="Use Custom Objects" bezelStyle="regularSquare" imagePosition="leading" alignment="left" controlSize="small" state="on" inset="2" id="42">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="smallSystem"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="toggleCustomObjects:" target="-2" id="32"/>
+                        <outlet property="nextKeyView" destination="5" id="37"/>
+                    </connections>
+                </button>
+                <button id="8">
+                    <rect key="frame" x="7" y="160" width="177" height="16"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <buttonCell key="cell" type="check" title="Ask about stored procedures" bezelStyle="regularSquare" imagePosition="leading" alignment="left" controlSize="small" enabled="NO" inset="2" id="41">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="smallSystem"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="toggleStoredProcedures:" target="-2" id="31"/>
+                        <outlet property="nextKeyView" destination="9" id="36"/>
+                    </connections>
+                </button>
+                <button id="7">
+                    <rect key="frame" x="7" y="211" width="149" height="16"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <buttonCell key="cell" type="check" title="Ask about relationships" bezelStyle="regularSquare" imagePosition="leading" alignment="left" controlSize="small" enabled="NO" inset="2" id="40">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="smallSystem"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="toggleRelationships:" target="-2" id="30"/>
+                        <outlet property="nextKeyView" destination="8" id="35"/>
+                    </connections>
+                </button>
+                <button misplaced="YES" id="6">
+                    <rect key="frame" x="7" y="275" width="227" height="18"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <buttonCell key="cell" type="check" title="Assign primary keys to all entities" bezelStyle="regularSquare" imagePosition="leading" alignment="left" controlSize="small" state="on" inset="2" id="39">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="smallSystem"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="togglePrimaryKeys:" target="-2" id="29"/>
+                        <outlet property="nextKeyView" destination="7" id="34"/>
+                    </connections>
+                </button>
+            </subviews>
+            <connections>
+                <outlet property="nextKeyView" destination="6" id="33"/>
+            </connections>
+        </customView>
+        <view id="16">
+            <rect key="frame" x="0.0" y="0.0" width="125" height="1"/>
+            <autoresizingMask key="autoresizingMask"/>
+        </view>
+        <view id="18">
+            <rect key="frame" x="0.0" y="0.0" width="125" height="1"/>
+            <autoresizingMask key="autoresizingMask"/>
+        </view>
+        <view id="20">
+            <rect key="frame" x="0.0" y="0.0" width="125" height="1"/>
+            <autoresizingMask key="autoresizingMask"/>
+        </view>
+    </objects>
+</document>

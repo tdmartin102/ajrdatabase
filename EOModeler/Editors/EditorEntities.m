@@ -16,6 +16,10 @@
 #import <EOAccess/EOAccess.h>
 
 @implementation EditorEntities
+{
+    EOEntity					*editingEntity;
+    NSMutableArray              *entities;
+}
 
 + (void)load { } 
 
@@ -37,15 +41,26 @@
 	[entityTable setCanHideColumns:YES];
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (void)loadEntities
 {
-	return (int)[[[self model] entities] count];
+    entities = [[[self model] entities] mutableCopy];
+    [entities sortUsingComparator:^NSComparisonResult(EOEntity *obj1, EOEntity *obj2) {
+        return [[obj1 name] compare:[obj2 name]];
+    }];
+}
+
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
+{
+    if (! entities && [self model])
+        [self loadEntities];
+    
+	return [entities count];
 }
 
 - (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn
               row:(NSInteger)rowIndex
 {
-	EOEntity		*entity = [[[self model] entities] objectAtIndex:rowIndex];
+	EOEntity		*entity = [entities objectAtIndex:rowIndex];
 	NSString		*ident = [aTableColumn identifier];
 	
 	if ([ident isEqualToString:@"isReadOnly"]) {
@@ -60,7 +75,7 @@
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn
             row:(NSInteger)rowIndex
 {
-	EOEntity		*entity = [[[self model] entities] objectAtIndex:rowIndex];
+	EOEntity		*entity = [entities objectAtIndex:rowIndex];
 	NSString		*ident = [aTableColumn identifier];
 	
 	if ([ident isEqualToString:@"name"]) {
@@ -81,7 +96,7 @@
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn
               row:(NSInteger)rowIndex
 {
-	EOEntity		*entity = [[[self model] entities] objectAtIndex:rowIndex];
+	EOEntity		*entity = [entities objectAtIndex:rowIndex];
 	NSString		*ident = [aTableColumn identifier];
 	
 	if ([ident isEqualToString:@"name"]) {
@@ -107,7 +122,7 @@
 
 - (void)updateEntityDisplay:(EOEntity *)entity
 {
-	NSUInteger index = [[[self model] entities] indexOfObjectIdenticalTo:entity];
+	NSUInteger index = [entities indexOfObjectIdenticalTo:entity];
 	
 	if (index != NSNotFound) {
 		if (entity == editingEntity) {
@@ -129,13 +144,14 @@
 
 - (void)updateModelDisplay:(EOModel *)model
 {
+    [self loadEntities];
 	[entityTable reloadData];
 }
 
 - (void)objectWillChange:(id)object
 {
 	if ([object isKindOfClass:[EOEntity class]]) {
-		NSUInteger	index = [[[self model] entities] indexOfObjectIdenticalTo:object];
+		NSUInteger	index = [entities indexOfObjectIdenticalTo:object];
 		
 		if (index != NSNotFound && index == [entityTable editedRow]) {
 			editingEntity = object;
@@ -161,7 +177,6 @@
 	if ([[entityTable selectedRowIndexes] count] > 1) {
 		NSMutableArray		*selectedEntities = [[NSMutableArray alloc] init];
 		NSIndexSet          *indexSet = [entityTable selectedRowIndexes];
-		NSArray				*entities = [[self model] entities];
 		
         [indexSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop){
             [selectedEntities addObject:[entities objectAtIndex:idx]];}];
@@ -173,7 +188,7 @@
 			[document setSelectedEntity:nil];
 			[document setSelectedObject:[self model]];
 		} else {
-			entity = [[[self model] entities] objectAtIndex:row];
+			entity = [entities objectAtIndex:row];
 			[document setSelectedEntity:entity];
 			[document setSelectedObject:entity];
 		}
@@ -184,7 +199,7 @@
 
 - (void)editEntity:(EOEntity *)entity
 {
-	NSInteger		index = [[[self model] entities] indexOfObjectIdenticalTo:entity];
+	NSInteger		index = [entities indexOfObjectIdenticalTo:entity];
 	NSTableColumn	*column;
 	NSInteger		columnIndex;
 	
@@ -230,7 +245,7 @@
 		}
 	}
 	row = [(NSTableView *)control selectedRow];
-	entity = [[[self model] entities] objectAtIndex:row];
+	entity = [entities objectAtIndex:row];
 	if (row >= 0) {
 		return ([entity validateName:[fieldEditor string]] == nil);
 	}

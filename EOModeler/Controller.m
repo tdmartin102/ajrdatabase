@@ -16,6 +16,20 @@
 #import <EOInterface/EOInterface.h>
 
 @implementation Controller
+{
+    NSMutableArray *documents;
+}
+
+- (void)registerDocument:(Document *)doc
+{
+    [documents addObject:doc];
+}
+
+- (void)unRegisterDocument:(Document *)doc
+{
+    // This is NOT working. document is NOT freed.
+    [documents removeObject:doc];
+}
 
 + (void)initialize
 {
@@ -26,6 +40,14 @@
 		[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"], @"SavePanelPath",
 		nil]
 	];
+}
+
+- (instancetype)init
+{
+    if ((self = [super init])) {
+        documents = [[NSMutableArray alloc] initWithCapacity:20];
+    }
+    return self;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
@@ -50,7 +72,7 @@
 - (void)newDocument:(id)sender
 {
 	Document * doc = [[Document alloc] init];
-    [doc self];
+    [self registerDocument:doc];
 }
 
 - (void)openDocument:(id)sender
@@ -73,7 +95,7 @@
         for (anURL in files)
         {
             doc = [[Document alloc] initWithPath:anURL.path];
-            [doc self];
+            [self registerDocument:doc];
         }
         [[NSUserDefaults standardUserDefaults] setObject:openPanel.directoryURL.path forKey:@"OpenPanelPath"];
     }
@@ -81,9 +103,11 @@
 
 - (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
 {
-   NSURL       *url;
+    NSURL       *url;
 	NSArray		*windows;
 	int			x;
+    Document   *doc;
+    BOOL        result = YES;
 	
 	AJRPrintf(@"adaptors: %@\n", [EOAdaptor availableAdaptorNames]);
 	
@@ -105,7 +129,13 @@
 		}
 	}
 	
-   return [[Document alloc] initWithPath:[url path]] != nil;
+    doc = [[Document alloc] initWithPath:[url path]];
+    if (doc)
+        [self registerDocument:doc];
+    else
+        result = NO;
+    
+   return result;
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)app 
@@ -208,6 +238,11 @@
 
 - (void)synchronizeEntity:(id)sender
 {
+}
+
+- (void)closeDocument:(Document *)doc
+{
+    [self unRegisterDocument:doc];
 }
 
 @end

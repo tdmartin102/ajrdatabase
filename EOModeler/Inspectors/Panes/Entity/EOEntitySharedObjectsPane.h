@@ -14,7 +14,7 @@
 	IBOutlet NSTableView	*fetchTableView;
 }
 
-- (void)selectSharedMethod:(id)sender;
-- (void)selectFetchSpecification:(id)sender;
+- (IBAction)selectSharedMethod:(id)sender;
+- (IBAction)selectFetchSpecification:(id)sender;
 
 @end

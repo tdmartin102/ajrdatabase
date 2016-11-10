@@ -12,7 +12,7 @@
 
 @interface Editor : NSObject
 {
-	Document				*document;
+	__weak Document				*document;
 	
 	IBOutlet NSView         *view;
     NSArray                 *uiElements;
