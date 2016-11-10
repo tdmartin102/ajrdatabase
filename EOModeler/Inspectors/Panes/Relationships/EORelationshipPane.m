@@ -158,7 +158,7 @@
 			
 			[modelsPopUp addItemWithTitle:[model name]];
 			[[[modelsPopUp itemArray] lastObject] setRepresentedObject:model];
-			if (model == [[relationship entity] model]) {
+			if (model == [[relationship destinationEntity] model]) {
 				selectedIndex = x;
 			}
 		}
