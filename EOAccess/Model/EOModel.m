@@ -366,9 +366,9 @@ static NSCharacterSet		*validNameSet = nil;
 {
 	NSArray				*entities = [index objectForKey:@"entities"];
 	NSArray				*procedures = [index objectForKey:@"storedProcedures"];
-	int					x;
-	int					numEntities;
-	int					numProcedures;
+	NSInteger			x;
+	NSInteger			numEntities;
+	NSInteger			numProcedures;
 	NSDictionary		*aPlist;
 	EOStoredProcedure	*procedure;
 	EOEntity			*entity;
@@ -401,9 +401,9 @@ static NSCharacterSet		*validNameSet = nil;
 
 - (void)_revert
 {
-	int		x;
-	int numKeys;
-	NSArray	*keys;
+	NSInteger	x;
+	NSInteger   numKeys;
+	NSArray     *keys;
 
 	[self willChange];
 	
@@ -496,14 +496,14 @@ static NSCharacterSet		*validNameSet = nil;
 - (void)removeEntityAndReferences:(EOEntity *)entity
 {
 	NSArray		*models = [modelGroup models];
-	int			x;
-	int numModels;
+	NSInteger	x;
+	NSInteger   numModels;
 	
 	numModels = [models count];
 	for (x = 0; x < numModels; x++) {
 		EOModel		*model = [models objectAtIndex:x];
 		NSArray		*entities = [model entities];
-		int			y;
+		NSInteger	y;
 		
 		for (y = [entities count] - 1; y >= 0; y--) {
 			EOEntity		*entity = [entities objectAtIndex:y];
@@ -547,7 +547,7 @@ static NSCharacterSet		*validNameSet = nil;
 
 - (NSMutableDictionary *)_propertiesForURL:(NSURL *)aURL
 {
-   NSMutableDictionary     *properties = nil;
+    NSMutableDictionary     *properties = nil;
 	NSString				*contents;
 	NSStringEncoding        encoding;
 	if (![[NSFileManager defaultManager] fileExistsAtPath:[aURL path]]) {
@@ -557,16 +557,16 @@ static NSCharacterSet		*validNameSet = nil;
                 usedEncoding:&encoding error:NULL];
 	if (!contents) {
 		[NSException raise:NSInvalidArgumentException format:@"Unable to read contents of url: %@: %s", aURL, strerror(errno)];
-	}
+    }
 	
-	NS_DURING
-		properties = [contents propertyList];
-	NS_HANDLER
-		[contents release];
-		[localException raise];
-	NS_ENDHANDLER
-	
-   return properties;
+    @try {
+        properties = [contents propertyList];
+
+    } @catch (NSException *exception) {
+        [contents release];
+        [exception raise];
+    }
+    return properties;
 }
 
 - (NSMutableDictionary *)_propertiesForEntityNamed:(NSString *)aName
@@ -623,10 +623,10 @@ static NSCharacterSet		*validNameSet = nil;
 
 - (NSString *)description
 {
-   NSMutableString		*string = [NSMutableString string];
-   int						x;
-   int numEntities;
-   NSArray					*entities;
+   NSMutableString	*string = [NSMutableString string];
+   NSInteger		x;
+   NSInteger        numEntities;
+   NSArray			*entities;
 
    [string appendFormat:@"[EOModel: name=\"%@\", entitites=", [self name]];
    entities = [[entityCache allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
@@ -768,16 +768,17 @@ static NSCharacterSet		*validNameSet = nil;
 // added code to preserve version control directories
 - (void)writeToFile:(NSString *)aPath
 {
-	BOOL					isDirectory;
+	BOOL				isDirectory;
 	NSArray				*keys;
 	NSMutableArray		*entityIndex;
 	NSMutableArray		*storedProcedureIndex;
-	int					x;
-	int numKeys;
+	NSInteger			x;
+	NSInteger           numKeys;
 	// william @ swats.org 2005-07-23
 	// backupPath was sometimes being used uninitilized
 	NSString            *backupPath = nil;
 	NSArray             *versionControlPaths;
+    NSString            *outputPath;
 
 	// array of version control paths to preserve between file saves
 	versionControlPaths = [NSArray arrayWithObjects:@"CVS", @".svn", nil];
@@ -789,24 +790,14 @@ static NSCharacterSet		*validNameSet = nil;
 		
 		backupPath = [NSString stringWithFormat:@"%@~.%@", 
 			[aPath stringByDeletingPathExtension], [aPath pathExtension]];
-	#if MAC_OS_X_VERSION_MAX_ALLOWED > 1040
 		[[NSFileManager defaultManager] removeItemAtPath:backupPath error:NULL];
 		if (![[NSFileManager defaultManager] moveItemAtPath:aPath toPath:backupPath error:NULL]) 
 		{
 			[NSException raise:NSInvalidArgumentException format:@"Unable to create directory: %@: %s", aPath, strerror(errno)];
 		}
-	}
+    }
 
 	[[NSFileManager defaultManager] createDirectoryAtPath:aPath withIntermediateDirectories:YES attributes:nil error:NULL];
-	#else
-		[[NSFileManager defaultManager] removeFileAtPath:backupPath handler:nil];		
-		if (![[NSFileManager defaultManager] movePath:aPath toPath:backupPath handler:nil]) 
-		{
-			[NSException raise:NSInvalidArgumentException format:@"Unable to create directory: %@: %s", aPath, strerror(errno)];
-		}
-	}
-	[[NSFileManager defaultManager] createDirectoryAtPath:aPath attributes:nil];
-	#endif
 
 	if (backupPath) 
 	{
@@ -827,123 +818,121 @@ static NSCharacterSet		*validNameSet = nil;
 				{
 					// tom.martin @ riemer.com - 2011-09-16
 					// replace depreciated method.  
-					#if MAC_OS_X_VERSION_MAX_ALLOWED > 1040
-					[[NSFileManager defaultManager] copyItemAtPath: vcBackupPath 
+					[[NSFileManager defaultManager] copyItemAtPath: vcBackupPath
 													toPath: vcNewPath 
 													error:NULL];
-					#else
-					[[NSFileManager defaultManager] copyPath: vcBackupPath 
-													toPath: vcNewPath 
-													handler:nil];
-					#endif
-				}
+                }
 			}
 		}
-	}
+    }
+    
+    entityIndex = [[NSMutableArray allocWithZone:[self zone]] init];
+    keys = [[entityCache allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    numKeys = [keys count];
+    for (x = 0; x < numKeys; x++) {
+        EOEntity            *entity = [self entityNamed:[keys objectAtIndex:x]];
+        NSMutableDictionary	*dictionary;
+        NSArray				*fetches;
+        
+        outputPath = [[aPath stringByAppendingPathComponent:[entity name]] stringByAppendingPathExtension:@"plist"];
+        dictionary = [[NSMutableDictionary allocWithZone:[self zone]] init];
+        @try {
+            [entity encodeIntoPropertyList:dictionary];
+            // tom.martin @ riemer.com - 2011-09-16
+            // replace depreciated method.
+            [dictionary writeToFile:outputPath atomically:NO];
+            //[[dictionary description] writeToFile:outputPath atomically:NO encoding:NSUTF8StringEncoding error:NULL];
+            [entityIndex addObject:[NSDictionary dictionaryWithObjectsAndKeys:[entity name], @"name", [[entity className] isEqualToString:@"EOGenericRecord"] ? @"EOGenericRecord" : [entity className], @"className", nil]];
+        } @catch (NSException *exception) {
+            [entityIndex release];
+            [exception raise];
+        } @finally {
+            [dictionary release];
+        }
+        
+        fetches = [entity fetchSpecificationNames];
+        
+        if ([fetches count]) {
+            NSMutableDictionary	*encodedFetches;
+            NSInteger           x;
+            NSInteger           numFetches;
+            
+            encodedFetches = [[NSMutableDictionary allocWithZone:[self zone]] init];
+            @try {
+                numFetches = [fetches count];
+                for (x = 0; x < numFetches; x++) {
+                    NSString					*fetchName = [fetches objectAtIndex:x];
+                    EOFetchSpecification	*fetch = [entity fetchSpecificationNamed:fetchName];
+                    dictionary = [[NSMutableDictionary allocWithZone:[self zone]] init];
+                    [fetch encodeIntoPropertyList:dictionary];
+                    [encodedFetches setObject:dictionary forKey:fetchName];
+                    [dictionary release];
+                }
+                
+                outputPath = [[aPath stringByAppendingPathComponent:[entity name]] stringByAppendingPathExtension:@"fspec"];
+                // tom.martin @ riemer.com - 2011-09-16
+                // replace depreciated method.
+                [encodedFetches writeToFile:outputPath atomically:NO];
+                //[[encodedFetches description] writeToFile:outputPath atomically:NO encoding:NSUTF8StringEncoding error:NULL];
+
+            } @catch (NSException *exception) {
+                [entityIndex release];
+                [exception raise];
+            } @finally {
+                [encodedFetches release];
+            }
+        }
+    }
+    
+    [index setObject:entityIndex forKey:@"entities"];
+    [entityIndex release];
+
+    storedProcedureIndex = [[NSMutableArray allocWithZone:[self zone]] init];
+    keys = [[storedProcedureCache allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    numKeys = [keys count];
+    for (x = 0; x < numKeys; x++) {
+        EOStoredProcedure		*storedProcedure = [self storedProcedureNamed:[keys objectAtIndex:x]];
+        NSMutableDictionary     *dictionary;
 	   
-   entityIndex = [[NSMutableArray allocWithZone:[self zone]] init];
-   keys = [[entityCache allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
-   numKeys = [keys count];
-   for (x = 0; x < numKeys; x++) {
-	   EOEntity		*entity = [self entityNamed:[keys objectAtIndex:x]];
-	   NSString		*outputPath = [[aPath stringByAppendingPathComponent:[entity name]] stringByAppendingPathExtension:@"plist"];
-	   NSMutableDictionary	*dictionary;
-	   NSArray					*fetches;
-	   
-	   dictionary = [[NSMutableDictionary allocWithZone:[self zone]] init];
-	   NS_DURING
-		   [entity encodeIntoPropertyList:dictionary];
-		   // tom.martin @ riemer.com - 2011-09-16
-			// replace depreciated method.  
-		   [[dictionary description] writeToFile:outputPath atomically:NO encoding:NSUTF8StringEncoding error:NULL];
-		   [entityIndex addObject:[NSDictionary dictionaryWithObjectsAndKeys:[entity name], @"name", [[entity className] isEqualToString:@"EOGenericRecord"] ? @"EOGenericRecord" : [entity className], @"className", nil]];
-	   NS_HANDLER
-		   [dictionary release];
-		   [entityIndex release];
-		   [localException raise];
-	   NS_ENDHANDLER
-	   [dictionary release];
-	   
-	   fetches = [entity fetchSpecificationNames];
-	   if ([fetches count]) {
-		   NSMutableDictionary	*encodedFetches;
-		   int						x;
-		   int numFetches;
-		   
-		   encodedFetches = [[NSMutableDictionary allocWithZone:[self zone]] init];
-		   NS_DURING
-			   numFetches = [fetches count];
-			   for (x = 0; x < numFetches; x++) {
-				   NSString					*fetchName = [fetches objectAtIndex:x];
-				   EOFetchSpecification	*fetch = [entity fetchSpecificationNamed:fetchName];
-				   dictionary = [[NSMutableDictionary allocWithZone:[self zone]] init];
-				   [fetch encodeIntoPropertyList:dictionary];
-				   [encodedFetches setObject:dictionary forKey:fetchName];
-				   [dictionary release];
-			   }
-			   
-			   outputPath = [[aPath stringByAppendingPathComponent:[entity name]] stringByAppendingPathExtension:@"fspec"];
-			   // tom.martin @ riemer.com - 2011-09-16
-				// replace depreciated method.  
-			   [[encodedFetches description] writeToFile:outputPath atomically:NO encoding:NSUTF8StringEncoding error:NULL];
-		   NS_HANDLER
-			   [encodedFetches release];
-			   [entityIndex release];
-			   [localException raise];
-		   NS_ENDHANDLER
-		   [encodedFetches release];
-	   }
-   }
+        outputPath = [[aPath stringByAppendingPathComponent:[storedProcedure name]] stringByAppendingPathExtension:@"storedProcedure"];
+        dictionary = [[NSMutableDictionary allocWithZone:[self zone]] init];
+        @try {
+            [storedProcedure encodeIntoPropertyList:dictionary];
+            // tom.martin @ riemer.com - 2011-09-16
+            // replace depreciated method.
+            [dictionary writeToFile:outputPath atomically:NO];
+            // [[dictionary description] writeToFile:outputPath atomically:NO encoding:NSUTF8StringEncoding error:NULL];
+            [storedProcedureIndex addObject:[storedProcedure name]];
+
+        } @catch (NSException *exception) {
+            [storedProcedureIndex release];
+            [exception raise];
+
+        } @finally {
+            [dictionary release];
+        }
+    }
+    
+    [index setObject:storedProcedureIndex forKey:@"storedProcedures"];
+    [storedProcedureIndex release];
    
-   [index setObject:entityIndex forKey:@"entities"];
-   [entityIndex release];
-   
-   storedProcedureIndex = [[NSMutableArray allocWithZone:[self zone]] init];
-   keys = [[storedProcedureCache allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
-   numKeys = [keys count];
-   for (x = 0; x < numKeys; x++) {
-	   EOStoredProcedure		*storedProcedure = [self storedProcedureNamed:[keys objectAtIndex:x]];
-	   NSString					*outputPath = [[aPath stringByAppendingPathComponent:[storedProcedure name]] stringByAppendingPathExtension:@"storedProcedure"];
-	   NSMutableDictionary	*dictionary;
-	   
-	   dictionary = [[NSMutableDictionary allocWithZone:[self zone]] init];
-	   NS_DURING
-		   [storedProcedure encodeIntoPropertyList:dictionary];
-		   // tom.martin @ riemer.com - 2011-09-16
-			// replace depreciated method.  
-		   [[dictionary description] writeToFile:outputPath atomically:NO encoding:NSUTF8StringEncoding error:NULL];
-		   [storedProcedureIndex addObject:[storedProcedure name]];
-	   NS_HANDLER
-		   [dictionary release];
-		   [storedProcedureIndex release];
-		   [localException raise];
-	   NS_ENDHANDLER
-	   [dictionary release];
-   }
-   
-   [index setObject:storedProcedureIndex forKey:@"storedProcedures"];
-   [storedProcedureIndex release];
-   
-   [index setObject:connectionProperties forKey:@"connectionDictionary"];
-   if ([self _adaptor]) {
-	   [index setObject:[adaptor name] forKey:@"adaptorName"];
-   } else {
-	   [index setObject:@"None" forKey:@"adaptorName"];
-   }
-   
-   [index setObject:@"2.1" forKey:@"EOModelVersion"];
-   
-   if (![[index description] writeToFile:[[aPath stringByAppendingPathComponent:@"index"]
-		// tom.martin @ riemer.com - 2011-09-16
-		// replace depreciated method.   
-		stringByAppendingPathExtension:@"eomodeld"] atomically:NO encoding:NSUTF8StringEncoding error:NULL]) {
+    [index setObject:connectionProperties forKey:@"connectionDictionary"];
+    if ([self _adaptor]) {
+        [index setObject:[adaptor name] forKey:@"adaptorName"];
+    } else {
+        [index setObject:@"None" forKey:@"adaptorName"];
+    }
+    [index setObject:@"2.1" forKey:@"EOModelVersion"];
+
+    outputPath = [[aPath stringByAppendingPathComponent:@"index"] stringByAppendingPathExtension:@"eomodeld"];
+    if (! [index writeToFile:outputPath atomically:NO]) {
 	   [NSException raise:NSInvalidArgumentException format:@"Unable to write to file: %@: %s", [aPath stringByAppendingPathExtension:@"eomodeld"], strerror(errno)];
-   }
+    }
    
-   [EOObserverCenter suppressObserverNotification];
-   [self _setPath:[NSURL fileURLWithPath:aPath]];
-   [self setName:[[aPath lastPathComponent] stringByDeletingPathExtension]];
-   [EOObserverCenter enableObserverNotification];
+    [EOObserverCenter suppressObserverNotification];
+    [self _setPath:[NSURL fileURLWithPath:aPath]];
+    [self setName:[[aPath lastPathComponent] stringByDeletingPathExtension]];
+    [EOObserverCenter enableObserverNotification];
 }
 
 - (void)addStoredProcedure:(EOStoredProcedure *)procedure

@@ -43,9 +43,9 @@ http://www.raftis.net/~alex/
 // Changed from double quotes to single quotes around the value.  SQL uses single quotes around strings, not double quotes.  Inserts were failing.
 - (id)format:(id)value inAttribute:(EOAttribute *)attribute
 {
-   int					x, length;
+   NSInteger			x, length;
    NSMutableString	*work = [NSMutableString string];
-   int					last = 0;
+   NSInteger			last = 0;
    unichar				c;
    NSString				*escape;
 

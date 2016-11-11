@@ -109,8 +109,8 @@ static id   _defaultDelegate = nil;
 
 - (BOOL)hasBusyChannels
 {
-	int					x;
-	int numAdaptorChannels;
+	NSInteger x;
+	NSInteger numAdaptorChannels;
 	
 	numAdaptorChannels = [adaptorChannels count];
 	for (x = 0; x < numAdaptorChannels; x++) {
@@ -122,8 +122,8 @@ static id   _defaultDelegate = nil;
 
 - (BOOL)hasOpenChannels
 {
-	int					x;
-	int numAdaptorChannels;
+	NSInteger x;
+	NSInteger numAdaptorChannels;
 	
 	numAdaptorChannels =  [adaptorChannels count];
 	for (x = 0; x < numAdaptorChannels; x++) {
@@ -151,7 +151,7 @@ static id   _defaultDelegate = nil;
 
 - (void)beginTransaction
 {
-	int			x;
+	NSInteger			x;
 	
    if (openTransaction) {
       [NSException raise:EODatabaseException format:@"Cannot begin another transaction, one in progress."];
@@ -169,7 +169,7 @@ static id   _defaultDelegate = nil;
 		transactionChannel = [[self createAdaptorChannel] retain];
 		[transactionChannel openChannel];
 	} else {
-		int numAdaptorChannels;
+		NSInteger numAdaptorChannels;
 		
 		numAdaptorChannels = [adaptorChannels count];
 		for (x = 0; x < numAdaptorChannels; x++) {

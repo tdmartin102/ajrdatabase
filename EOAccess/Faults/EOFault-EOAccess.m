@@ -75,7 +75,7 @@ static size_t arraySize;
                         inEditingContext:(EOEditingContext *) editingContext
 {
 	EOFault		*newFault;
-	size_t		objectSize;
+	// size_t		objectSize;
 	
 	// tom.martin @ riemer.com 2011-12-5
 	// it is EXTREMELY unlikey, but if the EOMutableArray class is smaller than the fault class there would be

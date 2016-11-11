@@ -174,7 +174,7 @@ extern int objc_sizeof_type(const char* type);
 
 - (void)dealloc
 {
-	int		x;
+	NSInteger		x;
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
@@ -201,8 +201,8 @@ extern int objc_sizeof_type(const char* type);
 + (EODatabaseContext *)registeredDatabaseContextForModel:(EOModel *)aModel objectStoreCoordinator:(EOObjectStoreCoordinator *)objectStore
 {
 	NSArray		*objectStores = [objectStore cooperatingObjectStores];
-	int			x;
-	int numObjectStores;
+	NSInteger			x;
+	NSInteger numObjectStores;
 	EODatabase	*aDatabase;
 	id				childObjectStore;
 	
@@ -279,9 +279,9 @@ static Class _eoDatabaseContextClass = Nil;
 - (EODatabaseChannel *)availableChannel
 {
 	EODatabaseChannel		*channel;
-	int						precount;
-	int						x;
-	int numDatabaseChannels;
+	NSInteger				precount;
+	NSInteger				x;
+	NSInteger               numDatabaseChannels;
 	
 	[self _assertLock];
 	
@@ -380,8 +380,8 @@ static Class _eoDatabaseContextClass = Nil;
 	{
 		NSArray				*parts = [(EOAndQualifier *)aQualifier qualifiers];
 		EOKeyValueQualifier	*subqualifier; 
-		int					numParts = [parts count];
-		int					x;         
+		NSInteger			numParts = [parts count];
+		NSInteger			x;
 		
 		for (x = 0; x < numParts; x++) 
 		{
@@ -593,7 +593,7 @@ static Class _eoDatabaseContextClass = Nil;
 	NSArray							*classProperties;
 	NSString							*key;
 	id									value;
-	int								x, max;
+	NSInteger						x, max;
 	NSDictionary					*snapshot;
 	
 	classDescription = (EOEntityClassDescription *)[object classDescription];
@@ -696,8 +696,8 @@ static Class _eoDatabaseContextClass = Nil;
 
 - (BOOL)hasBusyChannels
 {
-	int			x;
-	int numDatabaseChannels;
+	NSInteger   x;
+	NSInteger   numDatabaseChannels;
 	
 	numDatabaseChannels = [databaseChannels count];
 	for (x = 0; x < numDatabaseChannels; x++) {
@@ -902,8 +902,7 @@ static Class _eoDatabaseContextClass = Nil;
 // Added post of notification letting peer/nested editing context's know what objects have been changed
 - (void)_acceptDatabaseOperations
 {
-	EODatabase  *aDatabase = [self database];
-	int			x;
+	EODatabase              *aDatabase = [self database];
 	NSMutableArray          *globalIDsForInsertedObjects;
 	NSMutableArray          *globalIDsForUpdatedObjects;
 	NSMutableArray          *globalIDsForDeletedObjects;
@@ -1166,8 +1165,8 @@ static Class _eoDatabaseContextClass = Nil;
 
 - (void)forgetLocksForObjectsWithGlobalIDs:(NSArray *)globalIDs
 {
-	int				x;
-	int numGlobalIDs;
+	NSInteger	x;
+	NSInteger   numGlobalIDs;
 	
 	[self _assertLock];
 	
@@ -1271,8 +1270,8 @@ static Class _eoDatabaseContextClass = Nil;
 		// We can do an good optimization here. There's a fair chance that we're being asked for object's primary key, or at least part of it's primary key. If that's the case, and we have a fault, then there's no need to trip the fault to see those values, since they'll be contained in the EOGlobalID.
 		pkNames = [entity primaryKeyAttributeNames];
 		if ([keys count] <= [pkNames count]) {
-			int			x;
-			int numKeys;
+			NSInteger	x;
+			NSInteger   numKeys;
 			
 			// Count if all of keys are contained in pkNames.
 			numKeys = [keys count];
@@ -1311,9 +1310,9 @@ static Class _eoDatabaseContextClass = Nil;
 	
 	if (delegateRespondsToShouldInvalidateObjectWithGlobalIDSnapshot) 
     {
-		NSMutableArray		*newGlobalIDs = [[NSMutableArray allocWithZone:[self zone]] init];
-		int					x;
-		int numGlobalIDs;
+		NSMutableArray	*newGlobalIDs = [[NSMutableArray allocWithZone:[self zone]] init];
+		NSInteger		x;
+		NSInteger       numGlobalIDs;
 		
 		numGlobalIDs = [globalIDs count];
 		for (x = 0; x < numGlobalIDs; x++) {
@@ -1436,7 +1435,7 @@ static Class _eoDatabaseContextClass = Nil;
 		// Just for sanity's sake
 		if ([pkObjects count]) 
 		{ 
-			int x, max;
+			NSInteger x, max;
 			NSArray *pkValues;
 			EOEntity *entity = [database entityNamed:entityName];
             //NSArray *pkAttributes = [entity primaryKeyAttributeNames];
@@ -1449,7 +1448,7 @@ static Class _eoDatabaseContextClass = Nil;
 			//NSArray *pkValues = ([entity _primaryKeyIsPrivate] && [pkAttributes count] == 1) ? 
 			//[channel primaryKeysForNewRowsWithEntity:entity count:[pkObjects count]] : nil; 
 			NS_DURING 
-				pkValues = [channel primaryKeysForNewRowsWithEntity:entity count:[pkObjects count]];  
+				pkValues = [channel primaryKeysForNewRowsWithEntity:entity count:(int)[pkObjects count]];
 			NS_HANDLER
 				[localException raise];
 			NS_ENDHANDLER
@@ -1630,7 +1629,6 @@ static Class _eoDatabaseContextClass = Nil;
     EOAttribute         *memberAttribute; 
     NSMutableDictionary *newRow;
     NSDictionary        *ownerSnapshot;
-    NSMutableArray      *ownerArray;
     id                  ownerValue;
 
     // Don't mess with many to many relationships right now.
@@ -1768,8 +1766,8 @@ static Class _eoDatabaseContextClass = Nil;
 {
 	NSMutableArray	*array = [[NSMutableArray allocWithZone:[self zone]] init];
 	EOQualifier		*qualifier;
-	int				x;
-	int numAttributes;
+	NSInteger		x;
+	NSInteger       numAttributes;
 	NSArray			*work;
 	NSZone			*zone = [self zone];
 	
@@ -1814,8 +1812,8 @@ static Class _eoDatabaseContextClass = Nil;
 	EOAttribute *destinationAttribute;
 	EOGlobalID *globalID;
 	id value;
-	int index;
-	int numJoins;
+	NSInteger index;
+	NSInteger numJoins;
 	
 	joins = [relationship joins];
 	
@@ -1978,8 +1976,8 @@ static Class _eoDatabaseContextClass = Nil;
 	{
 		EORelationship *relationship;
 		NSArray *relatedObjects;
-		int index;
-		int numRelationships;
+		NSInteger index;
+		NSInteger numRelationships;
 		
 		numRelationships = [classRelationships count];
 		for (index = 0; index < numRelationships; index++)
@@ -1999,12 +1997,11 @@ static Class _eoDatabaseContextClass = Nil;
 				NSDictionary *fetchedObjectsIndex = nil;
 				NSDictionary *relatedObjectsIndex = nil;
 				EOAdaptorOperation	*adaptorOperation;
-				EOGlobalID *globalID;
 				id relatedObject;
 				id fetchedObject;
-				int index;
-				int numRelatedObjects;
-				int numFetchedObjects;
+				NSInteger index;
+				NSInteger numRelatedObjects;
+				NSInteger numFetchedObjects;
 				
 				// If this database operation is either an update or a delete then
 				// we need to re-fetch the related objects from the database to see
@@ -2101,7 +2098,7 @@ static Class _eoDatabaseContextClass = Nil;
 						// Make sure we haven't already created this operation earlier in the process.
 						if (![tempJoinIDs containsObject: newGlobalID])
 						{
-							int numKeys;
+							NSInteger numKeys;
 							
 							newQualifiers = [[NSMutableArray allocWithZone: zone] init];
 							keys = [dictionary allKeys];
@@ -2225,8 +2222,8 @@ static Class _eoDatabaseContextClass = Nil;
 
 - (void)performChanges
 {
-	int						x;
-	int numDatabaseOperations;
+	NSInteger				x;
+	NSInteger               numDatabaseOperations;
 	NSArray					*adaptorOperations = nil;
 	EOAdaptorChannel		*adaptorChannel;
 	NSException				*exception;
@@ -2314,8 +2311,8 @@ static Class _eoDatabaseContextClass = Nil;
 - (void)_clearNewGlobalIDs
 {
 	NSArray		*insertedObjects = [savingContext insertedObjects];
-	int			x;
-	int numInsertedObjects;
+	NSInteger			x;
+	NSInteger numInsertedObjects;
 	
 	numInsertedObjects = [insertedObjects count];
 	for (x = 0; x < numInsertedObjects; x++) {

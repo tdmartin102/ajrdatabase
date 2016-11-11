@@ -46,8 +46,8 @@
 - (id)initWithPropertyList:(NSDictionary *)properties owner:(id)owner
 {
 	NSArray		*parts;
-	int			x;
-	int numParts;
+	NSInteger	x;
+	NSInteger   numParts;
 	
 	if (self = [super init])
     {
@@ -69,10 +69,10 @@
 
 - (void)encodeIntoPropertyList:(NSMutableDictionary *)properties
 {
-	NSMutableArray			*array;
+	NSMutableArray		*array;
 	NSMutableDictionary	*dictionary;
-	int						x;
-	int numQualifiers;
+	NSInteger			x;
+	NSInteger           numQualifiers;
 	
 	[properties setObject:@"EOAndQualifier" forKey:@"class"];
 	
@@ -96,8 +96,8 @@
 - (id)initWithPropertyList:(NSDictionary *)properties owner:(id)owner
 {
 	NSArray		*parts;
-	int			x;
-	int numParts;
+	NSInteger	x;
+	NSInteger   numParts;
 	
 	if (self = [super init])
     {
@@ -119,10 +119,10 @@
 
 - (void)encodeIntoPropertyList:(NSMutableDictionary *)properties
 {
-	NSMutableArray			*array;
+	NSMutableArray		*array;
 	NSMutableDictionary	*dictionary;
-	int						x;
-	int numQualifiers;
+	NSInteger			x;
+	NSInteger           numQualifiers;
 	
 	[properties setObject:@"EOOrQualifier" forKey:@"class"];
 	

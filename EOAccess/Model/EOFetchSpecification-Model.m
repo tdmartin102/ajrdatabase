@@ -51,8 +51,8 @@
 	
 	array = [properties objectForKey:@"sortOrderings"];
 	if ([array count]) {
-		int			x;
-		int numProperties;
+		NSInteger	x;
+		NSInteger   numProperties;
 		
 		sortOrderings = [[NSMutableArray allocWithZone:[self zone]] init];
 		numProperties = [array count];
@@ -91,9 +91,9 @@
 	}
 	
 	if ([sortOrderings count]) {
-		int						x;
-		int numSortOrderings;
-		NSMutableArray			*workArray;
+		NSInteger			x;
+		NSInteger           numSortOrderings;
+		NSMutableArray		*workArray;
 		NSMutableDictionary	*workDictionary;
 		
 		workArray = [[NSMutableArray allocWithZone:[self zone]] init];

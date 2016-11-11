@@ -135,8 +135,8 @@ static BOOL _eoDisableSnapshotRefCounting = NO;
 - (void)removeModel:(EOModel *)aModel
 {
 	NSArray		*entities = [aModel entities];
-	int			x;
-	int numEntities;
+	NSInteger	x;
+	NSInteger   numEntities;
 	
 	numEntities = [entities count];
 	for (x = 0; x < numEntities; x++) {

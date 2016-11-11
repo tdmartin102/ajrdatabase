@@ -34,10 +34,9 @@ http://www.raftis.net/~alex/
 - (NSString *)sqlStringForSQLExpression:(EOSQLExpression *)expression
 {
 	NSMutableString	*sqlString;
-	int					x;
-	int numQualifiers;
-	NSString				*joinString;
-	EOQualifier			*qualifier;
+	NSInteger		x;
+	NSInteger       numQualifiers;
+	EOQualifier		*qualifier;
 
 	sqlString = [[[NSMutableString allocWithZone:[self zone]] init] autorelease];
 

@@ -51,8 +51,8 @@ static NSMutableDictionary *_eoExpressionClasses = nil;
 	if (_eoAdaptors == nil) {
 		NSMutableArray *files;
 		NSMutableArray *searchPaths;
-		int				x;
-		int max;
+		NSInteger	x;
+		NSInteger max;
 		
 		_eoAdaptors = [[NSMutableDictionary alloc] init];
 		_eoAdaptorNames = [[NSMutableArray alloc] init];
@@ -275,8 +275,8 @@ static NSMutableDictionary *_eoExpressionClasses = nil;
 
 - (BOOL)hasOpenChannels
 {
-	int			x;
-	int numAdaptorContexts;
+	NSInteger	x;
+	NSInteger numAdaptorContexts;
 	
 	numAdaptorContexts = [adaptorContexts count];
 	for (x = 0; x < numAdaptorContexts; x++) {
@@ -348,11 +348,11 @@ static NSMutableDictionary *_eoExpressionClasses = nil;
 
 + (void)_loadInterface
 {
-	NSBundle			*bundle;
-	NSString			*path;
-	NSArray			*paths;
-	int				x;
-	int numPaths;
+	NSBundle	*bundle;
+	NSString	*path;
+	NSArray		*paths;
+	NSInteger	x;
+	NSInteger   numPaths;
 
 	bundle = [NSBundle bundleForClass:[self class]];
 	paths = [bundle pathsForResourcesOfType:@"interface" inDirectory:nil];

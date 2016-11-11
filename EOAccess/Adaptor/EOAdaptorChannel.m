@@ -184,8 +184,8 @@ NSString *EOGenericAdaptorException = @"EOGenericAdaptorException";
 - (NSMutableDictionary *)dictionaryWithObjects:(id *)objects forAttributes:(NSArray *)attributes zone:(NSZone *)zone
 {
 	NSMutableDictionary	*dictionary = [[NSMutableDictionary allocWithZone:zone] init];
-	int						x;
-	int numAttributes;
+	NSInteger			x;
+	NSInteger           numAttributes;
 	
 	numAttributes = [attributes count];
 	for (x = 0; x < numAttributes; x++) {
@@ -263,9 +263,9 @@ NSString *EOGenericAdaptorException = @"EOGenericAdaptorException";
 
 - (void)performAdaptorOperations:(NSArray *)adaptorOperations
 {
-	int						x;
-	int numAdaptorOperations;
-	NSException				*exception;
+	NSInteger			x;
+	NSInteger           numAdaptorOperations;
+	NSException			*exception;
 	EOAdaptorOperation	*failedOperation;
 	
 	// Finally, perform the operations!

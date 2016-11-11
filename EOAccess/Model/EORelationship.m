@@ -51,8 +51,8 @@ NSString *EORelationshipDidChangeNameNotification = @"EORelationshipDidChangeNam
 {
    NSString		*temp;
    NSArray		*someJoins;
-   int         x, max;
-   NSString    *destinationName;
+   NSInteger    x, max;
+   NSString     *destinationName;
 #if !defined(STRICT_EOF)
 	// mont_rothstein @ yahoo.com 2004-12-20
 	// The following variable is used in the unarchiving of sort orderings
@@ -199,8 +199,8 @@ NSString *EORelationshipDidChangeNameNotification = @"EORelationshipDidChangeNam
 	if (definition) [properties setObject:definition forKey:@"definition"];
 	if (!definition) {
 		NSMutableArray		*joinArray;
-		int					x;
-		int numJoins;
+		NSInteger			x;
+		NSInteger           numJoins;
 		
 		switch (joinSemantic) {
 			case EOInnerJoin:
@@ -244,8 +244,8 @@ NSString *EORelationshipDidChangeNameNotification = @"EORelationshipDidChangeNam
 	if (sortOrderings)
 	{
 		NSMutableArray *orderingArray;
-		int index;
-		int numSortOrderings;
+		NSInteger       index;
+		NSInteger       numSortOrderings;
 		
 		orderingArray = [[NSMutableArray allocWithZone:[self zone]] init];
 		
@@ -277,7 +277,7 @@ NSString *EORelationshipDidChangeNameNotification = @"EORelationshipDidChangeNam
    // This is done separately, because we can't determine this feature until our entity has initialized all it's relationships.
    if (definition != nil && !definitionIsInitialized) {
       NSArray		*path;
-      int         x, max;
+      NSInteger     x, max;
 
       definitionIsInitialized = true;
 
@@ -477,8 +477,8 @@ NSString *EORelationshipDidChangeNameNotification = @"EORelationshipDidChangeNam
 {
    NSArray			*relationships;
    EORelationship	*relationship;
-   int				x;
-   int numRelationships;
+   NSInteger		x;
+   NSInteger        numRelationships;
 	
    // mont_rothstein @ yahoo.com 2004-12-18
    // Added code to teach the inverseRelationship to deal with many-to-many relationships.
@@ -605,12 +605,12 @@ NSString *EORelationshipDidChangeNameNotification = @"EORelationshipDidChangeNam
 - (EOQualifier *)qualifierWithSourceData:(id)data 
 							   operation:(EOQualifierOperation)operation
 {
-	int             x, max;
-	EOJoin          *join;
+	NSInteger      x, max;
+	EOJoin         *join;
 	EOQualifier    *qualifier = nil;
 	EOQualifier    *subqualifier;
-	EOAttribute     *source, *destination;
-	id		          joinValue;
+	EOAttribute    *source, *destination;
+	id		       joinValue;
 	
 	if (joins == nil) return [EOJoinQualifier qualifierForRow:(NSDictionary *)data 
 											   withDefinition:definition];
@@ -670,8 +670,8 @@ NSString *EORelationshipDidChangeNameNotification = @"EORelationshipDidChangeNam
 {
 	if (definition) {
 		NSArray		*parts;
-		int			x;
-		int numParts;
+		NSInteger			x;
+		NSInteger numParts;
 		
 		[self initializeDefinition];
 		
@@ -684,8 +684,8 @@ NSString *EORelationshipDidChangeNameNotification = @"EORelationshipDidChangeNam
 			if ([part isKindOfClass:[EORelationship class]] && [part referencesProperty:property]) return YES;
 		}
 	} else {
-		int			x;
-		int numJoins;
+		NSInteger			x;
+		NSInteger numJoins;
 		
 		numJoins = [joins count];
 		for (x = 0; x < numJoins; x++) {
@@ -781,7 +781,7 @@ NSString *EORelationshipDidChangeNameNotification = @"EORelationshipDidChangeNam
 
 - (NSString *)sqlStringForSQLExpression:(EOSQLExpression *)expression
 {
-   int					x, max;
+   NSInteger			x, max;
    EOJoin				*join;
    NSMutableString	*sqlString;
 

@@ -135,7 +135,7 @@ http://www.raftis.net/~alex/
 		NSArray			*joins;
 		EOJoin			*j;
 		BOOL			first;
-		int				count;
+		NSInteger		count;
 		id				rValue;
 		id				enumArray;
 		

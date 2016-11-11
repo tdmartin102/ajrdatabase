@@ -91,7 +91,7 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
     {
         initialized = NO;
         // Tom Martin 5/11/11
-        // we don't juar set the model = owner.  We need to fully add the entity to the model
+        // we don't just set the model = owner.  We need to fully add the entity to the model
         // I removed the addEntity call from EOModel._setupEntities as well.  This means that
         // this method will FULLY init the entity.
         // model = owner; // Not retained. 
@@ -105,24 +105,24 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 
 - (void)dealloc
 {
-   // model not retained.
+    // model not retained.
 	[subentities release];
-   [name release];
-   [attributes release];
-   [attributeIndex release];
-   [attributesUsedForLocking release];
-   [attributesToFetch release];
-   [classProperties release];
-   // mont_rothstein @ yahoo.com 2005-12-05
-   // Applied anon patch for missing retain/release on classPropertyNames
-   [classPropertyNames release];
-   [classRelationships release];
-   [classRelationshipsToOne release];
-   [classRelationshipsToMany release];
-   [primaryKeyAttributes release];
-   [relationships release];
-   [relationshipIndex release];
-	[storedProcedures release];
+    [name release];
+    [attributes release];
+    [attributeIndex release];
+    [attributesUsedForLocking release];
+    [attributesToFetch release];
+    [classProperties release];
+    // mont_rothstein @ yahoo.com 2005-12-05
+    // Applied anon patch for missing retain/release on classPropertyNames
+    [classPropertyNames release];
+    [classRelationships release];
+    [classRelationshipsToOne release];
+    [classRelationshipsToMany release];
+    [primaryKeyAttributes release];
+    [relationships release];
+    [relationshipIndex release];
+    [storedProcedures release];
 	[fetchSpecifications release];
 	[attributeNames release];
 
@@ -171,11 +171,11 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 - (void)awakeWithPropertyList:(NSDictionary *)properties
 {
 	NSArray			*attribs;
-	int         	x;
-	int numAttributes;
-	int numClassPropertyNames;
-	int numFlattenedRelationships;
-	int numPrimaryKeyAttributeNames;
+	NSInteger         	x;
+	NSInteger numAttributes;
+	NSInteger numClassPropertyNames;
+	NSInteger numFlattenedRelationships;
+	NSInteger numPrimaryKeyAttributeNames;
 	NSDictionary	*work;
 
 	initialized = YES;
@@ -411,7 +411,7 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 		classProperties = [[NSMutableArray allocWithZone:[self zone]] init];
 		
 		if ([classPropertyNames count]) {
-			int numClassPropertyNames;
+			NSInteger numClassPropertyNames;
 			
 			numClassPropertyNames = [classPropertyNames count];
 			for (x = 0; x < numClassPropertyNames; x++) {
@@ -444,9 +444,9 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 	NSMutableDictionary	*dictionary;
 	NSEnumerator			*enumerator;
 	NSString					*key;
-	int						x;
-	int numAttributes;
-	int numRelationships;
+	NSInteger						x;
+	NSInteger numAttributes;
+	NSInteger numRelationships;
 	
 	[self _initialize];
 	if (name) [properties setObject:name forKey:@"name"];
@@ -707,7 +707,7 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 	NSMutableArray	*models = nil;
 	NSArray			*array;
 	NSArray			*work;
-	int				x;
+	NSInteger		x;
 	
 	array = [self attributes];
 	for (x = [array count] - 1; x >= 0; x--) {
@@ -736,7 +736,7 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 {
 	NSMutableArray	*properties = nil;
 	NSArray			*array;
-	int				x;
+	NSInteger		x;
 	
 	array = [self attributes];
 	for (x = [array count] - 1; x >= 0; x--) {
@@ -762,7 +762,7 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 - (BOOL)referencesProperty:(id)property
 {
 	NSArray		*array;
-	int			x;
+	NSInteger	x;
 	
 	array = [self attributes];
 	for (x = [array count] - 1; x >= 0; x--) {
@@ -779,8 +779,8 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 
 - (EOGlobalID *)globalIDForRow:(NSDictionary *)row
 {
-	int			x;
-	int numPrimaryKeyAttributes;
+	NSInteger	x;
+	NSInteger   numPrimaryKeyAttributes;
 	EOGlobalID	*globalID;
 	id			primaryKeyValue;
 	
@@ -805,9 +805,11 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 	}
 	
 	if ([self _primaryKeyIsNumeric]) {
-		globalID = [EONumericKeyGlobalID globalIDWithEntityName:[self name] keys:primaryKeyNames values:primaryKeyValues count:[primaryKeyAttributeNames count]];
+		globalID = [EONumericKeyGlobalID globalIDWithEntityName:[self name] keys:primaryKeyNames values:primaryKeyValues
+                                                          count:(int)[primaryKeyAttributeNames count]];
 	} else {
-		globalID = [EOKeyGlobalID globalIDWithEntityName:[self name] keys:primaryKeyNames values:primaryKeyValues count:[primaryKeyAttributeNames count]];
+		globalID = [EOKeyGlobalID globalIDWithEntityName:[self name] keys:primaryKeyNames values:primaryKeyValues
+                                                   count:(int)[primaryKeyAttributeNames count]];
 	}
 	
 	return globalID;
@@ -816,13 +818,12 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 - (BOOL)isPrimaryKeyValidInObject:(id)object
 {
 	NSArray		*keys = [self primaryKeyAttributeNames];
-	int			x;
-	int numKeys;
-	
-	numKeys = [keys count];
-	for (x = 0; x < numKeys; x++) {
-		if ([object valueForKey:[keys objectAtIndex:x]] == nil) return NO;
-	}
+    id          key;
+    
+    for (key in keys) {
+        if ([object valueForKey:key] == nil)
+            return NO;
+    }
 	
 	return YES;
 }
@@ -834,14 +835,12 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 
 - (NSDictionary *)primaryKeyForRow:(NSDictionary *)row
 {
-	NSArray					*keys = [self primaryKeyAttributeNames];
-	int						x;
-	int numKeys;
+	NSArray			*keys = [self primaryKeyAttributeNames];
+    NSString        *key;
+
 	NSMutableDictionary	*pk = [NSMutableDictionary dictionary];
 	
-	numKeys = [keys count];
-	for (x = 0; x < numKeys; x++) {
-		NSString		*key = [keys objectAtIndex:x];
+    for (key in keys) {
 		id				value;
 		
 		value = [row valueForKey:key];
@@ -859,9 +858,9 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 {
 	[self _initialize];
 	if (primaryKeyAttributes != someAttributes) {
-		int			x;
-		int numPrimaryKeyAttributes;
-		int numPrimaryKeyAttributeNames;
+		NSInteger			x;
+		NSInteger numPrimaryKeyAttributes;
+		NSInteger numPrimaryKeyAttributeNames;
 		
 		[self willChange];
 		if ([model undoManager]) {
@@ -930,8 +929,8 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 
 - (void)setClassProperties:(NSArray *)properties
 {
-	int			x;
-	int numClassProperties;
+	NSInteger			x;
+	NSInteger numClassProperties;
 	
 	/*! @todo use isValidClassProperty: return NO if any properties are not valid class properties.  See docs for more details. */
 		
@@ -1016,8 +1015,8 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 
 - (void)setAttributesUsedForLocking:(NSArray *)someAttributes
 {
-	int			x;
-	int numAttributes;
+	NSInteger   x;
+	NSInteger   numAttributes;
 	
 	[self willChange];
 	numAttributes = [attributesUsedForLocking count];
@@ -1277,7 +1276,7 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 		if ([aQualifier isKindOfClass:[EOAndQualifier class]]) 
 		{
 			NSArray		*parts = [(EOAndQualifier *)aQualifier qualifiers];
-			int			numParts = [parts count];
+			NSInteger	numParts = [parts count];
 			
 			if (numParts == [names count]) 
 			{
@@ -1448,12 +1447,12 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 
 - (NSArray *)_attributesForKeyPath:(NSString *)path
 {
-	int				x, max = [path length], lastX;
+	NSInteger		x, max = [path length], lastX;
 	NSMutableArray	*someAttributes = [[[NSMutableArray allocWithZone:[self zone]] init] autorelease];
-	EOEntity			*left = self;
-	id					object;
-	NSString			*aName;
-	NSArray				*components;
+	EOEntity		*left = self;
+	id				object;
+	NSString		*aName;
+	NSArray			*components;
 	
 	[self _initialize];
 
@@ -1528,8 +1527,8 @@ NSString *EOEntityDidChangeNameNotification = @"EOEntityDidChangeNameNotificatio
 - (void)_removeReferencesToEntity:(EOEntity *)entity
 {
 	NSArray		*relations = [self relationships];
-	int			x;
-	int numRelations;
+	NSInteger	x;
+	NSInteger   numRelations;
 	
 	numRelations = [relations count];
 	for (x = 0; x < numRelations; x++) {

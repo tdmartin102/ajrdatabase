@@ -53,27 +53,19 @@ static id						classDelegate = nil;
 - (void)_scanForModels
 {
    NSMutableArray	*bundles = [[NSBundle allBundles] mutableCopy];
-   int				x;
-   int numBundles;
    NSBundle			*bundle;
    NSArray			*possible;
 
    [bundles addObjectsFromArray:[NSBundle allFrameworks]];
 
-   numBundles = [bundles count];
-   for (x = 0; x < numBundles; x++) {
-      bundle = [bundles objectAtIndex:x];
+    for (bundle in bundles) {
 //      [EOLog logDebugWithFormat:@"Checking %@...\n", bundle];
       possible = [bundle pathsForResourcesOfType:@"eomodeld" inDirectory:nil];
       if ([possible count]) {
-         int			y;
-		  int numPaths;
-         NSString		*path;
-         EOModel		*model;
+          NSString		*path;
+          EOModel		*model;
 
-		 numPaths = [possible count];
-         for (y = 0; y < numPaths; y++) {
-            path = [possible objectAtIndex:y];
+          for (path in possible) {
             model = [(EOModel *)[EOModel alloc] initWithContentsOfFile:path];
             if (model) [self addModel:model];
             [model release];
@@ -262,15 +254,15 @@ static id						classDelegate = nil;
  */
 - (EOEntity *)_findEntity:(NSString *)name
 {
-   int         x, max = [models count];
-   EOEntity    *entity;
+    EOEntity    *entity;
+    EOModel     *model;
 
-   for (x = 0; x < max; x++) {
-      entity = [[models objectAtIndex:x] entityNamed:name];
-      if (entity != nil) return entity;
-   }
-
-   return nil;
+    for (model in models) {
+        entity = [model entityNamed:name];
+        if (entity != nil)
+            return entity;
+    }
+    return nil;
 }
 
 /*!
@@ -304,15 +296,15 @@ static id						classDelegate = nil;
 
 - (EOStoredProcedure *)_findStoredProcedure:(NSString *)name
 {
-   int						x, max = [models count];
-   EOStoredProcedure		*storedProcedure;
-	
-   for (x = 0; x < max; x++) {
-      storedProcedure = [[models objectAtIndex:x] storedProcedureNamed:name];
-      if (storedProcedure != nil) return storedProcedure;
-   }
-	
-   return nil;
+    EOStoredProcedure	*storedProcedure;
+    EOModel             *model;
+    
+    for (model in models) {
+        storedProcedure = [model storedProcedureNamed:name];
+        if (storedProcedure != nil)
+            return storedProcedure;
+    }
+    return nil;
 }
 
 - (EOStoredProcedure *)storedProcedureNamed:(NSString *)name
@@ -331,13 +323,11 @@ static id						classDelegate = nil;
 
 - (void)loadAllModelObjects
 {
-	int			x;
-	int numModels;
-	
-	numModels = [models count];
-	for (x = 0; x < numModels; x++) {
-		[[models objectAtIndex:x] loadAllModelObjects];
-	}
+    EOModel             *model;
+    
+    for (model in models) {
+        [model loadAllModelObjects];
+    }
 }
 
 /*!

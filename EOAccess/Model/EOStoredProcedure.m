@@ -56,8 +56,8 @@ NSString *EOStoredProcedureDidChangeNameNotification = @"EOStoredProcedureDidCha
 - (void)awakeWithPropertyList:(NSDictionary *)properties
 {
 	NSArray		*someArguments;
-	int			x;
-	int numArguments;
+	NSInteger	x;
+	NSInteger   numArguments;
 	
 	initialized = YES;
 	
@@ -167,8 +167,8 @@ NSString *EOStoredProcedureDidChangeNameNotification = @"EOStoredProcedureDidCha
 {
 	[self _initialize];
 	if (someArguments != arguments) {
-		int			x;
-		int numArguments;
+		NSInteger			x;
+		NSInteger numArguments;
 		
 		[self willChange];
 		if ([model undoManager]) {

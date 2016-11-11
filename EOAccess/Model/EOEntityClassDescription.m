@@ -146,7 +146,6 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 - (void)awakeObjectFromFetch:(id)object inEditingContext:(EOEditingContext *)anEditingContext
 {   
     NSArray			*relationships;
-    int				x, max;
 	EOGlobalID		*globalID = [anEditingContext globalIDForObject:object];
     NSString        *relationshipName;
 	
@@ -186,7 +185,7 @@ static NSMutableDictionary *_classDescriptionCache = nil;
             NSArray             *sourceAttributes;
             NSArray             *destinationAttributes;
             NSMutableDictionary *row;
-            int                 index, numAttributes;
+            NSInteger           index, numAttributes;
             id                  value;
 			
 			EOContext = [EODatabaseContext registeredDatabaseContextForModel:[entity model] editingContext:anEditingContext];
@@ -248,7 +247,7 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 - (void)awakeObjectFromInsert:(id)object inEditingContext:(EOEditingContext *)anEditingContext
 {
 	NSArray			*relationships;
-	int				x, max;
+	NSInteger		x, max;
 	
 	[(EOEnterpriseObject *)object _setEditingContext:anEditingContext];
 	
@@ -455,8 +454,7 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 - (NSFormatter *)defaultFormatterForKey:(NSString *)key
 {
 	EOAttribute		*attribute = [entity attributeNamed:key];
-	NSString			*valueClassName;
-	
+
 	if (attribute == nil) return nil;
 	
 	return [NSClassFromString([attribute valueClassName]) defaultFormatterForAttribute:attribute];
@@ -681,7 +679,6 @@ static NSMutableDictionary *_classDescriptionCache = nil;
 {
 	NSEnumerator *relationshipKeys;
 	NSString *relationshipKey;
-	EODeleteRule deleteRule;
 	NSArray *relatedObjects;
 	NSObject *relatedObject;
 	
@@ -1131,7 +1128,6 @@ static NSMutableDictionary *_classDescriptionCache = nil;
             if (toManyArray)
             {
                 // toMany WAS fired.  look for removed objects
-                id                      value;
                 for (member in toManyArray)
                 {
                     if (! [newToManyArray containsObject:member])

@@ -72,7 +72,7 @@ http://www.raftis.net/~alex/
 	EOEntity		*rootEntity = [expression rootEntity];
 	NSArray			*attribPath = [rootEntity _attributesForKeyPath:definition];
 	EORelationship	*r;
-	int             x, max;
+	NSInteger       x, max;
 	EOJoin          *join;
 	EOQualifier    *qualifier = nil;
 	EOQualifier    *subqualifier;
@@ -124,7 +124,7 @@ http://www.raftis.net/~alex/
 {
    EOEntity				*rootEntity = [expression rootEntity];
    NSArray				*attributes = [rootEntity _attributesForKeyPath:definition];
-   int            	x, max;
+   NSInteger            x, max;
    EORelationship		*relationship;
    NSMutableString	*sqlJoin;
 

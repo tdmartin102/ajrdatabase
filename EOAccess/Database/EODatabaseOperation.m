@@ -25,11 +25,7 @@
 @implementation EODatabaseOperation
 
 - (id)initWithGlobalID:(EOGlobalID *)aGlobalID object:(id)anObject entity:(EOEntity *)anEntity
-{
-    EODatabaseContext   *databaseContext;
-    NSDictionary        *aSnapshot;
-    NSMutableDictionary *contextSnapshot;
-    
+{    
 	if (self = [super init])
 	{
 		globalID = [aGlobalID retain];
@@ -279,7 +275,6 @@
 - (NSDictionary *)rowDiffsForAttributes:(NSArray *)attributes
 {
     NSMutableDictionary	*updated = [[[NSMutableDictionary allocWithZone:[self zone]] init] autorelease];
-    int					x, max;
     NSString			*key;
     id					value1, value2;
     EOAttribute			*attribute;

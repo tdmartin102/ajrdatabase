@@ -40,18 +40,18 @@ NSString *EOPrimaryKeyConstraintsKey = @"EOPrimaryKeyConstraintsKey";
 {
 	NSMutableArray	*statements;
 	NSZone			*zone = [self zone];
-	Class				ExpressionClass = [self expressionClass];
-	int				x;
-	int numEntityGroups;
+	Class			ExpressionClass = [self expressionClass];
+	NSInteger		x;
+	NSInteger       numEntityGroups;
 
 	statements = [[NSMutableArray allocWithZone:zone] init];
 	numEntityGroups = [entityGroup count];
 	for (x = 0; x < numEntityGroups; x++) {
 		EOEntity				*entity = [entityGroup objectAtIndex:x];
 		NSArray				*attributes = [entity attributes];
-		int					y;
-		int numAttributes;
-		int					width = 0;
+		NSInteger					y;
+		NSInteger numAttributes;
+		NSInteger					width = 0;
 		NSMutableString	*statement = [[NSMutableString alloc] init];
 		EOSQLExpression	*expression;
 		
@@ -124,8 +124,8 @@ NSString *EOPrimaryKeyConstraintsKey = @"EOPrimaryKeyConstraintsKey";
 - (NSArray *)createTableStatementsForEntityGroups:(NSArray *)entityGroups
 {
 	NSMutableArray		*array = [[NSMutableArray alloc] init];
-	int					x;
-	int numEntityGroups;
+	NSInteger					x;
+	NSInteger numEntityGroups;
 	
 	numEntityGroups = [entityGroups count];
 	for (x = 0; x < numEntityGroups; x++) {
@@ -157,8 +157,8 @@ NSString *EOPrimaryKeyConstraintsKey = @"EOPrimaryKeyConstraintsKey";
 - (NSArray *)dropPrimaryKeySupportStatementsForEntityGroups:(NSArray *)entityGroups
 {
 	NSMutableArray		*array = [[NSMutableArray alloc] init];
-	int					x;
-	int numEntityGroups;
+	NSInteger					x;
+	NSInteger numEntityGroups;
 	
 	numEntityGroups = [entityGroups count];
 	for (x = 0; x < numEntityGroups; x++) {
@@ -171,8 +171,8 @@ NSString *EOPrimaryKeyConstraintsKey = @"EOPrimaryKeyConstraintsKey";
 - (NSArray *)dropTableStatementsForEntityGroup:(NSArray *)entityGroup
 {
 	NSMutableArray	*statements;
-	int				x;
-	int numEntityGroups;
+	NSInteger				x;
+	NSInteger numEntityGroups;
 	NSZone			*zone = [self zone];
 	Class				ExpressionClass = [self expressionClass];
 	
@@ -195,8 +195,8 @@ NSString *EOPrimaryKeyConstraintsKey = @"EOPrimaryKeyConstraintsKey";
 - (NSArray *)dropTableStatementsForEntityGroups:(NSArray *)entityGroups
 {
 	NSMutableArray		*array = [[NSMutableArray alloc] init];
-	int					x;
-	int numEntityGroups;
+	NSInteger					x;
+	NSInteger numEntityGroups;
 	
 	numEntityGroups = [entityGroups count];
 	for (x = 0; x < numEntityGroups; x++) {
@@ -216,16 +216,16 @@ NSString *EOPrimaryKeyConstraintsKey = @"EOPrimaryKeyConstraintsKey";
 	NSMutableArray	*statements;
 	NSZone			*zone = [self zone];
 	Class				ExpressionClass = [self expressionClass];
-	int				x;
-	int numEntityGroups;
+	NSInteger				x;
+	NSInteger numEntityGroups;
 	
 	statements = [[NSMutableArray allocWithZone:zone] init];
 	numEntityGroups = [entityGroup count];
 	for (x = 0; x < numEntityGroups; x++) {
 		EOEntity				*entity = [entityGroup objectAtIndex:x];
 		NSArray				*attributes = [entity primaryKeyAttributes];
-		int					y;
-		int numAttributes;
+		NSInteger					y;
+		NSInteger numAttributes;
 		NSMutableString	*statement;
 		EOSQLExpression	*expression;
 		
@@ -255,8 +255,8 @@ NSString *EOPrimaryKeyConstraintsKey = @"EOPrimaryKeyConstraintsKey";
 - (NSArray *)primaryKeyConstraintStatementsForEntityGroups:(NSArray *)entityGroups
 {
 	NSMutableArray		*array = [[NSMutableArray alloc] init];
-	int					x;
-	int numEntityGroups;
+	NSInteger					x;
+	NSInteger numEntityGroups;
 	
 	numEntityGroups = [entityGroups count];
 	for (x = 0; x < numEntityGroups; x++) {
@@ -282,8 +282,8 @@ NSString *EOPrimaryKeyConstraintsKey = @"EOPrimaryKeyConstraintsKey";
 - (NSArray *)primaryKeySupportStatementsForEntityGroups:(NSArray *)entityGroups
 {
 	NSMutableArray		*array = [[NSMutableArray alloc] init];
-	int					x;
-	int numEntityGroups;
+	NSInteger					x;
+	NSInteger numEntityGroups;
 	
 	numEntityGroups = [entityGroups count];
 	for (x = 0; x < numEntityGroups; x++) {
@@ -297,8 +297,8 @@ NSString *EOPrimaryKeyConstraintsKey = @"EOPrimaryKeyConstraintsKey";
 {
 	NSMutableString	*script;
 	NSArray				*statements;
-	int					x;
-	int numStatements;
+	NSInteger					x;
+	NSInteger numStatements;
 	
 	statements = [self schemaCreationStatementsForEntities:allEntities options:options];
 
@@ -313,9 +313,9 @@ NSString *EOPrimaryKeyConstraintsKey = @"EOPrimaryKeyConstraintsKey";
 
 - (void)_process:(NSArray *)entities with:(SEL)selector into:(NSMutableArray *)statements
 {
-	int				x, y;
-	int numEntities;
-	int numExpressions;
+	NSInteger				x, y;
+	NSInteger numEntities;
+	NSInteger numExpressions;
 	
 	numEntities = [entities count];
 	for (x = 0; x < numEntities; x++) {

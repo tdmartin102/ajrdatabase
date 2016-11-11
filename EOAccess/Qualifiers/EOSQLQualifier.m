@@ -63,12 +63,7 @@ static NSCharacterSet	*singleQSet;
 }
 
 - (id)initWithEntity:(EOEntity *)entity qualifierFormat:(NSString *)format varargList:(va_list)args
-{
-	NSMutableString		*aString;
-	NSString			*attribSQLName;
-	id					attribEnum;
-	EOAttribute			*attrib;
-	
+{	
 	if (self = [super init])
     {
         _entity = [entity retain];
@@ -127,7 +122,6 @@ static NSCharacterSet	*singleQSet;
 	if (! _entity)
 		return expression;
 		
-	id				attribEnum;
 	NSString		*attribSQLName;
 	NSMutableString	*sqlString;
 	BOOL			done;

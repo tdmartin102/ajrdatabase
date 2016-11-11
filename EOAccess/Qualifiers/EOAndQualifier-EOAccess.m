@@ -33,9 +33,9 @@ http://www.raftis.net/~alex/
 
 - (NSString *)sqlStringForSQLExpression:(EOSQLExpression *)expression
 {
-   NSMutableString		*string = [[[NSMutableString allocWithZone:[self zone]] initWithString:@"("] autorelease];
-   int						x;
-   int numQualifiers;
+   NSMutableString	*string = [[[NSMutableString allocWithZone:[self zone]] initWithString:@"("] autorelease];
+   NSInteger		x;
+   NSInteger        numQualifiers;
 
    numQualifiers = [qualifiers count];
    for (x = 0; x < numQualifiers; x++) {
@@ -52,7 +52,7 @@ http://www.raftis.net/~alex/
 - (NSString *)sqlJoinForSQLExpression:(EOSQLExpression *)expression
 {
    // Promote our join, because AND is communitive.
-   int					x, max = [qualifiers count];
+   NSInteger			x, max = [qualifiers count];
    NSMutableArray		*joins;
    EOQualifier			*qualifier;
    NSString				*join;

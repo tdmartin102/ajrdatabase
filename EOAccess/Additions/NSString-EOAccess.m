@@ -12,10 +12,10 @@
 
 + (NSString *)externalNameForInternalName:(NSString *)name separatorString:(NSString *)separatorString useAllCaps:(BOOL)useAllCaps
 {
-	int					x;
-	int					length = [name length];
-	NSMutableString	*work = [[[NSMutableString alloc] init] autorelease];
-	BOOL					isLower, first;
+	NSInteger			x;
+	NSInteger			length = [name length];
+	NSMutableString     *work = [[[NSMutableString alloc] init] autorelease];
+	BOOL				isLower, first;
 	NSRange				range;
 	NSCharacterSet		*lower = [NSCharacterSet lowercaseLetterCharacterSet];
 	NSCharacterSet		*upper = [NSCharacterSet uppercaseLetterCharacterSet];
@@ -52,10 +52,10 @@
 
 + (NSString *)nameForExternalName:(NSString *)name separatorString:(NSString *)separatorString initialCaps:(BOOL)initialCaps;
 {
-	NSArray				*parts = [[name lowercaseString] componentsSeparatedByString:separatorString];
+	NSArray			*parts = [[name lowercaseString] componentsSeparatedByString:separatorString];
 	NSMutableString	*work = [[[NSMutableString allocWithZone:[name zone]] init] autorelease];
-	int					x;
-	int numParts;
+	NSInteger		x;
+	NSInteger       numParts;
 	
 	numParts = [parts count];
 	

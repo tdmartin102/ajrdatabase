@@ -105,7 +105,7 @@ http://www.raftis.net/~alex/
 
 + (BOOL)_joins:(NSArray *)joins1 areEqualToJoins:(NSArray *)joins2
 {
-    int numJoins1, numJoins2;
+    NSInteger numJoins1, numJoins2;
 
     numJoins1 = [joins1 count];
     numJoins2 = [joins2 count];

@@ -37,7 +37,7 @@ http://www.raftis.net/~alex/
 
 - (id)format:(id)value inAttribute:(EOAttribute *)attribute;
 {
-   int					x, max;
+   NSInteger		x, max;
    NSMutableString	*buffer = [[NSMutableString alloc] initWithString:@"("];
 
    for (x = 0, max = [value count]; x < max; x++) {
