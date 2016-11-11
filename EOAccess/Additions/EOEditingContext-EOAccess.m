@@ -197,7 +197,6 @@
 {
 	EOStoredProcedure		*storedProcedure;
 	EOAdaptorChannel		*adaptorChannel;
-	NSDictionary			*result;
 	
 	storedProcedure = [[self modelGroup] storedProcedureNamed:storedProcedureName];
 	if (storedProcedure == nil) return nil;
@@ -218,14 +217,38 @@
 
 - (NSArray *)rawRowsForEntityNamed:(NSString *)entityName qualifierFormat:(NSString *)format, ...
 {
-	
+    EOEntity			*entity;
+    EOAdaptorChannel	*channel;
+    EOQualifier			*qualifier;
+    va_list             ap;
+    NSMutableArray		*rows;
+    NSDictionary		*row;
+
+    entity = [self entityNamed:entityName];
+    if (entity == nil) return nil;
+    
+    channel = [self _openAdaptorChannelForModel:[entity model]];
+    if (channel == nil) return nil;
+    
+    va_start(ap, format);
+    qualifier = [EOQualifier qualifierWithQualifierFormat:format varargList:ap];
+    va_end(ap);
+
+    [channel selectAttributes:[entity attributes] fetchSpecification:[EOFetchSpecification fetchSpecificationWithEntityName:entityName qualifier:qualifier sortOrderings:nil] lock:NO entity:entity];
+    
+    rows = [[[NSMutableArray alloc] init] autorelease];
+    
+    while ((row = [channel fetchRowWithZone:nil]) != nil) {
+        [rows addObject:row];
+    }
+    
+    return rows;
 }
 
 - (NSArray *)rawRowsMatchingValue:(id)value forKey:(NSString *)key entityNamed:(NSString *)entityName
 {
 	EOEntity				*entity;
 	EOAdaptorChannel	*channel;
-	va_list				ap;
 	EOQualifier			*qualifier;
 	NSMutableArray		*rows;
 	NSDictionary		*row;
@@ -254,7 +277,6 @@
 {
 	EOEntity				*entity;
 	EOAdaptorChannel	*channel;
-	va_list				ap;
 	EOQualifier			*qualifier;
 	NSMutableArray		*rows;
 	NSDictionary		*row;
@@ -283,7 +305,6 @@
 {
 	EOModel				*model;
 	EOAdaptorChannel	*channel;
-	va_list				ap;
 	NSMutableArray		*rows;
 	NSDictionary		*row;
 	NSZone				*zone = [self zone];
@@ -313,7 +334,6 @@
 {
 	EOStoredProcedure		*storedProcedure;
 	EOAdaptorChannel		*adaptorChannel;
-	NSDictionary			*result;
 	NSMutableArray			*rows;
 	NSDictionary			*row;
 	NSZone					*zone = [self zone];
@@ -380,7 +400,7 @@
       NSArray					*primaryKeyAttributes = [entity primaryKeyAttributeNames];
       EOAttribute				*attribute;
       NSString					*key;
-      int						x, max;
+      NSInteger					x, max;
       id							value;
 		
       for (x = 0, max = [primaryKeyAttributes count]; x < max; x++) {
@@ -440,8 +460,8 @@
 	if ([root respondsToSelector:@selector(modelGroup)]) {
 		modelGroup = [(id)root modelGroup];
 	} else if ([root isKindOfClass:[EODatabaseContext class]]) {
-		NSArray	*models = [[(EODatabaseContext *)root database] models];
-		int		x, max = [models count];
+		NSArray     *models = [[(EODatabaseContext *)root database] models];
+		NSInteger	x, max = [models count];
 		
 		for (x = 0; x < max && modelGroup == nil; x++) {
 			modelGroup = [[models objectAtIndex:x] modelGroup];
