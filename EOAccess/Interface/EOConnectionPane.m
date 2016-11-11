@@ -8,7 +8,14 @@
 - (id)view
 {
 	if (view == nil) {
-		[NSBundle loadNibNamed:NSStringFromClass([self class]) owner:self];
+        
+        NSBundle *bundle;
+        
+        bundle = [NSBundle bundleForClass:[self class]];
+        [bundle loadNibNamed:NSStringFromClass([self class]) owner:self topLevelObjects:NULL];
+        // Tom.Martin @ riemer.com  2016-11-11
+        // replace depreciated call
+		//[NSBundle loadNibNamed:NSStringFromClass([self class]) owner:self];
 	}
 	
 	return view;
