@@ -45,6 +45,7 @@
 
 - (void)setTableName:(id)sender
 {
+    [[self selectedEntity] setExternalName:[sender stringValue]];
 }
 
 - (void)setClassName:(id)sender
