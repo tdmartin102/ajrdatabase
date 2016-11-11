@@ -141,8 +141,7 @@ http://www.raftis.net/~alex/
                 // filter out Apple classes
                 className = [NSString stringWithUTF8String:object_getClassName(workClass)];
                 if (! (([className hasPrefix:@"NS"]) ||
-                    ([className hasPrefix:@"_NS"])||
-                    ([className hasPrefix:@"__NS"])))
+                    ([className hasPrefix:@"_"])))
                 {
                     if ([workClass respondsToSelector:@selector(isSubclassOfClass:)]) {
                         if ([workClass isSubclassOfClass:class]) {
