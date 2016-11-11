@@ -1085,6 +1085,7 @@ static NSCharacterSet	*literalSet;
 - (NSString *)lockClause
 {
 	// Overridden in subclass to return a DB specific value
+    return nil;
 }
 
 - (void)setUseAliases:(BOOL)flag
@@ -1291,6 +1292,7 @@ static NSCharacterSet	*literalSet;
 - (NSMutableDictionary *)bindVariableDictionaryForAttribute:(EOAttribute *)attribute value:value
 {
 	[NSException raise:EODatabaseException format:@"Subclasses of %@ must implement %@.", NSStringFromClass([EOSQLExpression class]), NSStringFromSelector(_cmd)];
+    return nil;
 }
 
 - (BOOL)shouldUseBindVariableForAttribute:(EOAttribute *)att
@@ -1536,14 +1538,10 @@ static NSInteger joinAliasSort(id a, id b, void *context)
 	// 
 	id				keyEnum;
 	NSString		*path;
-	NSString		*sourceAlias;
 	NSString		*destAlias;
 	// NSString		*rootAlias;
 	NSArray			*pathComponents;
-	int				x, c;
-	BOOL			valid;
 	BOOL			first;
-	EOEntity		*currentEntity;
 	EORelationship	*relationship;
 	id				joinEnum;
 	EOJoin			*join;
