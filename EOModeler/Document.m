@@ -409,9 +409,10 @@ NSString *StoredProcedures = @"Stored Procedures";
 
 - (void)showDatabaseBrowser:(id)sender
 {
-    DataBrowser *d;
-	d = [[DataBrowser alloc] initWithModel:model];
-    [d self];
+    if (! dataBrowser)
+        dataBrowser = [[DataBrowser alloc] initWithModel:model];
+    else
+        [dataBrowser showWithModel:model];
 }
 
 - (void)generateSQL:(id)sender
@@ -420,9 +421,15 @@ NSString *StoredProcedures = @"Stored Procedures";
 	
 	if ([self selectedObjectIsKindOfClass:[EOEntity class]]) {
 		entities = [self selectedObject];
-		if ([entities isKindOfClass:[EOEntity class]]) entities = [NSArray arrayWithObject:entities];
+		if ([entities isKindOfClass:[EOEntity class]])
+            entities = [NSArray arrayWithObject:entities];
 	}
-	[(SQLGenerator *)[[SQLGenerator alloc] initWithModel:model entities:entities] run];
+    if (! sqlGenerator)
+        sqlGenerator = [[SQLGenerator alloc] initWithModel:model entities:entities];
+    else
+        [sqlGenerator setModel:model entities:entities];
+        
+    [sqlGenerator run];
 }
 
 - (void)generateObjCFromEntities:(NSArray *)entities at:(NSString *)outputPath
@@ -493,8 +500,8 @@ NSString *StoredProcedures = @"Stored Procedures";
     openPanel.directoryURL = [NSURL fileURLWithPath:[[NSUserDefaults standardUserDefaults] objectForKey:@"OpenPanelPath"]];
     openPanel.delegate = self;
     
-    [openPanel beginSheet:window completionHandler:^(NSModalResponse returnCode) {
-        if (returnCode == NSOKButton) {
+    [openPanel beginWithCompletionHandler:^(NSModalResponse returnCode) {
+        if (returnCode == NSFileHandlingPanelOKButton) {
             NSArray		*entities;
             
             [[NSUserDefaults standardUserDefaults] setObject:openPanel.directoryURL.path forKey:@"OpenPanelPath"];

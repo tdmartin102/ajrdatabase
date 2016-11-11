@@ -9,6 +9,8 @@
 #import <EOControl/EOControl.h>
 
 @class EOModel, EOEntity, EOStoredProcedure, EditorView;
+@class DataBrowser;
+@class SQLGenerator;
 
 extern NSString *DocumentSelectionDidChangeNotification;
 extern NSString *DocumentDidBecomeKeyNotification;
@@ -44,6 +46,8 @@ typedef enum _documentSaveCallback {
 	
 	BOOL						untitled:1;
     NSArray                     *uiElements;
+    DataBrowser                 *dataBrowser;
+    SQLGenerator                *sqlGenerator;
 }
 
 + (Document *)currentDocument;
@@ -74,15 +78,15 @@ typedef enum _documentSaveCallback {
 - (EOEntity *)entityWithExternalName:(NSString *)aName;
 - (void)addEntityWithTableName:(NSString *)aName;
 
-- (void)showDatabaseBrowser:(id)sender;
-- (void)generateObjCFiles:(id)sender;
-- (void)generateSQL:(id)sender;
-- (void)newEntity:(id)sender;
-- (void)newAttribute:(id)sender;
-- (void)newRelationship:(id)sender;
-- (void)newFetchSpecification:(id)sender;
-- (void)flattenRelationship:(id)sender;
-- (void)newStoredProcedure:(id)sender;
+- (IBAction)showDatabaseBrowser:(id)sender;
+- (IBAction)generateObjCFiles:(id)sender;
+- (IBAction)generateSQL:(id)sender;
+- (IBAction)newEntity:(id)sender;
+- (IBAction)newAttribute:(id)sender;
+- (IBAction)newRelationship:(id)sender;
+- (IBAction)newFetchSpecification:(id)sender;
+- (IBAction)flattenRelationship:(id)sender;
+- (IBAction)newStoredProcedure:(id)sender;
 
 @end
 
