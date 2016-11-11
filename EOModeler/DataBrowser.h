@@ -18,7 +18,7 @@
 	IBOutlet NSTableView	*dataTable;
 	IBOutlet NSTextField	*maxFetchField;
 	IBOutlet NSTableView	*queryTable;
-	IBOutlet NSTextView	*queryText;
+	IBOutlet NSTextView     *queryText;
 	IBOutlet NSButton		*executeQueryButton;
 	IBOutlet NSButton		*exportQueryButton;
 	IBOutlet NSButton		*saveQueryButton;
@@ -27,23 +27,25 @@
 	IBOutlet NSButton		*previousQueryButton;
 	
 	EOModel					*model;
-	EOEntity					*selectedEntity;
-	EOSQLExpression		*expression;
+	EOEntity				*selectedEntity;
+	EOSQLExpression         *expression;
 	NSMutableArray			*rows;
 	NSDictionary			*columnAttributes;
+    NSArray                 *entities;
     NSArray                 *uiElements;
 }
 
 - (instancetype)initWithModel:(EOModel *)aModel;
+- (void)showWithModel:(EOModel *)aModel;
 
-- (void)setMaxRowsToFetch:(id)sender;
-- (void)selectEntity:(id)sender;
-- (void)selectQuery:(id)sender;
-- (void)saveQuery:(id)sender;
-- (void)removeQuery:(id)sender;
-- (void)executeQuery:(id)sender;
-- (void)exportQuery:(id)sender;
-- (void)nextQuery:(id)sender;
-- (void)previousQuery:(id)sender;
+- (IBAction)setMaxRowsToFetch:(id)sender;
+- (IBAction)selectEntity:(id)sender;
+- (IBAction)selectQuery:(id)sender;
+- (IBAction)saveQuery:(id)sender;
+- (IBAction)removeQuery:(id)sender;
+- (IBAction)executeQuery:(id)sender;
+- (IBAction)exportQuery:(id)sender;
+- (IBAction)nextQuery:(id)sender;
+- (IBAction)previousQuery:(id)sender;
 
 @end

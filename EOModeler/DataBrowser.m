@@ -33,10 +33,37 @@
         else
         {
             uiElements = anArray;
+            entities = [[aModel entities] sortedArrayUsingComparator:
+                        ^NSComparisonResult(EOEntity *obj1, EOEntity *obj2) {
+                            return [[obj1 name] compare:[obj2 name]];
+                        }];
             [window makeKeyAndOrderFront:self];
         }
     }
 	return self;
+}
+
+- (void)showWithModel:(EOModel *)aModel
+{
+    model = aModel;
+    
+    columnAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+                        [NSFont systemFontOfSize:[NSFont smallSystemFontSize]], NSFontAttributeName,
+                        nil];
+    entities = [[aModel entities] sortedArrayUsingComparator:
+                ^NSComparisonResult(EOEntity *obj1, EOEntity *obj2) {
+                    return [[obj1 name] compare:[obj2 name]];
+                }];
+    [rows removeAllObjects];
+    selectedEntity = nil;
+    expression = nil;
+    columnAttributes = nil;
+    [window makeKeyAndOrderFront:self];
+    [maxFetchField setIntValue:5000];
+    [queryText setString:@""];
+    [statusField setStringValue:@""];
+    [dataTable reloadData];
+    [entityTable reloadData];
 }
 
 - (void)awakeFromNib
@@ -61,7 +88,7 @@
 	if (row >= 0) {
 		EOAdaptor			*adaptor = [EOAdaptor adaptorWithModel:model];
 		
-		selectedEntity = [[model entities] objectAtIndex:row];
+		selectedEntity = [entities objectAtIndex:row];
 		
 		expression = [[[adaptor expressionClass] alloc] initWithRootEntity:selectedEntity];
 		theAttributes = [selectedEntity attributes];
@@ -113,6 +140,7 @@
 	NSString			*error = nil;
 	NSDate              *start;
 	NSArray				*results = nil;
+    EOAttribute         *attrib;
 		
 	adaptor = [EOAdaptor adaptorWithModel:model];
 	expression = [[[adaptor expressionClass] alloc] initWithStatement:[queryText string]];
@@ -129,18 +157,27 @@
 	
 	if (![channel isOpen]) [channel openChannel];
 	
-	NS_DURING
-		start = [[NSDate alloc] init];
-		[channel evaluateExpression:expression];
-		results = [channel describeResults];
-		while ((row = [channel fetchRowWithZone:nil]) != nil) {
-			[rows addObject:row];
-			count++;
-			if (count >= max) break;
-		}
-	NS_HANDLER
-		error = [localException description];
-	NS_ENDHANDLER
+    @try {
+        start = [[NSDate alloc] init];
+        [channel evaluateExpression:expression];
+        if ([channel isFetchInProgress]) {
+            results = [channel describeResults];
+            // since the EO Framework attributes are stored as Attribute1,
+            // Attribute2, etc,
+            // lets fix up the attribute names
+            for (attrib in results)
+                [attrib setName:[attrib columnName]];
+            [channel setAttributesToFetch:results];
+            while ((row = [channel fetchRowWithZone:nil]) != nil) {
+                [rows addObject:row];
+                count++;
+                if (count >= max) break;
+            }
+        }
+    } @catch (NSException *exception) {
+        [channel cancelFetch];
+        error = [exception description];
+    }
 	
 	if (error) {
 		[statusField setStringValue:[NSString stringWithFormat:@"Error: %@", error]];
@@ -188,7 +225,7 @@
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
 	if (tableView == entityTable) {
-		return [[model entities] count];
+		return [entities count];
 	} else if (tableView == dataTable) {
 		return [rows count];
 	}
@@ -199,9 +236,15 @@
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)column row:(NSInteger)row
 {
 	if (tableView == entityTable) {
-		return [[[model entities] objectAtIndex:row] name];
+        if ([entities count] > row)
+            return [[entities objectAtIndex:row] name];
+        else
+            return @"";
 	} else if (tableView == dataTable) {
-		return [[rows objectAtIndex:row] objectForKey:[column identifier]];
+        if ([rows count] > row)
+            return [[rows objectAtIndex:row] objectForKey:[column identifier]];
+        else
+            return @"";
 	}
 	
 	return nil;
