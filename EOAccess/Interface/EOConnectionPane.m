@@ -10,9 +10,11 @@
 	if (view == nil) {
         
         NSBundle *bundle;
+        NSArray *anArray;
         
         bundle = [NSBundle bundleForClass:[self class]];
-        [bundle loadNibNamed:NSStringFromClass([self class]) owner:self topLevelObjects:NULL];
+        [bundle loadNibNamed:NSStringFromClass([self class]) owner:self topLevelObjects:&anArray];
+        uiElements = [anArray copy];
         // Tom.Martin @ riemer.com  2016-11-11
         // replace depreciated call
 		//[NSBundle loadNibNamed:NSStringFromClass([self class]) owner:self];

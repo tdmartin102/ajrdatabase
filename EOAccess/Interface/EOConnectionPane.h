@@ -8,6 +8,7 @@
 	IBOutlet NSView		*view;
 	IBOutlet NSView		*smallView;
 	EOModel				*model;
+    NSArray             *uiElements;
 }
 
 - (id)view;
