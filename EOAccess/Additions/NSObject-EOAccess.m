@@ -135,7 +135,15 @@
 
 + (NSFormatter *)defaultFormatterForAttribute:(EOAttribute *)attribute
 {
-	return [[[NSDateFormatter alloc] initWithDateFormat:@"%Y-%m-%d %H:%M:%S %z" allowNaturalLanguage:NO] autorelease];
+    // Tom.Martin @ riemer.com 2016-11-11
+    // replace depreciated method call
+	//return [[[NSDateFormatter alloc] initWithDateFormat:@"%Y-%m-%d %H:%M:%S %z" allowNaturalLanguage:NO] autorelease];
+    
+    NSDateFormatter *formatter;
+    
+    formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss z";
+    return [formatter autorelease];
 }
 
 @end

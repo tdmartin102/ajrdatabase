@@ -39,10 +39,13 @@ http://www.raftis.net/~alex/
 {
 	// Tom Martin 5/13/11  Use single quotes not double.
     // Tom Martin 10/9/12  Replace depreciated NSCalendarDate with NSDate methods.
+    // Tom Martin 11/11/16 Replaced deprecated NSDateFormatter init
     NSDateFormatter *aFormatter;
     NSString *result;
     
-    aFormatter = [[NSDateFormatter alloc] initWithDateFormat:@"%Y-%m-%d %H:%M:%S %z" allowNaturalLanguage:NO];
+    //aFormatter = [[NSDateFormatter alloc] initWithDateFormat:@"%Y-%m-%d %H:%M:%S %z" allowNaturalLanguage:NO];
+    aFormatter = [[NSDateFormatter alloc] init];
+    aFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss z";
     result = [aFormatter stringFromDate:(NSDate *)value];
     [aFormatter release];
     return EOFormat(@"\'%@\'", result);
