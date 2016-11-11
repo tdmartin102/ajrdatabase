@@ -21,10 +21,10 @@
 	IBOutlet NSButton			*foreignKeyConstraintsCheck;
 	IBOutlet NSButton			*dropPrimaryKeySupportCheck;
 	IBOutlet NSButton			*createPrimaryKeySupportCheck;
-	IBOutlet NSTextView		*sqlText;
+	IBOutlet NSTextView         *sqlText;
 	IBOutlet NSButton			*saveAsButton;
 	IBOutlet NSButton			*executeSQLButton;
-	IBOutlet NSTextView		*errorText;
+	IBOutlet NSTextView         *errorText;
 	
 	EOModel						*model;
 	NSArray						*entities;
@@ -35,6 +35,7 @@
 
 - (instancetype)initWithModel:(EOModel *)aModel entities:(NSArray *)someEntities;
 
+- (void)setModel:(EOModel *)aModel entities:(NSArray *)someEntities;
 - (void)run;
 
 - (void)toggleOptions:(id)sender;

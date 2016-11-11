@@ -22,9 +22,16 @@
 	return self;
 }
 
+- (void)setModel:(EOModel *)aModel entities:(NSArray *)someEntities
+{
+    entities = [someEntities copy];
+    model = aModel;
+    options = [[NSMutableDictionary alloc] init];
+}
+
 - (void)windowWillClose:(NSNotification *)notification
 {
-	[window setDelegate:nil];
+	// [window setDelegate:nil];
 	// we realy can't release self here, this might be a leak then
     //[self release];
 }
