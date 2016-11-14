@@ -4,7 +4,7 @@ JAEOF: "Just Another EOF"
 
 [Latest info](http://wiki.github.com/tdmartin102/ajrdatabase/)
 
-> Feel free to help out!  There's a long way to go...
+> Feel free to help out! 
 
 This code is a fork of ajrdatabase written primarily by Alex J. Raftis  
 and published on SourceForge.  The project there seems to be dead with no response
@@ -15,8 +15,8 @@ be a plug-and-play replacement for Apple's EOF implementation.  A strong
 attempt was made to make these frameworks adhere to the published EOF 4.5
 API. 
 
-Currently there are database adaptors for OpenBase, Oracle, Postgres and
-SQLLite.
+Currently there are database adaptors for OpenBase, Oracle, Postgres, MySQL, 
+and SQLLite.
 
 
 Status
@@ -26,6 +26,7 @@ Status
   Postgress, OpenBase and SQLLite.  These need to be tested
   to assure they still work.
 * An Oracle adaptor was added and it is fully tested and working.
+* A MySQL adaptor was added, but has not yet been fully tested.
 * Attribute binding is now working. 
 * Changed joins to use newer Join syntax of 
   "(Join semantic) table on atrrib1 = attrib2".  This enables better 
@@ -34,40 +35,43 @@ Status
 * EOInterface compiles, but I have no idea what it's status
   is.
 * The EOModeler application code needs work, which is a 
-  shame as apparently a ton of work went into it.  As of Jan 17th 2011
-  it compiles and runs.  It is pre alpha at this point, but there is
-  quite a bit that is working. It works fine for a single model but fails
-  with multiple interelated models.  I would love to get this working 
-  100% again as anyone that wants to use this will need some sort of 
-  working EOModeler application.
-  That said, the frameworks will work with any legacy EOModel
-  file and most likely work with versions that are more current than
-  4.5. 
+  shame as apparently a ton of work went into it.  As of Nov 13th 2016
+  it compiles and runs.  It is beta at this point, but there is
+  quite a bit that is working. It seems to works fine, but there
+  are many features which are stubbed out, but not implemented.  
+  I would love to get this working 100% again as anyone that wants 
+  to use framework will need a working EOModeler application.
+  That said, as long as the database adaptors are fully implemented
+  EOModeler works well enough to create the require models.  
+  EOModeler supports legacy EOModel files and most likely work with 
+  versions that are more current than 4.5. 
 * Some optimization has been done here and there, but a lot more
   could be done.  Because of the high level of abstraction that
   is going on, there are many issues with inefficiencies .  These
   could be overcome somewhat by the use of caching and various 
   other techniques.
-* To-many relationships now are snapshoted as they are supposed to
+* To-many relationships now are snapshotted as they are supposed to
   be.  Removing an object from a to-many EO relationship will
-  result in that objects foriegn key being nulled or the object
+  result in that objects foreign key being nulled or the object
   deleted as it should. Adding an object in a to-many does what
   it should even when there is no reverse relationships and all
   foreign key attributes are hidden.
 * As of 4/5/2013 This framework has been used in a production
-  environment with extensive usage for over a year. So, at least 
-  for the simple case of using only a single editing context, 
+  environment with extensive daily usage by multiple staff members.
+  So, at least for the simple case of using only a single editing context, 
   it is working well with bug fixes as we go.  This is using 
-  the Oracle adaptor.
+  the Oracle adaptor.  I also have one application that uses multiple
+  Editing Contexts and it is also working just fine, so that has been
+  tested fairly well also.
 
 Why?
 ----
 
 Because, for me at least, I had over 100 very database intensive 
-applications that are were stuck in Tiger because they rely upon Apple 
+applications that were stuck in Tiger because they relied upon Apple 
 EOF 4.5.  I felt it would be great, if I could plug in a new framework
-that replaces EOF and they just need minor tweaks to get them working
-on the current Apple OS?  Further, EOF is rather amazing in many ways
+that replaces EOF and they would just need minor tweaks to get them working
+on the current Apple OS.  Further, EOF is rather amazing in many ways
 and I know of nothing available that even comes close to the 
 functionality that it provides. I realize there probably are very
 few people like me that need an EOF replacement, but EOF is extremely
@@ -90,7 +94,7 @@ to the project.  I am uncertain how many people actually
 used the frameworks, but my impression is that it was used
 in production applications to some extent even though it was
 never truly christened as being anything but beta.  It has
-gathered some dust as of late on SourceForge and the amin
+gathered some dust as of late on SourceForge and the admin
 there seems to be absent.  In September of 2011 I forked the
 SourceForge project so that I could contribute. This is
 a fork of that original project, but in no way does this
@@ -113,11 +117,10 @@ has never been tested.
                       
 HELP
 ====
-Any/all help would be greatly appreciated; If anyone out there 
-is brave enough to give it a try, I'd be happy to help out.
+Any/all help would be greatly appreciated; 
 I would love constructive criticism and welcome any help that
 anyone would want to throw my way!  It needs a lot of work; clean-up,
-optimization, I would love to see a MySQL adaptor, etc. etc.
+optimization, etc. etc.
 
 
--tm May 2013
+-tm Nov 2016
