@@ -133,16 +133,24 @@
 	}
 }
 
-- (void)update
+- (void)updateWithSelectedObject:(id)value
 {
-	EORelationship		*relationship = [self selectedRelationship];
+	EORelationship		*relationship = nil;
 	int					x, selectedIndex = 0;
 	NSArray				*models;
 	NSArray				*joins;
 	EOJoin				*firstJoin = nil;
     NSIndexSet          *indexSet;
     NSArray             *anArray;
+    
+    if (value ) {
+        if ([value isKindOfClass:[EORelationship class]])
+            relationship = value;
+    }
+    if (! relationship)
+        relationship = [self selectedRelationship];
 	
+    currentObject = relationship;
 	[nameField setStringValue:[relationship name]];
 
 	if ([relationship definition]) {

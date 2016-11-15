@@ -11,6 +11,7 @@
             <connections>
                 <outlet property="batchSizeField" destination="TCu-iL-bHD" id="kfc-0o-VmR"/>
                 <outlet property="deleteRuleMatrix" destination="DDC-mc-6Yr" id="rfl-ae-JKw"/>
+                <outlet property="nameField" destination="kqA-e6-08M" id="BKg-CF-77T"/>
                 <outlet property="optionalityMatrix" destination="7Ae-rZ-ghZ" id="LtZ-nQ-PX0"/>
                 <outlet property="ownsDestinationCheck" destination="Ibz-n2-uia" id="goO-ts-0bh"/>
                 <outlet property="propagatesPKCheck" destination="6oO-q2-mDR" id="gUQ-D8-bhY"/>
@@ -24,7 +25,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <box autoresizesSubviews="NO" fixedFrame="YES" borderType="line" title="Optionallity" translatesAutoresizingMaskIntoConstraints="NO" id="2Iq-Oc-AK8">
-                    <rect key="frame" x="7" y="280" width="256" height="64"/>
+                    <rect key="frame" x="7" y="241" width="256" height="64"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <view key="contentView" id="qN8-nk-gUE">
                         <rect key="frame" x="1" y="1" width="254" height="48"/>
@@ -45,7 +46,7 @@
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="smallSystem"/>
                                         </buttonCell>
-                                        <buttonCell type="radio" title="Mandatory" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="lbh-xg-svH">
+                                        <buttonCell type="radio" title="Mandatory" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" tag="1" inset="2" id="lbh-xg-svH">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="smallSystem"/>
                                         </buttonCell>
@@ -59,7 +60,7 @@
                     </view>
                 </box>
                 <box autoresizesSubviews="NO" fixedFrame="YES" borderType="line" title="Delete Rule" translatesAutoresizingMaskIntoConstraints="NO" id="m3f-6R-2fB">
-                    <rect key="frame" x="7" y="172" width="256" height="104"/>
+                    <rect key="frame" x="7" y="133" width="256" height="104"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <view key="contentView" id="V8Y-mY-eCe">
                         <rect key="frame" x="1" y="1" width="254" height="88"/>
@@ -80,15 +81,15 @@
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="smallSystem"/>
                                         </buttonCell>
-                                        <buttonCell type="radio" title="Cascade" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="o07-XJ-ver">
+                                        <buttonCell type="radio" title="Cascade" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" tag="1" inset="2" id="o07-XJ-ver">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="smallSystem"/>
                                         </buttonCell>
-                                        <buttonCell type="radio" title="Deny" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="AEI-jt-SsR">
+                                        <buttonCell type="radio" title="Deny" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" tag="2" inset="2" id="AEI-jt-SsR">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="smallSystem"/>
                                         </buttonCell>
-                                        <buttonCell type="radio" title="No Action" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="0on-gq-tYg">
+                                        <buttonCell type="radio" title="No Action" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" tag="3" inset="2" id="0on-gq-tYg">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="smallSystem"/>
                                         </buttonCell>
@@ -102,7 +103,7 @@
                     </view>
                 </box>
                 <box autoresizesSubviews="NO" fixedFrame="YES" borderType="line" title="Options" translatesAutoresizingMaskIntoConstraints="NO" id="V0F-qx-qFh">
-                    <rect key="frame" x="7" y="93" width="256" height="75"/>
+                    <rect key="frame" x="7" y="54" width="256" height="75"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <view key="contentView" id="RzU-kN-HoR">
                         <rect key="frame" x="1" y="1" width="254" height="59"/>
@@ -134,7 +135,7 @@
                     </view>
                 </box>
                 <box autoresizesSubviews="NO" fixedFrame="YES" borderType="line" title="Batch Faulting" translatesAutoresizingMaskIntoConstraints="NO" id="XqN-6O-knZ">
-                    <rect key="frame" x="7" y="348" width="256" height="60"/>
+                    <rect key="frame" x="7" y="309" width="256" height="60"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <view key="contentView" id="Pcr-MS-aCz">
                         <rect key="frame" x="1" y="1" width="254" height="44"/>
@@ -164,6 +165,24 @@
                         </subviews>
                     </view>
                 </box>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EHS-Lr-RRG">
+                    <rect key="frame" x="-2" y="391" width="92" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Relationship:" id="SR3-IW-9kU">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kqA-e6-08M">
+                    <rect key="frame" x="89" y="391" width="173" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" id="Imk-K3-2zS">
+                        <font key="font" metaFont="systemBold"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
             </subviews>
         </customView>
     </objects>

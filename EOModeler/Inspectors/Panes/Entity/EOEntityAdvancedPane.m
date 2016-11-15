@@ -81,10 +81,18 @@
 	}
 }
 
-- (void)update
+- (void)updateWithSelectedObject:(id)value
 {
-	EOEntity		*entity = [self selectedEntity];
+	EOEntity		*entity = nil;
 	
+    if (value) {
+        if ([value isKindOfClass:[EOEntity class]])
+            entity = value;
+    }
+    if (! entity)
+        entity = [self selectedEntity];
+    
+    currentObject = entity;
 	[batchSizeField setIntValue:[entity maxNumberOfInstancesToBatchFetch]];
 	[externalQueryField setStringValue:[entity externalQuery] ? [entity externalQuery] : @""];
 	[qualifierField setStringValue:[entity restrictingQualifier] ? [[entity restrictingQualifier] description] : @""];

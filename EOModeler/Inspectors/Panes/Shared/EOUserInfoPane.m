@@ -104,10 +104,19 @@
 	}
 }
 
-- (void)update
+- (void)updateWithSelectedObject:(id)value
 {
-	info = [[(EOEntity *)[self selectedObject] userInfo] mutableCopy];
-	
+    EOEntity *entity = nil;
+    if (value) {
+        if ([value isKindOfClass:[EOEntity class]])
+            entity = value;
+    }
+    if (! entity)
+        entity = (EOEntity *)[self selectedObject];
+    
+    info = [[entity userInfo] mutableCopy];
+    currentObject = entity;
+        
 	[self updateTable];
 }
 

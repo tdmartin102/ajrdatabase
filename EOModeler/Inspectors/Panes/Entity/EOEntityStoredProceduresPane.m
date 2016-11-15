@@ -22,10 +22,18 @@ static inline void safeSet(NSTextField *field, NSString *value)
 	[field setStringValue:value ? value : @""];
 }
 
-- (void)update
+- (void)updateWithSelectedObject:(id)value
 {
-	EOEntity		*entity = [self selectedEntity];
+	EOEntity		*entity = nil;
+    
+    if (value) {
+        if ([value isKindOfClass:[EOEntity class]])
+            entity = value;
+    }
+    if (! entity)
+        entity = [self selectedEntity];
 	
+    currentObject = entity;
 	safeSet(insertField, [[entity storedProcedureForOperation:EOInsertProcedureOperation] name]);
 	safeSet(deleteField, [[entity storedProcedureForOperation:EODeleteProcedureOperation] name]);
 	safeSet(fetchAllField, [[entity storedProcedureForOperation:EOFetchAllProcedureOperation] name]);

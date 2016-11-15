@@ -27,11 +27,20 @@
 	return nil;
 }
 
-- (void)update
+- (void)updateWithSelectedObject:(id)value
 {
-	EOAttribute		*attribute = [self selectedAttribute];
+    EOAttribute		*attribute = nil;
+    
+    if (value) {
+        if ([value isKindOfClass:[EOAttribute class]])
+            attribute = value;
+    }
+    if (! attribute)
+        attribute = [self selectedAttribute];
+
 	
 	if (attribute) {
+        currentObject = attribute;
 		Document		*document = [self currentDocument];
 		
 		[nameField setStringValue:[attribute name]];

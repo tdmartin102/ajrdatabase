@@ -26,10 +26,19 @@
 	return nil;
 }
 
-- (void)update
+- (void)updateWithSelectedObject:(id)value
 {
-	EORelationship		*relationship = [self selectedRelationship];
-	
+    EORelationship		*relationship = nil;
+    
+    if (value) {
+        if ([value isKindOfClass:[EORelationship class]])
+            relationship = value;
+    }
+    if (! relationship)
+        relationship = [self selectedRelationship];
+
+    currentObject = relationship;
+    [nameField setStringValue:[relationship name]];
 	[batchSizeField setIntValue:[relationship numberOfToManyFaultsToBatchFetch]];
 	[optionalityMatrix selectCellWithTag:[relationship isMandatory] ? 1 : 0];
 	[deleteRuleMatrix selectCellWithTag:[relationship deleteRule]];

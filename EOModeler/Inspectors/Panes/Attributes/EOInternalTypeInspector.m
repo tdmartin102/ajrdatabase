@@ -10,8 +10,15 @@
 
 #import "EOInternalTypePane.h"
 #import "Additions.h"
-#import "AJRObjectBroker.h"
 #import <EOAccess/EOAccess.h>
+
+#import "EOCustomPane.h"
+#import "EODataPane.h"
+#import "EODatePane.h"
+#import "EODecimalNumberPane.h"
+#import "EODoublePane.h"
+#import "EOIntegerPane.h"
+#import "EOStringPane.h"
 
 @implementation EOInternalTypeInspector
 
@@ -20,7 +27,16 @@
     if ((self = [super initWithFrame:frame])) {
         inspectors = [[NSMutableArray alloc] init];
         inspectorsByName = [[NSMutableDictionary alloc] init];
-        broker = [[AJRObjectBroker alloc] initWithTarget:self action:@selector(registerInspector:) requestingClassesInheritedFromClass:[EOInternalTypePane class]];
+        // broker = [[AJRObjectBroker alloc] initWithTarget:self action:@selector(registerInspector:) requestingClassesInheritedFromClass:[EOInternalTypePane class]];
+        // Yeah, we are not going to use AJRObjectBroker.  I decieded to nuke the code as it is overkill for what we need and it was flaky.
+        
+        [self registerInspector:[EOCustomPane class]];
+        [self registerInspector:[EODataPane class]];
+        [self registerInspector:[EODatePane class]];
+        [self registerInspector:[EODecimalNumberPane class]];
+        [self registerInspector:[EODoublePane class]];
+        [self registerInspector:[EOIntegerPane class]];
+        [self registerInspector:[EOStringPane class]];
     }
 	
 	return self;

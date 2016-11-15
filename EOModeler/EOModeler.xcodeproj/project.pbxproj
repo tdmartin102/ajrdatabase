@@ -16,8 +16,6 @@
 		1E6407601DD4CE1500D29170 /* PreferencesGeneral.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E6407621DD4CE1500D29170 /* PreferencesGeneral.xib */; };
 		1E6407631DD4CE1B00D29170 /* PreferencesModels.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E6407651DD4CE1B00D29170 /* PreferencesModels.xib */; };
 		1EB269CD14C5C7C10024D4AB /* Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB269CC14C5C7C10024D4AB /* Additions.m */; };
-		1EE187971DD21C51008F9653 /* AJRObjectBroker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EE187961DD21C51008F9653 /* AJRObjectBroker.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		1EE1879A1DD21F2D008F9653 /* AJRClassEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EE187991DD21F2D008F9653 /* AJRClassEnumerator.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1EFEC6531DD4AAD00044CE66 /* DatabaseQuery.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC64B1DD4AAD00044CE66 /* DatabaseQuery.xib */; };
 		1EFEC6541DD4AAD00044CE66 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC64D1DD4AAD00044CE66 /* Document.xib */; };
 		1EFEC6551DD4AAD00044CE66 /* EOModeler.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC64F1DD4AAD00044CE66 /* EOModeler.xib */; };
@@ -236,10 +234,6 @@
 		1E6407641DD4CE1B00D29170 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PreferencesModels.xib; sourceTree = "<group>"; };
 		1EB269CB14C5C7C10024D4AB /* Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Additions.h; sourceTree = "<group>"; };
 		1EB269CC14C5C7C10024D4AB /* Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Additions.m; sourceTree = "<group>"; };
-		1EE187951DD21C51008F9653 /* AJRObjectBroker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AJRObjectBroker.h; sourceTree = "<group>"; };
-		1EE187961DD21C51008F9653 /* AJRObjectBroker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AJRObjectBroker.m; sourceTree = "<group>"; };
-		1EE187981DD21F2D008F9653 /* AJRClassEnumerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AJRClassEnumerator.h; sourceTree = "<group>"; };
-		1EE187991DD21F2D008F9653 /* AJRClassEnumerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AJRClassEnumerator.m; sourceTree = "<group>"; };
 		1EFEC64C1DD4AAD00044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/DatabaseQuery.xib; sourceTree = "<group>"; };
 		1EFEC64E1DD4AAD00044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Document.xib; sourceTree = "<group>"; };
 		1EFEC6501DD4AAD00044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EOModeler.xib; sourceTree = "<group>"; };
@@ -491,10 +485,6 @@
 				FAC115130740224200744E1E /* PBPopUpButtonCell.m */,
 				1EB269CB14C5C7C10024D4AB /* Additions.h */,
 				1EB269CC14C5C7C10024D4AB /* Additions.m */,
-				1EE187951DD21C51008F9653 /* AJRObjectBroker.h */,
-				1EE187961DD21C51008F9653 /* AJRObjectBroker.m */,
-				1EE187981DD21F2D008F9653 /* AJRClassEnumerator.h */,
-				1EE187991DD21F2D008F9653 /* AJRClassEnumerator.m */,
 				FAC115140740224200744E1E /* SQLGenerator.h */,
 				FAC115150740224200744E1E /* SQLGenerator.m */,
 			);
@@ -1097,7 +1087,6 @@
 				FAC115C4074024D100744E1E /* EOEntityInspector.m in Sources */,
 				FAC115C6074024D100744E1E /* EOFetchSpecificationInspector.m in Sources */,
 				FAC115C8074024D100744E1E /* EOInspector.m in Sources */,
-				1EE187971DD21C51008F9653 /* AJRObjectBroker.m in Sources */,
 				FAC115CA074024D100744E1E /* EOInspectorPane.m in Sources */,
 				FAC115CC074024D100744E1E /* EOModelInspector.m in Sources */,
 				FAC115CE074024D100744E1E /* EORelationshipInspector.m in Sources */,
@@ -1109,7 +1098,6 @@
 				FAC115F40740255F00744E1E /* EODecimalNumberPane.m in Sources */,
 				FAC115F60740255F00744E1E /* EODoublePane.m in Sources */,
 				FAC115F80740255F00744E1E /* EOIntegerPane.m in Sources */,
-				1EE1879A1DD21F2D008F9653 /* AJRClassEnumerator.m in Sources */,
 				FAC115FA0740255F00744E1E /* EOInternalTypeInspector.m in Sources */,
 				FAC115FC0740255F00744E1E /* EOInternalTypePane.m in Sources */,
 				FAC115FE0740255F00744E1E /* EOStringPane.m in Sources */,

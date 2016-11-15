@@ -28,10 +28,20 @@
 	return @"General";
 }
 
-- (void)update
+
+- (void)updateWithSelectedObject:(id)value
 {
-	EOEntity		*entity = [self selectedEntity];
+	EOEntity		*entity = nil;
+    
+    if (value)
+    {
+        if ([value isKindOfClass:[EOEntity class]])
+            entity = value;
+    }
+    if (! entity)
+        entity = [self selectedEntity];
 	
+    currentObject = entity;
 	[nameField setStringValue:[entity name]];
 	[tableNameField setStringValue:[entity externalName]];
 	[classNameField setStringValue:[entity className]];

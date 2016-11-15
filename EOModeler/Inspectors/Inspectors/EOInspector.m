@@ -61,13 +61,22 @@
 - (void)selectInspectorPane:(id)sender
 {
 	EOInspectorPane	*pane;
+    EOInspectorPane	*rootPane;
+
+    id value;
 	
 	currentPane = [sender tag];
 	pane = [[self inspectorPanes] objectAtIndex:currentPane];
-	
+	if (currentPane == 0)
+        rootPane = pane;
+    else
+        rootPane = [[self inspectorPanes] objectAtIndex:0];
+    value = [rootPane currentObject];
 	[inspectorPanel setContentView:[pane view]];
 	[inspectorPanel setTitle:[NSString stringWithFormat:@"%@ (%@)", [self name], [pane name]]];
-	[pane update];
+    
+    
+    [pane updateWithSelectedObject:value];
 }
 
 - (NSView *)viewForPaneAtIndex:(unsigned int)index

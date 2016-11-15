@@ -11,7 +11,10 @@
 #import "Document.h"
 #import "Editor.h"
 #import "Additions.h"
-#import "AJRObjectBroker.h"
+#import "EditorEntity.h"
+#import "EditorEntities.h"
+#import "EditorStoredProcedure.h"
+#import "EditorStoredProcedures.h"
 
 @implementation EditorView
 
@@ -33,9 +36,19 @@
 - (void)setDocument:(Document *)aDocument
 {
 	document = aDocument;
+    
+    // Lets eleiminate AJRBroker and just hard code the editors.  No matter what I do, AJRBroker
+    // just is kind of flacky. Sometimes it works just fine, and then it will just crash.
+    // Bottom line, it is complex and we REALLY do not need it as these editors are NOT plug ins and
+    // they are NOT dynamic.
 	// Don't create until now, since we want to make sure our document is connected before we do this.
-	broker = [[AJRObjectBroker alloc] initWithTarget:self action:@selector(registerEditor:)
-                 requestingClassesInheritedFromClass:[Editor class]];
+	//broker = [[AJRObjectBroker alloc] initWithTarget:self action:@selector(registerEditor:)
+    //             requestingClassesInheritedFromClass:[Editor class]];
+    
+    [self registerEditor:[EditorEntity class]];
+    [self registerEditor:[EditorEntities class]];
+    [self registerEditor:[EditorStoredProcedure class]];
+    [self registerEditor:[EditorStoredProcedures class]];
 }
 
 - (void)displayEditorNamed:(NSString *)name

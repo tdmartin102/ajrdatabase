@@ -6,7 +6,7 @@
 //  Copyright 2004 __MyCompanyName__. All rights reserved.
 //
 
-@class EOAttribute, EOAttributePane, EOInternalTypePane, AJRObjectBroker;
+@class EOAttribute, EOAttributePane, EOInternalTypePane;
 
 @interface EOInternalTypeInspector : NSView
 {
@@ -15,7 +15,6 @@
 	
 	NSMutableArray					*inspectors;
 	NSMutableDictionary			*inspectorsByName;
-	AJRObjectBroker				*broker;
 	
 	EOAttribute						*attribute;
 	EOInternalTypePane			*customPane;

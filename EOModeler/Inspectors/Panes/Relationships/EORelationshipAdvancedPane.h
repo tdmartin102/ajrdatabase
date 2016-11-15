@@ -11,6 +11,7 @@
 @interface EORelationshipAdvancedPane : EOInspectorPane
 {
 	IBOutlet NSTextField		*batchSizeField;
+    IBOutlet NSTextField        *nameField;
 	IBOutlet NSMatrix			*optionalityMatrix;
 	IBOutlet NSMatrix			*deleteRuleMatrix;
 	IBOutlet NSButtonCell       *ownsDestinationCheck;

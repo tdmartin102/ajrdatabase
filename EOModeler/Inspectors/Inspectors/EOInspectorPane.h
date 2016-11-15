@@ -12,9 +12,10 @@
 
 @interface EOInspectorPane : NSObject
 {
-	IBOutlet NSView		*view;
+	IBOutlet NSView         *view;
 	EOInspector				*inspector;
     NSArray                 *uiElements;
+    __weak id               currentObject;
 }
 
 + (id)paneWithInspector:(EOInspector *)anInspector;
@@ -25,6 +26,10 @@
 - (NSView *)view;
 
 - (void)update;
+- (void)updateWithSelectedObject:(id)value;
+
+
+- (id)currentObject;
 
 - (Document *)currentDocument;
 - (EOEntity *)selectedEntity;

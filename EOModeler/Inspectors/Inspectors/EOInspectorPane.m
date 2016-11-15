@@ -57,6 +57,11 @@
 
 - (void)update
 {
+    [self updateWithSelectedObject:nil];
+}
+
+- (void)updateWithSelectedObject:(id)value
+{
 }
 
 - (Document *)currentDocument
@@ -81,6 +86,11 @@
 - (id)selectedObject
 {
 	return [[self currentDocument] selectedObject];
+}
+
+- (id)currentObject
+{
+    return currentObject;
 }
 
 @end

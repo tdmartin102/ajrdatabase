@@ -12,7 +12,6 @@
 
 @interface EditorView : NSView
 {
-	AJRObjectBroker			*broker;
 	NSMutableDictionary		*editors;
 	Editor						*currentEditor;
 	
