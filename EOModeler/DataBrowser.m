@@ -45,8 +45,13 @@
 
 - (void)showWithModel:(EOModel *)aModel
 {
+    NSInteger fetchLimit;
+
     model = aModel;
     
+    fetchLimit = [[NSUserDefaults standardUserDefaults] integerForKey:@"FetchLimit"];
+    if (! fetchLimit)
+        fetchLimit = 5000;
     columnAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
                         [NSFont systemFontOfSize:[NSFont smallSystemFontSize]], NSFontAttributeName,
                         nil];
@@ -59,7 +64,7 @@
     expression = nil;
     columnAttributes = nil;
     [window makeKeyAndOrderFront:self];
-    [maxFetchField setIntValue:5000];
+    [maxFetchField setIntegerValue:fetchLimit];
     [queryText setString:@""];
     [statusField setStringValue:@""];
     [dataTable reloadData];
