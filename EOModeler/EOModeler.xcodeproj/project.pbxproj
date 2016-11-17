@@ -11,7 +11,7 @@
 		14DF9359145725E600DF0C65 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DF9358145725E600DF0C65 /* EOAccess.framework */; };
 		14DF93611457260900DF0C65 /* EOInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DF93601457260900DF0C65 /* EOInterface.framework */; };
 		1E0411681DD39EBD00A14432 /* EORelationshipPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E0411661DD39EBD00A14432 /* EORelationshipPane.xib */; };
-		1E64075A1DD4CE0C00D29170 /* PreferenceChecks.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E64075C1DD4CE0C00D29170 /* PreferenceChecks.xib */; };
+		1E64075A1DD4CE0C00D29170 /* PreferencesChecks.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E64075C1DD4CE0C00D29170 /* PreferencesChecks.xib */; };
 		1E64075D1DD4CE1100D29170 /* PreferencesBundles.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E64075F1DD4CE1100D29170 /* PreferencesBundles.xib */; };
 		1E6407601DD4CE1500D29170 /* PreferencesGeneral.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E6407621DD4CE1500D29170 /* PreferencesGeneral.xib */; };
 		1E6407631DD4CE1B00D29170 /* PreferencesModels.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E6407651DD4CE1B00D29170 /* PreferencesModels.xib */; };
@@ -231,7 +231,7 @@
 		14DF9358145725E600DF0C65 /* EOAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOAccess.framework; path = /Library/Frameworks/EOAccess.framework; sourceTree = "<absolute>"; };
 		14DF93601457260900DF0C65 /* EOInterface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EOInterface.framework; path = /Library/Frameworks/EOInterface.framework; sourceTree = "<absolute>"; };
 		1E0411671DD39EBD00A14432 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EORelationshipPane.xib; sourceTree = "<group>"; };
-		1E64075B1DD4CE0C00D29170 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PreferenceChecks.xib; sourceTree = "<group>"; };
+		1E64075B1DD4CE0C00D29170 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PreferencesChecks.xib; sourceTree = "<group>"; };
 		1E64075E1DD4CE1100D29170 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PreferencesBundles.xib; sourceTree = "<group>"; };
 		1E6407611DD4CE1500D29170 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PreferencesGeneral.xib; sourceTree = "<group>"; };
 		1E6407641DD4CE1B00D29170 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PreferencesModels.xib; sourceTree = "<group>"; };
@@ -632,7 +632,7 @@
 				FAC116E60740289C00744E1E /* PreferencesBundles.tiff */,
 				FAC116C60740287800744E1E /* PreferencesChecks.h */,
 				FAC116C70740287800744E1E /* PreferencesChecks.m */,
-				1E64075C1DD4CE0C00D29170 /* PreferenceChecks.xib */,
+				1E64075C1DD4CE0C00D29170 /* PreferencesChecks.xib */,
 				FAC116E70740289C00744E1E /* PreferencesChecks.tiff */,
 				FAC116C80740287800744E1E /* PreferencesGeneral.h */,
 				FAC116C90740287800744E1E /* PreferencesGeneral.m */,
@@ -972,7 +972,7 @@
 				1EFEC6761DD4B2E10044CE66 /* EOAttributePane.xib in Resources */,
 				1EFEC6531DD4AAD00044CE66 /* DatabaseQuery.xib in Resources */,
 				FAC11627074025C600744E1E /* EOEntityAdvancedPane.h in Resources */,
-				1E64075A1DD4CE0C00D29170 /* PreferenceChecks.xib in Resources */,
+				1E64075A1DD4CE0C00D29170 /* PreferencesChecks.xib in Resources */,
 				FAC11629074025C600744E1E /* EOEntityPane.h in Resources */,
 				FAC1162B074025C600744E1E /* EOEntitySharedObjectsPane.h in Resources */,
 				FAC1162D074025C600744E1E /* EOEntityStoredProceduresPane.h in Resources */,
@@ -1160,12 +1160,12 @@
 			name = EORelationshipPane.xib;
 			sourceTree = "<group>";
 		};
-		1E64075C1DD4CE0C00D29170 /* PreferenceChecks.xib */ = {
+		1E64075C1DD4CE0C00D29170 /* PreferencesChecks.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				1E64075B1DD4CE0C00D29170 /* en */,
 			);
-			name = PreferenceChecks.xib;
+			name = PreferencesChecks.xib;
 			sourceTree = "<group>";
 		};
 		1E64075F1DD4CE1100D29170 /* PreferencesBundles.xib */ = {

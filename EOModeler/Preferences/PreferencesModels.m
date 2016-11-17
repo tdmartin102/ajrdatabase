@@ -89,6 +89,7 @@
         pathArray = [value mutableCopy];
     else
         pathArray = [NSMutableArray arrayWithCapacity:5];
+    [searchPathTable reloadData];
  }
 
 - (IBAction)addPath:(id)sender
@@ -117,6 +118,7 @@
             }
         }
     }];
+    [searchPathTable reloadData];
 }
 
 - (IBAction)removePath:(id)sender
@@ -141,6 +143,7 @@
         // update the preference
         [defaults setObject:[pathArray copy] forKey:PrefsModelPathsKey];
     }
+    [searchPathTable reloadData];
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
