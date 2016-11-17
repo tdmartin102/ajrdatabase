@@ -107,14 +107,6 @@ static char myAddedValues;
 
 @end
 
-@implementation AJRPreferencesModule : NSResponder
-- (IBAction)showInspector:(id)sender
-{
-	//
-	// put our view into some sort of inspecter I am thinking
-}
-@end
-
 void AJRPrintf(NSString *format, ...)
 {
 	#ifdef VERBOSE

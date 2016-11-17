@@ -23,12 +23,4 @@
 
 @end
 
-@interface AJRPreferencesModule : NSResponder
-{
-	IBOutlet	NSView	*view;
-}
-
-- (IBAction)showInspector:(id)sender;
-@end
-
 extern void AJRPrintf(NSString *format, ...);
