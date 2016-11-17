@@ -7,7 +7,11 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="PreferencesChecks"/>
+        <customObject id="-2" userLabel="File's Owner" customClass="PreferencesChecks">
+            <connections>
+                <outlet property="view" destination="c22-O7-iKe" id="kLP-6g-udl"/>
+            </connections>
+        </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="c22-O7-iKe">
