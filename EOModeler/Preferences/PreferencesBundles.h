@@ -6,9 +6,9 @@
 //  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
 //
 
-#import "Additions.h"
+#import "PreferencesModule.h"
 
-@interface PreferencesBundles : AJRPreferencesModule
+@interface PreferencesBundles : PreferencesModule
 {
 }
 
