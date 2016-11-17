@@ -15,6 +15,9 @@
 		1E64075D1DD4CE1100D29170 /* PreferencesBundles.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E64075F1DD4CE1100D29170 /* PreferencesBundles.xib */; };
 		1E6407601DD4CE1500D29170 /* PreferencesGeneral.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E6407621DD4CE1500D29170 /* PreferencesGeneral.xib */; };
 		1E6407631DD4CE1B00D29170 /* PreferencesModels.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E6407651DD4CE1B00D29170 /* PreferencesModels.xib */; };
+		1E69329D1DDB98A0001681AD /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E69329A1DDB98A0001681AD /* Preferences.m */; };
+		1E69329E1DDB98A0001681AD /* PreferencesModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E69329C1DDB98A0001681AD /* PreferencesModule.m */; };
+		1E6932A11DDB98AB001681AD /* PreferencesPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E69329F1DDB98AB001681AD /* PreferencesPanel.xib */; };
 		1EB269CD14C5C7C10024D4AB /* Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB269CC14C5C7C10024D4AB /* Additions.m */; };
 		1EFEC6531DD4AAD00044CE66 /* DatabaseQuery.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC64B1DD4AAD00044CE66 /* DatabaseQuery.xib */; };
 		1EFEC6541DD4AAD00044CE66 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EFEC64D1DD4AAD00044CE66 /* Document.xib */; };
@@ -232,6 +235,11 @@
 		1E64075E1DD4CE1100D29170 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PreferencesBundles.xib; sourceTree = "<group>"; };
 		1E6407611DD4CE1500D29170 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PreferencesGeneral.xib; sourceTree = "<group>"; };
 		1E6407641DD4CE1B00D29170 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PreferencesModels.xib; sourceTree = "<group>"; };
+		1E6932991DDB98A0001681AD /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Preferences.h; sourceTree = "<group>"; };
+		1E69329A1DDB98A0001681AD /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Preferences.m; sourceTree = "<group>"; };
+		1E69329B1DDB98A0001681AD /* PreferencesModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesModule.h; sourceTree = "<group>"; };
+		1E69329C1DDB98A0001681AD /* PreferencesModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesModule.m; sourceTree = "<group>"; };
+		1E6932A01DDB98AB001681AD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PreferencesPanel.xib; sourceTree = "<group>"; };
 		1EB269CB14C5C7C10024D4AB /* Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Additions.h; sourceTree = "<group>"; };
 		1EB269CC14C5C7C10024D4AB /* Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Additions.m; sourceTree = "<group>"; };
 		1EFEC64C1DD4AAD00044CE66 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/DatabaseQuery.xib; sourceTree = "<group>"; };
@@ -613,6 +621,11 @@
 		FAC115350740225700744E1E /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				1E69329F1DDB98AB001681AD /* PreferencesPanel.xib */,
+				1E6932991DDB98A0001681AD /* Preferences.h */,
+				1E69329A1DDB98A0001681AD /* Preferences.m */,
+				1E69329B1DDB98A0001681AD /* PreferencesModule.h */,
+				1E69329C1DDB98A0001681AD /* PreferencesModule.m */,
 				FAC116C40740287800744E1E /* PreferencesBundles.h */,
 				FAC116C50740287800744E1E /* PreferencesBundles.m */,
 				1E64075F1DD4CE1100D29170 /* PreferencesBundles.xib */,
@@ -888,6 +901,7 @@
 				Japanese,
 				French,
 				German,
+				en,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* EOModeler */;
 			projectDirPath = "";
@@ -914,6 +928,7 @@
 				FAC115220740224200744E1E /* NSTableView-ColumnVisibility.h in Resources */,
 				1EFEC6871DD4B46A0044CE66 /* EOEntityPane.xib in Resources */,
 				FAC115240740224200744E1E /* PBPopUpButton.h in Resources */,
+				1E6932A11DDB98AB001681AD /* PreferencesPanel.xib in Resources */,
 				FAC115260740224200744E1E /* PBPopUpButtonCell.h in Resources */,
 				FAC115280740224200744E1E /* SQLGenerator.h in Resources */,
 				FAC1154B074022DD00744E1E /* Editor.h in Resources */,
@@ -1095,7 +1110,9 @@
 				FAC115EE0740255F00744E1E /* EOCustomPane.m in Sources */,
 				FAC115F00740255F00744E1E /* EODataPane.m in Sources */,
 				FAC115F20740255F00744E1E /* EODatePane.m in Sources */,
+				1E69329E1DDB98A0001681AD /* PreferencesModule.m in Sources */,
 				FAC115F40740255F00744E1E /* EODecimalNumberPane.m in Sources */,
+				1E69329D1DDB98A0001681AD /* Preferences.m in Sources */,
 				FAC115F60740255F00744E1E /* EODoublePane.m in Sources */,
 				FAC115F80740255F00744E1E /* EOIntegerPane.m in Sources */,
 				FAC115FA0740255F00744E1E /* EOInternalTypeInspector.m in Sources */,
@@ -1173,6 +1190,14 @@
 				1E6407641DD4CE1B00D29170 /* en */,
 			);
 			name = PreferencesModels.xib;
+			sourceTree = "<group>";
+		};
+		1E69329F1DDB98AB001681AD /* PreferencesPanel.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E6932A01DDB98AB001681AD /* en */,
+			);
+			name = PreferencesPanel.xib;
 			sourceTree = "<group>";
 		};
 		1EFEC64B1DD4AAD00044CE66 /* DatabaseQuery.xib */ = {

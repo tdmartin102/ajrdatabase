@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <deployment version="101000" identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="Preferences">
+            <connections>
+                <outlet property="allView" destination="7" id="10"/>
+                <outlet property="moduleMatrix" destination="14" id="42"/>
+                <outlet property="panel" destination="5" id="9"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Preferences — All" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="5" userLabel="Panel">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="558" y="582" width="400" height="173"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1600" height="1002"/>
+            <view key="contentView" autoresizesSubviews="NO" id="6">
+                <rect key="frame" x="0.0" y="0.0" width="400" height="173"/>
+                <autoresizingMask key="autoresizingMask"/>
+            </view>
+        </window>
+        <customView autoresizesSubviews="NO" id="7" userLabel="NSCustomView">
+            <rect key="frame" x="0.0" y="0.0" width="400" height="158"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <matrix autoresizesSubviews="NO" verticalHuggingPriority="750" mode="highlight" allowsEmptySelection="NO" autosizesCells="NO" id="14">
+                    <rect key="frame" x="12" y="20" width="380" height="118"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    <size key="cellSize" width="95" height="50"/>
+                    <size key="intercellSpacing" width="0.0" height="18"/>
+                    <buttonCell key="prototype" type="square" title="Button" bezelStyle="shadowlessSquare" image="Monitors" imagePosition="above" alignment="center" tag="-1" inset="2" id="77">
+                        <behavior key="behavior" lightByContents="YES"/>
+                        <font key="font" metaFont="smallSystem"/>
+                    </buttonCell>
+                    <cells>
+                        <column>
+                            <buttonCell type="square" title="Button" bezelStyle="shadowlessSquare" image="NSApplicationIcon" imagePosition="above" alignment="center" state="on" transparent="YES" inset="2" id="67">
+                                <behavior key="behavior" lightByContents="YES"/>
+                                <font key="font" metaFont="smallSystem"/>
+                            </buttonCell>
+                            <buttonCell type="square" title="Button" bezelStyle="shadowlessSquare" image="Monitors" imagePosition="above" alignment="center" tag="7" transparent="YES" inset="2" id="71">
+                                <behavior key="behavior" lightByContents="YES"/>
+                                <font key="font" metaFont="smallSystem"/>
+                            </buttonCell>
+                        </column>
+                        <column>
+                            <buttonCell type="square" title="Button" bezelStyle="shadowlessSquare" image="Monitors" imagePosition="above" alignment="center" tag="1" transparent="YES" inset="2" id="68">
+                                <behavior key="behavior" lightByContents="YES"/>
+                                <font key="font" metaFont="smallSystem"/>
+                            </buttonCell>
+                            <buttonCell type="square" title="Button" bezelStyle="shadowlessSquare" image="Monitors" imagePosition="above" alignment="center" tag="8" transparent="YES" inset="2" id="72">
+                                <behavior key="behavior" lightByContents="YES"/>
+                                <font key="font" metaFont="smallSystem"/>
+                            </buttonCell>
+                        </column>
+                        <column>
+                            <buttonCell type="square" title="Button" bezelStyle="shadowlessSquare" image="Monitors" imagePosition="above" alignment="center" tag="2" transparent="YES" inset="2" id="69">
+                                <behavior key="behavior" lightByContents="YES"/>
+                                <font key="font" metaFont="smallSystem"/>
+                            </buttonCell>
+                            <buttonCell type="square" title="Button" bezelStyle="shadowlessSquare" image="Monitors" imagePosition="above" alignment="center" tag="9" transparent="YES" inset="2" id="73">
+                                <behavior key="behavior" lightByContents="YES"/>
+                                <font key="font" metaFont="smallSystem"/>
+                            </buttonCell>
+                        </column>
+                        <column>
+                            <buttonCell type="square" title="Button" bezelStyle="shadowlessSquare" image="Monitors" imagePosition="above" alignment="center" tag="3" transparent="YES" inset="2" id="70">
+                                <behavior key="behavior" lightByContents="YES"/>
+                                <font key="font" metaFont="smallSystem"/>
+                            </buttonCell>
+                            <buttonCell type="square" title="Button" bezelStyle="shadowlessSquare" image="Monitors" imagePosition="above" alignment="center" tag="10" transparent="YES" inset="2" id="74">
+                                <behavior key="behavior" lightByContents="YES"/>
+                                <font key="font" metaFont="smallSystem"/>
+                            </buttonCell>
+                        </column>
+                    </cells>
+                </matrix>
+            </subviews>
+            <connections>
+                <outlet property="nextKeyView" destination="14" id="75"/>
+            </connections>
+        </customView>
+    </objects>
+    <resources>
+        <image name="Monitors" width="128" height="128"/>
+        <image name="NSApplicationIcon" width="128" height="128"/>
+    </resources>
+</document>
