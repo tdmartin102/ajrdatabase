@@ -12,9 +12,12 @@
 
 @interface Controller : NSObject
 
++ (Controller *)defaultCountroller;
+
 - (IBAction)newDocument:(id)sender;
 - (IBAction)openDocument:(id)sender;
 
 - (void)closeDocument:(Document *)doc;
-
+-(NSArray *)documents;
+- (void)addModelsAtPath:(NSString *)path;
 @end

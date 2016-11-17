@@ -11,9 +11,12 @@
 #import "Document.h"
 
 #import "Additions.h"
+#import "Preferences.h"
 
 #import <EOAccess/EOAccess.h>
 #import <EOInterface/EOInterface.h>
+
+static Controller *defaultController;
 
 @implementation Controller
 {
@@ -31,6 +34,11 @@
     [documents removeObject:doc];
 }
 
++ (Controller *)defaultCountroller
+{
+    return defaultController;
+}
+
 + (void)initialize
 {
 	[[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -46,12 +54,17 @@
 {
     if ((self = [super init])) {
         documents = [[NSMutableArray alloc] initWithCapacity:20];
+        defaultController = self;
     }
     return self;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
+    NSArray             *pathArray;
+    NSUserDefaults		*defaults;
+    NSString            *path;
+
 	[EOLogger setLogInfo:YES];
 	[EOLogger setLogWarning:YES];
 	[EOLogger setLogError:YES];
@@ -67,6 +80,15 @@
 //		exit(1);
 //	NS_ENDHANDLER
 //	exit(1);
+    
+    // load any models in our search path now, early, so that they are there
+    // when a Document opens a model.
+    defaults = [NSUserDefaults standardUserDefaults];
+    pathArray = [defaults objectForKey:PrefsModelPathsKey];
+    if (pathArray) {
+        for (path in pathArray)
+            [self addModelsAtPath:path];
+    }
 }
 
 - (void)newDocument:(id)sender
@@ -243,6 +265,40 @@
 - (void)closeDocument:(Document *)doc
 {
     [self unRegisterDocument:doc];
+}
+
+- (NSArray *)documents
+{
+    return [documents copy];
+}
+
+- (void)addModelsAtPath:(NSString *)path
+{
+    EOModelGroup    *defaultGroup = [EOModelGroup defaultModelGroup];
+    NSFileManager   *fm= [NSFileManager defaultManager];
+    NSArray         *files;
+    NSString        *file;
+    BOOL            isDir;
+    EOModel         *model;
+    
+    if ([fm fileExistsAtPath:path isDirectory:&isDir])
+    {
+        if (isDir) {
+            files = [fm contentsOfDirectoryAtPath:path error:NULL];
+            for (file in files) {
+                if ([fm fileExistsAtPath:file isDirectory:&isDir]) {
+                    if (isDir) {
+                        if ((!([file hasPrefix:@"."] || [file hasSuffix:@"~.eomodeld"])) && [file hasSuffix:@".eomodeld"]) {
+                            model = [(EOModel *)[EOModel alloc] initWithContentsOfFile:path];
+                            if (model) {
+                                [defaultGroup addModel:model];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 @end
