@@ -280,16 +280,18 @@ static Controller *defaultController;
     NSString        *file;
     BOOL            isDir;
     EOModel         *model;
+    NSString        *aPath;
     
     if ([fm fileExistsAtPath:path isDirectory:&isDir])
     {
         if (isDir) {
             files = [fm contentsOfDirectoryAtPath:path error:NULL];
             for (file in files) {
-                if ([fm fileExistsAtPath:file isDirectory:&isDir]) {
+                aPath = [path stringByAppendingPathComponent:file];
+                if ([fm fileExistsAtPath:aPath isDirectory:&isDir]) {
                     if (isDir) {
                         if ((!([file hasPrefix:@"."] || [file hasSuffix:@"~.eomodeld"])) && [file hasSuffix:@".eomodeld"]) {
-                            model = [(EOModel *)[EOModel alloc] initWithContentsOfFile:path];
+                            model = [(EOModel *)[EOModel alloc] initWithContentsOfFile:aPath];
                             if (model) {
                                 [defaultGroup addModel:model];
                             }
