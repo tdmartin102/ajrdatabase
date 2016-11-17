@@ -8,6 +8,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PreferencesModels">
             <connections>
+                <outlet property="searchPathTable" destination="9" id="zjj-yr-P8B"/>
                 <outlet property="view" destination="5" id="6"/>
             </connections>
         </customObject>
@@ -24,14 +25,9 @@
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
-                </button>
-                <button verticalHuggingPriority="750" id="8">
-                    <rect key="frame" x="277" y="12" width="109" height="32"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                    <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="13">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
+                    <connections>
+                        <action selector="removePath:" target="-2" id="9K2-lF-Ham"/>
+                    </connections>
                 </button>
                 <scrollView horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="7">
                     <rect key="frame" x="20" y="60" width="360" height="191"/>
@@ -61,6 +57,10 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                     </tableColumn>
                                 </tableColumns>
+                                <connections>
+                                    <outlet property="dataSource" destination="-2" id="XKC-80-GAO"/>
+                                    <outlet property="delegate" destination="-2" id="pup-6b-PLw"/>
+                                </connections>
                             </tableView>
                         </subviews>
                     </clipView>
@@ -77,6 +77,17 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </tableHeaderView>
                 </scrollView>
+                <button verticalHuggingPriority="750" misplaced="YES" id="8">
+                    <rect key="frame" x="283" y="12" width="109" height="32"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="13">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="addPath:" target="-2" id="acc-xm-bJa"/>
+                    </connections>
+                </button>
             </subviews>
         </customView>
     </objects>

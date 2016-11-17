@@ -6,10 +6,11 @@
 //  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
 //
 
-#import "Additions.h"
+#import "PreferencesModule.h"
 
-@interface PreferencesModels : AJRPreferencesModule
-{
-}
+@interface PreferencesModels : PreferencesModule <NSTableViewDataSource>
+
+- (IBAction)addPath:(id)sender;
+- (IBAction)removePath:(id)sender;
 
 @end
