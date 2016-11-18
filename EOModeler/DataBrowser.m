@@ -17,10 +17,15 @@
 {
     NSBundle *bundle;
     NSArray  *anArray;
-    
+    NSInteger fetchLimit;
+
 	if ((self =[super init])) {
         model = aModel;
         
+        fetchLimit = [[NSUserDefaults standardUserDefaults] integerForKey:@"FetchLimit"];
+        if (! fetchLimit)
+            fetchLimit = 5000;
+
         columnAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
             [NSFont systemFontOfSize:[NSFont smallSystemFontSize]], NSFontAttributeName,
             nil];
@@ -37,6 +42,7 @@
                         ^NSComparisonResult(EOEntity *obj1, EOEntity *obj2) {
                             return [[obj1 name] compare:[obj2 name]];
                         }];
+            [maxFetchField setIntegerValue:fetchLimit];
             [window makeKeyAndOrderFront:self];
         }
     }
