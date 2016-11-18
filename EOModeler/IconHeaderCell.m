@@ -23,7 +23,7 @@
 	if ([self image]) {
 		size = [[self image] size];
         imageRect.origin.x = cellFrame.origin.x + (cellFrame.size.width - size.width) / 2.0;
-        imageRect.origin.y = cellFrame.origin.y + cellFrame.size.height - (cellFrame.size.height - size.height) / 2.0;
+        imageRect.origin.y = cellFrame.origin.y + ((cellFrame.size.height - size.height) / 2.0);
         imageRect.size = size;
         
         [[self image] drawInRect:imageRect fromRect:NSZeroRect
