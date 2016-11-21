@@ -36,7 +36,7 @@ mailto:tom.martin@riemer.com
 
 @interface MySQLDefineInfo : NSObject
 {
-    MySQLChannel        __weak *channel;
+    MySQLChannel        *channel;
     EOAttribute         *attrib;
     MYSQL_BIND          *bind;
     MYSQL_BIND          *bindArray;
