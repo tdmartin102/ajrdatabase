@@ -1430,6 +1430,7 @@
                 BOOL            isUnsigned;
                 NSArray         *words;
                 NSString        *word;
+                id              value;
         
                 isPrimary = NO;
                 isUnsigned = NO;
@@ -1438,8 +1439,19 @@
                 dataPrecision = 0;
                 colType = nil;
                 colName = [row objectForKey:@"FIELD"];
-                colTypeInfo = [row objectForKey:@"TYPE"];
-                nullable = ([[row objectForKey:@"NULL"] intValue]) ? YES : NO;
+                value = [row objectForKey:@"TYPE"];
+                if ([value isKindOfClass:[NSData class]]){
+                    char *buffer;
+                    NSInteger len;
+                    len = [(NSData *)value length];
+                    buffer = malloc(len);
+                    [(NSData *)value getBytes:buffer length:len];
+                    colTypeInfo = [[NSString alloc] initWithBytes:buffer length:len encoding:NSUTF8StringEncoding];
+                    free(buffer);
+                }
+                else
+                    colTypeInfo = (NSString *)[row objectForKey:@"TYPE"];
+                nullable = ([[row objectForKey:@"NULL"] isEqualToString:@"YES"]) ? YES : NO;
                 if ([[row objectForKey:@"KEY"] isEqualToString:@"PRI"])
                     isPrimary = YES;
                 
@@ -1495,6 +1507,30 @@
     }
     
     return [entity autorelease];
+}
+
+- (EOModel *)describeModelWithTableNames:(NSArray *)tableNames
+{
+    EOModel		*model;
+    NSString	*tableName;
+    NSString	*EOName;
+    
+    model = [[EOModel allocWithZone:[self zone]] init];
+    EOName = [[[[self adaptorContext] adaptor] connectionDictionary] objectForKey:@"databaseName"];
+    if (EOName == nil)
+        EOName = NSUserName();
+    [model setName:EOName];
+    [model setAdaptorName:[[[self adaptorContext] adaptor] name]];
+    [model setConnectionDictionary:[[[self adaptorContext] adaptor] connectionDictionary]];
+    
+    for (tableName in tableNames)
+    {
+        EOEntity *entity = [self _createEntityForTableNamed:tableName];
+        if (entity)
+            [model addEntity:entity];
+    }
+    
+    return [model autorelease];
 }
 
 - (MYSQL_BIND *)bindArray { return bindArray; }
