@@ -193,6 +193,7 @@
                                                         </column>
                                                     </cells>
                                                     <connections>
+                                                        <action selector="selectToOne:" target="-2" id="D3c-YT-vOP"/>
                                                         <outlet property="delegate" destination="-2" id="Vfe-fr-nEf"/>
                                                     </connections>
                                                 </matrix>
