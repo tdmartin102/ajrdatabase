@@ -27,6 +27,9 @@
 
 
 @implementation EORelationshipPane
+{
+    NSArray *entities;
+}
 
 - (NSString *)name
 {
@@ -57,8 +60,8 @@
 	NSInteger				row = [entitiesTable selectedRow];
 	
 	if (row < 0) return nil;
-	
-	return (EOEntity *)[[[[modelsPopUp selectedItem] representedObject] entities] objectAtIndex:row];
+    
+    return (EOEntity *)[entities objectAtIndex:row];
 }
 
 - (NSUInteger)indexOfJoinForSourceAttribute:(EOAttribute *)attribute
@@ -142,6 +145,7 @@
 	EOJoin				*firstJoin = nil;
     NSIndexSet          *indexSet;
     NSArray             *anArray;
+    EOModel             *model;
     
     if (value ) {
         if ([value isKindOfClass:[EORelationship class]])
@@ -157,12 +161,13 @@
 		[tabView selectTabViewItemWithIdentifier:@"flattenedRelationship"];
 		[entityField setStringValue:[[relationship destinationEntity] name]];
 		[definitionField setStringValue:[relationship definition]];
+        entities = [NSArray array];
 	} else {
 		[tabView selectTabViewItemWithIdentifier:@"relationship"];
 		[modelsPopUp removeAllItems];
 		models = [[EOModelGroup defaultModelGroup] models];
 		for (x = 0; x < (const int)[models count]; x++) {
-			EOModel		*model = [models objectAtIndex:x];
+			model = [models objectAtIndex:x];
 			
 			[modelsPopUp addItemWithTitle:[model name]];
 			[[[modelsPopUp itemArray] lastObject] setRepresentedObject:model];
@@ -175,13 +180,16 @@
 		
 		[toOneMatrix selectCellWithTag:[relationship isToMany] ? 1 : 0];
 		[joinTypePopUp selectItemAtIndex:[relationship joinSemantic]];
-		
+        
+        model = (EOModel *)[[modelsPopUp selectedItem] representedObject];
+		entities = [[model entities] sortedArrayUsingComparator:^NSComparisonResult(EOEntity *obj1, EOEntity *obj2) {
+            return [[obj1 name] compare:[obj2 name]];
+        }];
 		[entitiesTable reloadData];
 		if ([self destinationEntity] == nil) {
 			[entitiesTable deselectAll:self];
 		} else {
-            anArray = [(EOModel *)[[modelsPopUp selectedItem] representedObject] entities];
-            indexSet = [NSIndexSet indexSetWithIndex:[anArray indexOfObjectIdenticalTo:[self destinationEntity]]];
+            indexSet = [NSIndexSet indexSetWithIndex:[entities indexOfObjectIdenticalTo:[self destinationEntity]]];
 			[entitiesTable selectRowIndexes:indexSet byExtendingSelection:NO];
 		}
 		[entitiesTable scrollRowToVisible:[entitiesTable selectedRow]];
@@ -222,6 +230,11 @@
 
 - (void)selectModel:(id)sender
 {
+    EOModel *model = (EOModel *)[[modelsPopUp selectedItem] representedObject];
+    entities = [[model entities] sortedArrayUsingComparator:^NSComparisonResult(EOEntity *obj1, EOEntity *obj2) {
+        return [[obj1 name] compare:[obj2 name]];
+    }];
+
 	[entitiesTable reloadData];
 }
 
@@ -339,7 +352,7 @@
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
 	if (aTableView == entitiesTable) {
-		return [[[[modelsPopUp selectedItem] representedObject] entities] count];
+		return [entities count];
 	} else if (aTableView == sourceTable) {
 		return [[[self sourceEntity] attributes] count];
 	} else if (aTableView == destinationTable) {
@@ -354,7 +367,7 @@
 	NSString		*ident = [aTableColumn identifier];
 	
 	if (aTableView == entitiesTable) {
-		return [[[[[modelsPopUp selectedItem] representedObject] entities] objectAtIndex:rowIndex] name];
+		return [[entities objectAtIndex:rowIndex] name];
 	} else if (aTableView == sourceTable) {
 		EOAttribute		*attribute = [[[self sourceEntity] attributes] objectAtIndex:rowIndex];
 		
