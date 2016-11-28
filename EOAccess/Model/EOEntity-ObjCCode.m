@@ -34,6 +34,22 @@ http://www.raftis.net/~alex/
 
 @implementation EOEntity (ObjCCode)
 
+- (NSDictionary *)scalarTypeDictionary {
+  return @{
+                                       @"c" : @"char",
+                                       @"C" : @"unsigned char",
+                                       @"i" : @"int",
+                                       @"I" : @"unsigned int",
+                                       @"l" : @"long",
+                                       @"L" : @"unsigned long",
+                                       @"s" : @"short",
+                                       @"S" : @"unsigned short",
+                                       @"q" : @"long long",
+                                       @"q" : @"unsigned long long",
+                                       @"f" : @"float",
+                                       @"d" : @"double" };
+}
+
 - (NSString *)objectiveCInterface
 {
     NSMutableString		*string = [NSMutableString string];
@@ -41,8 +57,15 @@ http://www.raftis.net/~alex/
     EORelationship		*relationship;
     NSMutableArray		*temp;
     BOOL                first;
-
+    BOOL                hadToMany;
+    NSDictionary *scalarTypeDictionary = [self scalarTypeDictionary];
+    NSMutableDictionary *scalarAttribDict;
+    NSString *scalarType;
+    
     [self _initialize];
+    
+    hadToMany = NO;
+    scalarAttribDict = [[NSMutableDictionary alloc] initWithCapacity:40];
    
     [string appendString:@"\n"];
     [string appendString:@"#import <EOAccess/EOAccess.h>\n"];
@@ -69,45 +92,77 @@ http://www.raftis.net/~alex/
                first = NO;
            [string appendString:aClassName];
        }
+       [string appendString:@";\n\n"];
     }
    
-    [string appendFormat:@"@interface %@ : %@\n", [self className], [self parentEntity] ? [[self parentEntity] className] : @"EOGenericRecord"];
-    [string appendString:@"{\n"];
-    [string appendString:@"}\n"];
-    [string appendString:@"\n"];
-
+    [string appendFormat:@"@interface %@ : %@\n", [self className], [self parentEntity] ? [[self parentEntity] className] : @"EOEnterpriseObject"];
+    
+    //============
+    // Properties
+    //============
+    
+    // attribs ivar declarations
     for (attribute in attributes) {
         if ([attribute _isClassProperty]) {
-            [string appendFormat:@"- (void)set%@:(%@ *)value;\n", [[attribute name] capitalizedName], [attribute _valueClass]];
-            [string appendFormat:@"- (%@ *)%@;\n", [attribute _valueClass], [attribute name]];
+            // find out if this is a scalar
+            scalarType = nil;
+            if ([[attribute valueClassName] isEqualToString:@"NSNumber"] || [[attribute valueClassName] isEqualToString:@"NSDecimalNumber"]) {
+                if ([[attribute valueType] length]) {
+                    scalarType = [scalarTypeDictionary objectForKey:[attribute valueType]];
+                    if (scalarType) {
+                        // save this for later
+                        [scalarAttribDict setObject:scalarType forKey:[attribute name]];
+                    }
+                }
+            }
+            if (scalarType) {
+                [string appendFormat:@"@property (nonatomic, assign) \t%@ %@;\n", scalarType, [attribute name]];
+            }
+            else {
+                if ([[attribute valueClassName] isEqualToString:@"NSString"]) {
+                    [string appendFormat:@"@property (nonatomic, copy) \t%@ *%@;\n", [attribute _valueClass], [attribute name]];
+                }
+                else {
+                    [string appendFormat:@"@property (nonatomic, retain) \t%@ *%@;\n", [attribute _valueClass], [attribute name]];
+                }
+            }
         }
     }
-
-    [string appendString:@"\n"];
-    [string appendString:@"// To-One Relationships\n"];
-    [string appendString:@"\n"];
+    [scalarAttribDict release];
+    
+    // to-One ivar declarations
+    [string appendString:@"\n// To-One Relationships\n\n"];
     for (relationship in relationships) {
         if (![relationship isToMany] && [classPropertyNames containsObject:[relationship name]]) {
-            [string appendFormat:@"- (void)set%@:(%@ *)value;\n",
-             [[relationship name] capitalizedName], [[relationship destinationEntity] className]];
-            [string appendFormat:@"- (%@ *)%@;\n", [[relationship destinationEntity] className],
+            [string appendFormat:@"@property (nonatomic, retain) \t%@ *%@;\n", [[relationship destinationEntity] className],
              [relationship name]];
         }
     }
-
-    [string appendString:@"\n"];
-    [string appendString:@"// To-Many Relationships\n"];
-    [string appendString:@"\n"];
-
+        
+    // to-Many ivar declarations
+    [string appendString:@"\n// To-Many Relationships\n\n"];
     for (relationship in relationships) {
         if ([relationship isToMany] && [classPropertyNames containsObject:[relationship name]]) {
-            [string appendFormat:@"- (void)set%@:(%@ *)value;\n",
-             [[relationship name] capitalizedName], @"NSMutableArray"];
-            [string appendFormat:@"- (%@ *)%@;\n", @"NSArray", [relationship name]];
-            [string appendFormat:@"- (void)addTo%@:(%@ *)value;\n", [[relationship name] capitalizedName],
-             [[relationship destinationEntity] className]];
-            [string appendFormat:@"- (void)removeFrom%@:(%@ *)value;\n",
-             [[relationship name] capitalizedName], [[relationship destinationEntity] className]];
+            [string appendFormat:@"@property (nonatomic, retain) \tNSArray *%@;\n", [relationship name]];
+            hadToMany = YES;
+        }
+    }
+    
+    [string appendString:@"\n\n"];
+
+    //============
+    // Methods
+    //============
+    if (hadToMany) {
+        [string appendString:@"\n// To-Many Relationships\n\n"];
+
+        for (relationship in relationships) {
+            if ([relationship isToMany] && [classPropertyNames containsObject:[relationship name]]) {
+                [string appendFormat:@"- (void)addTo%@:(%@ *)value;\n", [[relationship name] capitalizedName],
+                 [[relationship destinationEntity] className]];
+                [string appendFormat:@"- (void)removeFrom%@:(%@ *)value;\n",
+                 [[relationship name] capitalizedName], [[relationship destinationEntity] className]];
+            }
         }
     }
 
@@ -122,127 +177,150 @@ http://www.raftis.net/~alex/
 
 - (NSString *)objectiveCImplementation
 {
-   NSMutableString		*string = [NSMutableString string];
-   EOAttribute			*attribute;
-   EORelationship		*relationship;
-   NSInteger			x;
-   NSInteger            numClassNames;
-   NSInteger            numRelationships;
-   NSInteger            numAttributes;
-   NSMutableArray		*temp;
+    NSMutableString		*string = [NSMutableString string];
+    EOAttribute			*attribute;
+    EORelationship		*relationship;
+    NSMutableArray		*temp;
+    BOOL                hadToMany;
+    BOOL                hadToOne;
+    NSString            *aClassName;
+    NSDictionary *scalarTypeDictionary = [self scalarTypeDictionary];
+    NSString *scalarType;
 
-   [self _initialize];
+    [self _initialize];
+    
+    temp = [[NSMutableArray alloc] init];
+    for (relationship in relationships) {
+        if ([classPropertyNames containsObject:[relationship name]]) {
+            if (![[[relationship destinationEntity] className] isEqualToString:@"EOGenericRecord"]) {
+                [temp addObject:[[relationship destinationEntity] className]];
+            }
+        }
+    }
 
-   temp = [[NSMutableArray alloc] init];
-   numRelationships = [relationships count];
-   for (x = 0; x < numRelationships; x++) {
-      relationship = [relationships objectAtIndex:x];
-      if ([classPropertyNames containsObject:[relationship name]]) {
-         if (![[[relationship destinationEntity] className] isEqualToString:@"EOGenericRecord"]) {
-            [temp addObject:[[relationship destinationEntity] className]];
-         }
-      }
-   }
+    [string appendString:@"\n"];
+    [string appendFormat:@"#import \"%@.h\"\n", [self className]];
+    [string appendString:@"\n"];
 
-   [string appendString:@"\n"];
-   [string appendFormat:@"#import \"%@.h\"\n", [self className]];
-   [string appendString:@"\n"];
+    if ([temp count]) {
+        for (aClassName in temp) {
+            [string appendFormat:@"#import \"%@.h\"\n", aClassName];
+        }
+        [string appendString:@"\n"];
+    }
 
-   numClassNames = [temp count];
-   if (numClassNames) {
-	   
-	   for (x = 0; x < numClassNames; x++) {
-		   [string appendFormat:@"#import \"%@.h\"\n", [temp objectAtIndex:x]];
-	   }
-	   [string appendString:@"\n"];
-   }
+    [string appendFormat:@"@implementation %@\n", [self className]];
+    [string appendString:@"\n"];
+    
+    // to-Many ivar declarations
+    hadToMany = NO;
+    hadToOne = NO;
+    for (relationship in relationships) {
+        if ([relationship isToMany] && [classPropertyNames containsObject:[relationship name]]) {
+            if ([relationship isToMany])
+                hadToMany = YES;
+            else
+                hadToOne = YES;
+        }
+    }
+
+    // private ivars
+    if (hadToMany) {
+        [string appendString:@"\n// To-Many Relationships\n\n"];
+        [string appendString:@"{\n"];
+        for (relationship in relationships) {
+            if ([relationship isToMany] && [classPropertyNames containsObject:[relationship name]]) {
+                [string appendFormat:@"    NSMutableArray\t*_%@;\n", [relationship name]];
+            }
+        }
+        [string appendString:@"}\n\n"];
+        
+        [string appendString:@"- (instancetype)init {\n"];
+        [string appendString:@"    if ((self = [super init])) {\n"];
+        for (relationship in relationships) {
+            if ([relationship isToMany] && [classPropertyNames containsObject:[relationship name]]) {
+                [string appendFormat:@"        _%@ = [[NSMutableArray alloc] initWithCapacity:100];\n",
+                 [relationship name]];
+            }
+        }
+        [string appendString:@"    }\n"];
+        [string appendString:@"    return self;\n"];
+        [string appendString:@"}\n\n"];
+    }
+    
+    for (attribute in attributes) {
+        if ([attribute _isClassProperty]) {
+            // find out if this is a scalar
+            scalarType = nil;
+            if ([[attribute valueClassName] isEqualToString:@"NSNumber"] || [[attribute valueClassName] isEqualToString:@"NSDecimalNumber"]) {
+                if ([[attribute valueType] length]) {
+                    scalarType = [scalarTypeDictionary objectForKey:[attribute valueType]];
+                }
+            }
+            if (scalarType) {
+                [string appendFormat:@"- (void)set%@:(%@)value {\n", [[attribute name] capitalizedName], scalarType];
+                [string appendString:@"   [self willChange];\n"];
+                [string appendFormat:@"   _%@ = value;\n", [attribute name]];
+            }
+            else {
+                [string appendFormat:@"- (void)set%@:(%@ *)value {\n", [[attribute name] capitalizedName], [attribute _valueClass]];
+                [string appendString:@"   [self willChange];\n"];
+                if ([[attribute valueClassName] isEqualToString:@"NSString"]) {
+                    [string appendFormat:@"   _%@ = [value copy];\n", [attribute name]];
+                }
+                else {
+                    [string appendFormat:@"   _%@ = value;\n", [attribute name]];
+                }
+            }
+            [string appendString:@"}\n\n"];
+        }
+    }
+
+    if (hadToOne) {
+        [string appendString:@"\n// To-One Relationships\n\n"];
+        for (relationship in relationships) {
+            if (![relationship isToMany] && [classPropertyNames containsObject:[relationship name]]) {
+                [string appendFormat:@"- (void)set%@:(%@ *)value {\n", [[relationship name] capitalizedName], [[relationship destinationEntity] className]];
+                [string appendFormat:@"   [self willChange];\n"];
+                [string appendFormat:@"   _%@ = value;\n", [relationship name]];
+                [string appendFormat:@"}\n\n"];
+            }
+        }
+    }
+
+    if (hadToMany) {
+        [string appendString:@"\n// To-Many Relationships\n\n"];
+        for (relationship in relationships) {
+            if ([relationship isToMany] && [classPropertyNames containsObject:[relationship name]]) {
+                [string appendFormat:@"- (void)set%@:(%@ *)value {\n", [[relationship name] capitalizedName], @"NSArray"];
+                [string appendString:@"   [self willChange];\n"];
+                [string appendFormat:@"   _%@ = [value mutableCopy];\n", [relationship name]];
+                [string appendString:@"}\n"];
+                [string appendString:@"\n"];
+                [string appendFormat:@"- (%@ *)%@ {\n", @"NSArray", [relationship name]];
+                [string appendFormat:@"   return _%@;\n", [relationship name]];
+                [string appendString:@"}\n"];
+                [string appendString:@"\n"];
+                [string appendFormat:@"- (void)addTo%@:(%@ *)value {\n",
+                 [[relationship name] capitalizedName], [[relationship destinationEntity] className]];
+                [string appendString:@"   [self willChange];\n"];
+                [string appendFormat:@"   [_%@ addObject:value];\n", [relationship name]];
+                [string appendString:@"}\n"];
+                [string appendString:@"\n"];
+                [string appendFormat:@"- (void)removeFrom%@:(%@ *)value {\n",
+                 [[relationship name] capitalizedName], [[relationship destinationEntity] className]];
+                [string appendString:@"   [self willChange];\n"];
+                [string appendFormat:@"   [_%@ removeObject:value];\n", [relationship name]];
+                [string appendString:@"}\n\n"];
+            }
+        }
+    }
+
+    [string appendString:@"@end\n\n"];
+
+    [temp release];
    
-   [string appendFormat:@"@implementation %@\n", [self className]];
-   [string appendString:@"\n"];
-
-   numAttributes = [attributes count];
-   for (x = 0; x < numAttributes; x++) {
-      attribute = [attributes objectAtIndex:x];
-      if ([attribute _isClassProperty]) {
-         [string appendFormat:@"- (void)set%@:(%@ *)value\n", [[attribute name] capitalizedName], [attribute _valueClass]];
-         [string appendFormat:@"{\n"];
-         [string appendFormat:@"   [self willChange];\n"];
-         [string appendFormat:@"   [self setPrimitiveValue:value forKey:@\"%@\"];\n", [attribute name]];
-         [string appendFormat:@"}\n"];
-         [string appendFormat:@"\n"];
-         [string appendFormat:@"- (%@ *)%@\n", [attribute _valueClass], [attribute name]];
-         [string appendFormat:@"{\n"];
-         [string appendFormat:@"   return [self valueForKey:@\"%@\"];\n", [attribute name]];
-         [string appendFormat:@"}\n"];
-         [string appendFormat:@"\n"];
-      }
-   }
-
-   [string appendString:@"// To-One Relationships\n"];
-   [string appendString:@"\n"];
-
-   numRelationships = [relationships count];
-   for (x = 0; x < numRelationships; x++) {
-      relationship = [relationships objectAtIndex:x];
-      if (![relationship isToMany] && [classPropertyNames containsObject:[relationship name]]) {
-         [string appendFormat:@"- (void)set%@:(%@ *)value\n", [[relationship name] capitalizedName], [[relationship destinationEntity] className]];
-         [string appendFormat:@"{\n"];
-         [string appendFormat:@"   [self willChange];\n"];
-         [string appendFormat:@"   [self setPrimitiveValue:value forKey:@\"%@\"];\n", [relationship name]];
-         [string appendFormat:@"}\n"];
-         [string appendFormat:@"\n"];
-         [string appendFormat:@"- (%@ *)%@\n", [[relationship destinationEntity] className], [relationship name]];
-         [string appendFormat:@"{\n"];
-         [string appendFormat:@"   return [self valueForKey:@\"%@\"];\n", [relationship name]];
-         [string appendFormat:@"}\n"];
-         [string appendFormat:@"\n"];
-      }
-   }
-
-   [string appendString:@"\n"];
-   [string appendString:@"// To-Many Relationships\n"];
-   [string appendString:@"\n"];
-
-   numRelationships = [relationships count];
-   for (x = 0; x < numRelationships; x++) {
-      relationship = [relationships objectAtIndex:x];
-      if ([relationship isToMany] && [classPropertyNames containsObject:[relationship name]]) {
-         [string appendFormat:@"- (void)set%@:(%@ *)value\n", [[relationship name] capitalizedName], @"NSMutableArray"];
-         [string appendString:@"{\n"];
-         [string appendString:@"   [self willChange];\n"];
-         [string appendFormat:@"   [self setPrimitiveValue:value forKey:@\"%@\"];\n", [relationship name]];
-         [string appendString:@"}\n"];
-         [string appendString:@"\n"];
-         [string appendFormat:@"- (%@ *)%@\n", @"NSArray", [relationship name]];
-         [string appendString:@"{\n"];
-         [string appendFormat:@"   return [self valueForKey:@\"%@\"];\n", [relationship name]];
-         [string appendString:@"}\n"];
-         [string appendString:@"\n"];
-         [string appendFormat:@"- (void)addTo%@:(%@ *)value\n", [[relationship name] capitalizedName], [[relationship destinationEntity] className]];
-         [string appendString:@"{\n"];
-         [string appendFormat:@"   NSMutableArray\t*array = (NSMutableArray *)[self %@];\n", [relationship name]];
-         [string appendString:@"\n"];
-         [string appendString:@"   [self willChange];\n"];
-         [string appendString:@"   [array addObject:value];\n"];
-         [string appendString:@"}\n"];
-         [string appendString:@"\n"];
-         [string appendFormat:@"- (void)removeFrom%@:(%@ *)value\n", [[relationship name] capitalizedName], [[relationship destinationEntity] className]];
-         [string appendString:@"{\n"];
-         [string appendFormat:@"   NSMutableArray\t*array = (NSMutableArray *)[self %@];\n", [relationship name]];
-         [string appendString:@"\n"];
-         [string appendString:@"   [self willChange];\n"];
-         [string appendString:@"   [array removeObject:value];\n"];
-         [string appendString:@"}\n"];
-         [string appendString:@"\n"];
-      }
-   }
-
-   [string appendString:@"@end\n"];
-   [string appendString:@"\n"];
-
-   [temp release];
-   
-   return string;
+    return string;
 }
 
 @end
