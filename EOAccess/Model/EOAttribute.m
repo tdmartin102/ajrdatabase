@@ -456,7 +456,7 @@ NSString *EOAttributeDidChangeNameNotification = @"EOAttributeDidChangeNameNotif
 
 - (void)setValueFactoryMethodName:(NSString *)aMethodName
 {
-	if (valueFactoryMethodName != aMethodName && ![valueFactoryMethodName isEqualToString:valueFactoryMethodName]) {
+	if (valueFactoryMethodName != aMethodName && ![valueFactoryMethodName isEqualToString:aMethodName]) {
 		[self willChange];
 		if ([[[self parent] model] undoManager]) {
 			[[[[[self parent] model] undoManager] prepareWithInvocationTarget:self] setValueFactoryMethodName:valueFactoryMethodName];

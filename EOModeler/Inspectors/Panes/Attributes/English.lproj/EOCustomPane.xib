@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -52,6 +53,7 @@
                     </textFieldCell>
                     <connections>
                         <action selector="setExternalWidth:" target="-2" id="94"/>
+                        <outlet property="delegate" destination="-2" id="pyZ-8d-TXM"/>
                         <outlet property="nextKeyView" destination="59" id="89"/>
                     </connections>
                 </textField>
@@ -74,6 +76,7 @@
                     </textFieldCell>
                     <connections>
                         <action selector="setConversionMethod:" target="-2" id="93"/>
+                        <outlet property="delegate" destination="-2" id="ppA-66-PkL"/>
                         <outlet property="nextKeyView" destination="63" id="88"/>
                     </connections>
                 </textField>
@@ -115,6 +118,7 @@
                     </textFieldCell>
                     <connections>
                         <action selector="setClass:" target="-2" id="91"/>
+                        <outlet property="delegate" destination="-2" id="jfP-Pu-iJL"/>
                         <outlet property="nextKeyView" destination="57" id="86"/>
                     </connections>
                 </textField>
@@ -128,6 +132,7 @@
                     </textFieldCell>
                     <connections>
                         <action selector="setFactoryMethod:" target="-2" id="90"/>
+                        <outlet property="delegate" destination="-2" id="zUP-ac-2To"/>
                         <outlet property="nextKeyView" destination="69" id="85"/>
                     </connections>
                 </textField>
