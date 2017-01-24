@@ -52,9 +52,9 @@
 	[[[entityAttributesTable anyTableColumnWithIdentifier:@"classProperty"] morphHeaderCellToClass:[IconHeaderCell class]] setImage:[NSImage imageNamed:@"classTitle"]];
 	[[[entityAttributesTable anyTableColumnWithIdentifier:@"lock"] morphHeaderCellToClass:[IconHeaderCell class]] setImage:[NSImage imageNamed:@"lockTitle"]];
 	[[[entityAttributesTable anyTableColumnWithIdentifier:@"nullable"] morphHeaderCellToClass:[IconHeaderCell class]] setImage:[NSImage imageNamed:@"nullTitle"]];
+    
 	[[[entityRelationshipsTable anyTableColumnWithIdentifier:@"type"] morphHeaderCellToClass:[IconHeaderCell class]] setImage:[NSImage imageNamed:@"relationshipTitle"]];
-	[[[entityRelationshipsTable anyTableColumnWithIdentifier:@"type"] morphHeaderCellToClass:[IconHeaderCell class]] setImage:[NSImage imageNamed:@"relationshipTitle"]];
-	[[[entityRelationshipsTable anyTableColumnWithIdentifier:@"classProperty"] morphHeaderCellToClass:[IconHeaderCell class]] setImage:[NSImage imageNamed:@"classTitle"]];
+    [[[entityRelationshipsTable anyTableColumnWithIdentifier:@"classProperty"] morphHeaderCellToClass:[IconHeaderCell class]] setImage:[NSImage imageNamed:@"classTitle"]];
 	needsToSetExternalTypes = YES;
 	needsToSetValueClasses = YES;
 }
@@ -152,15 +152,22 @@
 		if ([ident isEqualToString:@"type"]) {
 			[aCell setState:[relationship isToMany] ? NSOnState : NSOffState];
 		}
-#if 0
+
 		else if ([ident isEqualToString:@"classProperty"]) {
-			[aCell setState:[[[self selectedEntity] classProperties] containsObjectIdenticalTo:relationship]];
-		} else if ([ident isEqualToString:@"destinationEntity"]) {
+			[aCell setState:[[[self selectedEntity] classProperties] containsObject:relationship]];
+		}
+    
+        // Im not doing combo boxes for now
+        /*
+        else if ([ident isEqualToString:@"destinationEntity"]) {
 			[aCell removeAllItems];
 			[aCell addItemWithObjectValue:@""];
 			[aCell addItemsWithObjectValues:[[self model] entityNames]];
 			[aCell setStringValue:[[relationship destinationEntity] name]];
-		} else if ([ident isEqualToString:@"sourceAttribute"]) {
+		}
+         */
+        /*
+        else if ([ident isEqualToString:@"sourceAttribute"]) {
 			NSArray		*joins = [relationship joins];
 			[aCell removeAllItems];
 			[aCell addItemWithObjectValue:@""];
@@ -170,7 +177,10 @@
 			} else {
 				[aCell setStringValue:@""];
 			}
-		} else if ([ident isEqualToString:@"destinationAttribute"]) {
+		}
+         */
+        /*
+        else if ([ident isEqualToString:@"destinationAttribute"]) {
 			EOEntity		*destinationEntity = [relationship destinationEntity];
 			NSArray		*joins = [relationship joins];
 			
@@ -183,7 +193,7 @@
 				[aCell setStringValue:@""];
 			}
 		}
-#endif
+         */
 		if ([relationship definition]) {
 			[aCell setFont:[NSFont boldSystemFontOfSize:[NSFont smallSystemFontSize]]];
 		} else {
@@ -231,7 +241,19 @@
 			return [relationship name];
 		} else if ([ident isEqualToString:@"definition"]) {
 			return [relationship definition];
-		}
+		} else if ([ident isEqualToString:@"destinationEntity"]) {
+            return [[relationship destinationEntity] name];
+        } else if ([ident isEqualToString:@"sourceAttribute"]) {
+             NSArray		*joins = [relationship joins];
+             if ([joins count]) {
+                 return [[[joins objectAtIndex:0] sourceAttribute] name];
+             }
+         } else if ([ident isEqualToString:@"destinationAttribute"]) {
+             NSArray		*joins = [relationship joins];
+             if ([joins count]) {
+                 return [[[joins objectAtIndex:0] destinationAttribute] name];
+             }
+         }
 	}
 	
 	return @"";
