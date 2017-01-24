@@ -714,17 +714,17 @@ NSString *StoredProcedures = @"Stored Procedures";
 	return NO;
 }
 
-- (void)_documentSaveCallbackHandler:(DocumentSaveCallback)callback returnCode:(int)returnCode
+- (void)_documentSaveCallbackHandler:(DocumentSaveCallback)callback response:(DocumentSaveResponse)response
 {
     switch (callback)
     {
         case NoCallback:
             break;
         case TerminateCallback:
-            [self terminateWithResponse:returnCode];
+            [self terminateWithResponse:response];
             break;
         case CloseCallback:
-            [self closeWithResponse:returnCode];
+            [self closeWithResponse:response];
             break;
     }
 }
@@ -767,13 +767,13 @@ NSString *StoredProcedures = @"Stored Procedures";
                 }
                 if (callback) {
                     if (exception == nil)
-                        [self _documentSaveCallbackHandler:callback returnCode:DocumentDidSave];
+                        [self _documentSaveCallbackHandler:callback response:DocumentDidSave];
                     else
-                        [self _documentSaveCallbackHandler:callback returnCode:DocumentDidFail];
+                        [self _documentSaveCallbackHandler:callback response:DocumentDidFail];
                 }
             } else {
                 if (callback)
-                    [self _documentSaveCallbackHandler:callback returnCode:DocumentDidCancel];
+                    [self _documentSaveCallbackHandler:callback response:DocumentDidCancel];
             }
         }];
 	} else {
@@ -798,7 +798,7 @@ NSString *StoredProcedures = @"Stored Procedures";
 		// Don't save
 		[window close];
 		if (callback)
-            [self _documentSaveCallbackHandler:(DocumentSaveCallback)callback returnCode:DocumentDidDiscard];
+            [self _documentSaveCallbackHandler:(DocumentSaveCallback)callback response:DocumentDidDiscard];
 	}
 }
 
@@ -810,7 +810,7 @@ NSString *StoredProcedures = @"Stored Procedures";
 	} else if (returnCode == NSAlertThirdButtonReturn) {
 		// Cancel
 		if (callback)
-            [self _documentSaveCallbackHandler:(DocumentSaveCallback)callback returnCode:DocumentDidCancel];
+            [self _documentSaveCallbackHandler:(DocumentSaveCallback)callback response:DocumentDidCancel];
 	}
 }
 
@@ -842,7 +842,19 @@ NSString *StoredProcedures = @"Stored Procedures";
 
     [alert beginSheetModalForWindow:window
                   completionHandler:^(NSModalResponse returnCode){
-                      [self _documentSaveCallbackHandler:callback returnCode:(int)returnCode];
+                      DocumentSaveResponse response = DocumentDidFail;
+                      switch (returnCode) {
+                          case NSAlertFirstButtonReturn:
+                              response = DocumentDidSave;
+                              break;
+                          case NSAlertSecondButtonReturn:
+                              response = DocumentDidDiscard;
+                              break;
+                          case NSAlertThirdButtonReturn:
+                              response = DocumentDidCancel;
+                              break;
+                      }
+                      [self _documentSaveCallbackHandler:callback response:response];
                       [self didEndCloseSheet:window returnCode:(int)returnCode contextInfo:callback];
                   }];
 }
