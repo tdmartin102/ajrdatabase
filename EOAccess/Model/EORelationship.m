@@ -61,7 +61,9 @@ NSString *EORelationshipDidChangeNameNotification = @"EORelationshipDidChangeNam
 
 	if ((self = [super init]) == nil)
 		return nil;
-   
+    
+    joins = [[NSMutableArray allocWithZone:[self zone]] init];
+
    entity = owner;
    name = [[properties objectForKey:@"name"] retain];
 
@@ -78,7 +80,6 @@ NSString *EORelationshipDidChangeNameNotification = @"EORelationshipDidChangeNam
 
       someJoins = [[properties objectForKey:@"joins"] retain];
       max = [someJoins count];
-      joins = [[NSMutableArray allocWithZone:[self zone]] init];
       for (x = 0; x < max; x++) {
          NSDictionary	*joinData = [someJoins objectAtIndex:x];
          EOAttribute		*source, *destination;
