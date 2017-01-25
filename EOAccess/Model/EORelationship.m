@@ -613,7 +613,7 @@ NSString *EORelationshipDidChangeNameNotification = @"EORelationshipDidChangeNam
 	EOAttribute    *source, *destination;
 	id		       joinValue;
 	
-	if (joins == nil) return [EOJoinQualifier qualifierForRow:(NSDictionary *)data 
+	if ([joins count] == 0) return [EOJoinQualifier qualifierForRow:(NSDictionary *)data
 											   withDefinition:definition];
 	
 	for (x = 0, max = [joins count]; x < max; x++) {
