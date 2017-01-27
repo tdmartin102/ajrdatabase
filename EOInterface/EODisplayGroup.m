@@ -205,7 +205,7 @@ int EODefaultFetchLimit = 0;
 {
 	// A bit inefficient, but we need to translate these from EOSortOrderings to
 	// NSSortDescriptors.
-	int				x, max;
+	NSInteger		x, max;
 	NSMutableArray	*temp;
 	
 	temp = [[NSMutableArray allocWithZone:[self zone]] init];
@@ -219,10 +219,10 @@ int EODefaultFetchLimit = 0;
 - (NSArray *)sortOrderings
 {
 	NSArray			*sortDescriptors = [super sortDescriptors];
-	int				x, max;
+	NSInteger		x, max;
 	NSMutableArray	*temp = [[NSMutableArray allocWithZone:[self zone]] init];
 	
-	for (x = 0, max = [sortDescriptors count]; x < max; x++) {
+	for (x = 0, max = (NSInteger)[sortDescriptors count]; x < max; x++) {
 		NSSortDescriptor		*descriptor = [sortDescriptors objectAtIndex:x];
 		EOSortOrdering			*sortOrdering = [[EOSortOrdering allocWithZone:[self zone]] initWithSortDescriptor:descriptor];
 		[temp addObject:sortOrdering];
@@ -361,12 +361,12 @@ int EODefaultFetchLimit = 0;
 {
    if ([someIndexes isKindOfClass:[NSArray class]]) {
       NSMutableIndexSet		*indexes = [[NSMutableIndexSet allocWithZone:[self zone]] init];
-      int						x, max;
-      BOOL						result;
+      NSInteger				x, max;
+      BOOL					result;
       
       [EOLog log:EOLogWarning withFormat:@"You called -[EODisplayGroup setSelectionIndexes:] with an NSArray, not an NSIndexSet. We've mapped this to the correct type for you, but you should update your code to pass in an NSIndexSet."];
       
-      for (x = 0, max = [someIndexes count]; x < max; x++) {
+      for (x = 0, max = (NSInteger)[someIndexes count]; x < max; x++) {
          [indexes addIndex:[[(NSArray *)someIndexes objectAtIndex:x] intValue]];
       }
       
@@ -488,7 +488,7 @@ int EODefaultFetchLimit = 0;
 
 - (void)insert:(id)sender
 {
-	[self insertObjectAtIndex:[self selectionIndex]];
+	[self insertObjectAtIndex:(unsigned int)[self selectionIndex]];
 }
 
 - (id)insertObjectAtIndex:(unsigned int)anIndex
@@ -503,7 +503,7 @@ int EODefaultFetchLimit = 0;
 
 	[[self dataSource] insertObject:newObject];
 	if (insertedObjectDefaultValues != nil) {
-		[newObject takeValuesFromDictionary:insertedObjectDefaultValues];
+        [newObject setValuesForKeysWithDictionary:insertedObjectDefaultValues];
 	}
 	
 	[super insertObject:newObject atArrangedObjectIndex:anIndex];
@@ -580,9 +580,9 @@ int EODefaultFetchLimit = 0;
 - (BOOL)setSelectedObjectValue:(id)value forKey:(NSString *)key
 {
 	NSArray	*objects = [self selectedObjects];
-	int		x, max;
+	NSInteger		x, max;
 	
-	for (x = 0, max = [objects count]; x < max; x++) {
+	for (x = 0, max = (NSInteger)[objects count]; x < max; x++) {
 		id			object = [objects objectAtIndex:x];
 		[self setValue:value forObject:object key:key];
 	}
@@ -603,7 +603,7 @@ int EODefaultFetchLimit = 0;
 
 - (BOOL)setValue:(id)value forObject:(id)anObject key:(NSString *)key
 {
-	[anObject takeValue:value forKey:key];
+	[anObject setValue:value forKey:key];
 	return YES;
 }
 
@@ -805,7 +805,7 @@ int EODefaultFetchLimit = 0;
 
 - (id)initWithCoder:(NSCoder *)coder
 {
-    int      version = [coder versionForClassName:NSStringFromClass([self class])];
+    int      version = (int)[coder versionForClassName:NSStringFromClass([self class])];
 		
 	if ((self = [super initWithCoder:coder]))
     {

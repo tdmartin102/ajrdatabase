@@ -163,7 +163,7 @@
 
 - (BOOL)setValue:(id)value forAspect:(NSString *)aspect atIndex:(NSUInteger)index
 {
-    return [[boundGroups objectForKey:aspect] setValue:value forObjectAtIndex:index
+    return [[boundGroups objectForKey:aspect] setValue:value forObjectAtIndex:(unsigned int)index
             key:[boundKeys objectForKey:aspect]];
 }
 
@@ -175,7 +175,7 @@
 
 - (id)valueForAspect:(NSString *)aspect atIndex:(NSUInteger)index
 {
-    return [[boundGroups objectForKey:aspect] valueForObjectAtIndex:index key:
+    return [[boundGroups objectForKey:aspect] valueForObjectAtIndex:(unsigned int)index key:
             [boundKeys objectForKey:aspect]];
 }
 

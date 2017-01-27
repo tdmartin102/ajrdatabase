@@ -116,7 +116,7 @@
 {
     [[self control] setObjectValue:[self valueForAspect:@"value"]];
     if ([self displayGroupForAspect:@"enabled"]) {
-        [[self control] setEnabled:[self valueForAspect:@"enabled"]];
+        [[self control] setEnabled:(BOOL)[self valueForAspect:@"enabled"]];
     }
 }
 
