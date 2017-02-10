@@ -216,7 +216,7 @@ http://www.raftis.net/~alex/
     hadToMany = NO;
     hadToOne = NO;
     for (relationship in relationships) {
-        if ([relationship isToMany] && [classPropertyNames containsObject:[relationship name]]) {
+        if ([classPropertyNames containsObject:[relationship name]]) {
             if ([relationship isToMany])
                 hadToMany = YES;
             else
