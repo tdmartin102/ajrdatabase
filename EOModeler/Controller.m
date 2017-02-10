@@ -53,18 +53,29 @@ static Controller *defaultController;
 - (instancetype)init
 {
     if ((self = [super init])) {
+        NSArray             *pathArray;
+        NSUserDefaults		*defaults;
+        NSString            *path;
+
         documents = [[NSMutableArray alloc] initWithCapacity:20];
         defaultController = self;
+        
+        // load any models in our search path now, early, so that they are there
+        // when a Document opens a model.
+        defaults = [NSUserDefaults standardUserDefaults];
+        pathArray = [defaults objectForKey:PrefsModelPathsKey];
+        if (pathArray) {
+            for (path in pathArray)
+                [self addModelsAtPath:path];
+        }
+
     }
     return self;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
-    NSArray             *pathArray;
-    NSUserDefaults		*defaults;
-    NSString            *path;
-
+ 
 	[EOLogger setLogInfo:YES];
 	[EOLogger setLogWarning:YES];
 	[EOLogger setLogError:YES];
@@ -80,16 +91,7 @@ static Controller *defaultController;
 //		exit(1);
 //	NS_ENDHANDLER
 //	exit(1);
-    
-    // load any models in our search path now, early, so that they are there
-    // when a Document opens a model.
-    defaults = [NSUserDefaults standardUserDefaults];
-    pathArray = [defaults objectForKey:PrefsModelPathsKey];
-    if (pathArray) {
-        for (path in pathArray)
-            [self addModelsAtPath:path];
-    }
-}
+ }
 
 - (void)newDocument:(id)sender
 {
