@@ -140,10 +140,19 @@ http://www.raftis.net/~alex/
     }
         
     // to-Many ivar declarations
+    // we do NOT make to-many relationships a property.
+    // we do NOT want to synthise the setter method, that would be awkward as it would create
+    // setBlah:(NSArray *)value and we CAN NOT do a mutableCopy of an EOFault.  That simply wont work
+    // So what we want is the KeyValue coding to set the ivar directly, which will simply do a retain, for the EOFault
+    // as long as no setter method exists.  Basically we really REALLY do not want a setter method for a
+    // to-many relationship.  With the existing implementation of KeyValue coding done internally with
+    // setPrimitiveValue: it would still work fine, but someday it might be nice to just nuke the internal
+    // implementation and just use Apple normal keyValue coding which would use the setter method BEFORE
+    // setting the iVar.  This is completely possible now that an EO is a subclass of EOEnterpriseObject
+    // as we could dissable willChange.
     [string appendString:@"\n// To-Many Relationships\n\n"];
     for (relationship in relationships) {
         if ([relationship isToMany] && [classPropertyNames containsObject:[relationship name]]) {
-            [string appendFormat:@"@property (nonatomic, retain) \tNSArray *%@;\n", [relationship name]];
             hadToMany = YES;
         }
     }
@@ -158,6 +167,7 @@ http://www.raftis.net/~alex/
 
         for (relationship in relationships) {
             if ([relationship isToMany] && [classPropertyNames containsObject:[relationship name]]) {
+                [string appendFormat:@"- (NSArray *)%@;\n", [relationship name]];
                 [string appendFormat:@"- (void)addTo%@:(%@ *)value;\n", [[relationship name] capitalizedName],
                  [[relationship destinationEntity] className]];
                 [string appendFormat:@"- (void)removeFrom%@:(%@ *)value;\n",
@@ -292,11 +302,6 @@ http://www.raftis.net/~alex/
         [string appendString:@"\n// To-Many Relationships\n\n"];
         for (relationship in relationships) {
             if ([relationship isToMany] && [classPropertyNames containsObject:[relationship name]]) {
-                [string appendFormat:@"- (void)set%@:(%@ *)value {\n", [[relationship name] capitalizedName], @"NSArray"];
-                [string appendString:@"   [self willChange];\n"];
-                [string appendFormat:@"   _%@ = [value mutableCopy];\n", [relationship name]];
-                [string appendString:@"}\n"];
-                [string appendString:@"\n"];
                 [string appendFormat:@"- (%@ *)%@ {\n", @"NSArray", [relationship name]];
                 [string appendFormat:@"   return _%@;\n", [relationship name]];
                 [string appendString:@"}\n"];
