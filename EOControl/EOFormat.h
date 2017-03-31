@@ -38,7 +38,7 @@ http://www.raftis.net/~alex/
  <EM>Flags</EM>
 
  One of the following flags can appear. These modify the output behavior of the basic format specifiers discussed later.
- <P ALIGN=CENTER><TABLE CELLSPACING=2 CELLPADDING=2 BORDER=0 WIDTH=90%>
+ <TABLE CELLSPACING=2 CELLPADDING=2 BORDER=0 WIDTH=90%>
  <TR>
  <TH ALIGN=CENTER BGCOLOR=BLACK>&nbsp;<FONT COLOR=WHITE>Flag</FONT>&nbsp;</TH>
  <TH ALIGN=CENTER BGCOLOR=BLACK>&nbsp;<FONT COLOR=WHITE>Description</FONT>&nbsp;</TH>
@@ -64,7 +64,7 @@ http://www.raftis.net/~alex/
  <TD>Specifies that a sign always be placed before a number produced by a signed conversion.  A `+' overrides a space if both are used.
  </TD>
  </TR>
- </TABLE></P>
+ </TABLE><BR>
 
  <EM>Width</EM>
 
@@ -77,7 +77,7 @@ http://www.raftis.net/~alex/
  <EM>Optional Modifiers</EM>
 
  One of the following optional modifiers may then appear:
- <P ALIGN=CENTER><TABLE CELLSPACING=2 CELLPADDING=2 BORDER=0 WIDTH=90%>
+ <TABLE CELLSPACING=2 CELLPADDING=2 BORDER=0 WIDTH=90%>
  <TR>
  <TH ALIGN=CENTER BGCOLOR=BLACK>&nbsp;<FONT COLOR=WHITE>Modifier</FONT>&nbsp;</TH>
  <TH ALIGN=CENTER BGCOLOR=BLACK>&nbsp;<FONT COLOR=WHITE>Description</FONT>&nbsp;</TH>
@@ -98,12 +98,13 @@ http://www.raftis.net/~alex/
  <TD ALIGN=CENTER VALIGN=TOP>L</TD>
  <TD>The character L specifying that a following e, E, f, g, or G conversion corresponds to a long double argument</TD>
  </TR>
- </TABLE></P>
+ </TABLE>
+ <BR>
 
  <EM>Conversion Character</EM>
 
  Specifies which conversion should actual take place. The following conversion types are supported:
- <P ALIGN=CENTER><TABLE CELLSPACING=2 CELLPADDING=2 BORDER=0 WIDTH=90%>
+ <TABLE CELLSPACING=2 CELLPADDING=2 BORDER=0 WIDTH=90%>
  <TR>
  <TH ALIGN=CENTER BGCOLOR=BLACK>&nbsp;<FONT COLOR=WHITE>Modifier</FONT>&nbsp;</TH>
  <TH ALIGN=CENTER BGCOLOR=BLACK>&nbsp;<FONT COLOR=WHITE>Description</FONT>&nbsp;</TH>
@@ -158,7 +159,8 @@ http://www.raftis.net/~alex/
  <TD>The argument is assumed to be type <EM>id</EM>. The <EM>descrption</EM> method is sent to the object and the result is appended to the output string.</TD>
  </TR>
  <TR>
- </TABLE></P>
+ </TABLE>
+ <BR>
 
  <STRONG>Extensions and Fixes</STRONG>
 
@@ -174,7 +176,7 @@ extern "C" {
 /*!
  @function EOFormatv
 
- @discussion Takes a string, <EM>format</em>, and applies basic formatting rules to parameters passed in as part of the variable argument array, <EM>ap</EM>. This is similar to the function <EM>EOFormat</EM>, but accepts a va_list rather than a variable array list. Please refer to the man page for stdarg for more information.
+ @discussion Takes a string, <EM>format</EM>, and applies basic formatting rules to parameters passed in as part of the variable argument array, <EM>ap</EM>. This is similar to the function <EM>EOFormat</EM>, but accepts a va_list rather than a variable array list. Please refer to the man page for stdarg for more information.
 
  @param format The format specifier string.
  @param ap The variable argument list. Man stdarg for more information.
