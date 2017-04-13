@@ -77,7 +77,7 @@
     str = [MySQLAdaptor convert:value toValueClassNamed:@"NSString"];
     strPtr = (unsigned char *)[str UTF8String];
     valueSize = strlen((char *)strPtr);
-    if (bufferSize < SIMPLE_BUFFER_SIZE)
+    if (valueSize < SIMPLE_BUFFER_SIZE)
     {
         strcpy((char *)bufferValue.simplePtr, (char *)strPtr);
         bind->buffer = bufferValue.simplePtr;
