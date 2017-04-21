@@ -252,7 +252,7 @@
     {
         // associated with every bind is a bindHandle and a lot of info about
         // how to do a bind.  We will wrap all that in an object
-        mysqlBindInfo = [[MySQLBindInfo alloc] initWithBindDictionary:bindDict mysqlBind:&bindArray[index]];
+        mysqlBindInfo = [[MySQLBindInfo alloc] initWithBindDictionary:bindDict mysqlBind:&(bindArray[index])];
         [bindCache addObject:mysqlBindInfo];
         [mysqlBindInfo release];
         ++index;
@@ -658,6 +658,7 @@
     [localException raise];
     NS_ENDHANDLER
     
+    /*
     // at this point I think we could release the bindCache.
     [bindCache release];
     bindCache = nil;
@@ -666,6 +667,7 @@
         free(bindArray);
         bindArray = NULL;
     }
+     */
 
     // find out what kind of statement this is.
     // it is possible that this will return a valid result
@@ -713,6 +715,15 @@
         // if fetchAttributes is already set, then these are the attributes
         if (! evaluateAttributes)
             evaluateAttributes = [[NSArray allocWithZone:[self zone]] initWithArray:[self describeResults]];
+    }
+    
+    // at this point I think we could release the bindCache.
+    [bindCache release];
+    bindCache = nil;
+    if (bindArray)
+    {
+        free(bindArray);
+        bindArray = NULL;
     }
     
     // Notify our delegate
@@ -913,6 +924,7 @@
         // free the result set
         mysql_stmt_free_result(stmt);
     }
+    
     // if we are in a local transaction roll it back
     // if we are in a transaction but it is not local, then I figure it is the callers
     // responsibility to decide if the transaction needs to be commited, rolled back,
@@ -921,6 +933,13 @@
     {
         [adaptorContext commitTransaction];
         localTransaction = NO;
+    }
+    
+    if (stmt)
+    {
+        if (mysql_stmt_close(stmt))
+            [self checkStatus];
+        stmt = NULL;
     }
 }
 
