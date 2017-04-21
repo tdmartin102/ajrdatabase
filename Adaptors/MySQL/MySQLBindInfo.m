@@ -74,6 +74,7 @@
     unsigned char   *strPtr;
     
     // we need a NSString
+    is_null = 0;
     str = [MySQLAdaptor convert:value toValueClassNamed:@"NSString"];
     strPtr = (unsigned char *)[str UTF8String];
     valueSize = strlen((char *)strPtr);
@@ -91,8 +92,9 @@
         strcpy((char *)bufferValue.charPtr, (char *)strPtr);
         bind->buffer = bufferValue.charPtr;
     }
+    bind->buffer_type = dataType;
     bind->length = &valueSize;
-    bind->is_null = 0;
+    bind->is_null = &is_null;
 }
 
 //---(Private)--- Convert to scaler MYSQL types from a NSNumber.  Larger numbers
@@ -129,8 +131,9 @@
     }
     
     // dataValue should now be ONLY the values below
+    is_null = 0;
     bind->buffer_type = dataType;
-    bind->is_null = 0;
+    bind->is_null = &is_null;
     bind->length = 0;
     bind->is_unsigned = is_unsigned;
     
@@ -221,6 +224,7 @@
     
     bufferSize = [data length];
     valueSize = bufferSize;
+    is_null = 0;
     if (bufferSize <= SIMPLE_BUFFER_SIZE)
     {
         [data getBytes:bufferValue.simplePtr];
@@ -233,8 +237,9 @@
         [data getBytes:bufferValue.charPtr];
         bind->buffer = bufferValue.charPtr;
     }
+    bind->buffer_type = dataType;
     bind->length = &valueSize;
-    bind->is_null = 0;
+    bind->is_null = &is_null;
 }
 
 //---(Private)-- Convert to a DATE buffer fron a NSCalendarDate or NSDate if this is 10.6 or better
@@ -296,6 +301,7 @@
     //  MYSQL_TYPE_STRING
     if (! value)
     {
+        is_null = 1;
         bind->buffer_type = dataType;
         bind->is_null = &is_null;
         bind->buffer = NULL;
@@ -308,7 +314,6 @@
             case MYSQL_TYPE_TINY:
                 // TINYINT
                 // use signed char
-                dataType = MYSQL_TYPE_TINY;
                 [self setNumberValueScalarBuffer];
                 break;
             case MYSQL_TYPE_SHORT:
