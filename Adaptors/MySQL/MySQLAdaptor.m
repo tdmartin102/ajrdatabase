@@ -145,7 +145,7 @@ static NSMutableDictionary 	*dataTypes = nil;
     dataTypeDict = [dataTypes objectForKey:[attrib externalType]];
     dataType = [[dataTypeDict objectForKey:@"mysqlDataType"] intValue];
     if (! dataType)
-        [NSException raise:EODatabaseException format:@"OracleAdaptor.dataTypeForAttribute: Attempt to read an unsupported MySQL Datatype '%@'",
+        [NSException raise:EODatabaseException format:@"MySQLAdaptor.dataTypeForAttribute: Attempt to read an unsupported MySQL Datatype '%@'",
          [attrib externalType]];
     if ([[dataTypeDict objectForKey:@"useWidth"] intValue])
         *useWidth = YES;
