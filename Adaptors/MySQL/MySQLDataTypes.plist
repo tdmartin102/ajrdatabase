@@ -1,6 +1,6 @@
 {
 	DECIMAL = {
-		mysqlDataType = 0;
+		mysqlDataType = 246;
 		valueClassName = NSDecimalNumber;
 		hasPrecision = 1;
 		valueType = i;
@@ -25,7 +25,7 @@
 		isNumber = 1;
 	};
 	INT24 = {
-		mysqlDataType = 3;
+		mysqlDataType = 9;
 		valueClassName = NSNumber;
 		valueType = l;
 		isNumber = 1;
@@ -81,13 +81,13 @@
 		isDate = 1;
 	};
 	YEAR = {
-		mysqlDataType = 13;
+		mysqlDataType = 2;
 		valueClassName = NSNumber;
 		valueType = i;
 		isNumber = 1;
 	};
 	VARCHAR = {
-		mysqlDataType = 15;
+		mysqlDataType = 254;
 		useWidth = 1;
 		valueClassName = NSString;
 	};
