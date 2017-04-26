@@ -639,6 +639,7 @@
          mysql_stmt_error(stmt)];
     }
     [self checkStatus]; // okay to raise
+    [sqlString autorelease];
     
     // If we have binds, then do that now as this has to be done AFTER
     // the prepare.
