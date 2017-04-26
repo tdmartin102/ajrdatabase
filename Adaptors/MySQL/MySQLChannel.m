@@ -29,13 +29,18 @@
 {
     NSString *result = nil;
     const char *str;
-    if(mysql_stmt_errno(stmt))
+    // we might call checkStatus after a cancel fetch. it is easier just to blow pase the check here than to deal with
+    // calling or not calling check status after a cancel.ß
+    if (stmt)
     {
-        str = mysql_stmt_error(stmt);
-        result = [NSString stringWithUTF8String:str];
-        NSException *ouch;
-        ouch = [[NSException alloc] initWithName:@"EOGeneralAdaptorException" reason:result userInfo:nil];
-        [ouch raise];
+        if(mysql_stmt_errno(stmt))
+        {
+            str = mysql_stmt_error(stmt);
+            result = [NSString stringWithUTF8String:str];
+            NSException *ouch;
+            ouch = [[NSException alloc] initWithName:@"EOGeneralAdaptorException" reason:result userInfo:nil];
+            [ouch raise];
+        }
     }
     
     return result;
