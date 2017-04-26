@@ -44,7 +44,7 @@
 	};
 	NULL = {
 		mysqlDataType = 6;
-		valueClassName = NSNull;
+		valueClassName = EONull;
 	};
 	TIMESTAMP = {
 		mysqlDataType = 7;
