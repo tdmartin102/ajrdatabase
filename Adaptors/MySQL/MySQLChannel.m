@@ -1021,6 +1021,31 @@
     return (unsigned int)rowsAffected;
 }
 
+- (BOOL)createSequenceTable
+{
+    BOOL result = YES;
+    NSString *sqlString = @"CREATE TABLE `ajr_sequence_data` ( \
+    `sequence_name` varchar(100) NOT NULL,\
+    `sequence_increment` int(11) unsigned NOT NULL DEFAULT 1,\
+    `sequence_min_value` int(11) unsigned NOT NULL DEFAULT 1,\
+    `sequence_max_value` bigint(20) unsigned NOT NULL DEFAULT 18446744073709551615,\
+    `sequence_cur_value` bigint(20) unsigned DEFAULT 1,\
+    `sequence_cycle` boolean NOT NULL DEFAULT FALSE,\
+    PRIMARY KEY (`sequence_name`)\
+    ) ENGINE=InnoDB";
+    // evaluate the SQL and fetch the result
+    NS_DURING
+    [self evaluateExpression:[[[adaptorContext adaptor] expressionClass] expressionForString:sqlString]];
+    [self cancelFetch];
+    NS_HANDLER
+    result = NO;
+    NS_ENDHANDLER
+    return result;
+}
+
+
+
+
 //-- There is no mechanizim in MySQL for generating a primary key BEFORE the row is
 // inserted.  MySQL uses Auto Increment which is quite nice, but that happens
 // AFTER the row is inserted and this framework needs the key BEFORE it is
@@ -1036,7 +1061,7 @@
     NSMutableArray		*keys;
     NSArray				*attribs;
     NSString            *seqName;
-    NSString            *cols = @"SEQUENCE_INCREMENT, SEQUENCE_MIN_VALUE, SEQUENCE_MAX_VALUE, SEQUENCE_CUR_VALUE, SQEUENCE_CYCLE";
+    NSString            *cols = @"SEQUENCE_INCREMENT, SEQUENCE_MIN_VALUE, SEQUENCE_MAX_VALUE, SEQUENCE_CUR_VALUE, SEQUENCE_CYCLE";
 
     int					index;
     NSMutableString		*sql;
@@ -1057,7 +1082,9 @@
     NSString            *reasonFmt;
     NSNumber            *colValue;
     NSString            *name;
+    BOOL                createTable;
     
+    createTable = NO;
     reasonFmt = [NSString stringWithFormat:@"Unable to create next primary Key using MySQL Table ajr_sequence_data for entity \"%@\": %%@ Make sure this table Exists!  This must be created manually.  The script for creating this table is in the Database Adaptor bundle resource.", [entity externalName]];
 
     // if primary key is compond, bail
@@ -1083,22 +1110,58 @@
 
     [sql appendString:@"SELECT "];
     [sql appendString:cols];
-    [sql appendString:@" FROM AJR_SEQUENCE_DATA WHERE SEQUENCE_NAME = "];
+    [sql appendString:@" FROM AJR_SEQUENCE_DATA WHERE SEQUENCE_NAME = '"];
     [sql appendString:seqName];
-    [sql appendString:@" FOR UPDATE"];
+    [sql appendString:@"' FOR UPDATE"];
 
     expression = [[[[adaptorContext adaptor] expressionClass] expressionForString:sql] retain];
-    [sql release];
 
     NS_DURING
     [self evaluateExpression: expression];
     NS_HANDLER
-    [expression release];
-    [seqName release];
-    [self cancelFetch];
-    [NSException raise:EODatabaseException format:reasonFmt, [localException reason]];
+    // This is flaky as hell because the error message could EASILY change.
+    // but if it does then, the user will have to create the sequence table
+    // so, this is acceptable.
+    if ([[localException reason] hasSuffix:@"ajr_sequence_data' doesn't exist"])
+    {
+        createTable = YES;
+    }
+    else
+    {
+        [sql release];
+        [expression release];
+        [seqName release];
+        [self cancelFetch];
+        [NSException raise:EODatabaseException format:reasonFmt, [localException reason]];
+    }
     NS_ENDHANDLER
     [expression release];
+    if (createTable)
+    {
+        // Last ditch effort to create the sqeuence table and then try again
+        if ([self createSequenceTable])
+        {
+            expression = [[[[adaptorContext adaptor] expressionClass] expressionForString:sql] retain];
+            NS_DURING
+            [self evaluateExpression: expression];
+            NS_HANDLER
+            [sql release];
+            [expression release];
+            [seqName release];
+            [self cancelFetch];
+            [NSException raise:EODatabaseException format:reasonFmt, [localException reason]];
+            NS_ENDHANDLER
+        }
+        else
+        {
+            [sql release];
+            [expression release];
+            [seqName release];
+            [NSException raise:EODatabaseException format:reasonFmt, @"Failure of last ditch effort to create sequence table."];
+        }
+    }
+    
+    [sql release];
     row = nil;
     if ([self isFetchInProgress])
     {
@@ -1206,7 +1269,7 @@
         [expression release];
     }
     
-    // If we made it this far then the seqence number has been updated
+    // If we made it this far then the sequence number has been updated
     // All we need to do now is return an array of primary key dictionarys
     // for the range requested.
     name = [[(EOAttribute *)[attribs objectAtIndex:0] name] retain];
