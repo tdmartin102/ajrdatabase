@@ -566,6 +566,7 @@ static NSCharacterSet		*validNameSet = nil;
         [contents release];
         [exception raise];
     }
+    [contents release];
     return properties;
 }
 
