@@ -357,9 +357,10 @@ mailto:tom.martin@riemer.com
             break;
         case MYSQL_TYPE_DECIMAL:
         case MYSQL_TYPE_NEWDECIMAL:
-            dataType = MYSQL_TYPE_STRING;
+            dataType = MYSQL_TYPE_NEWDECIMAL;
             memset(bufferValue.simplePtr, 0, SIMPLE_BUFFER_SIZE);
             bind->buffer = bufferValue.simplePtr;
+            bind->buffer_length= SIMPLE_BUFFER_SIZE;
             break;
         case MYSQL_TYPE_STRING:
         case MYSQL_TYPE_VAR_STRING:
@@ -461,6 +462,9 @@ mailto:tom.martin@riemer.com
             break;
         case MYSQL_TYPE_BLOB:
             object = [self dataValueForForChar];
+            break;
+        case MYSQL_TYPE_NEWDECIMAL:
+            object = [self numberValueFromChar];
             break;
         case MYSQL_TYPE_STRING:
         default:
