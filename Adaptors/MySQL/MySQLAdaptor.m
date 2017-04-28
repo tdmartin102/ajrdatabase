@@ -9,6 +9,7 @@
 #import "MySQLAdaptor.h"
 #import "MySQLContext.h"
 #import "MySQLSQLExpression.h"
+#import "MySQLSchemaGeneration.h"
 
 #import <mysql.h>
 
@@ -130,8 +131,7 @@ static NSMutableDictionary 	*dataTypes = nil;
 
 - (EOSchemaGeneration *)synchronizationFactory
 {
-    return nil;
-    // return [[[MySQLSchemaGeneration allocWithZone:[self zone]] init] autorelease];
+    return [[[MySQLSchemaGeneration allocWithZone:[self zone]] init] autorelease];
 }
 
 
