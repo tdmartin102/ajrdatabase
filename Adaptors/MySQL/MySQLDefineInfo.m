@@ -48,6 +48,27 @@ mailto:tom.martin@riemer.com
     return [NSString stringWithUTF8String:(char *)bufferValue.simplePtr];
 }
 
+//---(Private)--- Convert BIT from char buffer to NSNumber
+- (id)numberValueFromBitChar
+{
+    // The buffer SHOULD be something like '01010'
+    // I need a 64 bit accumulator;
+    unsigned long long total = 0;
+    BOOL first = YES;
+    char *ptr = (char *)bufferValue.simplePtr;
+    while (*ptr)
+    {
+        if (! first)
+            total = total << 1;
+        else
+            first = NO;
+        if (*ptr == '1')
+            ++total;
+        ++ptr;
+    }
+    return [NSNumber numberWithUnsignedLongLong:total];
+}
+
 //---(Private)--- Convert scaler value Buffer into a NSNumber. We only handle value types cCsSiIfd
 //                Types lL is not used, we use iI as they are equivilent.
 - (id)objectValueFromScalar
@@ -297,7 +318,6 @@ mailto:tom.martin@riemer.com
             bind->is_unsigned = is_unsigned;
             break;
         case MYSQL_TYPE_LONGLONG:
-        case MYSQL_TYPE_BIT:
             // BIGINT
             // use long long
             if (is_unsigned)
@@ -311,6 +331,11 @@ mailto:tom.martin@riemer.com
                 bind->buffer = (char *)&bufferValue.sLLValue;
             }
             bind->is_unsigned = is_unsigned;
+            break;
+        case MYSQL_TYPE_BIT:
+            memset(bufferValue.simplePtr, 0, SIMPLE_BUFFER_SIZE);
+            bind->buffer = bufferValue.simplePtr;
+            bind->buffer_length= SIMPLE_BUFFER_SIZE;
             break;
         case MYSQL_TYPE_FLOAT:
             // FLOAT
@@ -465,6 +490,9 @@ mailto:tom.martin@riemer.com
             break;
         case MYSQL_TYPE_NEWDECIMAL:
             object = [self numberValueFromChar];
+            break;
+        case MYSQL_TYPE_BIT:
+            object = [self numberValueFromBitChar];
             break;
         case MYSQL_TYPE_STRING:
         default:
