@@ -51,19 +51,18 @@ mailto:tom.martin@riemer.com
 //---(Private)--- Convert BIT from char buffer to NSNumber
 - (id)numberValueFromBitChar
 {
-    // The buffer SHOULD be something like '01010'
+    // The buffer is bits  NOT characters as the documentation implies.'
     // I need a 64 bit accumulator;
     unsigned long long total = 0;
     BOOL first = YES;
-    char *ptr = (char *)bufferValue.simplePtr;
+    unsigned char *ptr = (unsigned char *)bufferValue.simplePtr;
     while (*ptr)
     {
         if (! first)
-            total = total << 1;
+            total = total << 8;
         else
             first = NO;
-        if (*ptr == '1')
-            ++total;
+        total += *ptr;
         ++ptr;
     }
     return [NSNumber numberWithUnsignedLongLong:total];
