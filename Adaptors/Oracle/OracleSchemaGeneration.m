@@ -130,23 +130,25 @@ mailto:tom.martin@riemer.com
 
 - (NSArray *)dropPrimaryKeySupportStatementsForEntityGroup:(NSArray *)entityGroup
 {
-	NSArray             *statements;
+	NSMutableArray      *statements;
 	EOSQLExpression		*expression;
 	EOEntity			*entity;
 	NSMutableString		*sql;
 	
 	if ([entityGroup count] == 0)
 		return [NSArray array];
-		
-	entity = [entityGroup objectAtIndex:0];	
-	expression = [[[self expressionClass] allocWithZone:[self zone]] init];
-	sql = [@"DROP SEQUENCE " mutableCopy];
-	[sql appendString:[entity externalName]];
-	[sql appendString:@"_SEQ"];
-	[expression setStatement:sql];
-	[sql release];
-	statements = [[NSArray allocWithZone:[self zone]] initWithObjects:&expression count:1];
-	[expression release];
+    statements = [[NSMutableArray alloc] initWithCapacity:[entityGroup count]];
+    for (entity in entityGroup)
+    {
+        expression = [[[self expressionClass] allocWithZone:[self zone]] init];
+        sql = [@"DROP SEQUENCE " mutableCopy];
+        [sql appendString:[entity externalName]];
+        [sql appendString:@"_SEQ"];
+        [expression setStatement:sql];
+        [sql release];
+        [statements addObject:expression];
+        [expression release];
+    }
 	
 	return [statements autorelease];
 }
@@ -162,16 +164,18 @@ mailto:tom.martin@riemer.com
 	if ([entityGroup count] == 0)
 		return [NSArray array];
 		
-	entity = [entityGroup objectAtIndex:0];	
-	sql = [@"create SEQUENCE " mutableCopy];
-	[sql appendString:[entity externalName]];
-	[sql appendString:@"_SEQ increment by 1 start with 1 order"];
-	expression = [[[self expressionClass] allocWithZone:[self zone]] init];
-	[expression setStatement:sql];
-	[sql release];
-	statements = [[NSArray allocWithZone:[self zone]] initWithObjects:&expression count:1];
-	[expression release];
-	
+    statements = [[NSMutableArray alloc] initWithCapacity:[entityGroup count]];
+    for (entity in entityGroup)
+    {
+        sql = [@"create SEQUENCE " mutableCopy];
+        [sql appendString:[entity externalName]];
+        [sql appendString:@"_SEQ increment by 1 start with 1 order"];
+        expression = [[[self expressionClass] allocWithZone:[self zone]] init];
+        [expression setStatement:sql];
+        [sql release];
+        [statements addObject:expression];
+        [expression release];
+    }
 	return [statements autorelease];
 }
 
