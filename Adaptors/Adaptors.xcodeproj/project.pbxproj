@@ -100,6 +100,7 @@
 		1EDEA34315D026990045292C /* license in Resources */ = {isa = PBXBuildFile; fileRef = 1EDEA33515D026830045292C /* license */; };
 		1EDEA34415D0269A0045292C /* license in Resources */ = {isa = PBXBuildFile; fileRef = 1EDEA33515D026830045292C /* license */; };
 		1EDEA34815D029AE0045292C /* OracleConnectionPane.h in Resources */ = {isa = PBXBuildFile; fileRef = 1E91D56113EB0BAC00C0B4F1 /* OracleConnectionPane.h */; };
+		1EEB27D71EB282DE00C21CD5 /* MySQLSchemaGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB27D61EB282DE00C21CD5 /* MySQLSchemaGeneration.m */; };
 		1EEDA4E71575334E00F67085 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C3E14572B67008E8514 /* EOAccess.framework */; };
 		1EEDA4E81575335400F67085 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
 		1EEDA4E9157533B200F67085 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
@@ -265,6 +266,8 @@
 		1EDEA32B15D023DE0045292C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/OracleConnectionPane.xib; sourceTree = "<group>"; };
 		1EDEA33415D026830045292C /* en */ = {isa = PBXFileReference; lastKnownFileType = text; name = en; path = en.lproj/copyright; sourceTree = "<group>"; };
 		1EDEA33615D026830045292C /* en */ = {isa = PBXFileReference; lastKnownFileType = text; name = en; path = en.lproj/license; sourceTree = "<group>"; };
+		1EEB27D51EB282DE00C21CD5 /* MySQLSchemaGeneration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySQLSchemaGeneration.h; sourceTree = "<group>"; };
+		1EEB27D61EB282DE00C21CD5 /* MySQLSchemaGeneration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySQLSchemaGeneration.m; sourceTree = "<group>"; };
 		1EF391F912A9307300FDC676 /* OracleDataTypes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = OracleDataTypes.plist; sourceTree = "<group>"; };
 		1EF3923612A9567100FDC676 /* OracleSQLExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleSQLExpression.h; sourceTree = "<group>"; };
 		1EF3923712A9567100FDC676 /* OracleSQLExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleSQLExpression.m; sourceTree = "<group>"; };
@@ -479,6 +482,8 @@
 				1ED020D01BA478BD009B923E /* Supporting Files */,
 				1E00D9EA1BA4828900817D90 /* MySQLAdaptor.h */,
 				1E00D9EB1BA4828900817D90 /* MySQLAdaptor.m */,
+				1EEB27D51EB282DE00C21CD5 /* MySQLSchemaGeneration.h */,
+				1EEB27D61EB282DE00C21CD5 /* MySQLSchemaGeneration.m */,
 				1E968CAD1CCFEE1C00DDD26C /* MySQLBindInfo.h */,
 				1E968CAE1CCFEE1C00DDD26C /* MySQLBindInfo.m */,
 				1E00D9ED1BA4D9C300817D90 /* MySQLChannel.h */,
@@ -842,7 +847,7 @@
 		FA63DA930742707200AB5036 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0830;
 				TargetAttributes = {
 					1ED020CD1BA478BD009B923E = {
 						CreatedOnToolsVersion = 6.4;
@@ -1024,6 +1029,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1EEB27D71EB282DE00C21CD5 /* MySQLSchemaGeneration.m in Sources */,
 				1E5356731BA8764900371E45 /* MySQLContext.m in Sources */,
 				1E968CAF1CCFEE1C00DDD26C /* MySQLBindInfo.m in Sources */,
 				1E00D9EF1BA4D9C300817D90 /* MySQLChannel.m in Sources */,
@@ -1191,7 +1197,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -1209,6 +1214,7 @@
 				INSTALL_PATH = "/Library/Database Adaptors";
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				OTHER_LDFLAGS = "-v";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.adaptors.Oracle;
 				PRODUCT_NAME = Oracle;
 				SDKROOT = macosx;
 				WARNING_CFLAGS = (
@@ -1242,6 +1248,7 @@
 				INSTALL_PATH = "/Library/Database Adaptors";
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				OTHER_LDFLAGS = "-v";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.adaptors.Oracle;
 				PRODUCT_NAME = Oracle;
 				SDKROOT = macosx;
 				WARNING_CFLAGS = (
@@ -1272,6 +1279,7 @@
 				INSTALL_PATH = "/Library/Database Adaptors";
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				OTHER_LDFLAGS = "-v";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.adaptors.Oracle;
 				PRODUCT_NAME = Oracle;
 				SDKROOT = macosx;
 				WARNING_CFLAGS = (
@@ -1336,6 +1344,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-v";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.com.ajr.adaptors.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
@@ -1389,6 +1398,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-v";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.com.ajr.adaptors.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
@@ -1442,6 +1452,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-v";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.com.ajr.adaptors.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
@@ -1493,6 +1504,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.arj.adaptors..$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1537,6 +1549,7 @@
 				INFOPLIST_FILE = MySQLInterface/Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.arj.adaptors..$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1581,6 +1594,7 @@
 				INFOPLIST_FILE = MySQLInterface/Info.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.arj.adaptors..$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1592,7 +1606,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = NO;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1624,6 +1637,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-v";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.arj.adaptors.${PRODUCT_NAME:rfc1034identifier}.interface";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1635,7 +1649,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = NO;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1660,6 +1673,7 @@
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = "-v";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.arj.adaptors.${PRODUCT_NAME:rfc1034identifier}.interface";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1671,7 +1685,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = NO;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1696,6 +1709,7 @@
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = "-v";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.arj.adaptors.${PRODUCT_NAME:rfc1034identifier}.interface";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1706,7 +1720,6 @@
 		70B72DE40956026E005162B9 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				EXECUTABLE_EXTENSION = "";
@@ -1730,6 +1743,7 @@
 					AppKit,
 				);
 				OTHER_REZFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.adaptors.OpenBase;
 				PRODUCT_NAME = OpenBase;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -1744,7 +1758,6 @@
 		70B72DE50956026E005162B9 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
@@ -1769,6 +1782,7 @@
 					AppKit,
 				);
 				OTHER_REZFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.adaptors.OpenBase;
 				PRODUCT_NAME = OpenBase;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -1783,7 +1797,6 @@
 		70B72DE60956026E005162B9 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				EXECUTABLE_EXTENSION = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1806,6 +1819,7 @@
 					AppKit,
 				);
 				OTHER_REZFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.adaptors.OpenBase;
 				PRODUCT_NAME = OpenBase;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -1837,6 +1851,7 @@
 					"-framework",
 					AppKit,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.adaptors.PostgreSQL.interface;
 				PRODUCT_NAME = PostgreSQLInterface;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -1869,6 +1884,7 @@
 					"-framework",
 					AppKit,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.adaptors.PostgreSQL.interface;
 				PRODUCT_NAME = PostgreSQLInterface;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -1899,6 +1915,7 @@
 					"-framework",
 					AppKit,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.adaptors.PostgreSQL.interface;
 				PRODUCT_NAME = PostgreSQLInterface;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -1913,7 +1930,6 @@
 		70B72DEC0956026E005162B9 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
@@ -1937,6 +1953,7 @@
 					AppKit,
 				);
 				OTHER_REZFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.adaptors.PostgreSQL;
 				PRODUCT_NAME = PostgreSQL;
 				SECTORDER_FLAGS = "";
 				VALID_ARCHS = "i386 x86_64";
@@ -1977,6 +1994,7 @@
 					AppKit,
 				);
 				OTHER_REZFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.adaptors.PostgreSQL;
 				PRODUCT_NAME = PostgreSQL;
 				SECTORDER_FLAGS = "";
 				VALID_ARCHS = "i386 x86_64";
@@ -2014,6 +2032,7 @@
 					AppKit,
 				);
 				OTHER_REZFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.adaptors.PostgreSQL;
 				PRODUCT_NAME = PostgreSQL;
 				SECTORDER_FLAGS = "";
 				VALID_ARCHS = "i386 x86_64";
@@ -2051,6 +2070,7 @@
 					"-framework",
 					AppKit,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.adaptors.SQLite.interface;
 				PRODUCT_NAME = SQLiteInterface;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -2088,6 +2108,7 @@
 					"-framework",
 					AppKit,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.adaptors.SQLite.interface;
 				PRODUCT_NAME = SQLiteInterface;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -2123,6 +2144,7 @@
 					"-framework",
 					AppKit,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.adaptors.SQLite.interface;
 				PRODUCT_NAME = SQLiteInterface;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -2160,6 +2182,7 @@
 					AppKit,
 				);
 				OTHER_REZFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.adaptors.SQLite;
 				PRODUCT_NAME = SQLite;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -2198,6 +2221,7 @@
 					AppKit,
 				);
 				OTHER_REZFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.adaptors.SQLite;
 				PRODUCT_NAME = SQLite;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -2234,6 +2258,7 @@
 					AppKit,
 				);
 				OTHER_REZFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.adaptors.SQLite;
 				PRODUCT_NAME = SQLite;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -2302,10 +2327,28 @@
 		70B72DFC0956026E005162B9 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CURRENT_PROJECT_VERSION = 0.85;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
 			name = Development;
@@ -2313,9 +2356,25 @@
 		70B72DFD0956026E005162B9 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CURRENT_PROJECT_VERSION = 0.85;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				SDKROOT = macosx;
 			};
@@ -2324,8 +2383,25 @@
 		70B72DFE0956026E005162B9 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CURRENT_PROJECT_VERSION = 0.85;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				SDKROOT = macosx;
 			};
