@@ -157,6 +157,9 @@ extern NSString *EOBindVariableColumnKey;
 - (NSString *)sqlStringForAttribute:(EOAttribute *)attribute;
 - (NSString *)sqlStringForAttributeNamed:(NSString *)name;
 
+//========== Builing SQL for table names  NON API
+- (NSString *)sqlStringForTableNameForEntity:(EOEntity *)anEntity;
+
 //========== Building the Join
 - (void)joinExpression;
 

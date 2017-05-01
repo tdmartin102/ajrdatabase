@@ -385,7 +385,7 @@ static NSCharacterSet	*literalSet;
 	[self joinExpression];
 	
 	// build the table Clause...  gee its only the entity
-	tableClause = [[rootEntity externalName] mutableCopyWithZone:[self zone]];
+    tableClause = [[self sqlStringForTableNameForEntity:rootEntity] mutableCopyWithZone:[self zone]];
 	if (usesAliases)
 	{
 		aString = [aliases objectForKey:[rootEntity name]];
@@ -578,7 +578,7 @@ static NSCharacterSet	*literalSet;
 	}
 
 	// build the table Clause...  gee its only the entity
-	tableClause = [[rootEntity externalName] mutableCopyWithZone:[self zone]];
+    tableClause = [[self sqlStringForTableNameForEntity:rootEntity] mutableCopyWithZone:[self zone]];
 	if (usesAliases)
 	{
 		aString = [aliases objectForKey:[rootEntity name]];
@@ -777,7 +777,7 @@ static NSCharacterSet	*literalSet;
 	}
 
 	// build the table Clause...  gee its only the entity
-	tableClause = [[rootEntity externalName] mutableCopyWithZone:[self zone]];
+    tableClause = [[self sqlStringForTableNameForEntity:rootEntity] mutableCopyWithZone:[self zone]];
 	if (usesAliases)
 	{
 		aString = [aliases objectForKey:[rootEntity name]];
@@ -788,7 +788,6 @@ static NSCharacterSet	*literalSet;
 		}
 	}
 
-	
 	// put it together
 	statement = [[self assembleInsertStatementWithRow:row 
 		tableList:tableClause 
@@ -912,7 +911,7 @@ static NSCharacterSet	*literalSet;
 	// no joins, sorry.
 	
 	// build the table Clause
-	tableClause = [[rootEntity externalName] mutableCopyWithZone:[self zone]];
+    tableClause = [[self sqlStringForTableNameForEntity:rootEntity] mutableCopyWithZone:[self zone]];
 	if (usesAliases)
 	{
 		aString = [aliases objectForKey:[rootEntity name]];
@@ -1061,14 +1060,14 @@ static NSCharacterSet	*literalSet;
 				relationshipEntity = anEntity;
 			if ([tableClause length])
 				[tableClause appendString:@", "];
-			[tableClause appendString:[relationshipEntity externalName]];
+            [tableClause appendString:[self sqlStringForTableNameForEntity:relationshipEntity]];
 			if (usesAliases)
 				[tableClause appendString:tableAlias];
 		}
 	}
 	else
 	{
-		[tableClause appendString:[anEntity externalName]];
+        [tableClause appendString:[self sqlStringForTableNameForEntity:anEntity]];
 		if (usesAliases)
 			[tableClause appendString:@" t0"];
 	}
@@ -1429,7 +1428,7 @@ static NSCharacterSet	*literalSet;
 	if (usesAliases)
 		t = [aliases objectForKey:[[attrib entity] name]];
 	if (! t)
-		t = [[attrib entity] externalName];
+        t = [self sqlStringForTableNameForEntity:[attrib entity]];
 	return [NSString stringWithFormat:@"%@.%@", t, columnSQL];
 }
 
@@ -1456,7 +1455,7 @@ static NSCharacterSet	*literalSet;
 		t = nil;
 		
 	if (! t && qualified)
-		t = [[attribute entity] externalName];
+        t = [self sqlStringForTableNameForEntity:[attribute entity]];
 	
 	if (! t)
 		return [attribute columnName];
@@ -1507,6 +1506,11 @@ static NSCharacterSet	*literalSet;
 - (NSString *)sqlStringForAttributeNamed:(NSString *)name
 {
 	return [self sqlStringForAttributeNamed:(NSString *)name attribute:NULL];
+}
+
+- (NSString *)sqlStringForTableNameForEntity:(EOEntity *)anEntity
+{
+    return [anEntity externalName];
 }
 
  - (void)addSelectListAttribute:(EOAttribute *)attribute
@@ -1602,7 +1606,7 @@ static NSInteger joinAliasSort(id a, id b, void *context)
 		}
 		
 		// add the destination entity
-		[joinString appendString:[[relationship destinationEntity] externalName]];
+        [joinString appendString:[self sqlStringForTableNameForEntity:[relationship destinationEntity]]];
 		if (usesAliases)
 		{
 			[joinString appendString:@" "];
