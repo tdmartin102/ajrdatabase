@@ -242,7 +242,7 @@
     bind->is_null = &is_null;
 }
 
-//---(Private)-- Convert to a DATE buffer fron a NSCalendarDate or NSDate if this is 10.6 or better
+//---(Private)-- Convert to a DATE buffer from a NSDate
 - (void)setDateValueForDateBuffer
 {
     if (! value)
@@ -267,17 +267,27 @@
     // write time in server time zone
     [currentCalendar setTimeZone:[attrib serverTimeZone]];
     NSUInteger	flags;
-    flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit |
-    NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSCalendarUnitNanosecond;
-    dateComponents = [currentCalendar components:flags fromDate:aDate];
+    if (dataType == MYSQL_TYPE_TIME ||
+        dataType == MYSQL_TYPE_DATETIME ||
+        dataType == MYSQL_TYPE_TIMESTAMP)
+    {
+        flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit |
+        NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSCalendarUnitNanosecond;
+        dateComponents = [currentCalendar components:flags fromDate:aDate];
+        bufferValue.dateTime.hour = (unsigned int)[dateComponents hour];
+        bufferValue.dateTime.minute = (unsigned int)[dateComponents minute];
+        bufferValue.dateTime.second = (unsigned int)[dateComponents second];
+        // second_part is in miliseconds
+        bufferValue.dateTime.second_part = [dateComponents nanosecond] * 1000;
+    }
+    else
+    {
+        flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit;
+        dateComponents = [currentCalendar components:flags fromDate:aDate];
+    }
     bufferValue.dateTime.year = (unsigned int)[dateComponents year];
     bufferValue.dateTime.month = (unsigned int)[dateComponents month];
     bufferValue.dateTime.day = (unsigned int)[dateComponents day];
-    bufferValue.dateTime.hour = (unsigned int)[dateComponents hour];
-    bufferValue.dateTime.minute = (unsigned int)[dateComponents minute];
-    bufferValue.dateTime.second = (unsigned int)[dateComponents second];
-    // second_part is in miliseconds
-    bufferValue.dateTime.second_part = [dateComponents nanosecond] * 1000;
 }
 
 //---(Private)-----

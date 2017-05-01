@@ -218,10 +218,15 @@ mailto:tom.martin@riemer.com
     [dateComponents setYear:bufferValue.dateTime.year];
     [dateComponents setMonth:bufferValue.dateTime.month];
     [dateComponents setDay:bufferValue.dateTime.day];
-    [dateComponents setHour:bufferValue.dateTime.hour];
-    [dateComponents setMinute:bufferValue.dateTime.minute];
-    [dateComponents setSecond:bufferValue.dateTime.second];
-    [dateComponents setNanosecond:bufferValue.dateTime.second_part/ 1000];
+    if (dataType == MYSQL_TYPE_TIME ||
+        dataType == MYSQL_TYPE_DATETIME ||
+        dataType == MYSQL_TYPE_TIMESTAMP)
+    {
+        [dateComponents setHour:bufferValue.dateTime.hour];
+        [dateComponents setMinute:bufferValue.dateTime.minute];
+        [dateComponents setSecond:bufferValue.dateTime.second];
+        [dateComponents setNanosecond:bufferValue.dateTime.second_part/ 1000];
+    }
     currentCalendar = [NSCalendar currentCalendar];
     [currentCalendar setTimeZone:[attrib serverTimeZone]];
     // NSDate is not time zone dependent so we do not need to adjust time zones
