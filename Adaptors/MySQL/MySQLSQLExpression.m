@@ -30,6 +30,12 @@ mailto:tom.martin@riemer.com
 
 #import "MySQLSQLExpression.h"
 
+
+@interface EOSQLExpression (local)
+- (NSString *)_sqlStringForDerivedAttribute:(EOAttribute *)attribute;
+@end
+
+
 @implementation MySQLSQLExpression
 
 - (void)prepareStoredProcedure:(EOStoredProcedure *)storedProcedure withValues:(NSDictionary *)values
@@ -140,6 +146,111 @@ mailto:tom.martin@riemer.com
     
     [self appendItem:string toListString:orderByString];
     [string release];
+}
+
+- (NSString *)sqlStringForAttributePath:(NSArray *)path
+{
+    EORelationship		*r;
+    id					anObject;
+    EOAttribute			*attrib;
+    unsigned short		lastRelationship, nextTableNumber;
+    NSString			*columnSQL;
+    NSMutableString		*relationshipPath;
+    NSString			*alias;
+    NSString			*t;
+    
+    relationshipPath = [[NSMutableString allocWithZone:[self zone]] initWithCapacity:[path count] * 20];
+    nextTableNumber = [aliasesByRelationshipPath count];
+    lastRelationship = [path count];
+    
+    // build relationship paths
+    // Lets say the path is   office, department, location, city then I have three tables and
+    // I need three paths.
+    // office = t1
+    // office.department = t2
+    // office.department.location = t3
+    //
+    // flatened relationships should already be expanded.
+    attrib = nil;
+    for (anObject in path)
+    {
+        if ([anObject isKindOfClass:[EORelationship class]])
+        {
+            r = (EORelationship *)anObject;
+            if ([relationshipPath length] > 0)
+                [relationshipPath appendString:@"."];
+            [relationshipPath appendString:[r name]];
+            // first check to see if it is already there
+            if (! [aliasesByRelationshipPath objectForKey:relationshipPath])
+            {
+                alias = [NSString stringWithFormat:@"t%d", nextTableNumber++];
+                [aliasesByRelationshipPath setObject:alias
+                                              forKey:[[relationshipPath copy] autorelease]];
+                // and set a mapping from entity name to the alias as well
+                [aliases setObject:alias forKey:[[r destinationEntity] name]];
+            }
+        }
+        else
+            attrib = (EOAttribute *)anObject;
+    }
+    [relationshipPath release];
+    if (! attrib)
+        return nil;
+    
+    // get the columnName.  WE WILL NOT deal with a flattened path to a flattened path.
+    // If someone tries to do that it will fail, and guess what, there is a work around
+    // as they can re-define the path to go to the final attrib.
+    // that said it could be a path to a derived attrib and we can handle that
+    if ([attrib isDerived])
+        columnSQL =  [self _sqlStringForDerivedAttribute:attrib];
+    else
+        columnSQL = [NSString stringWithFormat:@"`%@`", [attrib columnName]];
+    
+    // if we are not using aliases this WILL fail, as there will be no relationship path to
+    // build the joins.  But just in case SOMEHOW I think of a way to make this work, I'll do
+    // a hail Mary here 
+    t = nil;	
+    if (usesAliases)
+        t = [aliases objectForKey:[[attrib entity] name]];
+    if (! t)
+        t = [self sqlStringForTableNameForEntity:[attrib entity]];
+    return [NSString stringWithFormat:@"%@.%@", t, columnSQL];
+}
+
+- (NSString *)sqlStringForAttribute:(EOAttribute *)attribute fullyQualified:(BOOL)qualified
+{
+    NSString	*t;
+    // deal with normal and derived attributes,
+    // Not flattened attributes or read and write formats
+    
+    // The caller did not think this was a path, but they could be wrong if this is a
+    // flattened attribute.  Lets re-direct to the right place if that is the case.
+    // in any case this is only called if the entity is the root entity.
+    if ([attribute isFlattened])
+        return [self sqlStringForAttributeNamed:[attribute definition]];
+    
+    // deal with derived attributes
+    if ([attribute isDerived] && [[attribute definition] length])
+        return [self _sqlStringForDerivedAttribute:attribute];
+    
+    // this is a normal attribute
+    if (usesAliases)
+        t = [aliases objectForKey:[[attribute entity] name]];
+    else
+        t = nil;
+    
+    if (! t && qualified)
+        t = [self sqlStringForTableNameForEntity:[attribute entity]];
+    
+    if (! t)
+        return [NSString stringWithFormat:@"`%@`", [attribute columnName]];
+    
+    return [NSString stringWithFormat:@"%@.`%@`",t, [attribute columnName]];
+}
+
+- (NSString *)sqlStringForTableNameForEntity:(EOEntity *)anEntity
+{
+    return [NSString stringWithFormat:@"`%@`", [anEntity externalName]];
 }
 
 @end
