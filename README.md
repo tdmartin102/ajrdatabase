@@ -26,7 +26,8 @@ Status
   Postgress, OpenBase and SQLLite.  These need to be tested
   to assure they still work.
 * An Oracle adaptor was added and it is fully tested and working.
-* A MySQL adaptor was added, but has not yet been fully tested.
+* A MySQL adaptor was added, and has passed tests but has not 
+  been tested in production.
 * Attribute binding is now working. 
 * Changed joins to use newer Join syntax of 
   "(Join semantic) table on atrrib1 = attrib2".  This enables better 
@@ -123,4 +124,4 @@ anyone would want to throw my way!  It needs a lot of work; clean-up,
 optimization, etc. etc.
 
 
--tm Nov 2016
+-tm May 2017
