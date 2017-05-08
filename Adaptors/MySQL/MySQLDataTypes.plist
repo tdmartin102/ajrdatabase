@@ -117,7 +117,7 @@
 		valueClassName = NSData;
 	};
 	TEXT = {
-		mysqlDataType = 252;
+		mysqlDataType = 254;
 		valueClassName = NSString;
 	};
 	SET = {
