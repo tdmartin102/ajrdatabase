@@ -19,7 +19,7 @@
 //            Private Methods
 //=========================================================================================
 
-//---(Private)--- Return the Oracle Adaptor -------------------------
+//---(Private)--- Return the MySQL Adaptor -------------------------
 - (MySQLAdaptor *)mysqlAdaptor
 {
     return (MySQLAdaptor *)[adaptorContext adaptor];

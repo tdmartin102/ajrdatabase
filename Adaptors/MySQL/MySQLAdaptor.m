@@ -296,7 +296,7 @@ static NSMutableDictionary 	*dataTypes = nil;
         result = [self valueForClassNamed:aClassName forNSData:(NSData *)value];
     
     if (! result)
-        [NSException raise:EODatabaseException format:@"OracleAdaptor: Unable to convert object type to or from primitive adaptor object.  Target class is %@, source object is %@. Check for mismatch between database data type and object class type in model.", aClassName, NSStringFromClass([value class])];
+        [NSException raise:EODatabaseException format:@"MySQL Adaptor: Unable to convert object type to or from primitive adaptor object.  Target class is %@, source object is %@. Check for mismatch between database data type and object class type in model.", aClassName, NSStringFromClass([value class])];
     return result;
 }
 
