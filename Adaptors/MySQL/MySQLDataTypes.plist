@@ -118,7 +118,7 @@
 	};
 	TEXT = {
 		mysqlDataType = 252;
-		valueClassName = NSData;
+		valueClassName = NSString;
 	};
 	SET = {
 		mysqlDataType = 248;
@@ -126,6 +126,6 @@
 	};
 	ENUM = {
 		mysqlDataType = 247;
-		valueClassName = NSData;
+		valueClassName = NSString;
 	};
 }
