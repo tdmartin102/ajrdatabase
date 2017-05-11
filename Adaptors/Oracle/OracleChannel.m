@@ -130,13 +130,11 @@ mailto:tom.martin@riemer.com
 - (int)indexOfAttribute:(EOAttribute *)attrib
 {	
 	EOAttribute	*anAttrib;
-	id			enumArray;
 	int			result, index;
 	
 	index = 0;
 	result = -1;
-	enumArray = [evaluateAttributes objectEnumerator];
-	while ((anAttrib = [enumArray nextObject]) != nil)
+    for (anAttrib in evaluateAttributes)
 	{
 		if ([[anAttrib columnName] caseInsensitiveCompare:[attrib columnName]] == NSOrderedSame)
 		{
@@ -182,13 +180,12 @@ mailto:tom.martin@riemer.com
 - (NSString *)bindingsDescription:(NSArray *)b
 { 
 	NSDictionary		*binding;
-	id					enumArray = [b objectEnumerator]; 
 	NSMutableString		*result;
 	id					v;
 	NSString			*str;
 	
 	result = [@"{" mutableCopy];
-	while ((binding = [enumArray nextObject]) != nil)
+    for (binding in b)
 	{
 		[result appendString:(NSString *)[binding objectForKey:EOBindVariableNameKey]];
 		[result appendString:@" = "];
@@ -750,7 +747,6 @@ mailto:tom.martin@riemer.com
 - (NSMutableDictionary *)fetchRowWithZone:(NSZone *)aZone
 {
 	NSMutableDictionary		*row;
-	id						enumArray;
 	EOAttribute				*attrib;
 	OracleDefineInfo		*defineInfo;
 	NSAutoreleasePool		*pool;
@@ -796,9 +792,8 @@ mailto:tom.martin@riemer.com
 
 		// we need to create a define for every attribute in fetchAttributes
 		defineCache = [[NSMutableArray allocWithZone:aZone] initWithCapacity:[fetchAttributes count]];
-		enumArray = [[fetchAttributes objectEnumerator] retain];
 		attribIndex = 1;
-		while ((attrib = [enumArray nextObject]) != nil)
+        for (attrib in fetchAttributes)
 		{
 			pool = [[NSAutoreleasePool allocWithZone:aZone] init];
 			defineInfo = [[OracleDefineInfo allocWithZone:aZone] initWithAttribute:attrib];
@@ -814,7 +809,6 @@ mailto:tom.martin@riemer.com
 			[defineInfo release];
 			[pool release];
 		}
-		[enumArray release];	
 	}
 		
     // 3rd parm is number of rows to fetch, 5th is record offest which is ignored with OCI_FETCH_NEXT
@@ -846,15 +840,13 @@ mailto:tom.martin@riemer.com
 	{	
 		++rowsAffected;
 		row = [[NSMutableDictionary allocWithZone:aZone] initWithCapacity:[fetchAttributes count]];
-		enumArray = [[defineCache objectEnumerator] retain];
-		while ((defineInfo = [enumArray nextObject]) != nil)
+        for (defineInfo in defineCache)
 		{
 			pool = [[NSAutoreleasePool allocWithZone:aZone] init];
 			[row setValue:[defineInfo objectValue] 
 					forKey:[[defineInfo attribute] name]];
 			[pool release];
 		}
-		[enumArray release];
 	}
 	else
 		row = nil;
@@ -911,6 +903,7 @@ mailto:tom.martin@riemer.com
 	   [self evaluateExpression: expression];
    NS_HANDLER
 	   [expression autorelease];
+       [self cancelFetch];
 	   [localException raise];
    NS_ENDHANDLER
    
@@ -934,6 +927,7 @@ mailto:tom.martin@riemer.com
 	   [self evaluateExpression: expression];
    NS_HANDLER
 	   [expression autorelease];
+       [self cancelFetch];
 	   [localException raise];
    NS_ENDHANDLER
    
@@ -958,6 +952,7 @@ mailto:tom.martin@riemer.com
 	   [self evaluateExpression: expression];
    NS_HANDLER
 	   [expression autorelease];
+       [self cancelFetch];
 	   [localException raise];
    NS_ENDHANDLER
    

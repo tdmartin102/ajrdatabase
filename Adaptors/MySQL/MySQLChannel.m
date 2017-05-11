@@ -210,13 +210,12 @@
 - (NSString *)bindingsDescription:(NSArray *)b
 {
     NSDictionary		*binding;
-    id					enumArray = [b objectEnumerator];
     NSMutableString		*result;
     id					v;
     NSString			*str;
     
     result = [@"{" mutableCopy];
-    while ((binding = [enumArray nextObject]) != nil)
+    for (binding in b)
     {
         [result appendString:(NSString *)[binding objectForKey:EOBindVariableNameKey]];
         [result appendString:@" = "];
@@ -898,7 +897,6 @@
     return [row autorelease];
 }
 
-
 - (void)cancelFetch
 {
     // clear attributes if any
@@ -961,6 +959,7 @@
 	   [self evaluateExpression: expression];
     NS_HANDLER
 	   [expression autorelease];
+       [self cancelFetch];
 	   [localException raise];
     NS_ENDHANDLER
     
@@ -984,6 +983,7 @@
 	   [self evaluateExpression: expression];
     NS_HANDLER
 	   [expression autorelease];
+       [self cancelFetch];
 	   [localException raise];
     NS_ENDHANDLER
     
@@ -1008,6 +1008,7 @@
 	   [self evaluateExpression: expression];
     NS_HANDLER
 	   [expression autorelease];
+       [self cancelFetch];
 	   [localException raise];
     NS_ENDHANDLER
     
