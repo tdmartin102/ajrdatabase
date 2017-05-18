@@ -196,7 +196,7 @@ static id   _defaultDelegate = nil;
 - (void)rollbackTransaction
 {
 	if (! openTransaction) {
-		[NSException raise:EODatabaseException format:@"Cannot commit a transaction with no transaction in progress."];
+		[NSException raise:EODatabaseException format:@"Cannot rollback a transaction with no transaction in progress."];
 	}
 }
 
