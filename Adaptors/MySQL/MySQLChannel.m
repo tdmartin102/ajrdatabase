@@ -261,7 +261,6 @@
         [mysqlBindInfo release];
         ++index;
     }
-    mysql_stmt_bind_param(stmt, bindArray);
 }
 
 //=========================================================================================
@@ -374,14 +373,15 @@
     NS_ENDHANDLER
     if (okay == NO)
     {
+        NSString *errStr = [NSString stringWithUTF8String:mysql_error(mysql)];
         if ([self isDebugEnabled])
         {
-            [EOLog logDebugWithFormat:@"%@ Failed to connect to MySQL database %@ With status: %s\n",
-             [self description], databaseName, mysql_error(mysql)];
+            [EOLog logDebugWithFormat:@"%@ Failed to connect to MySQL database %@ With status: %@\n",
+             [self description], databaseName, errStr];
         }
         [NSException raise:@"EOGeneralAdaptorException"
-                    format:@"%@ Failed to connect to MySQL database %@.\n",
-         [self description], databaseName];
+                    format:@"%@ Failed to connect to MySQL database %@. Error: %@\n",
+         [self description], databaseName, errStr];
     }
 
     connected = YES;
