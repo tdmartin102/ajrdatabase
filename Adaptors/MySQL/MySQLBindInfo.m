@@ -277,8 +277,8 @@
         bufferValue.dateTime.hour = (unsigned int)[dateComponents hour];
         bufferValue.dateTime.minute = (unsigned int)[dateComponents minute];
         bufferValue.dateTime.second = (unsigned int)[dateComponents second];
-        // second_part is in miliseconds
-        bufferValue.dateTime.second_part = [dateComponents nanosecond] * 1000;
+        // second_part is in microseconds
+        bufferValue.dateTime.second_part = [dateComponents nanosecond] / 1000;
     }
     else
     {

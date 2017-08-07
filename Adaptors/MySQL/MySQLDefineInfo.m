@@ -225,7 +225,8 @@ mailto:tom.martin@riemer.com
         [dateComponents setHour:bufferValue.dateTime.hour];
         [dateComponents setMinute:bufferValue.dateTime.minute];
         [dateComponents setSecond:bufferValue.dateTime.second];
-        [dateComponents setNanosecond:bufferValue.dateTime.second_part/ 1000];
+        // MYSQL_TIME second_part is in microseconds
+        [dateComponents setNanosecond:bufferValue.dateTime.second_part * 1000];
     }
     currentCalendar = [NSCalendar currentCalendar];
     [currentCalendar setTimeZone:[attrib serverTimeZone]];
