@@ -176,6 +176,7 @@ extern NSString *EOBindVariableColumnKey;
 
 - (NSString *)substringSearchOperator;
 - (NSString *)characterSearchOperator;
+- (NSString *)likeEscapeClause;
 
 - (NSString *)sqlStringForValue:(id)value withQualifierOperation:(EOQualifierOperation)operation inAttribute:(EOAttribute *)attribute;
 

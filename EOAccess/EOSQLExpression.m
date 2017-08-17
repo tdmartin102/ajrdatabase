@@ -1200,6 +1200,11 @@ static NSCharacterSet	*literalSet;
    return @"_";
 }
 
+- (NSString *)likeEscapeClause
+{
+    return @" ESCAPE '\\'";
+}
+
 + (NSString *)sqlPatternFromShellPattern:(NSString *)pattern
 {
 	NSMutableString   *result = [[pattern mutableCopy] autorelease];

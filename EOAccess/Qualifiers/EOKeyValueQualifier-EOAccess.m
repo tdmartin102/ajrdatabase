@@ -124,10 +124,9 @@ http://www.raftis.net/~alex/
 		[sql appendString:[expression sqlPrefixForQualifierOperation:operation value:value]];
 		[sql appendString:aString];
 		[sql appendString:[expression sqlSuffixForQualifierOperation:operation value:value]];
-	
-		// if this is a like operation we need to append the escape clause
-		if (isLike)
-			[sql appendString:@" ESCAPE '\\'"];
+        
+        if (isLike)
+            [sql appendString:[expression likeEscapeClause]];
 	}
 	else
 	{

@@ -27,9 +27,7 @@ Westlake, OH 44145
 mailto:tom.martin@riemer.com
 */
 
-
 #import "MySQLSQLExpression.h"
-
 
 @interface EOSQLExpression (local)
 - (NSString *)_sqlStringForDerivedAttribute:(EOAttribute *)attribute;
@@ -251,6 +249,11 @@ mailto:tom.martin@riemer.com
 - (NSString *)sqlStringForTableNameForEntity:(EOEntity *)anEntity
 {
     return [NSString stringWithFormat:@"`%@`", [anEntity externalName]];
+}
+
+- (NSString *)likeEscapeClause
+{
+    return @" ESCAPE '\\\\'";
 }
 
 @end
