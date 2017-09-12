@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>EOModelVersion</key>
+	<string>2.1</string>
+	<key>adaptorName</key>
+	<string>MySQL</string>
+	<key>connectionDictionary</key>
+	<dict>
+		<key>databaseName</key>
+		<string>ajrtest</string>
+		<key>hostName</key>
+		<string>localhost</string>
+		<key>password</key>
+		<string>rrs</string>
+		<key>port</key>
+		<string></string>
+		<key>userName</key>
+		<string>dp</string>
+	</dict>
+	<key>entities</key>
+	<array>
+		<dict>
+			<key>className</key>
+			<string>RRSCountry</string>
+			<key>name</key>
+			<string>COUNTRY</string>
+		</dict>
+		<dict>
+			<key>className</key>
+			<string>EOGenericRecord</string>
+			<key>name</key>
+			<string>REGION</string>
+		</dict>
+		<dict>
+			<key>className</key>
+			<string>RRSState</string>
+			<key>name</key>
+			<string>STATE</string>
+		</dict>
+	</array>
+	<key>storedProcedures</key>
+	<array/>
+</dict>
+</plist>
