@@ -123,15 +123,29 @@ mailto:tom.martin@riemer.com
 // since it is so easy to do here, I will go ahead and do case
 // sensitive ordering when specified.  For other compares I am not
 // so sure that I will go there.
+//
+// Further, this should ONLY be done for string types as
+// BINARY for numeric types and other types produces undesirable results
 - (void)addOrderByAttributeOrdering:(EOSortOrdering *)sortOrdering
 {
     SEL				selector = [sortOrdering selector];
     NSMutableString	*string = [[NSMutableString allocWithZone:[self zone]] init];
     NSString		*keySql;
+    EOAttribute     *attrib;
+    NSString        *name;
     
-    keySql = [self sqlStringForAttributeNamed:[sortOrdering key]];
+    name = [sortOrdering key];
     if ((selector == EOCompareAscending) || (selector == EOCompareDescending))
-        [string appendString:@"BINARY "];
+    {
+        // IF the attribute type is a string, then we need to add the
+        // prefix BINARY to insure that it will do a case sensitive compare
+        // the BINARY on any other data type produces undesirable results
+        attrib = [self attributeNamed:name];
+        if ([attrib adaptorValueType] == EOAdaptorCharactersType)
+            [string appendString:@"BINARY "];
+    }
+   
+    keySql = [self sqlStringForAttributeNamed:name];
     [string appendString:keySql];
     
     if ((selector == EOCompareAscending) ||
