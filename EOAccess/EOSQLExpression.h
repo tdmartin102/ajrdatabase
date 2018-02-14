@@ -157,6 +157,9 @@ extern NSString *EOBindVariableColumnKey;
 - (NSString *)sqlStringForAttribute:(EOAttribute *)attribute;
 - (NSString *)sqlStringForAttributeNamed:(NSString *)name;
 
+//==== Return the attribute given a name or path  (non api)
+- (EOAttribute *)attributeNamed:(NSString *)name;
+
 //========== Builing SQL for table names  NON API
 - (NSString *)sqlStringForTableNameForEntity:(EOEntity *)anEntity;
 

@@ -1508,6 +1508,34 @@ static NSCharacterSet	*literalSet;
 	return result;
 }
 
+- (EOAttribute *)attributeNamed:(NSString *)name
+{
+    EOAttribute        *attrib;
+    NSString           *aPath;
+    NSRange            aRange;
+    NSArray            *attribPath;
+    
+    attrib = nil;
+    aPath = nil;
+    // is this a path?
+    aRange = [name rangeOfString:@"."];
+    if (aRange.length > 0)
+        aPath = name;
+    else
+    {
+        attrib = [rootEntity attributeNamed:name];
+        if ([attrib isFlattened])
+            aPath = [attrib definition];
+    }
+    
+    if (aPath)
+    {
+        attribPath = [rootEntity _attributesForKeyPath:aPath];
+        attrib = [attribPath lastObject];
+    }
+    return attrib;
+}
+
 - (NSString *)sqlStringForAttributeNamed:(NSString *)name
 {
 	return [self sqlStringForAttributeNamed:(NSString *)name attribute:NULL];
