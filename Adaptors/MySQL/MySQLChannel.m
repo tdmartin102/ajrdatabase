@@ -1064,7 +1064,7 @@
     NSString            *seqName;
     NSString            *cols = @"SEQUENCE_INCREMENT, SEQUENCE_MIN_VALUE, SEQUENCE_MAX_VALUE, SEQUENCE_CUR_VALUE, SEQUENCE_CYCLE";
 
-    int					index;
+    int	                index;
     NSMutableString		*sql;
     NSNumber			*pk;
     NSDictionary		*row;
@@ -1205,6 +1205,7 @@
         // no row was found for this entity.  That's fine. Just create a new one.
         // this will create a row with the defaults set up.
         startValue = 0;
+        // since we are setting up a new record using defaults, then incValue would be ONE
         endValue = startValue + count;
         maxValue = NSUIntegerMax;
         minValue = 1;
@@ -1240,7 +1241,9 @@
             // if not then raise I guess
             if (cycleValue)
             {
-                endValue = remaining - increment;
+                // flip it now
+                startValue = minValue;
+                endValue = startValue + increment;
             }
             else
             {
@@ -1276,20 +1279,9 @@
     name = [[(EOAttribute *)[attribs objectAtIndex:0] name] retain];
     keys = [[NSMutableArray alloc] initWithCapacity:count];
     key = startValue;
-    increment = incValue * count;
-    remaining = maxValue - startValue;
     for (index = 0; index < count; ++index)
     {
-        if (remaining)
-        {
-            --remaining;
-            key += increment;
-        }
-        else
-        {
-            remaining = maxValue - 1;
-            key = minValue;
-        }
+        key += incValue;
         pk = [NSNumber numberWithUnsignedLongLong:key];
         [keys addObject:[NSDictionary dictionaryWithObject:pk forKey:name]];
     }
