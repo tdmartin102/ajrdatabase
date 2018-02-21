@@ -26,8 +26,6 @@ http://www.raftis.net/~alex/
 
 #import "EOLog.h"
 
-#import "EOFormat.h"
-
 @implementation EOLog
 
 static NSMutableArray	*loggers = nil;
@@ -96,47 +94,62 @@ static EOLog				*SELF = nil;
 
 + (void)logWithFormat:(NSString *)format, ...
 {
-   va_list		ap;
+    va_list		ap;
+    NSString    *str;
 
-   va_start(ap, format);
-   [[self sharedInstance] log:EOLogInfo string:EOFormatv(format, ap)];
-   va_end(ap);
+    va_start(ap, format);
+    str = [[NSString alloc] initWithFormat:format arguments:ap];
+    [[self sharedInstance] log:EOLogInfo string:str];
+    [str release];
+    va_end(ap);
 }
 
 + (void)log:(EOLogLevel)level withFormat:(NSString *)format, ...
 {
-   va_list		ap;
+    va_list		ap;
+    NSString    *str;
 
-   va_start(ap, format);
-   [[self sharedInstance] log:level string:EOFormatv(format, ap)];
-   va_end(ap);
+    va_start(ap, format);
+    str = [[NSString alloc] initWithFormat:format arguments:ap];
+    [[self sharedInstance] log:level string:str];
+    [str release];
+    va_end(ap);
 }
 
 + (void)logWarningWithFormat:(NSString *)format, ...
 {
-   va_list		ap;
-	
-   va_start(ap, format);
-   [[self sharedInstance] log:EOLogWarning string:EOFormatv(format, ap)];
-   va_end(ap);
+    va_list		ap;
+    NSString    *str;
+
+    va_start(ap, format);
+    str = [[NSString alloc] initWithFormat:format arguments:ap];
+    [[self sharedInstance] log:EOLogWarning string:str];
+    [str release];
+    va_end(ap);
 }
 
 + (void)logErrorWithFormat:(NSString *)format, ...
 {
-   va_list		ap;
-	
-   va_start(ap, format);
-   [[self sharedInstance] log:EOLogError string:EOFormatv(format, ap)];
-   va_end(ap);
+    va_list		ap;
+    NSString    *str;
+
+    va_start(ap, format);
+    str = [[NSString alloc] initWithFormat:format arguments:ap];
+    [[self sharedInstance] log:EOLogError string:str];
+    [str release];
+    va_end(ap);
 }
 
 + (void)logDebugWithFormat:(NSString *)format, ...
 {
-   va_list		ap;
-	
-   va_start(ap, format);
-   [[self sharedInstance] log:EOLogDebug string:EOFormatv(format, ap)];
-   va_end(ap);
+    va_list		ap;
+    NSString    *str;
+
+    va_start(ap, format);
+    str = [[NSString alloc] initWithFormat:format arguments:ap];
+    [[self sharedInstance] log:EOLogDebug string:str];
+    [str release];
+    va_end(ap);
 }
 
 + (void)setDelegate:(id)aDelegate
@@ -156,19 +169,19 @@ static EOLog				*SELF = nil;
 
 - (void)log:(EOLogLevel)level string:(NSString *)string
 {
-   int			x;
+    int			x;
 	int numLoggers;
-   BOOL			found;
+    BOOL			found;
 
-   [lock lock];
+    [lock lock];
    
-   found = NO;
-   x = [string length];
-   while (x) {
-      if ([string characterAtIndex:x - 1] == '\n') {
-         x--;
-         found = YES;
-      } else {
+    found = NO;
+    x = [string length];
+    while (x) {
+        if ([string characterAtIndex:x - 1] == '\n') {
+            x--;
+            found = YES;
+        } else {
          break;
       }
    }
@@ -190,30 +203,42 @@ static EOLog				*SELF = nil;
 
 - (void)logWithFormat:(NSString *)format arguments:(va_list)argList
 {
-   [self log:EOLogInfo string:EOFormatv(format, argList)];
+    NSString    *str;
+    str = [[NSString alloc] initWithFormat:format arguments:argList];
+    [self log:EOLogInfo string:str];
+    [str release];
 }
 
 - (void)log:(EOLogLevel)level withFormat:(NSString *)format arguments:(va_list)argList
 {
-   [self log:level string:EOFormatv(format, argList)];
+    NSString    *str;
+    str = [[NSString alloc] initWithFormat:format arguments:argList];
+    [self log:level string:str];
+    [str release];
 }
 
 - (void)logWithFormat:(NSString *)format, ...
 {
-   va_list		ap;
-
-   va_start(ap, format);
-   [self log:EOLogInfo string:EOFormatv(format, ap)];
-   va_end(ap);
+    va_list		ap;
+    NSString    *str;
+    
+    va_start(ap, format);
+    str = [[NSString alloc] initWithFormat:format arguments:ap];
+    [self log:EOLogInfo string:str];
+    [str release];
+    va_end(ap);
 }
 
 - (void)log:(EOLogLevel)level withFormat:(NSString *)format, ...
 {
-   va_list		ap;
-
-   va_start(ap, format);
-   [self log:level string:EOFormatv(format, ap)];
-   va_end(ap);
+    va_list		ap;
+    NSString    *str;
+    
+    va_start(ap, format);
+    str = [[NSString alloc] initWithFormat:format arguments:ap];
+    [self log:level string:str];
+    [str release];
+    va_end(ap);
 }
 
 - (void)setDelegate:(id)aDelegate
