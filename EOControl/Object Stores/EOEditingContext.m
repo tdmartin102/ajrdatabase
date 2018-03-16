@@ -828,7 +828,7 @@ NSString *EOEditingContextDidSaveChangesNotification = @"EOEditingContextDidSave
                     NS_DURING
                     [object self];
                     NS_HANDLER
-                    NSLog(@"WARNING(%s), Deleted relationship member %@ no longer in context, failed to refetch.", __PRETTY_FUNCTION__, aGid);
+                    NSLog(@"WARNING(%s), Deleted relationship member %@ no longer in context, failed to refetch.", __PRETTY_FUNCTION__, aGid.entityName);
                     object = nil;
                     NS_ENDHANDLER
                 }
