@@ -24,63 +24,105 @@
 #----------------------------------------------------------------------------------------
 
 CONFIG=Default
-DEST=NONE
+DEST="/"
 SDIR='EOControl EOAccess EOInterface Adaptors'   
 ADAPTOR_TARGET=Oracle
 BUNDLE=eoadaptor
+MAKETOOL="xcodebuild"
    
 usage()
 {
   echo
-   echo "Usage:  buildFrameworks [-c <configname>] [-d <installdest>]"              
+   echo "Usage:  buildFrameworks [-c <configname>]"              
    echo "     This script will build EOControl, EOAccess and Adaptors frameworks"
    echo "     -c <configname>"
    echo "              The project config to use.  By default this is Default." 
    echo "              You can override this by specifying a different config name"
-   echo "     -d <installdest>"
-   echo "              The install location for the compiled framework.  If you specify"
-   echo "              something here the compiled frameworks will be copied to the" 
-   echo "              specified location.  This makes compiling for debug and then"
-   echo "              installing the frameworks so that they can easily be debuged"
-   echo "              without striping the debug code much easier."  
    echo ""
-   echo "Example: buildFrameworks -c Development -d /Library/Frameworks"
+   echo "Example: buildFrameworks -c Development"
    echo "         This will build all the frameworks for debug and then"
-   echo "         copy the result to /Library/Frameworks"
+   echo "         install the result to /Library/Frameworks"
    echo 
    exit 1
 }
 
+warning()
+{
+   echo "WARNING!:  This script will install frameworks DIRECLTY into /Library/Frameworks"
+   echo "           and into '/Library/Database Adaptors'.  If you don't want that to"
+   echo "           happen then quit NOW!"
+   echo ""
+   echo "           Frameworks to be installed are:"
+   echo "              EOControl"
+   echo "              EOAccess"
+   echo "              EOInterface"
+   echo "           Database Adaptors (Bundles) are written to:"
+   echo "              /Library/Database Adaptors"
+   echo ""
+   echo "Please Note:  In order to create the Oracle Adaptor the Oracle libraries must"
+   echo "              already be installed in /usr/local/lib"
+}
+
 echoPlan()
 {
+	warning
 	echo
 	echo
 	echo "This is the plan:"
 	echo "   Compile the project $F"
 	echo "      Config = $CONFIG"
 	echo "      Install location = $DEST"
+	echo "      Database Adaptor = (You will be promted to choose)"
 	echo 
 	echo
 }
 
+buildAdaptor()
+{
+	sudo $MAKETOOL -configuration $CONFIG -target $ADAPTOR_TARGET clean install DSTROOT=$DEST 
+	CSTAT=$?
+	if [ $CSTAT -eq 1 ]
+	then
+	    echo ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	    echo !!! The Adaptor failed to compile !!!
+	    echo ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		exit 1
+	fi
+}
+
+chooseAdaptor()
+{
+    FINISHED=0
+    while [ $FINISHED -lt 1 ]; do
+        echo ""
+        PS3="Choose a Database Adaptor to compile/install "
+    	options=(
+        "Oracle"
+        "MySQL"
+        "Done" 
+        )
+
+    	select option in "${options[@]}"; do
+        	case "$REPLY" in 
+            	1) 
+                   ADAPTOR_TARGET=Oracle 
+                   buildAdaptor 
+                   break ;;
+            	2) 
+                   ADAPTOR_TARGET=MySQL 
+                   buildAdaptor 
+                   break ;;
+            	3) 
+                    FINISHED=1
+                    break ;;
+        	esac
+    	done
+    done
+} 
+
 sanityCheck()
 {
-	#--- capture the OS version here
-	MajorVersion=`sw_vers | grep ProductVersion | awk '{ print $2 }' | sed 's/\.//'`
-	Tiger="104"
-	MajorVersion=`echo $MajorVersion | sed 's/\..*//'`
-
-	# Use Project Builder if older than Tiger, us xcode if tiger or above.
-	if [ $MajorVersion -ge $Tiger ] 
-	    then
-	        MAKETOOL="xcodebuild"
-	     else
-	        echo This will only work with XCode on Tiger and above
-			exit 1
-	fi
-
-	projExt="xcodeproj"
-
+	
 	if [ -r EOControl ]
 	then
 	  OK=1
@@ -109,8 +151,6 @@ options()
 { 
 	while getopts 'c:d:' opt; do
 		case $opt in
-			d) DEST=$OPTARG
-			   argTest $DEST;;
 			c) CONFIG=$OPTARG
 				argTest $OPTARG;;
 			[?])
@@ -124,15 +164,6 @@ options()
 		esac
 	done
 	
-	# catch errors  
-	if [ "$DEST" != "NONE" ]  
-	then
-	    if [ ! -d "$DEST" ]
-	   	then	
-	    	echo "specified install directory not found."
-	      	usage
-	   	fi  
-	fi	
 	# if we got this far we are okay!
 	echoPlan
 }
@@ -157,37 +188,11 @@ buildProject()
 
  	cd $s
 
-	 if [ "$s" = "Adaptors" ] 
-	 then
-		sudo $MAKETOOL -configuration $CONFIG -target $ADAPTOR_TARGET clean
-		$MAKETOOL -configuration $CONFIG -target $ADAPTOR_TARGET  
-		CSTAT=$?
-		if [ $CSTAT -eq 1 ]
-		then
-		    echo ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		    echo !!! The Adaptor failed to compile !!!
-		    echo ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-			exit 1
-		fi
-
-		if [ -d "build/${CONFIG}/${ADAPTOR_TARGET}.${BUNDLE}" ]; then
-			echo "Found Adaptor product"
-		else 	
-			echo "Can not find the compiled Adaptor, exiting"
-			exit 1
-		fi
-        
-		if [ "$DEST" != "NONE" ]
-		then          
-  	  	# remove currently installed Adaptor
-			sudo rm -fR "/Library/Database Adaptors/${ADAPTOR_TARGET}.${BUNDLE}"
-
-			# copy compiled framework to install location
-			sudo ditto build/${CONFIG}/${ADAPTOR_TARGET}.${BUNDLE} "/Library/Database Adaptors/${ADAPTOR_TARGET}.${BUNDLE}"         
-		fi
+	if [ "$s" = "Adaptors" ] 
+	then
+	 	chooseAdaptor
 	else   
-  	   	sudo $MAKETOOL -configuration $CONFIG clean
-		$MAKETOOL -configuration $CONFIG
+  	   	sudo $MAKETOOL -configuration $CONFIG clean install DSTROOT=$DEST 
 		CSTAT=$?
 		if [ $CSTAT -eq 1 ]
 		then
@@ -196,22 +201,6 @@ buildProject()
 	    	echo ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			exit 1
 		fi  			 
-		if [ -d "build/${CONFIG}/${s}.framework" ]; then
-			Framework=${s}.framework
-		else 	
-			echo "Can not find the compiled framework, exiting"
-			exit 1
-		fi
-        
- 		
-		if [ "$DEST" != "NONE" ]      
-		then
-  	  		# remove currently instlled framework
-			sudo rm -fR ${DEST}/${Framework}
-
-			# copy compiled framework to install location
-			sudo ditto build/${CONFIG}/${Framework} ${DEST}/${Framework}                   
-		fi
 
 		echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 		echo " The framework $Framework compiled"
