@@ -27,7 +27,6 @@ CONFIG=Default
 DEST="/"
 SDIR='EOControl EOAccess EOInterface Adaptors'   
 ADAPTOR_TARGET=Oracle
-BUNDLE=eoadaptor
 MAKETOOL="xcodebuild"
    
 usage()
@@ -99,6 +98,9 @@ chooseAdaptor()
     	options=(
         "Oracle"
         "MySQL"
+        "SQLite"
+        "PostgreSQL"
+        "OpenBase"
         "Done" 
         )
 
@@ -112,7 +114,19 @@ chooseAdaptor()
                    ADAPTOR_TARGET=MySQL 
                    buildAdaptor 
                    break ;;
-            	3) 
+                3) 
+				   ADAPTOR_TARGET=SQLite 
+                   buildAdaptor 
+                   break ;;
+                4)
+				   ADAPTOR_TARGET=PostgreSQL 
+                   buildAdaptor 
+                   break ;;
+                5)
+				   ADAPTOR_TARGET=OpenBase 
+                   buildAdaptor 
+                   break ;;
+            	6) 
                     FINISHED=1
                     break ;;
         	esac
