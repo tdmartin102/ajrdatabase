@@ -18,8 +18,8 @@ There are a few things that this assumes about the deployment environment.
 MySQL Preparations:
 
  Assuming the application would be connecting over socket to the localhost:
- Create a new database and give the name 'arjtest'
- create a mysql user named dp with password rrd
+ Create a new database and give the name 'ajrtest'
+ create a mysql user named dp with password rrs
  grant all privileges for this user to the ajrtest database
  Import the database sample into the MySQL database you just created
 

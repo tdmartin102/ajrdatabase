@@ -183,17 +183,21 @@ static NSMutableDictionary *_eoRemoveMethodCache = nil;
 	} else {
 		// mont_rothstein @ yahoo.com 2004-12-14
 		// Commented the direct access to mutable arrays out because it circumvents business logic.
-//		id		value = [self valueForKey:key];
-//		
-//		if ([value isKindOfClass:[NSMutableArray class]]) {
-//			[self willChange];
-//			[value removeObjectIdenticalTo:object];
-//		} else {
+        // tom.martin @ riemer.com - 2018-03-21
+        // Putting the code BACK in, because without it EOGenericObject will
+        // result in removing the entire array of objects
+        // for NORMAL EO objects a selector should exist, so this should not hit.
+		id		value = [self valueForKey:key];
+		
+		if ([value isKindOfClass:[NSMutableArray class]]) {
+			[self willChange];
+			[value removeObjectIdenticalTo:object];
+		} else {
 			// tom.martin @ riemer.com - 2011-09-16
 			// replace depreciated method.  
 			//[self takeValue:NULL forKey:key];
 			[self setValue:nil forKey:key];
-//		}
+		}
 	}
 	if (ownsDestination  && ([object editingContext] != nil)) {
 		[[self editingContext] deleteObject: object];
