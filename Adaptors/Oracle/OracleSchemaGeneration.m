@@ -156,8 +156,8 @@ mailto:tom.martin@riemer.com
 
 - (NSArray *)primaryKeySupportStatementsForEntityGroup:(NSArray *)entityGroup
 {
-	NSArray         *statements;
-	EOSQLExpression	*expression;
+	NSMutableArray      *statements;
+	EOSQLExpression	    *expression;
 	EOEntity			*entity;
 	NSMutableString		*sql;
 
