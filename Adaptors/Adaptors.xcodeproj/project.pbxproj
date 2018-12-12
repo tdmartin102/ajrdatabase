@@ -105,6 +105,8 @@
 		1EEDA4E81575335400F67085 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
 		1EEDA4E9157533B200F67085 /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
 		1EEDA4EA157533B700F67085 /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C3E14572B67008E8514 /* EOAccess.framework */; };
+		1EF21BDD21C1622D00B37894 /* OracleDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EF21BDC21C1622D00B37894 /* OracleDateFormatter.m */; };
+		1EF21BE021C198F400B37894 /* MySQLDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EF21BDF21C198F400B37894 /* MySQLDateFormatter.m */; };
 		1EF391FA12A9307300FDC676 /* OracleDataTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1EF391F912A9307300FDC676 /* OracleDataTypes.plist */; };
 		1EF3923812A9567100FDC676 /* OracleSQLExpression.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EF3923712A9567100FDC676 /* OracleSQLExpression.m */; };
 		707F2B91075E977900AEB39E /* PostgreSQLSchemaGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = FA63DCB40742730700AB5036 /* PostgreSQLSchemaGeneration.m */; };
@@ -268,6 +270,10 @@
 		1EDEA33615D026830045292C /* en */ = {isa = PBXFileReference; lastKnownFileType = text; name = en; path = en.lproj/license; sourceTree = "<group>"; };
 		1EEB27D51EB282DE00C21CD5 /* MySQLSchemaGeneration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySQLSchemaGeneration.h; sourceTree = "<group>"; };
 		1EEB27D61EB282DE00C21CD5 /* MySQLSchemaGeneration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySQLSchemaGeneration.m; sourceTree = "<group>"; };
+		1EF21BDB21C1622D00B37894 /* OracleDateFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OracleDateFormatter.h; sourceTree = "<group>"; };
+		1EF21BDC21C1622D00B37894 /* OracleDateFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OracleDateFormatter.m; sourceTree = "<group>"; };
+		1EF21BDE21C198F400B37894 /* MySQLDateFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MySQLDateFormatter.h; sourceTree = "<group>"; };
+		1EF21BDF21C198F400B37894 /* MySQLDateFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MySQLDateFormatter.m; sourceTree = "<group>"; };
 		1EF391F912A9307300FDC676 /* OracleDataTypes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = OracleDataTypes.plist; sourceTree = "<group>"; };
 		1EF3923612A9567100FDC676 /* OracleSQLExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleSQLExpression.h; sourceTree = "<group>"; };
 		1EF3923712A9567100FDC676 /* OracleSQLExpression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleSQLExpression.m; sourceTree = "<group>"; };
@@ -471,6 +477,8 @@
 				1E45D51F13FD8AAC0043B572 /* OracleSchemaGeneration.h */,
 				1E45D52013FD8AAC0043B572 /* OracleSchemaGeneration.m */,
 				1E34465012E4D06B007574F2 /* oracle */,
+				1EF21BDB21C1622D00B37894 /* OracleDateFormatter.h */,
+				1EF21BDC21C1622D00B37894 /* OracleDateFormatter.m */,
 			);
 			path = Oracle;
 			sourceTree = "<group>";
@@ -495,6 +503,8 @@
 				1E825C8E1CD37B6500EE1D15 /* MySQLSQLExpression.h */,
 				1E825C8F1CD37B6500EE1D15 /* MySQLSQLExpression.m */,
 				1E5356701BA86F0F00371E45 /* include */,
+				1EF21BDE21C198F400B37894 /* MySQLDateFormatter.h */,
+				1EF21BDF21C198F400B37894 /* MySQLDateFormatter.m */,
 			);
 			path = MySQL;
 			sourceTree = "<group>";
@@ -1015,6 +1025,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1EF21BDD21C1622D00B37894 /* OracleDateFormatter.m in Sources */,
 				1E9889131296F41B00F17A39 /* OracleAdaptor.m in Sources */,
 				1E9889141296F41B00F17A39 /* OracleChannel.m in Sources */,
 				1E9889151296F41B00F17A39 /* OracleContext.m in Sources */,
@@ -1036,6 +1047,7 @@
 				1E825C901CD37B6500EE1D15 /* MySQLSQLExpression.m in Sources */,
 				1E00D9EC1BA4828900817D90 /* MySQLAdaptor.m in Sources */,
 				1E19984D1CE0CDA90021969C /* MySQLDefineInfo.m in Sources */,
+				1EF21BE021C198F400B37894 /* MySQLDateFormatter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
