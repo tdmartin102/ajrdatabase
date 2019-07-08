@@ -296,7 +296,9 @@ static NSMutableDictionary 	*dataTypes = nil;
 		case OCI_SUCCESS:
 			break;
 		case OCI_SUCCESS_WITH_INFO:
-			errStr = @"Error - OCI_SUCCESS_WITH_INFO";
+            (void) OCIErrorGet((dvoid *)anErrhp, (ub4) 1, (text *) NULL, &errcode,
+                               errbuf, (ub4) sizeof(errbuf), OCI_HTYPE_ERROR);
+            NSLog(@"Warning - %@", [NSString stringFromOCIText:errbuf]);
 			break;
 		case OCI_NEED_DATA:
 			errStr = @"Error - OCI_NEED_DATA";
