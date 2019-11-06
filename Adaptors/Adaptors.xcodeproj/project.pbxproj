@@ -30,6 +30,11 @@
 		1E00D9EC1BA4828900817D90 /* MySQLAdaptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E00D9EB1BA4828900817D90 /* MySQLAdaptor.m */; };
 		1E00D9EF1BA4D9C300817D90 /* MySQLChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E00D9EE1BA4D9C300817D90 /* MySQLChannel.m */; };
 		1E0537031BAB00E20080D2AD /* MySQLDataTypes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1E0537021BAB00E20080D2AD /* MySQLDataTypes.plist */; };
+		1E082FA4237315CB00746F66 /* libociicus.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 1E082FA0237315CB00746F66 /* libociicus.dylib */; };
+		1E082FA5237315CB00746F66 /* BASIC_LITE_README in Resources */ = {isa = PBXBuildFile; fileRef = 1E082FA1237315CB00746F66 /* BASIC_LITE_README */; };
+		1E082FA6237315CB00746F66 /* libclntshcore.dylib.19.1 in Resources */ = {isa = PBXBuildFile; fileRef = 1E082FA2237315CB00746F66 /* libclntshcore.dylib.19.1 */; };
+		1E082FA7237315CB00746F66 /* BASIC_LITE_LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 1E082FA3237315CB00746F66 /* BASIC_LITE_LICENSE */; };
+		1E082FB22373214200746F66 /* libclntsh.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E082FB12373214200746F66 /* libclntsh.dylib */; };
 		1E0EACAA13B3B54C00EDEC95 /* OracleBindInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E0EACA913B3B54C00EDEC95 /* OracleBindInfo.m */; };
 		1E16EB5D15D044BD002D5E8D /* PostgreSQLConnectionPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E16EB5B15D044BD002D5E8D /* PostgreSQLConnectionPane.xib */; };
 		1E16EB6015D044D7002D5E8D /* SQLiteConnectionPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E16EB5E15D044D7002D5E8D /* SQLiteConnectionPane.xib */; };
@@ -55,11 +60,12 @@
 		1E9889131296F41B00F17A39 /* OracleAdaptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E98890D1296F41B00F17A39 /* OracleAdaptor.m */; };
 		1E9889141296F41B00F17A39 /* OracleChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E98890F1296F41B00F17A39 /* OracleChannel.m */; };
 		1E9889151296F41B00F17A39 /* OracleContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E9889111296F41B00F17A39 /* OracleContext.m */; };
-		1E98891D1296F56400F17A39 /* libocci.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E98891C1296F56400F17A39 /* libocci.dylib */; };
-		1E98891F1296F57C00F17A39 /* libclntsh.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E98891E1296F57C00F17A39 /* libclntsh.dylib */; };
 		1E9889A51296F74600F17A39 /* OracleAdaptor.h in Resources */ = {isa = PBXBuildFile; fileRef = 1E98890C1296F41B00F17A39 /* OracleAdaptor.h */; };
 		1E9889A61296F74B00F17A39 /* OracleChannel.h in Resources */ = {isa = PBXBuildFile; fileRef = 1E98890E1296F41B00F17A39 /* OracleChannel.h */; };
 		1E9889A71296F75100F17A39 /* OracleContext.h in Resources */ = {isa = PBXBuildFile; fileRef = 1E9889101296F41B00F17A39 /* OracleContext.h */; };
+		1EC13EE3236E15A200C25592 /* libclntsh.dylib.19.1 in Resources */ = {isa = PBXBuildFile; fileRef = 1EC13EDC236E150B00C25592 /* libclntsh.dylib.19.1 */; };
+		1EC13EE5236E15A200C25592 /* libnnz19.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 1EC13EDD236E150B00C25592 /* libnnz19.dylib */; };
+		1EC13EE6236E15A200C25592 /* libocci.dylib.19.1 in Resources */ = {isa = PBXBuildFile; fileRef = 1EC13EDE236E150B00C25592 /* libocci.dylib.19.1 */; };
 		1EC214381CE4AFE9004D5E89 /* nextval.sql in Resources */ = {isa = PBXBuildFile; fileRef = 1EC214371CE4AFE9004D5E89 /* nextval.sql */; };
 		1ED020D61BA47A81009B923E /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C3E14572B67008E8514 /* EOAccess.framework */; };
 		1ED020D71BA47A86009B923E /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
@@ -77,8 +83,6 @@
 		1ED512EF1BB037CA009477B5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DAC20742715100AB5036 /* Foundation.framework */; };
 		1ED512F01BB037E1009477B5 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA63DAC10742715100AB5036 /* AppKit.framework */; };
 		1EDEA30515D0128A0045292C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EDEA30415D0128A0045292C /* Cocoa.framework */; };
-		1EDEA31815D01E1B0045292C /* libclntsh.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E98891E1296F57C00F17A39 /* libclntsh.dylib */; };
-		1EDEA31915D01E200045292C /* libocci.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E98891C1296F56400F17A39 /* libocci.dylib */; };
 		1EDEA31A15D01E240045292C /* EOAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C3E14572B67008E8514 /* EOAccess.framework */; };
 		1EDEA31B15D01E280045292C /* EOControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14001C7714572B7B008E8514 /* EOControl.framework */; };
 		1EDEA31C15D01E4B0045292C /* OracleConnectionPane.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E91D56213EB0BAC00C0B4F1 /* OracleConnectionPane.m */; };
@@ -216,6 +220,11 @@
 		1E00D9ED1BA4D9C300817D90 /* MySQLChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySQLChannel.h; sourceTree = "<group>"; };
 		1E00D9EE1BA4D9C300817D90 /* MySQLChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySQLChannel.m; sourceTree = "<group>"; };
 		1E0537021BAB00E20080D2AD /* MySQLDataTypes.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = MySQLDataTypes.plist; sourceTree = "<group>"; };
+		1E082FA0237315CB00746F66 /* libociicus.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; path = libociicus.dylib; sourceTree = "<group>"; };
+		1E082FA1237315CB00746F66 /* BASIC_LITE_README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BASIC_LITE_README; sourceTree = "<group>"; };
+		1E082FA2237315CB00746F66 /* libclntshcore.dylib.19.1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.man; path = libclntshcore.dylib.19.1; sourceTree = "<group>"; };
+		1E082FA3237315CB00746F66 /* BASIC_LITE_LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BASIC_LITE_LICENSE; sourceTree = "<group>"; };
+		1E082FB12373214200746F66 /* libclntsh.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libclntsh.dylib; path = Oracle/Library/libclntsh.dylib; sourceTree = "<group>"; };
 		1E0EACA813B3B54C00EDEC95 /* OracleBindInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleBindInfo.h; sourceTree = "<group>"; };
 		1E0EACA913B3B54C00EDEC95 /* OracleBindInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleBindInfo.m; sourceTree = "<group>"; };
 		1E16EB5115D0364B002D5E8D /* OracleInterface-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OracleInterface-Info.plist"; sourceTree = "<group>"; };
@@ -223,7 +232,6 @@
 		1E16EB5F15D044D7002D5E8D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SQLiteConnectionPane.xib; sourceTree = "<group>"; };
 		1E19984B1CE0CDA90021969C /* MySQLDefineInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySQLDefineInfo.h; sourceTree = "<group>"; };
 		1E19984C1CE0CDA90021969C /* MySQLDefineInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySQLDefineInfo.m; sourceTree = "<group>"; };
-		1E34465012E4D06B007574F2 /* oracle */ = {isa = PBXFileReference; lastKnownFileType = folder; name = oracle; path = /usr/local/include/oracle; sourceTree = "<absolute>"; };
 		1E45D51F13FD8AAC0043B572 /* OracleSchemaGeneration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OracleSchemaGeneration.h; sourceTree = "<group>"; };
 		1E45D52013FD8AAC0043B572 /* OracleSchemaGeneration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleSchemaGeneration.m; sourceTree = "<group>"; };
 		1E4B2B9F1CF47C3200B7B2FA /* libmysqlclient.18.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libmysqlclient.18.dylib; sourceTree = "<group>"; };
@@ -251,6 +259,63 @@
 		1E9889111296F41B00F17A39 /* OracleContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OracleContext.m; sourceTree = "<group>"; };
 		1E98891C1296F56400F17A39 /* libocci.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libocci.dylib; path = /usr/local/lib/libocci.dylib; sourceTree = "<absolute>"; };
 		1E98891E1296F57C00F17A39 /* libclntsh.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libclntsh.dylib; path = /usr/local/lib/libclntsh.dylib; sourceTree = "<absolute>"; };
+		1EC13EA5236E14CE00C25592 /* ocidem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ocidem.h; sourceTree = "<group>"; };
+		1EC13EA6236E14CE00C25592 /* xmlsch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmlsch.h; sourceTree = "<group>"; };
+		1EC13EA7236E14CE00C25592 /* orl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = orl.h; sourceTree = "<group>"; };
+		1EC13EA8236E14CF00C25592 /* ocidef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ocidef.h; sourceTree = "<group>"; };
+		1EC13EA9236E14CF00C25592 /* ociextp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ociextp.h; sourceTree = "<group>"; };
+		1EC13EAA236E14CF00C25592 /* oci1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = oci1.h; sourceTree = "<group>"; };
+		1EC13EAB236E14CF00C25592 /* ort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ort.h; sourceTree = "<group>"; };
+		1EC13EAC236E14CF00C25592 /* oci8dp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = oci8dp.h; sourceTree = "<group>"; };
+		1EC13EAD236E14CF00C25592 /* xmlsoap.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = xmlsoap.hpp; sourceTree = "<group>"; };
+		1EC13EAE236E14CF00C25592 /* xmlsoapc.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = xmlsoapc.hpp; sourceTree = "<group>"; };
+		1EC13EAF236E14CF00C25592 /* xmlotn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmlotn.h; sourceTree = "<group>"; };
+		1EC13EB0236E14CF00C25592 /* oraxsd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = oraxsd.h; sourceTree = "<group>"; };
+		1EC13EB1236E14CF00C25592 /* xmlsoap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmlsoap.h; sourceTree = "<group>"; };
+		1EC13EB2236E14CF00C25592 /* occiAQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = occiAQ.h; sourceTree = "<group>"; };
+		1EC13EB3236E14CF00C25592 /* occi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = occi.h; sourceTree = "<group>"; };
+		1EC13EB4236E14CF00C25592 /* xmldf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmldf.h; sourceTree = "<group>"; };
+		1EC13EB5236E14CF00C25592 /* oratypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = oratypes.h; sourceTree = "<group>"; };
+		1EC13EB6236E14CF00C25592 /* ldap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ldap.h; sourceTree = "<group>"; };
+		1EC13EB7236E14CF00C25592 /* xmlproc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmlproc.h; sourceTree = "<group>"; };
+		1EC13EB8236E14CF00C25592 /* oraxml.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = oraxml.hpp; sourceTree = "<group>"; };
+		1EC13EB9236E14CF00C25592 /* occiData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = occiData.h; sourceTree = "<group>"; };
+		1EC13EBA236E14CF00C25592 /* orid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = orid.h; sourceTree = "<group>"; };
+		1EC13EBB236E14CF00C25592 /* ociver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ociver.h; sourceTree = "<group>"; };
+		1EC13EBC236E14CF00C25592 /* xmlev.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmlev.h; sourceTree = "<group>"; };
+		1EC13EBD236E14CF00C25592 /* xa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xa.h; sourceTree = "<group>"; };
+		1EC13EBE236E14CF00C25592 /* oraxsd.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = oraxsd.hpp; sourceTree = "<group>"; };
+		1EC13EBF236E14CF00C25592 /* ocikpr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ocikpr.h; sourceTree = "<group>"; };
+		1EC13EC0236E14CF00C25592 /* occiControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = occiControl.h; sourceTree = "<group>"; };
+		1EC13EC1236E14D000C25592 /* ocixstream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ocixstream.h; sourceTree = "<group>"; };
+		1EC13EC2236E14D000C25592 /* occiObjects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = occiObjects.h; sourceTree = "<group>"; };
+		1EC13EC3236E14D000C25592 /* oraxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = oraxml.h; sourceTree = "<group>"; };
+		1EC13EC4236E14D000C25592 /* xmlxptr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmlxptr.h; sourceTree = "<group>"; };
+		1EC13EC5236E14D000C25592 /* nzt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nzt.h; sourceTree = "<group>"; };
+		1EC13EC6236E14D000C25592 /* xmlctx.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = xmlctx.hpp; sourceTree = "<group>"; };
+		1EC13EC7236E14D000C25592 /* odci.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = odci.h; sourceTree = "<group>"; };
+		1EC13EC8236E14D000C25592 /* xmldav.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmldav.h; sourceTree = "<group>"; };
+		1EC13EC9236E14D000C25592 /* xml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xml.h; sourceTree = "<group>"; };
+		1EC13ECA236E14D000C25592 /* xml.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = xml.hpp; sourceTree = "<group>"; };
+		1EC13ECB236E14D000C25592 /* ori.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ori.h; sourceTree = "<group>"; };
+		1EC13ECC236E14D000C25592 /* xmlotn.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = xmlotn.hpp; sourceTree = "<group>"; };
+		1EC13ECD236E14D000C25592 /* xmlerr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmlerr.h; sourceTree = "<group>"; };
+		1EC13ECE236E14D000C25592 /* ociapr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ociapr.h; sourceTree = "<group>"; };
+		1EC13ECF236E14D000C25592 /* oraxmlcg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = oraxmlcg.h; sourceTree = "<group>"; };
+		1EC13ED0236E14D000C25592 /* oro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = oro.h; sourceTree = "<group>"; };
+		1EC13ED1236E14D000C25592 /* occiCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = occiCommon.h; sourceTree = "<group>"; };
+		1EC13ED2236E14D000C25592 /* ocidfn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ocidfn.h; sourceTree = "<group>"; };
+		1EC13ED3236E14D000C25592 /* xmlurl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmlurl.h; sourceTree = "<group>"; };
+		1EC13ED4236E14D000C25592 /* oci.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = oci.h; sourceTree = "<group>"; };
+		1EC13ED5236E14D100C25592 /* xmlxsl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmlxsl.h; sourceTree = "<group>"; };
+		1EC13ED6236E14D100C25592 /* nzerror.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nzerror.h; sourceTree = "<group>"; };
+		1EC13ED7236E14D100C25592 /* orastruc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = orastruc.h; sourceTree = "<group>"; };
+		1EC13ED8236E14D100C25592 /* xmlxvm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmlxvm.h; sourceTree = "<group>"; };
+		1EC13ED9236E14D100C25592 /* ociap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ociap.h; sourceTree = "<group>"; };
+		1EC13EDA236E14D100C25592 /* ocixmldb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ocixmldb.h; sourceTree = "<group>"; };
+		1EC13EDC236E150B00C25592 /* libclntsh.dylib.19.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = libclntsh.dylib.19.1; sourceTree = "<group>"; };
+		1EC13EDD236E150B00C25592 /* libnnz19.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libnnz19.dylib; sourceTree = "<group>"; };
+		1EC13EDE236E150B00C25592 /* libocci.dylib.19.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = libocci.dylib.19.1; sourceTree = "<group>"; };
 		1EC214371CE4AFE9004D5E89 /* nextval.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = nextval.sql; sourceTree = "<group>"; };
 		1ED020CE1BA478BD009B923E /* MySQL.eoadaptor */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MySQL.eoadaptor; sourceTree = BUILT_PRODUCTS_DIR; };
 		1ED020D11BA478BD009B923E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -337,11 +402,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E082FB22373214200746F66 /* libclntsh.dylib in Frameworks */,
 				1ED512EE1BB037C7009477B5 /* Foundation.framework in Frameworks */,
 				1E7958FC14642CD700FB2ACF /* EOControl.framework in Frameworks */,
 				1E7958C714642CD100FB2ACF /* EOAccess.framework in Frameworks */,
-				1E98891D1296F56400F17A39 /* libocci.dylib in Frameworks */,
-				1E98891F1296F57C00F17A39 /* libclntsh.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,8 +437,6 @@
 				1ED512F01BB037E1009477B5 /* AppKit.framework in Frameworks */,
 				1EDEA30515D0128A0045292C /* Cocoa.framework in Frameworks */,
 				1ED512EF1BB037CA009477B5 /* Foundation.framework in Frameworks */,
-				1EDEA31815D01E1B0045292C /* libclntsh.dylib in Frameworks */,
-				1EDEA31915D01E200045292C /* libocci.dylib in Frameworks */,
 				1EDEA31A15D01E240045292C /* EOAccess.framework in Frameworks */,
 				1EDEA31B15D01E280045292C /* EOControl.framework in Frameworks */,
 			);
@@ -446,6 +508,20 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		1E082F9F237312D000746F66 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				1E082FA3237315CB00746F66 /* BASIC_LITE_LICENSE */,
+				1E082FA1237315CB00746F66 /* BASIC_LITE_README */,
+				1E082FA2237315CB00746F66 /* libclntshcore.dylib.19.1 */,
+				1E082FA0237315CB00746F66 /* libociicus.dylib */,
+				1EC13EDC236E150B00C25592 /* libclntsh.dylib.19.1 */,
+				1EC13EDD236E150B00C25592 /* libnnz19.dylib */,
+				1EC13EDE236E150B00C25592 /* libocci.dylib.19.1 */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
 		1E91D55413EB0A6900C0B4F1 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -458,10 +534,12 @@
 		1E9888D91296F19F00F17A39 /* Oracle */ = {
 			isa = PBXGroup;
 			children = (
+				1E082F9F237312D000746F66 /* Library */,
 				1E91D55413EB0A6900C0B4F1 /* Resources */,
 				1E0EACA813B3B54C00EDEC95 /* OracleBindInfo.h */,
 				1E0EACA913B3B54C00EDEC95 /* OracleBindInfo.m */,
 				1E86A7F31312D63C00FA5FDA /* OracleDefineInfo.h */,
+				1EC13EA4236E148900C25592 /* oracle */,
 				1E86A7F41312D63C00FA5FDA /* OracleDefineInfo.m */,
 				1E98890C1296F41B00F17A39 /* OracleAdaptor.h */,
 				1E98890D1296F41B00F17A39 /* OracleAdaptor.m */,
@@ -476,11 +554,71 @@
 				1E91D56213EB0BAC00C0B4F1 /* OracleConnectionPane.m */,
 				1E45D51F13FD8AAC0043B572 /* OracleSchemaGeneration.h */,
 				1E45D52013FD8AAC0043B572 /* OracleSchemaGeneration.m */,
-				1E34465012E4D06B007574F2 /* oracle */,
 				1EF21BDB21C1622D00B37894 /* OracleDateFormatter.h */,
 				1EF21BDC21C1622D00B37894 /* OracleDateFormatter.m */,
 			);
 			path = Oracle;
+			sourceTree = "<group>";
+		};
+		1EC13EA4236E148900C25592 /* oracle */ = {
+			isa = PBXGroup;
+			children = (
+				1EC13EB6236E14CF00C25592 /* ldap.h */,
+				1EC13ED6236E14D100C25592 /* nzerror.h */,
+				1EC13EC5236E14D000C25592 /* nzt.h */,
+				1EC13EB3236E14CF00C25592 /* occi.h */,
+				1EC13EB2236E14CF00C25592 /* occiAQ.h */,
+				1EC13ED1236E14D000C25592 /* occiCommon.h */,
+				1EC13EC0236E14CF00C25592 /* occiControl.h */,
+				1EC13EB9236E14CF00C25592 /* occiData.h */,
+				1EC13EC2236E14D000C25592 /* occiObjects.h */,
+				1EC13ED4236E14D000C25592 /* oci.h */,
+				1EC13EAA236E14CF00C25592 /* oci1.h */,
+				1EC13EAC236E14CF00C25592 /* oci8dp.h */,
+				1EC13ED9236E14D100C25592 /* ociap.h */,
+				1EC13ECE236E14D000C25592 /* ociapr.h */,
+				1EC13EA8236E14CF00C25592 /* ocidef.h */,
+				1EC13EA5236E14CE00C25592 /* ocidem.h */,
+				1EC13ED2236E14D000C25592 /* ocidfn.h */,
+				1EC13EA9236E14CF00C25592 /* ociextp.h */,
+				1EC13EBF236E14CF00C25592 /* ocikpr.h */,
+				1EC13EBB236E14CF00C25592 /* ociver.h */,
+				1EC13EDA236E14D100C25592 /* ocixmldb.h */,
+				1EC13EC1236E14D000C25592 /* ocixstream.h */,
+				1EC13EC7236E14D000C25592 /* odci.h */,
+				1EC13ED7236E14D100C25592 /* orastruc.h */,
+				1EC13EB5236E14CF00C25592 /* oratypes.h */,
+				1EC13EC3236E14D000C25592 /* oraxml.h */,
+				1EC13EB8236E14CF00C25592 /* oraxml.hpp */,
+				1EC13ECF236E14D000C25592 /* oraxmlcg.h */,
+				1EC13EB0236E14CF00C25592 /* oraxsd.h */,
+				1EC13EBE236E14CF00C25592 /* oraxsd.hpp */,
+				1EC13ECB236E14D000C25592 /* ori.h */,
+				1EC13EBA236E14CF00C25592 /* orid.h */,
+				1EC13EA7236E14CE00C25592 /* orl.h */,
+				1EC13ED0236E14D000C25592 /* oro.h */,
+				1EC13EAB236E14CF00C25592 /* ort.h */,
+				1EC13EBD236E14CF00C25592 /* xa.h */,
+				1EC13EC9236E14D000C25592 /* xml.h */,
+				1EC13ECA236E14D000C25592 /* xml.hpp */,
+				1EC13EC6236E14D000C25592 /* xmlctx.hpp */,
+				1EC13EC8236E14D000C25592 /* xmldav.h */,
+				1EC13EB4236E14CF00C25592 /* xmldf.h */,
+				1EC13ECD236E14D000C25592 /* xmlerr.h */,
+				1EC13EBC236E14CF00C25592 /* xmlev.h */,
+				1EC13EAF236E14CF00C25592 /* xmlotn.h */,
+				1EC13ECC236E14D000C25592 /* xmlotn.hpp */,
+				1EC13EB7236E14CF00C25592 /* xmlproc.h */,
+				1EC13EA6236E14CE00C25592 /* xmlsch.h */,
+				1EC13EB1236E14CF00C25592 /* xmlsoap.h */,
+				1EC13EAD236E14CF00C25592 /* xmlsoap.hpp */,
+				1EC13EAE236E14CF00C25592 /* xmlsoapc.hpp */,
+				1EC13ED3236E14D000C25592 /* xmlurl.h */,
+				1EC13EC4236E14D000C25592 /* xmlxptr.h */,
+				1EC13ED5236E14D100C25592 /* xmlxsl.h */,
+				1EC13ED8236E14D100C25592 /* xmlxvm.h */,
+			);
+			path = oracle;
 			sourceTree = "<group>";
 		};
 		1ED020CF1BA478BD009B923E /* MySQL */ = {
@@ -595,6 +733,7 @@
 		FA63DABA074270E200AB5036 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1E082FB12373214200746F66 /* libclntsh.dylib */,
 				FA63DAC10742715100AB5036 /* AppKit.framework */,
 				FA63DAC20742715100AB5036 /* Foundation.framework */,
 				FA63DC780742726500AB5036 /* OpenBaseAPI.framework */,
@@ -902,6 +1041,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E082FA7237315CB00746F66 /* BASIC_LITE_LICENSE in Resources */,
+				1E082FA4237315CB00746F66 /* libociicus.dylib in Resources */,
+				1E082FA5237315CB00746F66 /* BASIC_LITE_README in Resources */,
+				1EC13EE3236E15A200C25592 /* libclntsh.dylib.19.1 in Resources */,
+				1EC13EE5236E15A200C25592 /* libnnz19.dylib in Resources */,
+				1EC13EE6236E15A200C25592 /* libocci.dylib.19.1 in Resources */,
+				1E082FA6237315CB00746F66 /* libclntshcore.dylib.19.1 in Resources */,
 				1EDEA32315D01F420045292C /* Oraclenterface.interface in Resources */,
 				1E9889A51296F74600F17A39 /* OracleAdaptor.h in Resources */,
 				1E9889A61296F74B00F17A39 /* OracleChannel.h in Resources */,
@@ -1209,6 +1355,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -1221,14 +1368,19 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				HEADER_SEARCH_PATHS = "/usr/local/include/**";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Oracle/oracle";
 				INFOPLIST_FILE = "Oracle-Info.plist";
 				INSTALL_PATH = "/Library/Database Adaptors";
-				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Resources";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Oracle/Library",
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = "-v";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.adaptors.Oracle;
 				PRODUCT_NAME = Oracle;
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -1242,6 +1394,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
@@ -1255,14 +1408,19 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				HEADER_SEARCH_PATHS = "/usr/local/include/**";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Oracle/oracle";
 				INFOPLIST_FILE = "Oracle-Info.plist";
 				INSTALL_PATH = "/Library/Database Adaptors";
-				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Resources";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Oracle/Library",
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = "-v";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.adaptors.Oracle;
 				PRODUCT_NAME = Oracle;
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -1276,6 +1434,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1286,14 +1445,19 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				HEADER_SEARCH_PATHS = "/usr/local/include/**";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Oracle/oracle";
 				INFOPLIST_FILE = "Oracle-Info.plist";
 				INSTALL_PATH = "/Library/Database Adaptors";
-				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Resources";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Oracle/Library",
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = "-v";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.adaptors.Oracle;
 				PRODUCT_NAME = Oracle;
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -1617,7 +1781,7 @@
 		1EDEA31115D0128A0045292C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = NO;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1642,12 +1806,16 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "/usr/local/include/**";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Oracle/oracle";
 				INFOPLIST_FILE = "OracleInterface-Info.plist";
 				INSTALL_PATH = "";
-				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib,
+					"$(PROJECT_DIR)/Oracle/oracle/lib",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-v";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.arj.adaptors.${PRODUCT_NAME:rfc1034identifier}.interface";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1660,7 +1828,7 @@
 		1EDEA31215D0128A0045292C /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = NO;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1679,11 +1847,15 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "/usr/local/include/**";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Oracle/oracle";
 				INFOPLIST_FILE = "OracleInterface-Info.plist";
 				INSTALL_PATH = "";
-				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib,
+					"$(PROJECT_DIR)/Oracle/oracle/lib",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-v";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.arj.adaptors.${PRODUCT_NAME:rfc1034identifier}.interface";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1696,7 +1868,7 @@
 		1EDEA31315D0128A0045292C /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CLANG_WARN__ARC_BRIDGE_CAST_NONARC = NO;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1715,11 +1887,15 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "/usr/local/include/**";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Oracle/oracle";
 				INFOPLIST_FILE = "OracleInterface-Info.plist";
 				INSTALL_PATH = "";
-				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib,
+					"$(PROJECT_DIR)/Oracle/oracle/lib",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-v";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.arj.adaptors.${PRODUCT_NAME:rfc1034identifier}.interface";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2073,6 +2249,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "SQLiteInterface-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				OTHER_CFLAGS = "";
@@ -2085,6 +2262,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.adaptors.SQLite.interface;
 				PRODUCT_NAME = SQLiteInterface;
 				SECTORDER_FLAGS = "";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Oracle/oracle";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -2111,6 +2289,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "SQLiteInterface-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				OTHER_CFLAGS = "";
@@ -2123,6 +2302,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.adaptors.SQLite.interface;
 				PRODUCT_NAME = SQLiteInterface;
 				SECTORDER_FLAGS = "";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Oracle/oracle";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -2147,6 +2327,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "SQLiteInterface-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				OTHER_CFLAGS = "";
@@ -2159,6 +2340,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.adaptors.SQLite.interface;
 				PRODUCT_NAME = SQLiteInterface;
 				SECTORDER_FLAGS = "";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Oracle/oracle";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",

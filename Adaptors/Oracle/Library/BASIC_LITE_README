@@ -1,0 +1,31 @@
+Basic Light Package Information
+===========-===================
+
+Mon Aug 19 03:58:10 PDT 2019
+
+Client Shared Library 64-bit - 19.3.0.0.0
+
+System name:	Darwin
+Release:	17.6.0
+Version:	Darwin Kernel Version 17.6.0: Tue May  8 15:22:16 PDT 2018; root:xnu-4570.61.1~1/RELEASE_X86_64
+Machine:	x86_64
+
+TIMEZONE INFORMATION
+--------------------
+Operating in ORACLE_HOME environment.
+
+Small timezone file = timezone_32.dat
+Large timezone file = timezlrg_32.dat
+
+LICENSE AGREEMENT
+-----------------------------
+Your use of this copy of Oracle Instant Client software product is subject to, and may not exceed the conditions of use for which you are authorized under one of the following:
+
+(i) the license or cloud services terms that you accepted when you obtained the right to use Oracle Instant Client software; or
+(ii) the license terms that you agreed to when you placed your order with Oracle for an Oracle product containing Oracle Instant Client software; or
+(iii) the Oracle Instant Client software license terms, if any, included with the hardware that you acquired from Oracle; or
+(iv) the Oracle Technology Network License Agreement (which you acknowledge you have read and agree to) available at http://www.oracle.com/technetwork/licenses/distribution-license-152002.html; or, if (i), (ii), (iii), and or (iv) are not applicable, then,
+(v) the Oracle Free Use Terms and Conditions available at BASIC_LITE_LICENSE.
+
+Oracle's obligations with respect to your use of the Oracle Instant Client, including, without limitation, obligations to indemnify you, if any, shall only be as set forth in the specific license under which you are authorized and choose to use Oracle Instant Client.
+
