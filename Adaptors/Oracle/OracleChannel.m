@@ -282,7 +282,7 @@ mailto:tom.martin@riemer.com
 	{	
 		// assuming our max username/password length is 30 characters, we will be
 		// safe and not allow an overrun.
-		len =  MIN(64,[strValue length] * sizeof(unichar));
+		len =  (sb4)(MIN(64,[strValue length] * sizeof(unichar)));
 		[strValue getOCIText:u];
 		(void) OCIAttrSet((dvoid *) sessionhp, (ub4) OCI_HTYPE_SESSION,
 						  (dvoid *) u, len,
@@ -292,7 +292,7 @@ mailto:tom.martin@riemer.com
 	strValue = (NSString *)[cd objectForKey:PasswordKey];
 	if ([strValue length])
 	{	
-		len =  MIN(64,[strValue length] * sizeof(unichar));
+		len =  (sb4)(MIN(64,[strValue length] * sizeof(unichar)));
 		[strValue getOCIText:p];
 		(void) OCIAttrSet((dvoid *) sessionhp, (ub4) OCI_HTYPE_SESSION,
 						  (dvoid *) p, len,
@@ -622,7 +622,7 @@ mailto:tom.martin@riemer.com
 	// we will just keep our buffer and it will grow to the max statement length ever used.
 	// This might not be a good idea, but I doubt statements will get huge.
 	// buffer lentgh is string lengh + null terminator, all in unichar 
-	len = [sqlString length] * sizeof(unichar);
+	len = (ub4)([sqlString length] * sizeof(unichar));
 	if (! statement)
 		statement = NSZoneMalloc([self zone], len + sizeof(unichar));
 	else if (statementLen < len)

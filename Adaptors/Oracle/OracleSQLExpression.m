@@ -42,7 +42,7 @@ mailto:tom.martin@riemer.com
 	statement = [@"SELECT " mutableCopyWithZone:[self zone]];
 	[statement appendString:[storedProcedure externalName]];
 	[statement appendString:@"("];
-	numArguments = [arguments count];
+	numArguments = (int)[arguments count];
 	for (x = 0; x < numArguments; x++) {
 		EOAttribute	*argument = [arguments objectAtIndex:x];
 		if ([argument parameterDirection] == EOInParameter)
@@ -67,7 +67,7 @@ mailto:tom.martin@riemer.com
 	NSString			*name;
 	NSString			*placeholder;
 	
-	index = [bindings count] + 1;
+	index = (int)[bindings count] + 1;
 	
 	binding = [[NSMutableDictionary allocWithZone:[self zone]] initWithCapacity:4];
 	name = [[NSString allocWithZone:[self zone]] initWithFormat:@"%@_%d", [attribute columnName], index];

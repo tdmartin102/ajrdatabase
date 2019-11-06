@@ -266,7 +266,7 @@ static sb4 ociDefineCallback(dvoid *octxp, OCIDefine *defnp, ub4 iter, dvoid **b
 	// mutableData object and / or our buffer	
 	if (lastPieceLen)
 		[dynamicData appendBytes:(const void *)buffer length:lastPieceLen];
-	return [NSString stringFromOCIText:(text *)[dynamicData bytes] length:[dynamicData length] / 2];
+	return [NSString stringFromOCIText:(text *)[dynamicData bytes] length:(ub4)([dynamicData length] / 2)];
 }
 
 //---(Private)-- Convert LONG VARCHAR buffer into NSString (not used) -----

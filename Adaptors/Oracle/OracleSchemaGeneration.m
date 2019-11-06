@@ -41,7 +41,7 @@ mailto:tom.martin@riemer.com
 	int				numEntityGroups;
 
 	statements = [[NSMutableArray allocWithZone:zone] init];
-	numEntityGroups = [entityGroup count];
+	numEntityGroups = (int)[entityGroup count];
 	for (x = 0; x < numEntityGroups; x++) 
 	{
 		EOEntity			*entity = [entityGroup objectAtIndex:x];
@@ -53,18 +53,18 @@ mailto:tom.martin@riemer.com
 		EOSQLExpression		*expression;
 		NSString			*pad;
 		
-		numAttributes = [attributes count];
+		numAttributes = (int)[attributes count];
 		for (y = 0; y < numAttributes; y++) 
 		{
 			if (width < [[[attributes objectAtIndex:y] columnName] length]) 
-				width = [[[attributes objectAtIndex:y] columnName] length];
+				width = (int)[[[attributes objectAtIndex:y] columnName] length];
 		}
 		
 		pad = [[@" " stringByPaddingToLength:width+4 withString:@" " startingAtIndex:0] retain];
 		[statement appendString:@"CREATE TABLE "];
 		[statement appendString:[entity externalName]];
 		[statement appendString:@" (\n"];
-		numAttributes = [attributes count];
+		numAttributes = (int)[attributes count];
 		for (y = 0; y < numAttributes; y++) 
 		{
 			EOAttribute		*attribute = [attributes objectAtIndex:y];

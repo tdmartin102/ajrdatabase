@@ -117,7 +117,7 @@ mailto:tom.martin@riemer.com
 		int			x;
 		int numAdaptorChannels;
 		
-		numAdaptorChannels = [adaptorChannels count];
+		numAdaptorChannels = (int)[adaptorChannels count];
 		for (x = 0; x < numAdaptorChannels; x++) {
 			channel = [adaptorChannels objectAtIndex:x];
 			if (![channel isFetchInProgress]) 
@@ -209,7 +209,7 @@ mailto:tom.martin@riemer.com
 		connectionString = (NSString *)[[adaptor connectionDictionary] objectForKey:ConnectionStringKey];
 		if ([connectionString length] == 0)
 			connectionString = (NSString *)[[adaptor connectionDictionary] objectForKey:ServerIdKey];
-		len = [connectionString length] * sizeof(unichar); // len is in bytes... 
+		len = (sb4)([connectionString length] * sizeof(unichar)); // len is in bytes... 
 		if (connectText)
 			NSZoneFree([self zone], connectText);
 		connectText = NSZoneMalloc([self zone], len + sizeof(unichar));

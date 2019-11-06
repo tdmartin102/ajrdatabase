@@ -237,12 +237,12 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
     flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit |
         NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
     dateComponents = [currentCalendar components:flags fromDate:aDate];
-    y = [dateComponents year];
-    m = [dateComponents month];
-    d = [dateComponents day];
-    h = [dateComponents hour];
-    mi = [dateComponents minute];
-    s = [dateComponents second];
+    y = (int)[dateComponents year];
+    m = (int)[dateComponents month];
+    d = (int)[dateComponents day];
+    h = (int)[dateComponents hour];
+    mi = (int)[dateComponents minute];
+    s = (int)[dateComponents second];
     // year
 	buffer[0] = (y / 100) + 100;    
 	buffer[1] = (y % 100) + 100;
@@ -471,9 +471,9 @@ static sb4 ociOutBindCallback(dvoid *octxp, OCIBind *bindp, ub4 iter, ub4 index,
 	// set ValueSize which is the TOTAL length of the data to be passed by oci to Oracle.  This is the
 	// same as bufferSize UNLESS we are using a dynamic bind.
 	if (dataType == SQLT_CHR)
-		valueSize = [(NSString *)value length] * sizeof(unichar);
+		valueSize = (sb4)([(NSString *)value length] * sizeof(unichar));
 	else if (dataType == SQLT_LBI)
-		valueSize = [(NSData *)value length];
+		valueSize = (sb4)([(NSData *)value length]);
 	else
 		valueSize = bufferSize;
 

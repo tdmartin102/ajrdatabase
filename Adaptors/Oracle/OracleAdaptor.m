@@ -77,12 +77,12 @@ static NSMutableDictionary 	*dataTypes = nil;
 
 - (unsigned int)ociTextZLength
 {
-	return ([self length] + 1) * sizeof(unichar);
+	return (unsigned int)(([self length] + 1) * sizeof(unichar));
 }
 
 - (unsigned int)ociTextLength
 {
-	return ([self length]) * sizeof(unichar);
+	return (unsigned int)(([self length]) * sizeof(unichar));
 }
 
 - (text *)ociText
