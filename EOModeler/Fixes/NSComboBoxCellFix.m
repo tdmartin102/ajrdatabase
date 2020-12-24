@@ -51,9 +51,9 @@
 	ourMethod = class_getInstanceMethod([NSComboBoxCell class], @selector(_ajrInitWithCoder:));
 	method_exchangeImplementations(originalMethod, ourMethod);
 
-	originalMethod = class_getInstanceMethod([NSComboBoxCell class], @selector(initPopUpWindow));
-	ourMethod = class_getInstanceMethod([NSComboBoxCell class], @selector(_ajrInitPopUpWindow));
-	method_exchangeImplementations(originalMethod, ourMethod);
+	//originalMethod = class_getInstanceMethod([NSComboBoxCell class], @selector(initPopUpWindow));
+	//ourMethod = class_getInstanceMethod([NSComboBoxCell class], @selector(_ajrInitPopUpWindow));
+	//method_exchangeImplementations(originalMethod, ourMethod);
 }
 
 - (void)setStringValue:(NSString *)aString
@@ -67,9 +67,10 @@
 	NSDictionary	*attribs = [NSDictionary dictionaryWithObject:[self font] forKey:NSFontAttributeName];
 	int				x;
 	float				min = 0.0;
+    
 	
-	for (x = 0; x < (const int)[_popUpList count]; x++) {
-		NSSize		size = [[_popUpList objectAtIndex:x] sizeWithAttributes:attribs];
+	for (x = 0; x < (const int)self.numberOfItems; x++) {
+		NSSize		size = [[self itemObjectValueAtIndex:x] sizeWithAttributes:attribs];
 		if (min < size.width) min = size.width;
 	}
 	
@@ -87,14 +88,15 @@
 		[[self attributedStringValue] drawInRect:cellFrame];
 		cellFrame.origin.x -= 2.0;
 		cellFrame.size.width += 10.0;
-		_controlView = controlView;
-		if (_cellFrame) {
-			float		min = [self minWidth];
-			*_cellFrame = cellFrame;
-			if (_cellFrame->size.width < min) {
-				_cellFrame->size.width = min;
-			}
-		}
+		//_controlView = controlView;
+        self.controlView = controlView;
+		//if (_cellFrame) {
+		//	float		min = [self minWidth];
+		//	*_cellFrame = cellFrame;
+		//	if (_cellFrame->size.width < min) {
+		//		_cellFrame->size.width = min;
+		//	}
+		//}
         anImage = [NSImage imageNamed:@"smallPopupArrows"];
         imageRect.origin.x = cellFrame.origin.x + cellFrame.size.width - 5.0;
         imageRect.origin.y = cellFrame.origin.y + cellFrame.size.height - 2.0;
@@ -150,15 +152,19 @@
 		case NSMiniControlSize:
 			[self setFont:[[NSFontManager sharedFontManager] convertFont:[self font] toSize:[NSFont smallSystemFontSize] - 2.0]];
 			break;
+        case NSControlSizeLarge:
+            [self setFont:[[NSFontManager sharedFontManager] convertFont:[self font] toSize:[NSFont systemFontSize] + 2.0]];
+            break;
 	}
 	
 	return self;
 }
 
-- (void)_ajrInitPopUpWindow
-{
-	[self  _ajrInitPopUpWindow];
-	[[[[_tableView tableColumns] objectAtIndex:0] dataCell] setFont:[self font]];
-}
+//- (void)_ajrInitPopUpWindow
+//{
+//	[self  _ajrInitPopUpWindow];
+//
+//	[[[[_tableView tableColumns] objectAtIndex:0] dataCell] setFont:[self font]];
+//}
 
 @end
