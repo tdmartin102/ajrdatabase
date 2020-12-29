@@ -1,7 +1,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "EOValidation.h"
+#import <EOControl/EOValidation.h>
 
 @interface NSObject (EOValidation) <EOValidation>
 

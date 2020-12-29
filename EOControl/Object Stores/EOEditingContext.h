@@ -24,8 +24,8 @@ mailto:alex@raftis.net
 http://www.raftis.net/~alex/
  *%*%*%*%*/
 
-#import "EOCooperatingObjectStore.h"
-#import "EOObserver.h"
+#import <EOControl/EOCooperatingObjectStore.h>
+#import <EOControl/EOObserver.h>
 
 extern NSString *EOEditingContextDidSaveChangesNotification;
 

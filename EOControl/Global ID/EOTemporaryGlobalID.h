@@ -24,7 +24,7 @@ mailto:alex@raftis.net
 http://www.raftis.net/~alex/
  *%*%*%*%*/
 
-#import "EOGlobalID.h"
+#import <EOControl/EOGlobalID.h>
 
 @class EOEntity, EOQualifier;
 

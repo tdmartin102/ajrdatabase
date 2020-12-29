@@ -1,5 +1,5 @@
 
-#import "EOObjectStore.h"
+#import <EOControl/EOObjectStore.h>
 
 @class EOEditingContext, EOFetchSpecification, EOGlobalID, EOObjectStoreCoordinator;
 

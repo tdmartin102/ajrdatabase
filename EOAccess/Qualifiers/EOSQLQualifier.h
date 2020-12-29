@@ -25,7 +25,7 @@ http://www.raftis.net/~alex/
  *%*%*%*%*/
 
 #import <EOControl/EOQualifier.h>
-#import "EOEntity.h"
+#import <EOAccess/EOEntity.h>
 
 @interface EOSQLQualifier : EOQualifier
 {

@@ -25,7 +25,7 @@ http://www.raftis.net/~alex/
  *%*%*%*%*/
 
 #import <Foundation/Foundation.h>
-#import "EOEnterpriseObject.h"
+#import <EOControl/EOEnterpriseObject.h>
 
 @class EOEntity, EOGlobalID, EOEditingContext;
 

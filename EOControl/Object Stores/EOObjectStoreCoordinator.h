@@ -1,5 +1,5 @@
 
-#import "EOObjectStore.h"
+#import <EOControl/EOObjectStore.h>
 
 extern NSString *EOCooperatingObjectStoreWasAdded;
 extern NSString *EOCooperatingObjectStoreWasRemoved;

@@ -28,7 +28,7 @@ http://www.raftis.net/~alex/
 #import <EOControl/EOKeyValueArchiver.h>
 // mont_rothstein @ yahoo.com 2005-01-10
 // Added #import because sortUsingKeyOrderArray: is defined here in WO 4.5 API
-#import "NSArray-EO.h"
+#import <EOControl/NSArray-EO.h>
 
 // mont_rothstein @ yahoo.com 2005-01-10
 // Added #ifndef to prevent redefinition errors

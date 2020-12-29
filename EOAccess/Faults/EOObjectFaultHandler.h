@@ -27,7 +27,7 @@ http://www.raftis.net/~alex/
 #import <EOControl/EOFaultHandler.h>
 // mont_rothstein @ yahoo.com 2005-07-11
 #import <EOControl/EOKeyGlobalID.h>
-#import "EODatabaseContext.h"
+#import <EOAccess/EODatabaseContext.h>
 
 @interface EOObjectFaultHandler : EOFaultHandler
 {

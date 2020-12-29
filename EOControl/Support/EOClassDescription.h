@@ -8,10 +8,10 @@
 
 // Added for compatibility with WO 4.5 API
 /*! @todo Decision : Should move the code in NSClassDescription-EO to here? */
-#import "NSClassDescription-EO.h"
+#import <EOControl/NSClassDescription-EO.h>
 
 // This is for the shallowCopy method
-#import "NSArray-EO.h" 
+#import <EOControl/NSArray-EO.h>
 
 // This is for validation exceptions
-#import "NSException-EO.h"
+#import <EOControl/NSException-EO.h>

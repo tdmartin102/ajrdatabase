@@ -1,7 +1,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "NSClassDescription-EO.h"
+#import <EOControl/NSClassDescription-EO.h>
 
 @class EOEditingContext, EOGlobalID;
 

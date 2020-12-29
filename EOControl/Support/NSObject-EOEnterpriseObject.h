@@ -1,5 +1,5 @@
 
-#import "EOEnterpriseObject.h"
+#import <EOControl/EOEnterpriseObject.h>
 
 @interface NSObject (EOEnterpriseObject)
 

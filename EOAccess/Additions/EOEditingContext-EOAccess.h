@@ -7,7 +7,7 @@
 //
 
 #import <EOControl/EOControl.h>
-#import "EOStoredProcedure.h"
+#import <EOAccess/EOStoredProcedure.h>
 
 @class EOModelGroup;
 

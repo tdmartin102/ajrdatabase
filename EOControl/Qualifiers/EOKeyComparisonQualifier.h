@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "EOQualifier.h"
+#import <EOControl/EOQualifier.h>
 
 // mont_rothstein @ yahoo.com 2005-01-08
 // The interface declaration was moved to EOQualifier.h for WO 4.5 API compatibility.

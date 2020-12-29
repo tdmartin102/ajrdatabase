@@ -31,7 +31,7 @@ mailto:tom.martin@riemer.com
 #import <EOAccess/EOAccess.h>
 #import <EOControl/EOControl.h>
 
-#import "oci.h"
+#import <oci.h>
 
 @interface OracleChannel : EOAdaptorChannel 
 {
