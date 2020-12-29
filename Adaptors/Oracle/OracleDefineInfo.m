@@ -84,9 +84,9 @@ static sb4 ociDefineCallback(dvoid *octxp, OCIDefine *defnp, ub4 iter, dvoid **b
 		case OCI_NEXT_PIECE:
 			*piecep = OCI_NEXT_PIECE;
 			// add to our NSData buffer and re-use the old character buffer
-			[[defineInfo dynamicData] appendBytes:(const void *)*bufpp length:BUFFER_BLOCK_SIZE];			
-			// the buffer, and length pointers remain the same
-			// no need to update anything else
+            // The length read is not predictable
+            [[defineInfo dynamicData] appendBytes:(const void *)*bufpp length:**alenpp];
+            
 			break;
 	}
 	
