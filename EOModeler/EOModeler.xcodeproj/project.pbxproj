@@ -1440,6 +1440,7 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = Yes;
+				EOAdaptorDebugEnabled = YES;
 				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -1448,6 +1449,7 @@
 				GCC_PREFIX_HEADER = EOModeler_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Applications;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.EOModeler;
 				PRODUCT_NAME = EOModeler;
 				WRAPPER_EXTENSION = app;
@@ -1458,6 +1460,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
+				EOAdaptorDebugEnabled = NO;
 				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1465,6 +1468,7 @@
 				GCC_PREFIX_HEADER = EOModeler_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Applications;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.EOModeler;
 				PRODUCT_NAME = EOModeler;
 				WRAPPER_EXTENSION = app;
@@ -1474,6 +1478,7 @@
 		70BEAF1509590ED1005ACB45 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				EOAdaptorDebugEnabled = NO;
 				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1481,6 +1486,7 @@
 				GCC_PREFIX_HEADER = EOModeler_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Applications;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ajr.EOModeler;
 				PRODUCT_NAME = EOModeler;
 				WRAPPER_EXTENSION = app;

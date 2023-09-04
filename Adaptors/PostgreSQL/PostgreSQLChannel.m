@@ -788,7 +788,7 @@ http://www.raftis.net/~alex/
 	EOSQLExpression	*expression;
 	
 	expression = [[[[[self adaptorContext] adaptor] expressionClass] alloc] init];
-	[expression setStatement:@"SELECT c.oid AS tableoid, n.nspname AS schemaname, c.relname AS tablename, pg_get_userbyid(c.relowner) AS tableowner, c.relhasindex AS hasindexes, c.relhasrules AS hasrules, (c.reltriggers > 0) AS hastriggers FROM (pg_class c LEFT JOIN pg_namespace n ON ((n.oid = c.relnamespace))) WHERE ((c.relkind = 'r'::\"char\") OR (c.relkind = 's'::\"char\"))"];
+	[expression setStatement:@"SELECT c.oid AS tableoid, n.nspname AS schemaname, c.relname AS tablename, pg_get_userbyid(c.relowner) AS tableowner, c.relhasindex AS hasindexes, c.relhasrules AS hasrules, (c.relhastriggers = 'yes') AS hastriggers FROM (pg_class c LEFT JOIN pg_namespace n ON ((n.oid = c.relnamespace))) WHERE ((c.relkind = 'r'::\"char\") OR (c.relkind = 's'::\"char\"))"];
 	
 	NS_DURING
 		[self evaluateExpression:expression];
@@ -819,7 +819,7 @@ http://www.raftis.net/~alex/
     EOEntity		*entity;
 
 	expression = [[[[[self adaptorContext] adaptor] expressionClass] alloc] init];
-	[expression setStatement:EOFormat(@"SELECT c.oid AS tableoid, n.nspname AS schemaname, c.relname AS tablename, pg_get_userbyid(c.relowner) AS tableowner, c.relhasindex AS hasindexes, c.relhasrules AS hasrules, (c.reltriggers > 0) AS hastriggers FROM (pg_class c LEFT JOIN pg_namespace n ON ((n.oid = c.relnamespace))) WHERE ((c.relkind = 'r'::\"char\") OR (c.relkind = 's'::\"char\")) AND (c.relname = '%@' AND n.nspname = 'public')", name)];
+	[expression setStatement:EOFormat(@"SELECT c.oid AS tableoid, n.nspname AS schemaname, c.relname AS tablename, pg_get_userbyid(c.relowner) AS tableowner, c.relhasindex AS hasindexes, c.relhasrules AS hasrules, (c.relhastriggers = 'yes') AS hastriggers FROM (pg_class c LEFT JOIN pg_namespace n ON ((n.oid = c.relnamespace))) WHERE ((c.relkind = 'r'::\"char\") OR (c.relkind = 's'::\"char\")) AND (c.relname = '%@' AND n.nspname = 'public')", name)];
 	[self evaluateExpression:expression];
 	row = [self fetchRowWithZone:NULL];
 	[self cancelFetch];
@@ -946,9 +946,9 @@ http://www.raftis.net/~alex/
 - (EOModel *)describeModelWithTableNames:(NSArray *)tableNames
 {
 	EOModel		*model;
-	int			x;
-	int numTableNames;
-	NSString		*EOName;
+	NSInteger	x;
+	NSInteger   numTableNames;
+	NSString	*EOName;
 	
 	model = [[EOModel allocWithZone:[self zone]] init];
 	EOName = [[[[self adaptorContext] adaptor] connectionDictionary] objectForKey:@"databaseName"];
