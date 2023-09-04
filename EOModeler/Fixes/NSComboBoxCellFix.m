@@ -152,9 +152,9 @@
 		case NSMiniControlSize:
 			[self setFont:[[NSFontManager sharedFontManager] convertFont:[self font] toSize:[NSFont smallSystemFontSize] - 2.0]];
 			break;
-        case NSControlSizeLarge:
-            [self setFont:[[NSFontManager sharedFontManager] convertFont:[self font] toSize:[NSFont systemFontSize] + 2.0]];
-            break;
+//        case NSControlSizeLarge:
+//            [self setFont:[[NSFontManager sharedFontManager] convertFont:[self font] toSize:[NSFont systemFontSize] + 2.0]];
+//            break;
 	}
 	
 	return self;
